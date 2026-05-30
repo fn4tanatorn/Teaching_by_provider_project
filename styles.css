@@ -15,7 +15,8 @@
   --wall: #2c3440;
   --floor: #bfe7b8;
   --floor-top: #e9ffe2;
-  --sky: #dcecf5;
+  --sky: #c9d8cf;
+  --aged: #d7c29a;
   --shadow: 0 18px 42px rgba(29, 40, 52, 0.18);
 }
 
@@ -118,6 +119,21 @@ h3 {
 .app-shell {
   min-height: 100vh;
   padding: clamp(0.7rem, 2vw, 1.2rem);
+}
+
+body[data-screen="screen-game"] {
+  overflow: hidden;
+  background:
+    linear-gradient(0deg, rgba(67, 54, 39, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(67, 54, 39, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 50% 42%, rgba(244, 232, 199, 0.38), transparent 42rem),
+    linear-gradient(135deg, #86795f, #b9a87d 52%, #766a55);
+  background-size: 10px 10px, 10px 10px, auto, auto;
+}
+
+body[data-screen="screen-game"] .app-shell {
+  min-height: 100vh;
+  padding: 0;
 }
 
 .screen {
@@ -284,18 +300,20 @@ h3 {
 }
 
 .game-screen.active {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  position: fixed;
+  inset: 0;
+  display: block;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 .game-layout {
-  display: grid;
-  grid-template-columns: minmax(20rem, 1fr) 22rem;
-  gap: 1rem;
+  position: absolute;
+  inset: 0;
+  display: block;
 }
 
 .viewport-panel,
-.side-panel,
 .admin-tools,
 .admin-map-panel,
 .boss-editor {
@@ -305,33 +323,57 @@ h3 {
   box-shadow: var(--shadow);
 }
 
+.game-screen .game-topbar {
+  position: absolute;
+  z-index: 10;
+  top: 0.8rem;
+  left: 0.8rem;
+  right: auto;
+  width: min(48rem, calc(100vw - 1.6rem));
+  margin: 0;
+  border-color: rgba(68, 52, 32, 0.28);
+  background:
+    linear-gradient(180deg, rgba(255, 248, 221, 0.9), rgba(222, 198, 143, 0.86));
+  box-shadow:
+    0 4px 0 rgba(80, 64, 43, 0.24),
+    0 18px 36px rgba(38, 30, 21, 0.18);
+}
+
 .viewport-panel {
+  position: absolute;
+  inset: 0;
   display: grid;
-  gap: 1rem;
   align-content: center;
   justify-items: center;
-  min-height: 34rem;
-  padding: 1rem;
+  min-height: 100vh;
+  padding: 0.8rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   background:
-    linear-gradient(0deg, rgba(255, 255, 255, 0.34) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.34) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(236, 248, 255, 0.9), rgba(231, 240, 232, 0.86));
-  background-size: 18px 18px, 18px 18px, auto;
+    linear-gradient(0deg, rgba(255, 250, 230, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 250, 230, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(234, 222, 182, 0.36), transparent 52%),
+    linear-gradient(180deg, #8e866d, #574d40);
+  background-size: 20px 20px, 20px 20px, auto, auto;
 }
 
 .fog-frame {
   position: relative;
-  width: min(92vw, 35rem);
+  width: min(calc(100vw - 2rem), calc(100vh - 2rem));
   aspect-ratio: 1;
-  padding: clamp(0.55rem, 1.4vw, 0.9rem);
-  border: 4px solid rgba(49, 95, 159, 0.22);
-  border-radius: 8px;
+  padding: clamp(0.35rem, 0.8vw, 0.55rem);
+  border: 5px solid rgba(70, 55, 35, 0.72);
+  border-radius: 4px;
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.2) 0 42%, rgba(204, 226, 232, 0.3) 68%, rgba(127, 151, 164, 0.56) 100%),
-    linear-gradient(180deg, #e9f7ff, #eef8ef);
+    linear-gradient(0deg, rgba(61, 52, 39, 0.2) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61, 52, 39, 0.18) 1px, transparent 1px),
+    linear-gradient(180deg, #cfc19d, #958362);
+  background-size: 10px 10px, 10px 10px, auto;
   box-shadow:
-    inset 0 0 0 4px rgba(255, 255, 255, 0.42),
-    0 18px 0 rgba(76, 95, 111, 0.16);
+    inset 0 0 0 4px rgba(255, 243, 203, 0.22),
+    0 10px 0 rgba(54, 42, 28, 0.54),
+    0 24px 42px rgba(36, 27, 18, 0.34);
 }
 
 .fog-frame::after {
@@ -339,20 +381,23 @@ h3 {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  border-radius: 10px;
+  border-radius: 4px;
   background:
-    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(235, 247, 250, 0.52) 58%, rgba(124, 143, 154, 0.7) 100%);
+    radial-gradient(circle at 50% 50%, transparent 0 72%, rgba(61, 49, 34, 0.24) 100%);
 }
 
 .game-board {
+  --map-rows: 100;
+  --map-cols: 100;
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(5, 1fr);
-  gap: clamp(0.28rem, 1vw, 0.65rem);
+  grid-template-columns: repeat(var(--map-cols), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--map-rows), minmax(0, 1fr));
+  gap: 1px;
   width: 100%;
   height: 100%;
+  overflow: visible;
 }
 
 .tile,
@@ -372,7 +417,8 @@ h3 {
   overflow: visible;
   background: transparent;
   color: transparent;
-  font-size: clamp(0.64rem, 1.25vw, 0.86rem);
+  border-radius: 1px;
+  font-size: 0.42rem;
   box-shadow: none;
 }
 
@@ -382,8 +428,7 @@ h3 {
 }
 
 .tile.fog {
-  background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.08) 58%, transparent 72%);
+  background: transparent;
 }
 
 .tile.wall {
@@ -404,13 +449,12 @@ h3 {
 .tile.player,
 .tile.boss {
   background:
-    linear-gradient(180deg, var(--floor-top) 0 58%, var(--floor) 58% 100%);
+    linear-gradient(180deg, #e0d2a4 0 44%, #8a7450 44% 100%);
   color: #315342;
-  border: 3px solid rgba(255, 255, 255, 0.64);
+  border: 1px solid rgba(255, 242, 196, 0.32);
   box-shadow:
-    inset 0 -7px 0 rgba(41, 78, 65, 0.16),
-    0 8px 0 #7aa17a,
-    0 13px 0 rgba(24, 32, 42, 0.12);
+    inset 0 -1px 0 rgba(46, 35, 23, 0.34),
+    1px 1px 0 rgba(43, 32, 21, 0.4);
 }
 
 .admin-tile.path {
@@ -422,8 +466,9 @@ h3 {
 
 .tile.player {
   background:
-    linear-gradient(180deg, #eaffdf 0 58%, #9ed790 58% 100%);
-  border-color: #fff8ce;
+    linear-gradient(180deg, #d8c690 0 44%, #765f40 44% 100%);
+  border-color: #f7e7af;
+  z-index: 4;
 }
 
 .tile.start,
@@ -438,10 +483,9 @@ h3 {
 
 .tile.available {
   box-shadow:
-    inset 0 -7px 0 rgba(41, 78, 65, 0.16),
-    0 8px 0 #7aa17a,
-    0 13px 0 rgba(24, 32, 42, 0.12),
-    0 0 0 5px rgba(196, 154, 44, 0.3);
+    inset 0 -1px 0 rgba(46, 35, 23, 0.34),
+    1px 1px 0 rgba(43, 32, 21, 0.4),
+    0 0 0 1px rgba(255, 240, 142, 0.86);
   cursor: pointer;
 }
 
@@ -451,7 +495,7 @@ h3 {
 
 .tile.boss-1 {
   background:
-    linear-gradient(180deg, #82d188 0 58%, #4f9c5f 58% 100%);
+    linear-gradient(180deg, #74bf79 0 48%, #386b3d 48% 100%);
   color: #fff;
 }
 
@@ -462,7 +506,7 @@ h3 {
 
 .tile.boss-2 {
   background:
-    linear-gradient(180deg, #e7bc66 0 58%, #b07a2e 58% 100%);
+    linear-gradient(180deg, #d9a84d 0 48%, #825622 48% 100%);
   color: #fff;
 }
 
@@ -473,7 +517,7 @@ h3 {
 
 .tile.boss-3 {
   background:
-    linear-gradient(180deg, #c779a0 0 58%, #9a3f69 58% 100%);
+    linear-gradient(180deg, #b8648e 0 48%, #71314f 48% 100%);
   color: #fff;
 }
 
@@ -485,14 +529,15 @@ h3 {
 .tile-badge {
   display: inline-grid;
   place-items: center;
-  max-width: 86%;
-  min-height: 1.35rem;
-  padding: 0.18rem 0.34rem;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
   color: inherit;
-  font-size: clamp(0.56rem, 1.2vw, 0.82rem);
+  font-size: clamp(0.2rem, 0.42vw, 0.42rem);
   line-height: 1;
   text-align: center;
-  text-shadow: 2px 2px 0 rgba(24, 32, 42, 0.18);
+  text-shadow: 1px 1px 0 rgba(24, 32, 42, 0.3);
 }
 
 .path-dot {
@@ -505,10 +550,11 @@ h3 {
 .doctor-sprite {
   position: relative;
   display: block;
-  width: clamp(2.25rem, 5.4vw, 3.4rem);
-  height: clamp(2.75rem, 6.6vw, 4.1rem);
+  width: clamp(0.42rem, 1.28vw, 1.05rem);
+  height: clamp(0.58rem, 1.68vw, 1.35rem);
   image-rendering: pixelated;
-  filter: drop-shadow(4px 5px 0 rgba(24, 32, 42, 0.18));
+  transform: translateY(-42%);
+  filter: drop-shadow(1px 2px 0 rgba(24, 32, 42, 0.32));
 }
 
 .doctor-sprite::before {
@@ -521,7 +567,7 @@ h3 {
   background:
     linear-gradient(90deg, transparent 0 18%, #fff 18% 82%, transparent 82%),
     linear-gradient(0deg, #d7f4ee 0 46%, #fff 46% 100%);
-  border: 3px solid #203142;
+  border: 1px solid #203142;
   border-bottom: 0;
 }
 
@@ -534,12 +580,12 @@ h3 {
   height: 66%;
   background:
     linear-gradient(90deg, #fff 0 25%, #2f8f68 25% 75%, #fff 75% 100%);
-  border: 3px solid #203142;
+  border: 1px solid #203142;
   box-shadow:
-    -0.42rem 0.55rem 0 -0.1rem #203142,
-    0.42rem 0.55rem 0 -0.1rem #203142,
-    -0.48rem 1.5rem 0 -0.13rem #203142,
-    0.48rem 1.5rem 0 -0.13rem #203142;
+    -0.12rem 0.18rem 0 -0.04rem #203142,
+    0.12rem 0.18rem 0 -0.04rem #203142,
+    -0.14rem 0.44rem 0 -0.05rem #203142,
+    0.14rem 0.44rem 0 -0.05rem #203142;
 }
 
 .doctor-sprite span {
@@ -552,7 +598,7 @@ h3 {
   background:
     linear-gradient(90deg, #203142 0 18%, transparent 18% 82%, #203142 82% 100%),
     #ffd8b1;
-  border: 2px solid #203142;
+  border: 1px solid #203142;
 }
 
 .tile.solved::after {
@@ -565,10 +611,52 @@ h3 {
 }
 
 .move-pad {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  bottom: 0.8rem;
+  transform: translateX(-50%);
   display: grid;
   grid-template-columns: repeat(3, minmax(4.5rem, 1fr));
   gap: 0.55rem;
   width: min(100%, 20rem);
+}
+
+.side-panel {
+  position: absolute;
+  z-index: 11;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  display: grid;
+  gap: 0.55rem;
+  width: min(20rem, calc(100vw - 1.6rem));
+  border: 2px solid rgba(70, 55, 35, 0.34);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 221, 0.88), rgba(222, 198, 143, 0.82));
+  box-shadow:
+    0 4px 0 rgba(80, 64, 43, 0.22),
+    0 18px 36px rgba(38, 30, 21, 0.18);
+  padding: 0.65rem;
+}
+
+.game-screen .side-panel .panel-block {
+  padding: 0.65rem;
+  background: rgba(255, 250, 232, 0.66);
+}
+
+.game-screen .side-panel .panel-block:nth-child(2) {
+  display: none;
+}
+
+.game-screen .button-stack {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.game-screen .button-stack button {
+  min-height: 2.15rem;
+  padding: 0.44rem 0.5rem;
+  font-size: 0.72rem;
 }
 
 .move-pad button:first-child,

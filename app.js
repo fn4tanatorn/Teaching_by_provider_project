@@ -1,6 +1,5 @@
-const STORAGE_KEY = "medica-mist-levels-v2";
+const STORAGE_KEY = "medica-mist-levels-v3";
 const STANDARD_SIZE = 100;
-const GAME_VIEW = 5;
 const ADMIN_VIEW = 15;
 
 const screens = [...document.querySelectorAll(".screen")];
@@ -225,6 +224,7 @@ function saveLevels() {
 }
 
 function showScreen(screenId) {
+  document.body.dataset.screen = screenId;
   screens.forEach((screen) => {
     screen.classList.toggle("active", screen.id === screenId);
   });
@@ -305,28 +305,31 @@ function renderGame() {
   const playerKey = makeKey(player.row, player.col);
   const bossTotal = Object.keys(activeLevel.bosses).length;
 
-  levelMeta.textContent = `${activeLevel.rows} x ${activeLevel.cols} / fog 5 x 5`;
+  levelMeta.textContent = `${activeLevel.rows} x ${activeLevel.cols} / fixed full map`;
   levelTitle.textContent = activeLevel.name;
   positionText.textContent = playerKey;
   bossText.textContent = `${solvedBosses.size}/${bossTotal}`;
   stepText.textContent = steps;
+  gameBoard.style.setProperty("--map-rows", activeLevel.rows);
+  gameBoard.style.setProperty("--map-cols", activeLevel.cols);
   gameBoard.innerHTML = "";
 
-  const half = Math.floor(GAME_VIEW / 2);
-  for (let row = player.row - half; row <= player.row + half; row += 1) {
-    for (let col = player.col - half; col <= player.col + half; col += 1) {
-      const tile = document.createElement("button");
+  const fragment = document.createDocumentFragment();
+  for (let row = 0; row < activeLevel.rows; row += 1) {
+    for (let col = 0; col < activeLevel.cols; col += 1) {
       const cellKey = makeKey(row, col);
       const boss = activeLevel.bosses[cellKey];
-      const visible = inBounds(activeLevel, row, col);
-      const type = visible ? getCellType(activeLevel, row, col) : "fog";
+      const type = getCellType(activeLevel, row, col);
       const isPlayer = cellKey === playerKey;
-      const canEnter = visible && pathSet.has(cellKey);
+      const canEnter = pathSet.has(cellKey);
+      const tile = canEnter ? document.createElement("button") : document.createElement("div");
 
-      tile.type = "button";
+      if (canEnter) {
+        tile.type = "button";
+        tile.addEventListener("click", () => tryMove(row, col));
+      }
       tile.className = `tile ${type}`;
-      tile.disabled = !canEnter;
-      tile.innerHTML = visible ? tileLabel(cellKey, type, boss, isPlayer) : "";
+      tile.innerHTML = tileLabel(cellKey, type, boss, isPlayer);
       tile.setAttribute("aria-label", tileAriaLabel(cellKey, type, boss, isPlayer));
       tile.classList.toggle("player", isPlayer);
       tile.classList.toggle("available", canEnter && isAdjacentToPlayer(row, col));
@@ -335,10 +338,11 @@ function renderGame() {
       tile.classList.toggle("boss-2", boss?.difficulty === 2);
       tile.classList.toggle("boss-3", boss?.difficulty === 3);
       tile.classList.toggle("solved", solvedBosses.has(cellKey));
-      tile.addEventListener("click", () => tryMove(row, col));
-      gameBoard.append(tile);
+      fragment.append(tile);
     }
   }
+
+  gameBoard.append(fragment);
 }
 
 function tileLabel(cellKey, type, boss, isPlayer) {
@@ -355,7 +359,7 @@ function tileLabel(cellKey, type, boss, isPlayer) {
     return '<span class="tile-badge">GOAL</span>';
   }
   if (type === "path") {
-    return '<span class="path-dot"></span>';
+    return "";
   }
   return "";
 }
@@ -383,7 +387,7 @@ function tryMove(row, col) {
   const cellKey = makeKey(row, col);
 
   if (!inBounds(activeLevel, row, col) || !pathSet.has(cellKey) || !isAdjacentToPlayer(row, col)) {
-    gameStatus.textContent = "เดินได้เฉพาะช่องทางเดินที่ติดกับตัวผู้เล่น";
+    gameStatus.textContent = "หมอเดินได้เฉพาะ block ทางเดินที่ติดกัน";
     renderGame();
     return;
   }
@@ -411,7 +415,7 @@ function moveTo(row, col) {
   if (cellKey === activeLevel.goal) {
     gameStatus.textContent = "ถึงจุดจบแล้ว หมอกเวทมนตร์ถูกปิดผนึก";
   } else {
-    gameStatus.textContent = "เลือก block ลอยฟ้าที่ติดกับหมอเพื่อเดินต่อ";
+    gameStatus.textContent = "map คงที่ หมอขยับไปบนเส้นทางแล้ว";
   }
 
   renderGame();
@@ -725,6 +729,32 @@ document.querySelectorAll("[data-pan]").forEach((button) => {
   button.addEventListener("click", () => panAdmin(button.dataset.pan));
 });
 
+document.addEventListener("keydown", (event) => {
+  if (!document.querySelector("#screen-game").classList.contains("active") || bossDialog.open) {
+    return;
+  }
+
+  const keyMoves = {
+    ArrowUp: "up",
+    ArrowDown: "down",
+    ArrowLeft: "left",
+    ArrowRight: "right",
+    w: "up",
+    s: "down",
+    a: "left",
+    d: "right",
+  };
+  const direction = keyMoves[event.key];
+
+  if (!direction) {
+    return;
+  }
+
+  event.preventDefault();
+  const [rowStep, colStep] = directions[direction];
+  tryMove(player.row + rowStep, player.col + colStep);
+});
+
 continueButton.addEventListener("click", () => startLevel(activeLevelIndex));
 restartLevelButton.addEventListener("click", () => startLevel(activeLevelIndex));
 bossForm.addEventListener("submit", submitBossAnswer);
@@ -746,6 +776,7 @@ toolButtons.forEach((button) => {
 renderLevelList();
 renderAdminSelect();
 renderGame();
+document.body.dataset.screen = "screen-home";
 
 if (window.location.hash === "#screen-game") {
   startLevel(activeLevelIndex);
