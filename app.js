@@ -1,4 +1,4 @@
-const STORAGE_KEY = "medica-mist-levels-v1";
+const STORAGE_KEY = "medica-mist-levels-v2";
 const STANDARD_SIZE = 100;
 const GAME_VIEW = 5;
 const ADMIN_VIEW = 15;
@@ -104,25 +104,25 @@ function createPath(points) {
 
 function createDefaultLevels() {
   const academyPath = createPath([
-    [50, 50],
-    [50, 54],
-    [46, 54],
-    [46, 60],
-    [54, 60],
-    [54, 66],
-    [49, 66],
-    [49, 72],
+    [50, 0],
+    [50, 6],
+    [46, 6],
+    [46, 14],
+    [54, 14],
+    [54, 22],
+    [49, 22],
+    [49, 30],
   ]);
 
   const wardPath = createPath([
-    [20, 20],
-    [24, 20],
-    [24, 27],
-    [30, 27],
-    [30, 35],
-    [35, 35],
-    [35, 43],
-    [42, 43],
+    [0, 20],
+    [6, 20],
+    [6, 27],
+    [14, 27],
+    [14, 35],
+    [22, 35],
+    [22, 43],
+    [32, 43],
   ]);
 
   return [
@@ -132,26 +132,26 @@ function createDefaultLevels() {
       description: "เส้นทางฝึกฝนในป่าหมอก เรียนรู้สมุนไพรและพื้นฐานการรักษา",
       rows: STANDARD_SIZE,
       cols: STANDARD_SIZE,
-      start: "50,50",
-      goal: "49,72",
+      start: "50,0",
+      goal: "49,30",
       path: academyPath,
       bosses: {
-        "50,54": {
+        "50,6": {
           difficulty: 1,
           question: "ยา ORS ใช้ช่วยภาวะใด",
           answer: "ขาดน้ำ",
         },
-        "46,60": {
+        "46,14": {
           difficulty: 2,
           question: "ก่อนให้ยาควรตรวจสอบชื่อผู้ป่วยและอะไรอีกอย่าง",
           answer: "ชื่อยา",
         },
-        "54,66": {
+        "54,22": {
           difficulty: 3,
           question: "สัญญาณชีพภาษาอังกฤษเรียกว่าอะไร",
           answer: "vital signs",
         },
-        "49,72": {
+        "49,30": {
           difficulty: 2,
           question: "พิมพ์คำว่า heal เพื่อปิดผนึกหมอก",
           answer: "heal",
@@ -164,26 +164,26 @@ function createDefaultLevels() {
       description: "หอผู้ป่วยผลึกเวท มีทางเดินแคบและ Boss ระดับสูงขึ้น",
       rows: STANDARD_SIZE,
       cols: STANDARD_SIZE,
-      start: "20,20",
-      goal: "42,43",
+      start: "0,20",
+      goal: "32,43",
       path: wardPath,
       bosses: {
-        "24,27": {
+        "6,27": {
           difficulty: 1,
           question: "อุณหภูมิร่างกายปกติประมาณกี่องศาเซลเซียส",
           answer: "37",
         },
-        "30,35": {
+        "14,35": {
           difficulty: 2,
           question: "คำว่า sterile หมายถึงปลอดอะไร",
           answer: "เชื้อ",
         },
-        "35,43": {
+        "22,43": {
           difficulty: 3,
           question: "CPR ย่อมาจาก Cardiopulmonary Resuscitation ใช่หรือไม่",
           answer: "ใช่",
         },
-        "42,43": {
+        "32,43": {
           difficulty: 3,
           question: "พิมพ์คำว่า ward เพื่อจบด่าน",
           answer: "ward",
@@ -320,13 +320,16 @@ function renderGame() {
       const boss = activeLevel.bosses[cellKey];
       const visible = inBounds(activeLevel, row, col);
       const type = visible ? getCellType(activeLevel, row, col) : "fog";
+      const isPlayer = cellKey === playerKey;
+      const canEnter = visible && pathSet.has(cellKey);
 
       tile.type = "button";
       tile.className = `tile ${type}`;
-      tile.disabled = !visible;
-      tile.textContent = visible ? tileLabel(cellKey, type, boss) : "??";
-      tile.classList.toggle("player", cellKey === playerKey);
-      tile.classList.toggle("available", visible && pathSet.has(cellKey) && isAdjacentToPlayer(row, col));
+      tile.disabled = !canEnter;
+      tile.innerHTML = visible ? tileLabel(cellKey, type, boss, isPlayer) : "";
+      tile.setAttribute("aria-label", tileAriaLabel(cellKey, type, boss, isPlayer));
+      tile.classList.toggle("player", isPlayer);
+      tile.classList.toggle("available", canEnter && isAdjacentToPlayer(row, col));
       tile.classList.toggle("boss", Boolean(boss));
       tile.classList.toggle("boss-1", boss?.difficulty === 1);
       tile.classList.toggle("boss-2", boss?.difficulty === 2);
@@ -338,23 +341,42 @@ function renderGame() {
   }
 }
 
-function tileLabel(cellKey, type, boss) {
-  if (makeKey(player.row, player.col) === cellKey) {
-    return "YOU";
+function tileLabel(cellKey, type, boss, isPlayer) {
+  if (isPlayer) {
+    return '<span class="doctor-sprite" aria-hidden="true"><span></span></span>';
   }
   if (boss) {
-    return `B${boss.difficulty}`;
+    return `<span class="tile-badge">B${boss.difficulty}</span>`;
   }
   if (type === "start") {
-    return "START";
+    return '<span class="tile-badge">START</span>';
   }
   if (type === "goal") {
-    return "GOAL";
+    return '<span class="tile-badge">GOAL</span>';
   }
   if (type === "path") {
-    return "PATH";
+    return '<span class="path-dot"></span>';
   }
-  return "FOG";
+  return "";
+}
+
+function tileAriaLabel(cellKey, type, boss, isPlayer) {
+  if (isPlayer) {
+    return `หมออยู่ที่ ${cellKey}`;
+  }
+  if (boss) {
+    return `Boss ระดับ ${boss.difficulty} ที่ ${cellKey}`;
+  }
+  if (type === "path") {
+    return `ทางเดิน ${cellKey}`;
+  }
+  if (type === "start") {
+    return `จุดเริ่ม ${cellKey}`;
+  }
+  if (type === "goal") {
+    return `จุดจบ ${cellKey}`;
+  }
+  return `พื้นที่ว่าง ${cellKey}`;
 }
 
 function tryMove(row, col) {
@@ -389,7 +411,7 @@ function moveTo(row, col) {
   if (cellKey === activeLevel.goal) {
     gameStatus.textContent = "ถึงจุดจบแล้ว หมอกเวทมนตร์ถูกปิดผนึก";
   } else {
-    gameStatus.textContent = "หมอกเปิดให้เห็นรอบตัว 5 x 5 เลือกเส้นทางต่อไป";
+    gameStatus.textContent = "เลือก block ลอยฟ้าที่ติดกับหมอเพื่อเดินต่อ";
   }
 
   renderGame();
@@ -647,10 +669,10 @@ function createNewMap() {
     description: "ด่านใหม่จากระบบหลังบ้าน",
     rows: STANDARD_SIZE,
     cols: STANDARD_SIZE,
-    start: "50,50",
+    start: "50,0",
     goal: "50,54",
     path: createPath([
-      [50, 50],
+      [50, 0],
       [50, 54],
     ]),
     bosses: {

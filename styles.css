@@ -13,7 +13,9 @@
   --rose: #bd4e61;
   --violet: #7547a3;
   --wall: #2c3440;
-  --floor: #dff2d8;
+  --floor: #bfe7b8;
+  --floor-top: #e9ffe2;
+  --sky: #dcecf5;
   --shadow: 0 18px 42px rgba(29, 40, 52, 0.18);
 }
 
@@ -310,18 +312,26 @@ h3 {
   justify-items: center;
   min-height: 34rem;
   padding: 1rem;
+  background:
+    linear-gradient(0deg, rgba(255, 255, 255, 0.34) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.34) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(236, 248, 255, 0.9), rgba(231, 240, 232, 0.86));
+  background-size: 18px 18px, 18px 18px, auto;
 }
 
 .fog-frame {
   position: relative;
-  width: min(92vw, 33rem);
+  width: min(92vw, 35rem);
   aspect-ratio: 1;
-  padding: 0.8rem;
-  border: 3px solid rgba(49, 95, 159, 0.22);
-  border-radius: 10px;
+  padding: clamp(0.55rem, 1.4vw, 0.9rem);
+  border: 4px solid rgba(49, 95, 159, 0.22);
+  border-radius: 8px;
   background:
-    radial-gradient(circle, transparent 0 42%, rgba(217, 229, 232, 0.42) 62%, rgba(84, 101, 114, 0.72) 100%),
-    rgba(232, 241, 239, 0.7);
+    radial-gradient(circle, rgba(255, 255, 255, 0.2) 0 42%, rgba(204, 226, 232, 0.3) 68%, rgba(127, 151, 164, 0.56) 100%),
+    linear-gradient(180deg, #e9f7ff, #eef8ef);
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 255, 255, 0.42),
+    0 18px 0 rgba(76, 95, 111, 0.16);
 }
 
 .fog-frame::after {
@@ -331,8 +341,7 @@ h3 {
   inset: 0;
   border-radius: 10px;
   background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.42), transparent 18% 82%, rgba(255, 255, 255, 0.42)),
-    linear-gradient(0deg, rgba(255, 255, 255, 0.42), transparent 18% 82%, rgba(255, 255, 255, 0.42));
+    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(235, 247, 250, 0.52) 58%, rgba(124, 143, 154, 0.7) 100%);
 }
 
 .game-board {
@@ -341,7 +350,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  gap: 0.45rem;
+  gap: clamp(0.28rem, 1vw, 0.65rem);
   width: 100%;
   height: 100%;
 }
@@ -353,24 +362,34 @@ h3 {
   place-items: center;
   min-width: 0;
   min-height: 0;
-  border: 2px solid rgba(24, 32, 42, 0.12);
+  border: 0;
   border-radius: 6px;
   font-weight: 900;
   user-select: none;
 }
 
 .tile {
-  font-size: clamp(0.78rem, 1.7vw, 1.15rem);
+  overflow: visible;
+  background: transparent;
+  color: transparent;
+  font-size: clamp(0.64rem, 1.25vw, 0.86rem);
+  box-shadow: none;
+}
+
+.tile:disabled {
+  opacity: 1;
+  cursor: default;
 }
 
 .tile.fog {
   background:
-    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.2) 0 6px, transparent 6px 12px),
-    var(--mist-dark);
-  color: rgba(255, 255, 255, 0.58);
+    radial-gradient(circle, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.08) 58%, transparent 72%);
 }
 
-.tile.wall,
+.tile.wall {
+  background: transparent;
+}
+
 .admin-tile.wall {
   background:
     linear-gradient(45deg, rgba(255, 255, 255, 0.06) 25%, transparent 25% 50%, rgba(255, 255, 255, 0.06) 50% 75%, transparent 75%),
@@ -380,6 +399,20 @@ h3 {
 }
 
 .tile.path,
+.tile.start,
+.tile.goal,
+.tile.player,
+.tile.boss {
+  background:
+    linear-gradient(180deg, var(--floor-top) 0 58%, var(--floor) 58% 100%);
+  color: #315342;
+  border: 3px solid rgba(255, 255, 255, 0.64);
+  box-shadow:
+    inset 0 -7px 0 rgba(41, 78, 65, 0.16),
+    0 8px 0 #7aa17a,
+    0 13px 0 rgba(24, 32, 42, 0.12);
+}
+
 .admin-tile.path {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 60%),
@@ -389,10 +422,8 @@ h3 {
 
 .tile.player {
   background:
-    radial-gradient(circle at 50% 35%, #ecfff2 0 14%, transparent 15%),
-    linear-gradient(180deg, #54a77a 0 48%, #245a50 48% 100%);
-  color: #fff;
-  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+    linear-gradient(180deg, #eaffdf 0 58%, #9ed790 58% 100%);
+  border-color: #fff8ce;
 }
 
 .tile.start,
@@ -406,31 +437,122 @@ h3 {
 }
 
 .tile.available {
-  box-shadow: 0 0 0 4px rgba(196, 154, 44, 0.34);
+  box-shadow:
+    inset 0 -7px 0 rgba(41, 78, 65, 0.16),
+    0 8px 0 #7aa17a,
+    0 13px 0 rgba(24, 32, 42, 0.12),
+    0 0 0 5px rgba(196, 154, 44, 0.3);
   cursor: pointer;
 }
 
-.tile.boss,
 .admin-tile.boss {
   color: #fff;
 }
 
-.tile.boss-1,
+.tile.boss-1 {
+  background:
+    linear-gradient(180deg, #82d188 0 58%, #4f9c5f 58% 100%);
+  color: #fff;
+}
+
 .admin-tile.boss-1,
 .boss-easy {
   background: #4f9c5f;
 }
 
-.tile.boss-2,
+.tile.boss-2 {
+  background:
+    linear-gradient(180deg, #e7bc66 0 58%, #b07a2e 58% 100%);
+  color: #fff;
+}
+
 .admin-tile.boss-2,
 .boss-normal {
   background: #b07a2e;
 }
 
-.tile.boss-3,
+.tile.boss-3 {
+  background:
+    linear-gradient(180deg, #c779a0 0 58%, #9a3f69 58% 100%);
+  color: #fff;
+}
+
 .admin-tile.boss-3,
 .boss-hard {
   background: #9a3f69;
+}
+
+.tile-badge {
+  display: inline-grid;
+  place-items: center;
+  max-width: 86%;
+  min-height: 1.35rem;
+  padding: 0.18rem 0.34rem;
+  color: inherit;
+  font-size: clamp(0.56rem, 1.2vw, 0.82rem);
+  line-height: 1;
+  text-align: center;
+  text-shadow: 2px 2px 0 rgba(24, 32, 42, 0.18);
+}
+
+.path-dot {
+  width: clamp(0.38rem, 1vw, 0.56rem);
+  height: clamp(0.38rem, 1vw, 0.56rem);
+  background: rgba(49, 95, 159, 0.22);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.34);
+}
+
+.doctor-sprite {
+  position: relative;
+  display: block;
+  width: clamp(2.25rem, 5.4vw, 3.4rem);
+  height: clamp(2.75rem, 6.6vw, 4.1rem);
+  image-rendering: pixelated;
+  filter: drop-shadow(4px 5px 0 rgba(24, 32, 42, 0.18));
+}
+
+.doctor-sprite::before {
+  content: "";
+  position: absolute;
+  left: 26%;
+  top: 0;
+  width: 48%;
+  height: 28%;
+  background:
+    linear-gradient(90deg, transparent 0 18%, #fff 18% 82%, transparent 82%),
+    linear-gradient(0deg, #d7f4ee 0 46%, #fff 46% 100%);
+  border: 3px solid #203142;
+  border-bottom: 0;
+}
+
+.doctor-sprite::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  top: 26%;
+  width: 64%;
+  height: 66%;
+  background:
+    linear-gradient(90deg, #fff 0 25%, #2f8f68 25% 75%, #fff 75% 100%);
+  border: 3px solid #203142;
+  box-shadow:
+    -0.42rem 0.55rem 0 -0.1rem #203142,
+    0.42rem 0.55rem 0 -0.1rem #203142,
+    -0.48rem 1.5rem 0 -0.13rem #203142,
+    0.48rem 1.5rem 0 -0.13rem #203142;
+}
+
+.doctor-sprite span {
+  position: absolute;
+  left: 34%;
+  top: 23%;
+  z-index: 2;
+  width: 32%;
+  height: 24%;
+  background:
+    linear-gradient(90deg, #203142 0 18%, transparent 18% 82%, #203142 82% 100%),
+    #ffd8b1;
+  border: 2px solid #203142;
 }
 
 .tile.solved::after {
