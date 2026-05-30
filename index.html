@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Test Mini Game</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="game-area" aria-label="กระดานเกม">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Mini Board Quest</p>
+            <h1>Web_test_Mini_game</h1>
+          </div>
+          <div class="stats" aria-label="สถานะเกม">
+            <div>
+              <span id="progressCount">0</span>
+              <small>ผ่านแล้ว</small>
+            </div>
+            <div>
+              <span id="stepCount">0</span>
+              <small>ก้าว</small>
+            </div>
+          </div>
+        </header>
+
+        <div class="board-wrap">
+          <div id="board" class="board" aria-label="ตารางเดินเกม"></div>
+        </div>
+
+        <footer class="statusbar">
+          <p id="statusText">เลือกช่องติดกันเพื่อเริ่มเดิน</p>
+          <button id="resetRunButton" class="ghost-button" type="button">เริ่มใหม่</button>
+        </footer>
+      </section>
+
+      <aside class="control-panel" aria-label="ตั้งค่าเกม">
+        <div class="panel-block">
+          <div class="panel-heading">
+            <h2>ขนาดบอร์ด</h2>
+          </div>
+          <div class="field-grid">
+            <label>
+              Row
+              <input id="rowInput" type="number" min="3" max="10" value="6" />
+            </label>
+            <label>
+              Column
+              <input id="columnInput" type="number" min="3" max="12" value="7" />
+            </label>
+          </div>
+          <div class="button-row">
+            <button id="applySizeButton" type="button">ปรับบอร์ด</button>
+            <button id="sampleButton" class="secondary-button" type="button">โหลดตัวอย่าง</button>
+          </div>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-heading">
+            <h2>เครื่องมือ</h2>
+          </div>
+          <div class="mode-grid" role="group" aria-label="โหมดแก้ไข">
+            <button class="mode-button active" data-mode="play" type="button">เล่น</button>
+            <button class="mode-button" data-mode="path" type="button">ทางเดิน</button>
+            <button class="mode-button" data-mode="question" type="button">โจทย์</button>
+            <button class="mode-button" data-mode="marker" type="button">จุดเริ่ม/จบ</button>
+          </div>
+        </div>
+
+        <div class="panel-block editor-block">
+          <div class="panel-heading">
+            <h2>โจทย์ช่องที่เลือก</h2>
+            <span id="selectedCellLabel">-</span>
+          </div>
+          <label>
+            คำถาม
+            <textarea id="questionInput" rows="3" placeholder="เช่น 5 + 7 = ?"></textarea>
+          </label>
+          <label>
+            คำตอบ
+            <input id="answerInput" type="text" placeholder="เช่น 12" />
+          </label>
+          <div class="button-row">
+            <button id="saveQuestionButton" type="button">บันทึกโจทย์</button>
+            <button id="clearQuestionButton" class="danger-button" type="button">ลบโจทย์</button>
+          </div>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-heading">
+            <h2>รายการโจทย์</h2>
+            <span id="questionCount">0</span>
+          </div>
+          <div id="questionList" class="question-list"></div>
+        </div>
+      </aside>
+    </main>
+
+    <dialog id="questionDialog" class="question-dialog">
+      <form method="dialog" id="questionForm">
+        <p class="eyebrow">ปลดล็อกเส้นทาง</p>
+        <h2 id="dialogQuestion">คำถาม</h2>
+        <label>
+          คำตอบ
+          <input id="dialogAnswer" autocomplete="off" type="text" />
+        </label>
+        <p id="answerFeedback" class="feedback" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button id="cancelQuestionButton" class="secondary-button" type="button">ยกเลิก</button>
+          <button id="submitAnswerButton" type="submit">ตอบ</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
