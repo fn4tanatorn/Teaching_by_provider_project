@@ -1,0 +1,615 @@
+Pharmacogenomics — High-Yield Summary
+=====================================
+
+1. Core Concept
+---------------
+Pharmacogenomics = study of how genetic variation affects drug response.
+
+It explains variation in:
+- Drug efficacy
+- Drug toxicity
+- Drug metabolism
+- Drug transport
+- Drug dosing requirements
+
+Main goal:
+- Use genetic information to improve drug selection and dosing.
+- Reduce adverse drug reactions.
+- Support precision medicine.
+
+2. Important Terms
+------------------
+Allele:
+- One of several alternative forms of a gene.
+
+SNP:
+- Single nucleotide polymorphism.
+- A one-base DNA sequence change.
+
+Coding SNP:
+- SNP in a protein-coding region.
+
+Nonsynonymous SNP:
+- Coding SNP that changes an amino acid.
+
+Synonymous SNP:
+- Coding SNP that does not change an amino acid.
+
+Haplotype:
+- A group of linked alleles inherited together.
+
+Copy number variation:
+- Variation in the number of copies of a gene segment.
+
+Phenotype categories:
+- PM = poor metabolizer
+- IM = intermediate metabolizer
+- EM = extensive/normal metabolizer
+- UM = ultrarapid metabolizer
+
+3. Pharmacogenomics and Precision Medicine
+------------------------------------------
+Precision medicine uses patient-specific information to guide therapy.
+
+Examples:
+- Avoiding codeine in CYP2D6 ultrarapid metabolizers
+- Avoiding clopidogrel in CYP2C19 poor metabolizers
+- Avoiding abacavir in HLA-B*57:01-positive patients
+- Adjusting warfarin dose using CYP2C9 and VKORC1
+
+Important guideline group:
+- CPIC = Clinical Pharmacogenetics Implementation Consortium
+
+4. Phase I Enzyme Polymorphisms
+-------------------------------
+Phase I enzymes often modify drugs by oxidation, reduction, or hydrolysis.
+
+Most important:
+- Cytochrome P450 enzymes
+
+Major pharmacogenomic CYP enzymes:
+- CYP2D6
+- CYP2C19
+- CYP2C9
+- CYP2B6
+
+5. CYP2D6
+---------
+CYP2D6 metabolizes many clinically used drugs.
+
+Important drug classes:
+- Opioids
+- Beta blockers
+- Antidepressants
+- Antipsychotics
+
+Important alleles:
+- Normal function: CYP2D6*1, *2
+- Reduced function: CYP2D6*10, *17, *41
+- No function: CYP2D6*3, *4, *5, *6
+- Increased function: gene duplication or multiplication
+
+Phenotypes:
+- PM: little or no CYP2D6 activity
+- IM: reduced activity
+- EM: normal activity
+- UM: increased activity
+
+Clinical example: Codeine
+-------------------------
+Codeine is a prodrug.
+
+Activation:
+- Codeine → morphine via CYP2D6
+
+Poor metabolizers:
+- Little morphine formation
+- Poor analgesic response
+
+Ultrarapid metabolizers:
+- Excess morphine formation
+- Increased risk of sedation and respiratory depression
+
+Recommendation:
+- Avoid codeine in PMs and UMs.
+- Use alternative analgesics such as morphine or nonopioid analgesics.
+
+Other CYP2D6-related drugs:
+- Tramadol
+- Hydrocodone
+- Oxycodone
+- Metoprolol
+- Nortriptyline
+- Tamoxifen
+
+Tamoxifen:
+- Requires CYP2D6 activation to endoxifen.
+- CYP2D6 poor metabolizers may have reduced therapeutic effect.
+
+6. CYP2C19
+----------
+CYP2C19 metabolizes many acidic drugs.
+
+Important drug classes:
+- Proton pump inhibitors
+- Antidepressants
+- Antiepileptic drugs
+- Antiplatelet drugs
+
+Important alleles:
+- Normal function: CYP2C19*1
+- No function: CYP2C19*2, *3
+- Increased function: CYP2C19*17
+
+Clinical example: Clopidogrel
+-----------------------------
+Clopidogrel is a prodrug.
+
+Activation:
+- Requires CYP2C19 to form active thiol metabolite.
+
+Poor or intermediate metabolizers:
+- Reduced active metabolite formation
+- Reduced antiplatelet effect
+- Increased risk of stent thrombosis after PCI
+
+Recommendation:
+- Use alternative antiplatelet agents in PMs and IMs:
+  - Prasugrel
+  - Ticagrelor
+
+Other CYP2C19 drugs:
+- Omeprazole
+- Diazepam
+- Citalopram
+- Voriconazole
+- Mephenytoin
+
+CYP2C19 poor metabolizers:
+- Increased effect of omeprazole
+- Increased toxicity risk with some substrates
+- Reduced activation of clopidogrel
+
+CYP2C19 ultrarapid metabolizers:
+- Increased clopidogrel activation
+- Increased bleeding risk
+- Reduced efficacy of some drugs due to rapid clearance
+
+7. CYP2B6
+---------
+CYP2B6 is highly polymorphic.
+
+Important drug:
+- Efavirenz
+
+Important alleles:
+- Normal: CYP2B6*1
+- Decreased function: CYP2B6*6, *9
+- No function: CYP2B6*18
+- Increased function: CYP2B6*4
+
+Clinical example: Efavirenz
+---------------------------
+Efavirenz is a nonnucleoside reverse transcriptase inhibitor used for HIV.
+
+CYP2B6 metabolizes efavirenz.
+
+Poor metabolizers:
+- Higher efavirenz levels
+- Increased CNS toxicity
+
+CNS adverse effects:
+- Sleep disturbance
+- Impaired concentration
+- Psychosis
+- Depression
+- Suicidal ideation
+
+Recommendation:
+- Consider reduced efavirenz dose in reduced-function CYP2B6 genotypes.
+
+8. Dihydropyrimidine Dehydrogenase (DPD / DPYD)
+-----------------------------------------------
+DPD is encoded by DPYD.
+
+Function:
+- Catabolizes pyrimidines
+- Major elimination pathway for fluoropyrimidines
+
+Important drugs:
+- 5-fluorouracil
+- Capecitabine
+- Tegafur
+
+Important alleles:
+- DPYD*2A
+- DPYD*13
+- rs67376798
+- HapB3
+
+Clinical significance:
+- Reduced DPD activity causes reduced 5-FU clearance.
+- Toxic metabolites accumulate.
+
+Toxicities:
+- Myelosuppression
+- Mucositis
+- Neurotoxicity
+- Hand-foot syndrome
+- Severe diarrhea
+
+Recommendation:
+- Reduced activity: reduce starting dose.
+- Complete deficiency: avoid fluoropyrimidines.
+
+9. Phase II Enzyme Polymorphisms
+--------------------------------
+Phase II enzymes conjugate drugs to enhance elimination.
+
+Important enzymes:
+- UGT1A1
+- TPMT
+
+10. UGT1A1
+----------
+UGT1A1 glucuronidates bilirubin and many drugs.
+
+Important allele:
+- UGT1A1*28
+
+Effect:
+- Reduced UGT1A1 expression
+- Reduced bilirubin conjugation
+- Increased unconjugated bilirubin
+
+Clinical syndrome:
+- Gilbert syndrome
+
+Clinical example 1: Irinotecan
+------------------------------
+Irinotecan is a prodrug.
+
+Activation:
+- Irinotecan → SN-38
+
+Inactivation:
+- SN-38 is glucuronidated by UGT1A1.
+
+UGT1A1*28 or *6:
+- Reduced SN-38 clearance
+- Increased risk of neutropenia and diarrhea
+
+Recommendation:
+- Reduce irinotecan starting dose in high-risk genotypes.
+
+Clinical example 2: Atazanavir
+------------------------------
+Atazanavir inhibits UGT1A1.
+
+Effect:
+- Increased unconjugated bilirubin
+- Jaundice
+
+Patients with UGT1A1*28/*28:
+- Higher risk of severe hyperbilirubinemia
+- Higher risk of discontinuing atazanavir
+
+Case answer:
+- Yes, UGT1A1*28 polymorphism likely contributed to atazanavir-induced jaundice.
+
+11. TPMT
+--------
+TPMT = thiopurine S-methyltransferase.
+
+Function:
+- Inactivates thiopurine drugs.
+
+Important drugs:
+- Azathioprine
+- 6-mercaptopurine
+- 6-thioguanine
+
+Important alleles:
+- TPMT*2
+- TPMT*3A
+- TPMT*3B
+- TPMT*3C
+
+Low TPMT activity:
+- More active thioguanine nucleotides
+- Increased bone marrow toxicity
+
+Toxicity:
+- Severe myelosuppression
+
+Recommendations:
+- Normal activity: standard dose
+- Intermediate activity: reduce starting dose
+- Low activity: major dose reduction or alternative therapy
+
+12. NUDT15
+----------
+NUDT15 variants also affect thiopurine toxicity.
+
+Important especially in:
+- East Asian populations
+- Some Hispanic populations
+
+Effect:
+- Increased thiopurine intolerance
+- Increased myelosuppression risk
+
+13. G6PD
+--------
+G6PD = glucose-6-phosphate dehydrogenase.
+
+Function:
+- Provides NADPH in red blood cells.
+- Maintains reduced glutathione.
+- Protects against oxidative stress.
+
+G6PD deficiency:
+- Reduced ability to handle oxidative stress.
+- Risk of hemolysis.
+
+Triggers:
+- Infection
+- Fava beans
+- Oxidant drugs
+
+Clinical example: Rasburicase
+-----------------------------
+Rasburicase converts uric acid to allantoin.
+
+During this reaction:
+- Hydrogen peroxide is produced.
+
+G6PD deficiency:
+- Increased risk of hemolytic anemia
+- Increased risk of methemoglobinemia
+
+Recommendation:
+- Avoid rasburicase in G6PD deficiency.
+- Use alternative such as allopurinol.
+
+14. Genetic Variations in Transporters
+--------------------------------------
+Transporters influence drug absorption, distribution, and elimination.
+
+Important transporter genes:
+- SLCO1B1
+- ABCG2
+- SLC22A1
+
+15. SLCO1B1 / OATP1B1
+---------------------
+OATP1B1 is a hepatic uptake transporter.
+
+Encoded by:
+- SLCO1B1
+
+Substrates:
+- Statins
+- Methotrexate
+- Bilirubin
+
+Important variant:
+- rs4149056
+- Val174Ala
+
+Effect:
+- Reduced hepatic uptake
+- Increased plasma statin levels
+- Increased myopathy risk
+
+Clinical example: Simvastatin
+-----------------------------
+Reduced-function SLCO1B1 variants:
+- Increased simvastatin exposure
+- Increased risk of simvastatin-induced myopathy
+
+Recommendation:
+- Use lower simvastatin dose or alternative statin.
+
+Alternative statins:
+- Pravastatin
+- Rosuvastatin
+
+16. ABCG2 / BCRP
+----------------
+BCRP is an efflux transporter.
+
+Encoded by:
+- ABCG2
+
+Important variant:
+- rs2231142
+- Q141K
+
+Effect:
+- Reduced transporter function
+
+Affected drugs:
+- Rosuvastatin
+- Allopurinol
+- Some anticancer drugs
+
+Clinical relevance:
+- East Asian patients may have higher rosuvastatin levels.
+- Lower rosuvastatin dose may be considered.
+
+17. SLC22A1 / OCT1
+------------------
+OCT1 is a hepatic uptake transporter.
+
+Substrates:
+- Morphine
+- Tramadol
+- Sumatriptan
+- Ondansetron
+
+Reduced-function variants:
+- May increase drug plasma concentrations.
+
+18. Genetic Variation in Immune Function
+----------------------------------------
+Some adverse drug reactions are immune-mediated.
+
+Important system:
+- HLA genes
+
+HLA variants can predict drug hypersensitivity.
+
+19. HLA-B*57:01 and Abacavir
+----------------------------
+Drug:
+- Abacavir
+
+Risk:
+- Severe hypersensitivity reaction
+- Stevens-Johnson syndrome / toxic epidermal necrosis risk
+
+Recommendation:
+- Test for HLA-B*57:01 before starting abacavir.
+- If positive, avoid abacavir.
+
+20. HLA-B*15:02 and Carbamazepine
+---------------------------------
+Drug:
+- Carbamazepine
+
+Risk:
+- Stevens-Johnson syndrome
+- Toxic epidermal necrolysis
+
+Important population:
+- East Asian ancestry
+
+Recommendation:
+- Avoid carbamazepine in HLA-B*15:02-positive patients.
+
+21. HLA-B*58:01 and Allopurinol
+-------------------------------
+Drug:
+- Allopurinol
+
+Risk:
+- Severe cutaneous adverse reactions
+
+Recommendation:
+- Avoid allopurinol in HLA-B*58:01-positive patients.
+
+22. HLA-B*57:01 and Flucloxacillin
+----------------------------------
+Drug:
+- Flucloxacillin
+
+Risk:
+- Drug-induced liver injury
+
+23. IFNL3 / IL28B
+-----------------
+IFNL3 variants affect response to hepatitis C treatment.
+
+Important therapy:
+- Pegylated interferon-alpha + ribavirin
+
+Favorable genotype:
+- Higher sustained virologic response
+
+Unfavorable genotype:
+- Lower cure rate
+
+24. Polygenic Effects
+---------------------
+Many drug responses are influenced by more than one gene.
+
+Example:
+- Warfarin
+
+Important genes:
+- CYP2C9
+- VKORC1
+
+25. CYP2C9 and Warfarin
+-----------------------
+CYP2C9 metabolizes S-warfarin.
+
+Important alleles:
+- CYP2C9*2
+- CYP2C9*3
+
+Effect:
+- Reduced warfarin metabolism
+- Increased bleeding risk
+- Lower dose requirement
+
+26. VKORC1 and Warfarin
+-----------------------
+VKORC1 encodes vitamin K epoxide reductase.
+
+Warfarin target:
+- VKORC1
+
+Important variant:
+- VKORC1 -1639G>A
+
+Effect:
+- Reduced VKORC1 expression
+- Increased warfarin sensitivity
+- Lower dose requirement
+
+Warfarin dosing:
+- Best predicted using clinical factors + CYP2C9 + VKORC1.
+
+27. Epigenomics
+---------------
+Epigenomics = heritable changes in gene expression not due to DNA sequence changes.
+
+Mechanisms:
+- DNA methylation
+- Histone modification
+
+Potential relevance:
+- Drug response variability
+- Acquired drug resistance
+- Disease susceptibility
+
+28. Case Study Summary
+----------------------
+Patient:
+- HIV infection
+- Treated with atazanavir + ritonavir + nucleoside analogs
+- Developed jaundice after 1 year
+- Grade 4 hyperbilirubinemia
+
+Mechanism:
+- Atazanavir inhibits UGT1A1.
+- UGT1A1 normally glucuronidates bilirubin.
+- Reduced UGT1A1 activity causes unconjugated bilirubin accumulation.
+
+Genetic factor:
+- UGT1A1*28/*28 reduces enzyme activity.
+
+Conclusion:
+- UGT1A1*28 polymorphism likely contributed to severe hyperbilirubinemia and jaundice.
+- Switching from atazanavir to another antiretroviral improved bilirubin levels.
+
+29. Must-Know Exam Pearls
+-------------------------
+- Pharmacogenomics guides precision medicine.
+- CYP2D6 activates codeine to morphine.
+- CYP2D6 poor metabolizers have poor codeine analgesia.
+- CYP2D6 ultrarapid metabolizers risk morphine toxicity.
+- CYP2C19 activates clopidogrel.
+- CYP2C19 poor metabolizers have reduced clopidogrel response.
+- CYP2B6 poor metabolizers have increased efavirenz toxicity.
+- DPYD variants increase fluoropyrimidine toxicity.
+- UGT1A1*28 increases irinotecan toxicity and atazanavir jaundice risk.
+- TPMT deficiency increases thiopurine myelotoxicity.
+- G6PD deficiency increases rasburicase hemolysis risk.
+- SLCO1B1 variants increase simvastatin myopathy risk.
+- HLA-B*57:01 predicts abacavir hypersensitivity.
+- HLA-B*15:02 predicts carbamazepine SJS/TEN risk.
+- HLA-B*58:01 predicts allopurinol severe skin reactions.
+- Warfarin dosing is affected by CYP2C9 and VKORC1.

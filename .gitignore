@@ -2,7 +2,7 @@
 .env
 .env.*
 !.env.example
-Web_1/js/supabase-config.js
+Web/js/supabase-config.js
 
 # Dependencies and build output
 node_modules/
@@ -11,6 +11,8 @@ build/
 .next/
 .nuxt/
 coverage/
+__pycache__/
+*.pyc
 
 # Logs
 *.log

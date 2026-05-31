@@ -1,0 +1,466 @@
+# Pharmacokinetics & Pharmacodynamics: Rational Dosing & Time Course of Drug Action — High-Yield Summary
+
+## 1. Core Concept
+
+Drug response depends on:
+
+**Dose → Concentration → Effect**
+
+- **Pharmacokinetics (PK)** = what the body does to the drug
+  - Absorption
+  - Distribution
+  - Metabolism
+  - Excretion
+
+- **Pharmacodynamics (PD)** = what the drug does to the body
+  - Drug concentration–effect relationship
+
+---
+
+## 2. Main Pharmacokinetic Parameters
+
+### A. Volume of Distribution (Vd)
+
+Formula:
+
+```text
+Vd = Amount of drug in body / Plasma concentration
+```
+
+Meaning:
+
+- Apparent space containing the drug
+- Large Vd → drug mainly in tissues
+- Small Vd → drug remains mostly in plasma
+
+Examples:
+
+- **Digoxin** → very large Vd
+- **Gentamicin** → low Vd
+
+Typical compartments:
+
+| Compartment | Approximate Volume |
+|---|---:|
+| Plasma | 0.04 L/kg |
+| Extracellular fluid | 0.2 L/kg |
+| Total body water | 0.6 L/kg |
+
+---
+
+### B. Clearance (CL)
+
+Formula:
+
+```text
+CL = Rate of elimination / Drug concentration
+```
+
+Meaning:
+
+- Efficiency of drug elimination
+
+Major elimination organs:
+
+- Kidney
+- Liver
+
+Total clearance:
+
+```text
+CLtotal = CLrenal + CLhepatic + CLother
+```
+
+---
+
+### C. Half-Life (t1/2)
+
+Formula:
+
+```text
+t1/2 = 0.7 × Vd / CL
+```
+
+Meaning:
+
+- Time required for drug amount to decrease by 50%
+
+Rules:
+
+- 1 half-life → 50%
+- 2 half-lives → 75%
+- 4–5 half-lives → about 95% steady state
+
+---
+
+## 3. Types of Elimination
+
+### First-Order Elimination
+
+- Most drugs
+- Constant fraction removed per unit time
+
+Examples:
+
+- Digoxin
+- Theophylline
+
+---
+
+### Capacity-Limited / Nonlinear Elimination
+
+Elimination pathways become saturated.
+
+Examples:
+
+- Phenytoin
+- Ethanol
+- High-dose aspirin
+
+Michaelis-Menten relationship:
+
+```text
+Rate = (Vmax × C) / (Km + C)
+```
+
+Features:
+
+- Small dose increase may cause large concentration increase
+- Higher toxicity risk
+
+---
+
+### Flow-Dependent Elimination
+
+Elimination depends mainly on organ blood flow.
+
+Examples:
+
+- Morphine
+- Lidocaine
+- Propranolol
+
+---
+
+## 4. Drug Accumulation
+
+Repeated dosing causes accumulation until steady state.
+
+Depends on:
+
+- Dosing interval
+- Half-life
+
+Rule:
+
+- Short dosing interval relative to half-life → more accumulation
+
+---
+
+## 5. Bioavailability (F)
+
+Definition:
+
+- Fraction of unchanged drug reaching systemic circulation
+
+IV drugs:
+
+```text
+F = 1
+```
+
+Oral drugs:
+
+```text
+F < 1
+```
+
+Reasons for low bioavailability:
+
+1. Poor absorption
+2. First-pass metabolism
+
+Examples:
+
+- Morphine → extensive first-pass effect
+- Propranolol → high first-pass metabolism
+
+---
+
+## 6. First-Pass Effect
+
+Drug absorbed from the GI tract enters portal circulation, then passes through the liver before reaching systemic circulation.
+
+Consequences:
+
+- Reduced bioavailability
+- Increased metabolite formation
+
+Routes that avoid or reduce first-pass effect:
+
+- Sublingual
+- Transdermal
+- Partial rectal route
+
+---
+
+## 7. Routes of Administration
+
+| Route | Key Feature |
+|---|---|
+| IV | 100% bioavailability |
+| Oral | Convenient, first-pass effect possible |
+| IM / SC | Good absorption |
+| Inhalation | Rapid onset |
+| Transdermal | Slow prolonged release |
+
+---
+
+## 8. Loading Dose
+
+Used to rapidly achieve target concentration.
+
+Formula:
+
+```text
+Loading dose = Vd × Target concentration
+```
+
+Purpose:
+
+- Useful for drugs with long half-life
+
+Examples:
+
+- Digoxin
+- Phenytoin
+
+---
+
+## 9. Maintenance Dose
+
+Used to maintain steady-state concentration.
+
+Formula:
+
+```text
+Dosing rate = CL × Target concentration
+```
+
+Oral dosing:
+
+```text
+Dose = (CL × Target concentration × Dosing interval) / F
+```
+
+Main determinant:
+
+- **Clearance**
+
+---
+
+## 10. Concentration–Effect Relationship
+
+Drug effect often follows the **Emax model**.
+
+Key terms:
+
+| Term | Meaning |
+|---|---|
+| Emax | Maximal effect |
+| C50 / EC50 | Concentration producing 50% effect |
+
+Important:
+
+- Concentration changes do not always produce proportional effect changes.
+
+---
+
+## 11. Delayed Drug Effects
+
+Causes:
+
+1. Distribution delay
+2. Slow receptor dissociation
+3. Slow physiologic turnover
+
+Examples:
+
+- Digoxin
+- Warfarin
+
+Warfarin:
+
+- Rapidly inhibits VKOR
+- INR effect is delayed because clotting factors have long half-lives
+
+---
+
+## 12. Schedule-Dependent Toxicity
+
+Toxicity may depend on dosing pattern.
+
+Example:
+
+- Aminoglycosides
+
+Continuous infusion:
+
+- More nephrotoxicity
+
+Intermittent dosing:
+
+- Less renal uptake
+
+---
+
+## 13. Cumulative Drug Effects
+
+Effect depends on total exposure.
+
+Important measure:
+
+```text
+AUC = Area under the concentration-time curve
+```
+
+Examples:
+
+- Many chemotherapy drugs
+
+---
+
+## 14. Target Concentration Strategy
+
+Goal:
+
+- Achieve desired therapeutic concentration
+
+Steps:
+
+1. Choose target concentration
+2. Estimate Vd and CL
+3. Calculate dose
+4. Measure response or concentration
+5. Adjust regimen
+
+---
+
+## 15. Factors Affecting Drug Levels
+
+### A. Renal Function
+
+Reduced renal clearance affects drugs such as:
+
+- Digoxin
+- Aminoglycosides
+
+Use creatinine clearance for dose adjustment.
+
+---
+
+### B. Hepatic Disease
+
+May reduce metabolism.
+
+Examples:
+
+- Diazepam
+- Propranolol
+
+---
+
+### C. Obesity
+
+Affects Vd differently:
+
+- Lipophilic drugs → larger Vd
+- Hydrophilic drugs → minimal change
+
+---
+
+### D. Edema / Ascites
+
+May increase Vd of hydrophilic drugs.
+
+Example:
+
+- Gentamicin
+
+---
+
+## 16. Plasma Protein Binding
+
+Important mainly for interpretation of total drug concentration.
+
+Key proteins:
+
+- Albumin
+- Alpha-1 acid glycoprotein
+
+Important point:
+
+- Changes in protein binding usually affect total drug concentration more than free drug effect.
+
+---
+
+## 17. Therapeutic Drug Monitoring (TDM)
+
+Useful for drugs with:
+
+- Narrow therapeutic index
+- Variable pharmacokinetics
+
+Examples:
+
+- Digoxin
+- Lithium
+- Aminoglycosides
+- Phenytoin
+
+Timing matters:
+
+| Drug | Sampling Note |
+|---|---|
+| Digoxin | Measure after distribution, usually at least 6 h after dose |
+| Lithium | Trough level |
+| Aminoglycosides | Peak/trough monitoring |
+
+---
+
+## 18. Digoxin Case Summary
+
+Patient:
+
+- Elderly
+- Reduced renal function
+
+Key principle:
+
+- Digoxin clearance is mainly renal.
+
+Approach:
+
+1. Estimate creatinine clearance
+2. Calculate total clearance
+3. Calculate maintenance dose
+
+Recommended practical dose:
+
+```text
+125 mcg/day = two 62.5 mcg tablets daily
+```
+
+---
+
+## Must-Know Exam Pearls
+
+- Clearance determines maintenance dose.
+- Volume of distribution determines loading dose.
+- Half-life depends on both Vd and CL.
+- Steady state is reached after about 4–5 half-lives.
+- First-pass metabolism lowers oral bioavailability.
+- Nonlinear elimination: phenytoin, ethanol, aspirin.
+- Digoxin dose must be reduced in renal failure.
+- Aminoglycoside toxicity depends on dosing schedule.
+- Protein binding changes usually alter total concentration more than free concentration.

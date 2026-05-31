@@ -1,0 +1,1013 @@
+{
+  "id": "ch9",
+  "course": "Katzung Pharmacology",
+  "chapter": 9,
+  "title": "Adrenoceptor Agonists & Sympathomimetic Drugs",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-high-yield-summary",
+      "number": 1,
+      "title": "High-Yield Summary",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Sympathomimetic drugs mimic sympathetic nervous system activity.",
+            "They act by:",
+            "Direct receptor activation: epinephrine, norepinephrine, phenylephrine, dobutamine.",
+            "Indirect catecholamine enhancement: amphetamine, tyramine, cocaine.",
+            "Mixed action: ephedrine.",
+            "Main receptors: alpha1, alpha2, beta1, beta2, beta3, D1, D2.",
+            "Clinical themes:",
+            "alpha1 = vasoconstriction.",
+            "alpha2 = decreased sympathetic outflow.",
+            "beta1 = cardiac stimulation.",
+            "beta2 = bronchodilation and smooth muscle relaxation.",
+            "beta3 = bladder relaxation.",
+            "D1 = renal/splanchnic vasodilation."
+          ]
+        }
+      ],
+      "image": "data_9/02-table-9-1.png",
+      "imageCaption": "TABLE 9-1 — Adrenoceptor types and subtypes"
+    },
+    {
+      "id": "2-core-concepts",
+      "number": 2,
+      "title": "Core Concepts",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Adrenergic Receptors"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Receptor",
+            "G protein",
+            "Main signaling",
+            "Key effects"
+          ],
+          "rows": [
+            [
+              "alpha1",
+              "Gq",
+              "↑ IP3/DAG, ↑ Ca2+",
+              "Vasoconstriction, mydriasis, urinary retention"
+            ],
+            [
+              "alpha2",
+              "Gi",
+              "↓ cAMP",
+              "↓ NE release, ↓ sympathetic outflow"
+            ],
+            [
+              "beta1",
+              "Gs",
+              "↑ cAMP",
+              "↑ HR, ↑ contractility, ↑ renin"
+            ],
+            [
+              "beta2",
+              "Gs",
+              "↑ cAMP",
+              "Bronchodilation, vasodilation, uterine relaxation, ↑ K+ uptake"
+            ],
+            [
+              "beta3",
+              "Gs",
+              "↑ cAMP",
+              "Bladder detrusor relaxation, lipolysis"
+            ],
+            [
+              "D1",
+              "Gs",
+              "↑ cAMP",
+              "Renal/splanchnic vasodilation"
+            ],
+            [
+              "D2",
+              "Gi",
+              "↓ cAMP",
+              "↓ transmitter release"
+            ]
+          ]
+        }
+      ],
+      "image": "data_9/06-table-9-3.png",
+      "imageCaption": "TABLE 9-3 — Distribution of adrenoceptor subtypes",
+      "imageSupplement": "data_9/02-table-9-1.png",
+      "imageSupplementCaption": "TABLE 9-1 — Adrenoceptor G proteins & effects"
+    },
+    {
+      "id": "3-key-mechanisms-pathways",
+      "number": 3,
+      "title": "Key Mechanisms / Pathways",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "alpha1 pathway"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha1 → Gq → phospholipase C → IP3/DAG → ↑ intracellular Ca2+",
+            "Result: smooth muscle contraction.",
+            "Important sites: vascular smooth muscle, pupil dilator, bladder sphincter/prostate."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "alpha2 pathway"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha2 → Gi → ↓ adenylyl cyclase → ↓ cAMP.",
+            "Presynaptic alpha2 decreases norepinephrine release.",
+            "CNS alpha2 agonists decrease sympathetic outflow."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "beta pathway"
+        },
+        {
+          "type": "list",
+          "items": [
+            "beta1/beta2/beta3 → Gs → ↑ adenylyl cyclase → ↑ cAMP.",
+            "beta1 in heart: ↑ Ca2+ influx → ↑ heart rate and contractility.",
+            "beta2 in smooth muscle: relaxation.",
+            "beta3 in bladder: detrusor relaxation."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Dopamine pathway"
+        },
+        {
+          "type": "list",
+          "items": [
+            "D1 → Gs → vasodilation, especially renal/splanchnic vessels.",
+            "D2 → Gi → decreased neurotransmitter release."
+          ]
+        }
+      ],
+      "image": "data_9/01-fig-9-1.png",
+      "imageCaption": "FIGURE 9-1 — Activation of α₁ responses",
+      "imageSupplement": "data_9/03-fig-9-2.png",
+      "imageSupplementCaption": "FIGURE 9-2 — Adenylyl cyclase (β & α₂)"
+    },
+    {
+      "id": "4-important-drugs-molecules-systems",
+      "number": 4,
+      "title": "Important Drugs / Molecules / Systems",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Epinephrine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Receptors: alpha1, alpha2, beta1, beta2.",
+            "Effects:",
+            "↑ systolic BP from beta1 cardiac stimulation.",
+            "↓ diastolic BP at low doses due to beta2 vasodilation.",
+            "Bronchodilation via beta2.",
+            "Vasoconstriction via alpha1.",
+            "Uses:",
+            "Anaphylaxis.",
+            "Cardiac arrest.",
+            "Added to local anesthetics to prolong action.",
+            "Exam pearl: best drug for anaphylaxis because it treats airway, vascular collapse, and bronchospasm."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Norepinephrine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Receptors: alpha1, alpha2, beta1.",
+            "Minimal beta2 activity.",
+            "Effects:",
+            "Strong vasoconstriction.",
+            "↑ systolic and diastolic BP.",
+            "Reflex bradycardia may occur.",
+            "Use: septic shock / severe hypotension.",
+            "Exam pearl: strong pressor with reflex bradycardia."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Dopamine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Traditional dose-dependent exam pattern:",
+            "Low dose: D1 → renal/splanchnic vasodilation.",
+            "Moderate dose: beta1 → ↑ contractility.",
+            "High dose: alpha1 → vasoconstriction.",
+            "Use: selected shock states historically; norepinephrine is generally preferred in septic shock because dopamine causes more arrhythmias."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Phenylephrine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Selective alpha1 agonist.",
+            "Effects:",
+            "Vasoconstriction.",
+            "↑ BP.",
+            "Reflex bradycardia.",
+            "Mydriasis without cycloplegia.",
+            "Uses:",
+            "Nasal decongestant.",
+            "Mydriatic.",
+            "Hypotension.",
+            "Toxicity: hypertension, reflex bradycardia."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Midodrine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Oral prodrug → desglymidodrine.",
+            "Selective alpha1 agonist.",
+            "Use: orthostatic hypotension.",
+            "Toxicity:",
+            "Supine hypertension.",
+            "Piloerection.",
+            "Urinary retention.",
+            "Exam pearl: used in autonomic failure but can worsen urinary retention."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Clonidine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha2 agonist.",
+            "Mechanism: decreases CNS sympathetic outflow.",
+            "Uses:",
+            "Hypertension.",
+            "ADHD.",
+            "Withdrawal syndromes.",
+            "Toxicity:",
+            "Sedation.",
+            "Dry mouth.",
+            "Bradycardia.",
+            "Rebound hypertension if stopped suddenly."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Methyldopa"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha2 agonist.",
+            "Use: hypertension in pregnancy.",
+            "Toxicity: sedation, hemolytic anemia, hyperprolactinemia."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Dexmedetomidine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha2 agonist.",
+            "Use: ICU/procedural sedation.",
+            "Benefit: sedation with less respiratory depression."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Tizanidine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha2 agonist.",
+            "Use: muscle spasticity.",
+            "Pitfall: can cause hypotension and rebound hypertension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Brimonidine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha2 agonist.",
+            "Mechanism: reduces aqueous humor production and increases uveoscleral outflow.",
+            "Use: open-angle glaucoma (topical eye drops).",
+            "Advantage: does not affect pupil size or accommodation — useful when miosis or cycloplegia must be avoided.",
+            "Toxicity: local allergy, ocular hyperemia; systemic absorption may cause sedation and hypotension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Dobutamine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Predominantly beta1 agonist.",
+            "Effects:",
+            "↑ contractility more than ↑ HR.",
+            "Increases cardiac output.",
+            "Uses:",
+            "Acute heart failure.",
+            "Cardiogenic shock.",
+            "Pharmacologic cardiac stress testing.",
+            "Toxicity: tachyarrhythmias, increased myocardial oxygen demand."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Isoproterenol"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Nonselective beta1 + beta2 agonist.",
+            "Effects:",
+            "Marked tachycardia.",
+            "↓ diastolic BP from beta2 vasodilation.",
+            "Rarely used clinically."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Albuterol / Terbutaline"
+        },
+        {
+          "type": "list",
+          "items": [
+            "beta2 agonists.",
+            "Effects:",
+            "Bronchodilation.",
+            "Uterine relaxation.",
+            "Drives K+ into cells.",
+            "Uses:",
+            "Asthma/COPD.",
+            "Hyperkalemia adjunct.",
+            "Toxicity:",
+            "Tremor.",
+            "Tachycardia.",
+            "Hypokalemia."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Mirabegron"
+        },
+        {
+          "type": "list",
+          "items": [
+            "beta3 agonist.",
+            "Effect: relaxes detrusor muscle.",
+            "Use: overactive bladder.",
+            "Toxicity: hypertension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Fenoldopam"
+        },
+        {
+          "type": "list",
+          "items": [
+            "D1 agonist.",
+            "Effect: renal and systemic vasodilation.",
+            "Use: hypertensive emergency.",
+            "Toxicity: hypotension, tachycardia, headache."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Amphetamine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Indirect sympathomimetic.",
+            "Mechanism: releases norepinephrine and dopamine.",
+            "Uses:",
+            "ADHD.",
+            "Narcolepsy.",
+            "Toxicity:",
+            "Insomnia.",
+            "Appetite suppression.",
+            "Hypertension.",
+            "Dependence/abuse."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Tyramine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Indirect sympathomimetic found in aged cheese, cured meats, fermented foods.",
+            "Normally metabolized by MAO.",
+            "With MAO inhibitors → hypertensive crisis.",
+            "Exam pearl: MAOI + tyramine = severe hypertension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Cocaine"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Blocks reuptake of norepinephrine, dopamine, serotonin.",
+            "Effects:",
+            "Sympathetic stimulation.",
+            "Vasoconstriction.",
+            "CNS stimulation.",
+            "Toxicity:",
+            "Hypertension.",
+            "Coronary vasospasm.",
+            "MI.",
+            "Arrhythmias.",
+            "Seizures."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Metaraminol"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Mixed-acting sympathomimetic (similar to ephedrine).",
+            "Mechanism: direct alpha1 receptor stimulation + indirect norepinephrine release from nerve terminals.",
+            "Effects: vasoconstriction and increased blood pressure; reflex bradycardia at higher doses.",
+            "Use: acute hypotension (e.g., spinal anesthesia-induced hypotension).",
+            "Advantage over ephedrine: longer duration; less beta1 cardiac stimulation.",
+            "Toxicity: hypertension, reflex bradycardia, reduced cardiac output.",
+            "Note: tachyphylaxis can occur with repeated doses due to depletion of NE stores."
+          ]
+        }
+      ],
+      "image": "data_9/04-table-9-2.png",
+      "imageCaption": "TABLE 9-2 — Relative receptor affinities",
+      "imageSupplement": "data_9/07-fig-9-4.png",
+      "imageSupplementCaption": "FIGURE 9-4 — Catecholamine structures"
+    },
+    {
+      "id": "5-clinical-correlations",
+      "number": 5,
+      "title": "Clinical Correlations",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Orthostatic hypotension in autonomic failure"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Failure of sympathetic compensation when standing.",
+            "Findings:",
+            "Large BP drop on standing.",
+            "Inadequate HR increase.",
+            "Low plasma norepinephrine.",
+            "Treatment:",
+            "Midodrine.",
+            "Droxidopa.",
+            "Avoid:",
+            "alpha blockers such as tamsulosin.",
+            "unnecessary vasodilators.",
+            "Important: patients are hypersensitive to pressor drugs."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Anaphylaxis"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Drug of choice: intramuscular epinephrine.",
+            "Mechanisms:",
+            "alpha1: vasoconstriction, reduces edema, increases BP.",
+            "beta1: increases cardiac output.",
+            "beta2: bronchodilation, reduces mediator release."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Shock"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Preferred vasopressor in septic shock: norepinephrine.",
+            "Dobutamine may be added when low cardiac output is present."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Nasal congestion"
+        },
+        {
+          "type": "list",
+          "items": [
+            "alpha1 agonists constrict nasal mucosal vessels.",
+            "Drugs: phenylephrine, oxymetazoline, pseudoephedrine.",
+            "Pitfall: topical overuse → rebound congestion / rhinitis medicamentosa."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Asthma/COPD"
+        },
+        {
+          "type": "list",
+          "items": [
+            "beta2 agonists cause bronchodilation.",
+            "Short acting: albuterol.",
+            "Long acting: salmeterol, formoterol.",
+            "Ultra-long acting in COPD: indacaterol, olodaterol, vilanterol."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Horner syndrome pharmacology"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Postganglionic lesion: indirect agonists fail because catecholamine stores are lost.",
+            "Direct agonists such as phenylephrine still dilate the pupil."
+          ]
+        }
+      ],
+      "image": "data_9/11-fig-9-6.png",
+      "imageCaption": "FIGURE 9-6 — Hemodynamic effects of sympathomimetics",
+      "imageSupplement": "data_9/09-fig-9-5.png",
+      "imageSupplementCaption": "FIGURE 9-5 — Noncatecholamine sympathomimetics"
+    },
+    {
+      "id": "6-adverse-effects-toxicity-pitfalls",
+      "number": 6,
+      "title": "Adverse Effects / Toxicity / Pitfalls",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Alpha1 agonists"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Hypertension.",
+            "Reflex bradycardia.",
+            "Urinary retention.",
+            "Supine hypertension with midodrine."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Alpha2 agonists"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Sedation.",
+            "Dry mouth.",
+            "Bradycardia.",
+            "Rebound hypertension if abruptly stopped."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Beta1 agonists"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Tachycardia.",
+            "Arrhythmias.",
+            "Increased myocardial oxygen demand."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Beta2 agonists"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Tremor.",
+            "Tachycardia.",
+            "Hypokalemia.",
+            "Hyperglycemia."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Indirect sympathomimetics"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Hypertension.",
+            "Insomnia.",
+            "Anxiety.",
+            "Abuse potential.",
+            "Arrhythmias."
+          ]
+        }
+      ],
+      "image": "data_9/10-table-9-5.png",
+      "imageCaption": "TABLE 9-5 — Tyramine-rich foods (MAOI risk)",
+      "imageSupplement": "data_9/05-fig-9-3.png",
+      "imageSupplementCaption": "FIGURE 9-3 — Monoamine transporters (amphetamine & cocaine)"
+    },
+    {
+      "id": "7-important-comparisons",
+      "number": 7,
+      "title": "Important Comparisons",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Epinephrine vs Norepinephrine"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Epinephrine",
+            "Norepinephrine"
+          ],
+          "rows": [
+            [
+              "Receptors",
+              "alpha1, alpha2, beta1, beta2",
+              "alpha1, alpha2, beta1"
+            ],
+            [
+              "beta2 activity",
+              "Strong",
+              "Minimal"
+            ],
+            [
+              "Diastolic BP",
+              "May decrease at low dose",
+              "Increases"
+            ],
+            [
+              "Heart rate",
+              "Increases",
+              "Reflex bradycardia possible"
+            ],
+            [
+              "Best use",
+              "Anaphylaxis",
+              "Septic shock"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Phenylephrine vs Isoproterenol"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Phenylephrine",
+            "Isoproterenol"
+          ],
+          "rows": [
+            [
+              "Main receptor",
+              "alpha1",
+              "beta1, beta2"
+            ],
+            [
+              "BP effect",
+              "↑ BP",
+              "↓ mean BP"
+            ],
+            [
+              "HR effect",
+              "Reflex ↓ HR",
+              "Marked ↑ HR"
+            ],
+            [
+              "Use",
+              "Decongestant, mydriasis, hypotension",
+              "Rare"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Dobutamine vs Dopamine"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Dobutamine",
+            "Dopamine"
+          ],
+          "rows": [
+            [
+              "Main action",
+              "beta1 inotrope",
+              "Traditional D1/beta1/alpha1 dose pattern"
+            ],
+            [
+              "Use",
+              "Acute HF, stress test",
+              "Shock historically"
+            ],
+            [
+              "Major risk",
+              "Tachyarrhythmia",
+              "More arrhythmias"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Direct vs Indirect Sympathomimetics"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Direct",
+            "Indirect"
+          ],
+          "rows": [
+            [
+              "Bind receptors directly",
+              "Increase endogenous catecholamines"
+            ],
+            [
+              "Work even if NE stores depleted",
+              "Require catecholamine stores"
+            ],
+            [
+              "Examples: epinephrine, phenylephrine",
+              "Examples: amphetamine, tyramine, cocaine"
+            ]
+          ]
+        }
+      ],
+      "image": "data_9/08-table-9-4.png",
+      "imageCaption": "TABLE 9-4 — Cardiovascular responses to sympathomimetics"
+    },
+    {
+      "id": "8-must-know-exam-points",
+      "number": 8,
+      "title": "Must-Know Exam Points",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "alpha1 = vasoconstriction, mydriasis, urinary retention.",
+            "alpha2 = decreased sympathetic outflow.",
+            "beta1 = heart stimulation.",
+            "beta2 = bronchodilation, uterine relaxation, hypokalemia.",
+            "beta3 = bladder relaxation.",
+            "D1 = renal vasodilation.",
+            "Epinephrine is first-line for anaphylaxis.",
+            "Norepinephrine is preferred vasopressor in septic shock.",
+            "Phenylephrine causes reflex bradycardia.",
+            "Midodrine treats orthostatic hypotension but can cause supine hypertension.",
+            "Clonidine withdrawal causes rebound hypertension.",
+            "MAOI + tyramine causes hypertensive crisis.",
+            "Cocaine blocks catecholamine reuptake and can cause MI.",
+            "Dobutamine is used in cardiac stress testing and acute heart failure.",
+            "Albuterol toxicity includes tremor, tachycardia, and hypokalemia.",
+            "Mirabegron treats overactive bladder via beta3 activation."
+          ]
+        }
+      ],
+      "image": "data_9/13-fig-9-8.png",
+      "imageCaption": "FIGURE 9-8 — β₁- and β₂-selective agonists"
+    },
+    {
+      "id": "9-case-based-integration",
+      "number": 9,
+      "title": "Case-Based Integration",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Diagnosis"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Pure autonomic failure causing neurogenic orthostatic hypotension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Key clues"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Lightheadedness on standing.",
+            "Worse after meals/hot environments.",
+            "Supine hypertension with standing hypotension.",
+            "Inadequate compensatory HR rise.",
+            "Low norepinephrine.",
+            "Autonomic symptoms: constipation, urinary retention, decreased sweating.",
+            "No diabetes, Parkinson disease, or drug cause."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Mechanism"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Loss of peripheral autonomic sympathetic fibers.",
+            "Inadequate norepinephrine release on standing.",
+            "Failure of reflex vasoconstriction.",
+            "Blood pools in lower body → decreased venous return → orthostatic hypotension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Why tamsulosin worsened symptoms"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Tamsulosin blocks alpha1A receptors.",
+            "Reduces sympathetic vascular/urinary tract tone.",
+            "In autonomic failure, BP depends on limited residual sympathetic tone.",
+            "Blocking alpha receptors worsens orthostatic hypotension."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Treatment concept"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Use pressor agents carefully.",
+            "Midodrine can improve standing BP.",
+            "Droxidopa can increase norepinephrine availability.",
+            "Monitor for supine hypertension.",
+            "Avoid OTC sympathomimetics unless supervised."
+          ]
+        }
+      ],
+      "image": "data_9/12-fig-9-7.png",
+      "imageCaption": "FIGURE 9-7 — Ganglionic blockade & phenylephrine"
+    },
+    {
+      "id": "10-rapid-review-table",
+      "number": 10,
+      "title": "Rapid Review Table",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Receptor/Mechanism",
+            "Main Use",
+            "Key Toxicity"
+          ],
+          "rows": [
+            [
+              "Epinephrine",
+              "alpha1, alpha2, beta1, beta2",
+              "Anaphylaxis, cardiac arrest",
+              "Tachycardia, arrhythmias"
+            ],
+            [
+              "Norepinephrine",
+              "alpha1, alpha2, beta1",
+              "Septic shock",
+              "Ischemia, reflex bradycardia"
+            ],
+            [
+              "Dopamine",
+              "Traditional D1/beta1/alpha1 dose pattern",
+              "Shock historically",
+              "Arrhythmias"
+            ],
+            [
+              "Phenylephrine",
+              "alpha1",
+              "Decongestant, mydriasis, hypotension",
+              "Reflex bradycardia"
+            ],
+            [
+              "Midodrine",
+              "alpha1",
+              "Orthostatic hypotension",
+              "Supine hypertension, urinary retention"
+            ],
+            [
+              "Clonidine",
+              "alpha2",
+              "HTN, ADHD, withdrawal",
+              "Sedation, dry mouth, rebound HTN"
+            ],
+            [
+              "Dobutamine",
+              "beta1",
+              "Acute HF, stress test",
+              "Tachyarrhythmias"
+            ],
+            [
+              "Albuterol",
+              "beta2",
+              "Asthma/COPD",
+              "Tremor, hypokalemia"
+            ],
+            [
+              "Mirabegron",
+              "beta3",
+              "Overactive bladder",
+              "Hypertension"
+            ],
+            [
+              "Fenoldopam",
+              "D1",
+              "Hypertensive emergency",
+              "Hypotension, tachycardia"
+            ],
+            [
+              "Amphetamine",
+              "NE/DA release",
+              "ADHD, narcolepsy",
+              "Abuse, insomnia, HTN"
+            ],
+            [
+              "Tyramine",
+              "NE release",
+              "Toxic interaction",
+              "Hypertensive crisis with MAOI"
+            ],
+            [
+              "Cocaine",
+              "Blocks NE/DA/5HT reuptake",
+              "Topical local anesthetic; misuse/abuse",
+              "MI, arrhythmias, seizures"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "One-line board review: Sympathomimetics increase sympathetic signaling: alpha1 squeezes vessels, alpha2 shuts down sympathetic outflow, beta1 boosts the heart, beta2 opens lungs, beta3 relaxes bladder, and D1 dilates renal vessels."
+        }
+      ],
+      "image": "data_9/14-summary.png",
+      "imageCaption": "Summary — sympathomimetic drugs"
+    }
+  ],
+  "introImage": "data_9/02-table-9-1.png",
+  "introImageCaption": "TABLE 9-1 — Adrenoceptor types and subtypes"
+}

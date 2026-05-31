@@ -1,0 +1,57 @@
+[
+  {
+    "file": "data_2/01-fig-2-1.png",
+    "was": "data_2/01.png",
+    "caption": "FIGURE 2-1 — Drug concentration, effect & receptor occupancy"
+  },
+  {
+    "file": "data_2/02-table-2-1.png",
+    "was": "data_2/11.png",
+    "caption": "TABLE 2-1 — G proteins, receptors & signaling"
+  },
+  {
+    "file": "data_2/03-fig-2-2.png",
+    "was": "data_2/02.png",
+    "caption": "FIGURE 2-2 — Log dose axis & sigmoid dose–response"
+  },
+  {
+    "file": "data_2/04-fig-2-3.png",
+    "was": "data_2/03.png",
+    "caption": "FIGURE 2-3 — Competitive antagonist shifts dose–response"
+  },
+  {
+    "file": "data_2/05-fig-2-4.png",
+    "was": "data_2/04.png",
+    "caption": "FIGURE 2-4 — Spare receptors & partial agonist occupancy"
+  },
+  {
+    "file": "data_2/06-fig-2-5.png",
+    "was": "data_2/05.png",
+    "caption": "FIGURE 2-5 — Transmembrane signaling mechanisms"
+  },
+  {
+    "file": "data_2/07-fig-2-12.png",
+    "was": "data_2/13.png",
+    "caption": "FIGURE 2-12 — β-receptor desensitization & downregulation"
+  },
+  {
+    "file": "data_2/08-fig-2-13.png",
+    "was": "data_2/14.png",
+    "caption": "FIGURE 2-13 — cAMP second messenger pathway"
+  },
+  {
+    "file": "data_2/09-fig-2-14.png",
+    "was": "data_2/15.png",
+    "caption": "FIGURE 2-14 — Ca²⁺/phosphoinositide signaling pathway"
+  },
+  {
+    "file": "data_2/10-fig-2-15.png",
+    "was": "data_2/16.png",
+    "caption": "FIGURE 2-15 — Graded dose–response: potency vs efficacy"
+  },
+  {
+    "file": "data_2/11-fig-2-16.png",
+    "was": "data_2/17.png",
+    "caption": "FIGURE 2-16 — Quantal dose–effect plots"
+  }
+]

@@ -1,0 +1,1605 @@
+{
+  "id": "ch6",
+  "course": "Katzung Pharmacology",
+  "chapter": 6,
+  "title": "Introduction to Autonomic Pharmacology",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-core-concept",
+      "number": 1,
+      "title": "Core Concept",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Autonomic pharmacology studies drugs that affect the autonomic nervous system (ANS)."
+        },
+        {
+          "type": "group",
+          "label": "The ANS controls involuntary visceral functions such as",
+          "items": [
+            "Heart rate",
+            "Blood pressure",
+            "Digestion",
+            "Bronchial tone",
+            "Pupil size",
+            "Gland secretion",
+            "Bladder function",
+            "Sexual function"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "The ANS works mainly through chemical neurotransmission."
+        }
+      ],
+      "image": "data_6/01-fig-6-1.png",
+      "imageCaption": "FIGURE 6-1 — Autonomic and somatic motor nerves"
+    },
+    {
+      "id": "2-nervous-system-divisions",
+      "number": 2,
+      "title": "Nervous System Divisions",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Anatomic division",
+          "items": [
+            "Central nervous system (CNS): brain and spinal cord",
+            "Peripheral nervous system (PNS): neural tissue outside CNS"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Functional division",
+          "items": [
+            "Autonomic nervous system (ANS):",
+            "Mostly involuntary",
+            "Controls visceral organs (heart, smooth muscle, glands)",
+            "Somatic nervous system:",
+            "Mostly voluntary",
+            "Controls skeletal muscle"
+          ]
+        }
+      ],
+      "image": "data_6/01-fig-6-1.png",
+      "imageCaption": "FIGURE 6-1 — CNS, PNS & autonomic divisions"
+    },
+    {
+      "id": "3-major-divisions-of-the-ans",
+      "number": 3,
+      "title": "Major Divisions of the ANS",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "The ANS has two major anatomic divisions",
+          "items": [
+            "Thoracolumbar outflow",
+            "Preganglionic fibers arise from thoracic and lumbar spinal cord",
+            "Associated with “fight or flight”"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "B. Parasympathetic nervous system",
+          "items": [
+            "Cranial outflow, traditionally craniosacral",
+            "Preganglionic fibers arise from brainstem cranial nerves",
+            "Associated with “rest and digest”"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Exam convention",
+          "items": [
+            "Most pharmacology teaching still treats parasympathetic outflow as craniosacral.",
+            "Some developmental literature reclassifies sacral autonomic outflow, but that is not the standard exam framing."
+          ]
+        }
+      ],
+      "image": "data_6/01-fig-6-1.png",
+      "imageCaption": "FIGURE 6-1 — Organization of the autonomic nervous system"
+    },
+    {
+      "id": "4-basic-autonomic-pathway",
+      "number": 4,
+      "title": "Basic Autonomic Pathway",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "1. Preganglionic neuron"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Cell body in CNS",
+            "Axon exits CNS",
+            "Synapses in autonomic ganglion"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "2. Postganglionic neuron"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Cell body in peripheral ganglion",
+            "Axon goes to effector organ"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Exception",
+          "items": [
+            "Adrenal medulla acts like a modified sympathetic ganglion."
+          ]
+        }
+      ],
+      "image": "data_6/01-fig-6-1.png",
+      "imageCaption": "FIGURE 6-1 — Preganglionic & postganglionic pathways"
+    },
+    {
+      "id": "5-sympathetic-anatomy",
+      "number": 5,
+      "title": "Sympathetic Anatomy",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Sympathetic preganglionic fibers",
+          "items": [
+            "Usually short",
+            "Synapse in paravertebral or prevertebral ganglia"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Sympathetic postganglionic fibers",
+          "items": [
+            "Usually long",
+            "Innervate target organs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Adrenal medulla",
+          "items": [
+            "Receives sympathetic preganglionic fibers",
+            "Releases epinephrine and norepinephrine into blood"
+          ]
+        }
+      ],
+      "image": "data_6/01-fig-6-1.png",
+      "imageCaption": "FIGURE 6-1 — Sympathetic motor pathways and adrenal medulla"
+    },
+    {
+      "id": "6-parasympathetic-anatomy",
+      "number": 6,
+      "title": "Parasympathetic Anatomy",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Parasympathetic preganglionic fibers",
+          "items": [
+            "Usually long",
+            "Travel through cranial nerves III, VII, IX, and X"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Parasympathetic ganglia",
+          "items": [
+            "Often located near or inside target organs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Parasympathetic postganglionic fibers",
+          "items": [
+            "Usually short"
+          ]
+        }
+      ],
+      "image": "data_6/01-fig-6-1.png",
+      "imageCaption": "FIGURE 6-1 — Parasympathetic motor pathway comparison"
+    },
+    {
+      "id": "7-enteric-nervous-system",
+      "number": 7,
+      "title": "Enteric Nervous System",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The enteric nervous system (ENS) is a large network of neurons in the GI tract."
+        },
+        {
+          "type": "group",
+          "label": "Main plexuses",
+          "items": [
+            "Myenteric plexus / Auerbach plexus",
+            "Submucosal plexus / Meissner plexus"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Functions",
+          "items": [
+            "Controls GI motility",
+            "Controls GI secretion",
+            "Coordinates peristalsis",
+            "Communicates with sympathetic and parasympathetic systems"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important",
+          "items": [
+            "ENS can function semi-autonomously.",
+            "It receives modulatory input from the ANS."
+          ]
+        }
+      ],
+      "image": "data_6/03-fig-6-2.png",
+      "imageCaption": "FIGURE 6-2 — Enteric nervous system circuitry"
+    },
+    {
+      "id": "8-neurotransmitters-in-the-ans",
+      "number": 8,
+      "title": "Neurotransmitters in the ANS",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Main autonomic neurotransmitters",
+          "items": [
+            "Acetylcholine",
+            "Norepinephrine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Other transmitters/cotransmitters",
+          "items": [
+            "Dopamine",
+            "ATP",
+            "Nitric oxide",
+            "Neuropeptide Y",
+            "Substance P",
+            "Vasoactive intestinal peptide",
+            "Calcitonin gene-related peptide",
+            "Serotonin",
+            "GABA",
+            "Enkephalins"
+          ]
+        }
+      ],
+      "image": "data_6/02-table-6-1.png",
+      "imageCaption": "TABLE 6-1 — Autonomic neurotransmitters"
+    },
+    {
+      "id": "9-cholinergic-fibers",
+      "number": 9,
+      "title": "Cholinergic Fibers",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Cholinergic fibers release acetylcholine."
+        },
+        {
+          "type": "group",
+          "label": "Cholinergic neurons include",
+          "items": [
+            "All autonomic preganglionic neurons",
+            "Most parasympathetic postganglionic neurons",
+            "Some sympathetic postganglionic neurons",
+            "Somatic motor neurons to skeletal muscle"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples of sympathetic cholinergic fibers",
+          "items": [
+            "Sweat gland innervation",
+            "Some skeletal muscle vasodilator fibers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10-adrenergic-fibers",
+      "number": 10,
+      "title": "Adrenergic Fibers",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Adrenergic fibers release norepinephrine."
+        },
+        {
+          "type": "text",
+          "content": "Most sympathetic postganglionic fibers are noradrenergic."
+        },
+        {
+          "type": "group",
+          "label": "Adrenal medulla releases",
+          "items": [
+            "Epinephrine",
+            "Norepinephrine"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11-cholinergic-transmission",
+      "number": 11,
+      "title": "Cholinergic Transmission",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Acetylcholine synthesis",
+          "items": [
+            "Choline + acetyl-CoA → acetylcholine",
+            "Enzyme: choline acetyltransferase"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Choline uptake",
+          "items": [
+            "Via sodium-dependent choline transporter",
+            "Blocked by hemicholinium"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Storage",
+          "items": [
+            "Acetylcholine stored in vesicles",
+            "Vesicular acetylcholine transporter loads ACh into vesicles",
+            "Blocked by vesamicol"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Release",
+          "items": [
+            "Action potential opens voltage-gated calcium channels",
+            "Calcium triggers vesicle fusion",
+            "ACh released into synaptic cleft"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Termination",
+          "items": [
+            "Acetylcholinesterase rapidly breaks down ACh",
+            "Products: acetate + choline"
+          ]
+        }
+      ],
+      "image": "data_6/05-fig-6-3.png",
+      "imageCaption": "FIGURE 6-3 — Cholinergic junction (ACh synthesis & release)"
+    },
+    {
+      "id": "12-botulinum-toxin",
+      "number": 12,
+      "title": "Botulinum Toxin",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Botulinum toxin blocks acetylcholine release."
+        },
+        {
+          "type": "group",
+          "label": "Mechanism",
+          "items": [
+            "Cleaves SNARE fusion proteins",
+            "Prevents vesicle fusion with nerve terminal membrane",
+            "Blocks exocytotic ACh release"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical effect",
+          "items": [
+            "Muscle paralysis or relaxation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Uses",
+          "items": [
+            "Blepharospasm",
+            "Dystonia",
+            "Spasticity",
+            "Cosmetic reduction of wrinkles",
+            "Hyperhidrosis",
+            "Some migraine protocols"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Duration",
+          "items": [
+            "Often about 3 months after one treatment, with variation by indication and dose"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Case relevance",
+          "items": [
+            "Botulinum toxin improved vision by relaxing orbicularis oculi muscle and preventing involuntary eyelid closure."
+          ]
+        }
+      ],
+      "image": "data_6/05-fig-6-3.png",
+      "imageCaption": "FIGURE 6-3 — Botulinum toxin blocks ACh release at nerve terminal"
+    },
+    {
+      "id": "13-tetanus-toxin",
+      "number": 13,
+      "title": "Tetanus Toxin",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Tetanus toxin also cleaves fusion proteins."
+        },
+        {
+          "type": "group",
+          "label": "Major site",
+          "items": [
+            "Inhibitory neurons in spinal cord"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Blocks inhibitory transmitter release",
+            "Causes muscle spasm rather than paralysis"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14-adrenergic-transmission",
+      "number": 14,
+      "title": "Adrenergic Transmission",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Catecholamine synthesis pathway",
+          "items": [
+            "Tyrosine → DOPA",
+            "DOPA → dopamine",
+            "Dopamine → norepinephrine",
+            "Norepinephrine → epinephrine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Key enzymes",
+          "items": [
+            "Tyrosine hydroxylase",
+            "DOPA decarboxylase",
+            "Dopamine beta-hydroxylase",
+            "Phenylethanolamine-N-methyltransferase"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Rate-limiting step",
+          "items": [
+            "Tyrosine → DOPA",
+            "Enzyme: tyrosine hydroxylase"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Inhibitor",
+          "items": [
+            "Metyrosine"
+          ]
+        }
+      ],
+      "image": "data_6/07-fig-6-4.png",
+      "imageCaption": "FIGURE 6-4 — Noradrenergic junction (NE synthesis & storage)",
+      "imageSupplement": "data_6/09-fig-6-5.png",
+      "imageSupplementCaption": "FIGURE 6-5 — Catecholamine biosynthesis"
+    },
+    {
+      "id": "15-adrenergic-storage",
+      "number": 15,
+      "title": "Adrenergic Storage",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Norepinephrine is stored in vesicles."
+        },
+        {
+          "type": "group",
+          "label": "Transporter",
+          "items": [
+            "Vesicular monoamine transporter (VMAT)"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "VMAT inhibitors",
+          "items": [
+            "Reserpine",
+            "Tetrabenazine",
+            "Deutetrabenazine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Deplete catecholamine stores"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16-adrenergic-release",
+      "number": 16,
+      "title": "Adrenergic Release",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Physiologic release",
+          "items": [
+            "Action potential opens calcium channels",
+            "Calcium triggers vesicle fusion",
+            "Norepinephrine released"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Release inhibitors",
+          "items": [
+            "Guanethidine",
+            "Bretylium"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Indirect sympathomimetics",
+          "items": [
+            "Tyramine",
+            "Amphetamine",
+            "Ephedrine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Mechanism",
+          "items": [
+            "Enter nerve terminal via norepinephrine transporter",
+            "Displace norepinephrine from vesicles",
+            "Promote norepinephrine release by reverse transport"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "17-termination-of-adrenergic-action",
+      "number": 17,
+      "title": "Termination of Adrenergic Action",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Main mechanisms",
+          "items": [
+            "Reuptake into nerve terminal by NET",
+            "Diffusion away from receptor site",
+            "Metabolism by MAO and COMT"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "NET inhibitors",
+          "items": [
+            "Cocaine",
+            "Tricyclic antidepressants",
+            "SNRIs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect of NET inhibition",
+          "items": [
+            "Increased norepinephrine in synaptic cleft",
+            "Increased adrenergic effect"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "18-catecholamine-metabolism",
+      "number": 18,
+      "title": "Catecholamine Metabolism",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Important enzymes",
+          "items": [
+            "MAO = monoamine oxidase",
+            "COMT = catechol-O-methyltransferase"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Major metabolite",
+          "items": [
+            "VMA = vanillylmandelic acid"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical relevance",
+          "items": [
+            "Urinary catecholamine metabolites can help assess catecholamine turnover."
+          ]
+        }
+      ],
+      "image": "data_6/11-fig-6-6.png",
+      "imageCaption": "FIGURE 6-6 — Catecholamine metabolism (COMT & MAO)"
+    },
+    {
+      "id": "19-autonomic-receptors",
+      "number": 19,
+      "title": "Autonomic Receptors",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Major receptor families",
+          "items": [
+            "Cholinoceptors",
+            "Adrenoceptors",
+            "Dopamine receptors"
+          ]
+        }
+      ],
+      "image": "data_6/04-table-6-2.png",
+      "imageCaption": "TABLE 6-2 — Autonomic receptor types",
+      "imageSupplement": "data_6/08-table-6-4.png",
+      "imageSupplementCaption": "TABLE 6-4 — Autoreceptor & heteroreceptor effects"
+    },
+    {
+      "id": "20-cholinoceptors",
+      "number": 20,
+      "title": "Cholinoceptors",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Two main types",
+          "items": [
+            "Muscarinic receptors",
+            "Nicotinic receptors"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "21-muscarinic-receptors",
+      "number": 21,
+      "title": "Muscarinic Receptors",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Muscarinic receptors respond to acetylcholine and muscarine."
+        },
+        {
+          "type": "group",
+          "label": "Subtypes",
+          "items": [
+            "M1",
+            "M2",
+            "M3",
+            "M4",
+            "M5"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M1",
+          "items": [
+            "CNS neurons",
+            "Sympathetic ganglia",
+            "Increases IP3/DAG and intracellular calcium"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M2",
+          "items": [
+            "Heart",
+            "Some smooth muscle",
+            "Opens potassium channels",
+            "Inhibits adenylyl cyclase",
+            "Slows heart rate"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M3",
+          "items": [
+            "Exocrine glands",
+            "Smooth muscle",
+            "Vascular endothelium",
+            "Increases IP3/DAG and intracellular calcium"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M4",
+          "items": [
+            "CNS",
+            "Similar to M2"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M5",
+          "items": [
+            "CNS",
+            "Cerebral vascular endothelium",
+            "Similar to M1"
+          ]
+        }
+      ],
+      "image": "data_6/04-table-6-2.png",
+      "imageCaption": "TABLE 6-2 — Muscarinic receptor signaling"
+    },
+    {
+      "id": "22-nicotinic-receptors",
+      "number": 22,
+      "title": "Nicotinic Receptors",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Nicotinic receptors are ligand-gated ion channels."
+        },
+        {
+          "type": "group",
+          "label": "Types",
+          "items": [
+            "NN",
+            "NM"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "NN receptors",
+          "items": [
+            "Autonomic ganglia",
+            "Adrenal medulla"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "NM receptors",
+          "items": [
+            "Skeletal muscle neuromuscular junction"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Activation",
+          "items": [
+            "Opens Na+ and K+ channels",
+            "Causes depolarization"
+          ]
+        }
+      ],
+      "image": "data_6/04-table-6-2.png",
+      "imageCaption": "TABLE 6-2 — Nicotinic receptor effects"
+    },
+    {
+      "id": "23-adrenoceptors",
+      "number": 23,
+      "title": "Adrenoceptors",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Adrenoceptors respond to norepinephrine and epinephrine."
+        },
+        {
+          "type": "group",
+          "label": "Major types",
+          "items": [
+            "Alpha receptors",
+            "Beta receptors"
+          ]
+        }
+      ],
+      "image": "data_6/04-table-6-2.png",
+      "imageCaption": "TABLE 6-2 — Adrenoceptor subtypes"
+    },
+    {
+      "id": "24-alpha-receptors",
+      "number": 24,
+      "title": "Alpha Receptors",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Alpha1",
+          "items": [
+            "Mostly postsynaptic",
+            "Smooth muscle contraction",
+            "Uses IP3/DAG pathway"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Common effects",
+          "items": [
+            "Vasoconstriction",
+            "Pupillary dilation",
+            "Sphincter contraction"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Alpha2",
+          "items": [
+            "Often presynaptic",
+            "Inhibits norepinephrine release",
+            "Inhibits adenylyl cyclase",
+            "Decreases cAMP"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Common effects",
+          "items": [
+            "Negative feedback on sympathetic nerve terminal",
+            "Platelet aggregation",
+            "Some vascular smooth muscle contraction"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "25-beta-receptors",
+      "number": 25,
+      "title": "Beta Receptors",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Beta1",
+          "items": [
+            "Heart",
+            "Kidney juxtaglomerular cells"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effects",
+          "items": [
+            "Increased heart rate",
+            "Increased contractility",
+            "Increased conduction",
+            "Increased renin release"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Beta2",
+          "items": [
+            "Bronchial smooth muscle",
+            "Vascular smooth muscle in skeletal muscle",
+            "Uterine smooth muscle",
+            "Liver"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effects",
+          "items": [
+            "Bronchodilation",
+            "Vasodilation",
+            "Uterine relaxation",
+            "Glycogenolysis",
+            "Gluconeogenesis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Beta3",
+          "items": [
+            "Adipose tissue",
+            "Bladder detrusor muscle"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effects",
+          "items": [
+            "Lipolysis",
+            "Bladder relaxation"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "26-dopamine-receptors",
+      "number": 26,
+      "title": "Dopamine Receptors",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "D1",
+          "items": [
+            "Renal vascular smooth muscle",
+            "Causes vasodilation",
+            "Increases cAMP"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "D2",
+          "items": [
+            "Brain",
+            "Presynaptic nerve terminals",
+            "Inhibits adenylyl cyclase",
+            "Reduces transmitter release"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "D3, D4, D5",
+          "items": [
+            "Mostly CNS roles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "27-nonadrenergic-noncholinergic-neurons",
+      "number": 27,
+      "title": "Nonadrenergic, Noncholinergic Neurons",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "NANC neurons do not use norepinephrine or acetylcholine as their main transmitter."
+        },
+        {
+          "type": "group",
+          "label": "Transmitters include",
+          "items": [
+            "Nitric oxide",
+            "ATP",
+            "VIP",
+            "Substance P",
+            "CGRP",
+            "Neuropeptide Y",
+            "Serotonin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important locations",
+          "items": [
+            "GI tract",
+            "Airways",
+            "Bladder",
+            "Blood vessels"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "28-nitric-oxide",
+      "number": 28,
+      "title": "Nitric Oxide",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Nitric oxide is a major NANC transmitter."
+        },
+        {
+          "type": "group",
+          "label": "Features",
+          "items": [
+            "Not stored in vesicles",
+            "Synthesized on demand by nitric oxide synthase",
+            "Diffuses locally",
+            "Causes smooth muscle relaxation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important role",
+          "items": [
+            "Vascular relaxation",
+            "GI sphincter relaxation",
+            "Penile erection"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "29-autonomic-reflexes",
+      "number": 29,
+      "title": "Autonomic Reflexes",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The ANS uses reflexes to maintain homeostasis."
+        },
+        {
+          "type": "group",
+          "label": "Important cardiovascular reflex",
+          "items": [
+            "Baroreceptor reflex"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Sensors",
+          "items": [
+            "Carotid sinus",
+            "Aortic arch"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Controlled variable",
+          "items": [
+            "Mean arterial pressure"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "If blood pressure rises",
+          "items": [
+            "Baroreceptor firing increases",
+            "Sympathetic outflow decreases",
+            "Parasympathetic outflow increases",
+            "Heart rate decreases",
+            "Vascular tone decreases"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "If blood pressure falls",
+          "items": [
+            "Baroreceptor firing decreases",
+            "Sympathetic outflow increases",
+            "Parasympathetic outflow decreases",
+            "Heart rate increases",
+            "Contractility increases",
+            "Vasoconstriction occurs",
+            "Renin release increases"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "30-example-norepinephrine-infusion",
+      "number": 30,
+      "title": "Example: Norepinephrine Infusion",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Direct effects",
+          "items": [
+            "Vasoconstriction",
+            "Increased blood pressure",
+            "Direct cardiac stimulation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Reflex effect",
+          "items": [
+            "Increased blood pressure activates baroreceptors",
+            "Increased vagal output slows heart rate"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Net effect",
+          "items": [
+            "Increased blood pressure",
+            "Often reflex bradycardia"
+          ]
+        }
+      ],
+      "image": "data_6/12-fig-6-7.png",
+      "imageCaption": "FIGURE 6-7 — Autonomic control of cardiovascular function"
+    },
+    {
+      "id": "31-presynaptic-regulation",
+      "number": 31,
+      "title": "Presynaptic Regulation",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Presynaptic receptors modulate transmitter release."
+        },
+        {
+          "type": "group",
+          "label": "Autoreceptors",
+          "items": [
+            "Respond to the same transmitter released by the neuron"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Heteroreceptors",
+          "items": [
+            "Respond to transmitters released by nearby neurons or tissues"
+          ]
+        },
+        {
+          "type": "example",
+          "content": "Alpha2 autoreceptors on adrenergic terminals inhibit norepinephrine release."
+        },
+        {
+          "type": "group",
+          "label": "Other presynaptic modulators",
+          "items": [
+            "Acetylcholine",
+            "Dopamine",
+            "Serotonin",
+            "ATP",
+            "Adenosine",
+            "Histamine",
+            "Enkephalins",
+            "Neuropeptide Y",
+            "Prostaglandins"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "32-postsynaptic-regulation",
+      "number": 32,
+      "title": "Postsynaptic Regulation",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Postsynaptic responses can be modified by",
+          "items": [
+            "Receptor upregulation",
+            "Receptor downregulation",
+            "Desensitization",
+            "Interactions with other receptors"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Denervation supersensitivity",
+          "items": [
+            "Loss of nerve input causes increased receptor sensitivity.",
+            "Example: increased nicotinic receptors after skeletal muscle denervation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "33-ganglionic-transmission",
+      "number": 33,
+      "title": "Ganglionic Transmission",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Autonomic ganglia use nicotinic receptors for fast transmission."
+        },
+        {
+          "type": "group",
+          "label": "Main event",
+          "items": [
+            "ACh activates NN receptors",
+            "Fast excitatory postsynaptic potential occurs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Additional slower effects",
+          "items": [
+            "Muscarinic receptors can modify ganglionic excitability",
+            "Peptides can cause slow postsynaptic potentials"
+          ]
+        }
+      ],
+      "image": "data_6/13-fig-6-8.png",
+      "imageCaption": "FIGURE 6-8 — EPSP & IPSP at autonomic synapses"
+    },
+    {
+      "id": "34-eye-pharmacology",
+      "number": 34,
+      "title": "Eye Pharmacology",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Important autonomic tissues in the eye",
+          "items": [
+            "Iris radial muscle",
+            "Iris circular muscle",
+            "Ciliary muscle",
+            "Ciliary epithelium"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Iris radial muscle",
+          "items": [
+            "Receptor: alpha1",
+            "Effect: contraction",
+            "Result: mydriasis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Iris circular muscle",
+          "items": [
+            "Receptor: M3",
+            "Effect: contraction",
+            "Result: miosis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Ciliary muscle",
+          "items": [
+            "Receptor: M3",
+            "Effect: contraction",
+            "Result: accommodation for near vision",
+            "Also opens trabecular meshwork and increases aqueous outflow"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Ciliary epithelium",
+          "items": [
+            "Receptor: beta",
+            "Effect: aqueous humor secretion"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "35-glaucoma-pharmacology-concept",
+      "number": 35,
+      "title": "Glaucoma Pharmacology Concept",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Increased aqueous humor outflow",
+          "items": [
+            "Muscarinic agonists contract ciliary muscle",
+            "Opens trabecular meshwork",
+            "Reduces intraocular pressure"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Decreased aqueous humor production",
+          "items": [
+            "Beta blockers reduce secretion by ciliary epithelium",
+            "Reduces intraocular pressure"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "36-major-direct-effects-of-sympathetic-activity",
+      "number": 36,
+      "title": "Major Direct Effects of Sympathetic Activity",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Eye",
+          "items": [
+            "Iris radial muscle contracts → mydriasis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Heart",
+          "items": [
+            "Increased heart rate",
+            "Increased contractility",
+            "Increased conduction"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Blood vessels",
+          "items": [
+            "Alpha1 vasoconstriction in skin and splanchnic vessels",
+            "Beta2 vasodilation in skeletal muscle vessels"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Bronchi",
+          "items": [
+            "Beta2 bronchodilation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "GI tract",
+          "items": [
+            "Reduced motility",
+            "Sphincter contraction"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Bladder",
+          "items": [
+            "alpha1 → trigone and internal sphincter contraction (promotes urine retention)",
+            "beta3 → detrusor relaxation (promotes urine storage)",
+            "Net effect: urine storage / retention during sympathetic activation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Metabolic",
+          "items": [
+            "Glycogenolysis",
+            "Gluconeogenesis",
+            "Lipolysis",
+            "Renin release"
+          ]
+        }
+      ],
+      "image": "data_6/06-table-6-3.png",
+      "imageCaption": "TABLE 6-3 — Direct sympathetic effects on organ systems"
+    },
+    {
+      "id": "37-major-direct-effects-of-parasympathetic-activ",
+      "number": 37,
+      "title": "Major Direct Effects of Parasympathetic Activity",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Eye",
+          "items": [
+            "Miosis",
+            "Accommodation for near vision"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Heart",
+          "items": [
+            "Decreased heart rate",
+            "Decreased atrial contractility"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Bronchi",
+          "items": [
+            "Bronchoconstriction",
+            "Increased secretion"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "GI tract",
+          "items": [
+            "Increased motility",
+            "Increased secretion",
+            "Sphincter relaxation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Bladder",
+          "items": [
+            "Detrusor contraction",
+            "Sphincter relaxation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Sexual function",
+          "items": [
+            "Erection"
+          ]
+        }
+      ],
+      "image": "data_6/06-table-6-3.png",
+      "imageCaption": "TABLE 6-3 — Direct parasympathetic effects on organ systems"
+    },
+    {
+      "id": "38-pharmacologic-targets-in-autonomic-transmissi",
+      "number": 38,
+      "title": "Pharmacologic Targets in Autonomic Transmission",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Possible drug targets",
+          "items": [
+            "Action potential propagation",
+            "Transmitter synthesis",
+            "Transmitter storage",
+            "Transmitter release",
+            "Transmitter reuptake",
+            "Receptor activation",
+            "Receptor blockade",
+            "Transmitter degradation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Local anesthetics block sodium channels.",
+            "Hemicholinium blocks choline uptake.",
+            "Vesamicol blocks ACh vesicular storage.",
+            "Botulinum toxin blocks ACh release.",
+            "Metyrosine blocks catecholamine synthesis.",
+            "Reserpine blocks catecholamine storage.",
+            "Cocaine blocks norepinephrine reuptake.",
+            "Neostigmine inhibits acetylcholinesterase.",
+            "Atropine blocks muscarinic receptors.",
+            "Propranolol blocks beta receptors.",
+            "Phentolamine blocks alpha receptors."
+          ]
+        }
+      ],
+      "image": "data_6/10-table-6-5.png",
+      "imageCaption": "TABLE 6-5 — Steps in autonomic transmission & drug effects"
+    },
+    {
+      "id": "39-case-study-summary",
+      "number": 39,
+      "title": "Case Study Summary",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Patient",
+          "items": [
+            "56-year-old woman",
+            "Involuntary eyelid closure",
+            "Diagnosed with blepharospasm",
+            "Treated with botulinum toxin type A injections into orbicularis oculi"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Mechanism",
+          "items": [
+            "Botulinum toxin blocks acetylcholine release at neuromuscular junction.",
+            "Prevents skeletal muscle contraction.",
+            "Relaxes orbicularis oculi muscle.",
+            "Eyelids no longer close involuntarily."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Expected duration",
+          "items": [
+            "Often about 3 months after a single treatment, with variation by indication and dose."
+          ]
+        }
+      ],
+      "image": "data_6/14-fig-6-9.png",
+      "imageCaption": "FIGURE 6-9 — Botulinum toxin & autonomic targets"
+    },
+    {
+      "id": "40-must-know-exam-pearls",
+      "number": 40,
+      "title": "Must-Know Exam Pearls",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "All autonomic preganglionic neurons release acetylcholine.",
+            "Most parasympathetic postganglionic neurons release acetylcholine.",
+            "Most sympathetic postganglionic neurons release norepinephrine.",
+            "Sweat glands receive sympathetic cholinergic innervation.",
+            "Adrenal medulla releases epinephrine and norepinephrine into blood.",
+            "Nicotinic NN receptors are in autonomic ganglia.",
+            "Nicotinic NM receptors are at skeletal neuromuscular junction.",
+            "M2 receptors slow the heart.",
+            "M3 receptors contract smooth muscle and stimulate glands.",
+            "Alpha1 causes vasoconstriction and mydriasis.",
+            "Alpha2 inhibits norepinephrine release.",
+            "Beta1 increases heart rate, contractility, and renin release.",
+            "Beta2 causes bronchodilation and vasodilation.",
+            "Beta3 causes lipolysis and bladder relaxation.",
+            "Botulinum toxin blocks ACh release by cleaving SNARE proteins.",
+            "Acetylcholinesterase terminates ACh action.",
+            "NET reuptake terminates much norepinephrine action.",
+            "MAO and COMT metabolize catecholamines.",
+            "Baroreceptor reflex can reverse direct cardiac effects of adrenergic drugs.",
+            "Norepinephrine can cause reflex bradycardia despite direct beta1 stimulation."
+          ]
+        }
+      ],
+      "image": "data_6/04-table-6-2.png",
+      "imageCaption": "TABLE 6-2 — Autonomic receptors high-yield"
+    }
+  ],
+  "introImage": "data_6/01-fig-6-1.png",
+  "introImageCaption": "FIGURE 6-1 — Autonomic pharmacology overview"
+}

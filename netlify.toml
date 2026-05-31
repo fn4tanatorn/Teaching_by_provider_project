@@ -1,0 +1,18 @@
+# Combined web deploy
+[build]
+  publish = "Web"
+
+[[redirects]]
+  from = "/medquiz/quiz"
+  to = "/medquiz/quiz.html"
+  status = 200
+
+[[redirects]]
+  from = "/medquiz/quota"
+  to = "/medquiz/quota.html"
+  status = 200
+
+[[redirects]]
+  from = "/medquiz/complete"
+  to = "/medquiz/complete.html"
+  status = 200

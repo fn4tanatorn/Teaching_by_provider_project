@@ -1,0 +1,383 @@
+Adrenoceptor Agonists & Sympathomimetic Drugs
+Chapter 9 High-Yield Output
+
+1. High-Yield Summary
+- Sympathomimetic drugs mimic sympathetic nervous system activity.
+- They act by:
+  - Direct receptor activation: epinephrine, norepinephrine, phenylephrine, dobutamine.
+  - Indirect catecholamine enhancement: amphetamine, tyramine, cocaine.
+  - Mixed action: ephedrine.
+- Main receptors: alpha1, alpha2, beta1, beta2, beta3, D1, D2.
+- Clinical themes:
+  - alpha1 = vasoconstriction.
+  - alpha2 = decreased sympathetic outflow.
+  - beta1 = cardiac stimulation.
+  - beta2 = bronchodilation and smooth muscle relaxation.
+  - beta3 = bladder relaxation.
+  - D1 = renal/splanchnic vasodilation.
+
+2. Core Concepts
+
+Adrenergic Receptors
+Receptor | G protein | Main signaling | Key effects
+alpha1 | Gq | ↑ IP3/DAG, ↑ Ca2+ | Vasoconstriction, mydriasis, urinary retention
+alpha2 | Gi | ↓ cAMP | ↓ NE release, ↓ sympathetic outflow
+beta1 | Gs | ↑ cAMP | ↑ HR, ↑ contractility, ↑ renin
+beta2 | Gs | ↑ cAMP | Bronchodilation, vasodilation, uterine relaxation, ↑ K+ uptake
+beta3 | Gs | ↑ cAMP | Bladder detrusor relaxation, lipolysis
+D1 | Gs | ↑ cAMP | Renal/splanchnic vasodilation
+D2 | Gi | ↓ cAMP | ↓ transmitter release
+
+3. Key Mechanisms / Pathways
+
+alpha1 pathway
+- alpha1 → Gq → phospholipase C → IP3/DAG → ↑ intracellular Ca2+
+- Result: smooth muscle contraction.
+- Important sites: vascular smooth muscle, pupil dilator, bladder sphincter/prostate.
+
+alpha2 pathway
+- alpha2 → Gi → ↓ adenylyl cyclase → ↓ cAMP.
+- Presynaptic alpha2 decreases norepinephrine release.
+- CNS alpha2 agonists decrease sympathetic outflow.
+
+beta pathway
+- beta1/beta2/beta3 → Gs → ↑ adenylyl cyclase → ↑ cAMP.
+- beta1 in heart: ↑ Ca2+ influx → ↑ heart rate and contractility.
+- beta2 in smooth muscle: relaxation.
+- beta3 in bladder: detrusor relaxation.
+
+Dopamine pathway
+- D1 → Gs → vasodilation, especially renal/splanchnic vessels.
+- D2 → Gi → decreased neurotransmitter release.
+
+4. Important Drugs / Molecules / Systems
+
+Epinephrine
+- Receptors: alpha1, alpha2, beta1, beta2.
+- Effects:
+  - ↑ systolic BP from beta1 cardiac stimulation.
+  - ↓ diastolic BP at low doses due to beta2 vasodilation.
+  - Bronchodilation via beta2.
+  - Vasoconstriction via alpha1.
+- Uses:
+  - Anaphylaxis.
+  - Cardiac arrest.
+  - Added to local anesthetics to prolong action.
+- Exam pearl: best drug for anaphylaxis because it treats airway, vascular collapse, and bronchospasm.
+
+Norepinephrine
+- Receptors: alpha1, alpha2, beta1.
+- Minimal beta2 activity.
+- Effects:
+  - Strong vasoconstriction.
+  - ↑ systolic and diastolic BP.
+  - Reflex bradycardia may occur.
+- Use: septic shock / severe hypotension.
+- Exam pearl: strong pressor with reflex bradycardia.
+
+Dopamine
+- Dose-dependent effects:
+  - Low dose: D1 → renal/splanchnic vasodilation.
+  - Moderate dose: beta1 → ↑ contractility.
+  - High dose: alpha1 → vasoconstriction.
+- Use: shock historically; less favored than norepinephrine due to arrhythmia risk.
+
+Phenylephrine
+- Selective alpha1 agonist.
+- Effects:
+  - Vasoconstriction.
+  - ↑ BP.
+  - Reflex bradycardia.
+  - Mydriasis without cycloplegia.
+- Uses:
+  - Nasal decongestant.
+  - Mydriatic.
+  - Hypotension.
+- Toxicity: hypertension, reflex bradycardia.
+
+Midodrine
+- Oral prodrug → desglymidodrine.
+- Selective alpha1 agonist.
+- Use: orthostatic hypotension.
+- Toxicity:
+  - Supine hypertension.
+  - Piloerection.
+  - Urinary retention.
+- Exam pearl: used in autonomic failure but can worsen urinary retention.
+
+Clonidine
+- alpha2 agonist.
+- Mechanism: decreases CNS sympathetic outflow.
+- Uses:
+  - Hypertension.
+  - ADHD.
+  - Withdrawal syndromes.
+- Toxicity:
+  - Sedation.
+  - Dry mouth.
+  - Bradycardia.
+  - Rebound hypertension if stopped suddenly.
+
+Methyldopa
+- alpha2 agonist.
+- Use: hypertension in pregnancy.
+- Toxicity: sedation, hemolytic anemia, hyperprolactinemia.
+
+Dexmedetomidine
+- alpha2 agonist.
+- Use: ICU/procedural sedation.
+- Benefit: sedation with less respiratory depression.
+
+Tizanidine
+- alpha2 agonist.
+- Use: muscle spasticity.
+- Pitfall: can cause hypotension and rebound hypertension.
+
+Dobutamine
+- Predominantly beta1 agonist.
+- Effects:
+  - ↑ contractility more than ↑ HR.
+  - Increases cardiac output.
+- Uses:
+  - Acute heart failure.
+  - Cardiogenic shock.
+  - Pharmacologic cardiac stress testing.
+- Toxicity: tachyarrhythmias, increased myocardial oxygen demand.
+
+Isoproterenol
+- Nonselective beta1 + beta2 agonist.
+- Effects:
+  - Marked tachycardia.
+  - ↓ diastolic BP from beta2 vasodilation.
+- Rarely used clinically.
+
+Albuterol / Terbutaline
+- beta2 agonists.
+- Effects:
+  - Bronchodilation.
+  - Uterine relaxation.
+  - Drives K+ into cells.
+- Uses:
+  - Asthma/COPD.
+  - Hyperkalemia adjunct.
+- Toxicity:
+  - Tremor.
+  - Tachycardia.
+  - Hypokalemia.
+
+Mirabegron
+- beta3 agonist.
+- Effect: relaxes detrusor muscle.
+- Use: overactive bladder.
+- Toxicity: hypertension.
+
+Fenoldopam
+- D1 agonist.
+- Effect: renal and systemic vasodilation.
+- Use: hypertensive emergency.
+- Toxicity: hypotension, tachycardia, headache.
+
+Amphetamine
+- Indirect sympathomimetic.
+- Mechanism: releases norepinephrine and dopamine.
+- Uses:
+  - ADHD.
+  - Narcolepsy.
+- Toxicity:
+  - Insomnia.
+  - Appetite suppression.
+  - Hypertension.
+  - Dependence/abuse.
+
+Tyramine
+- Indirect sympathomimetic found in aged cheese, cured meats, fermented foods.
+- Normally metabolized by MAO.
+- With MAO inhibitors → hypertensive crisis.
+- Exam pearl: MAOI + tyramine = severe hypertension.
+
+Cocaine
+- Blocks reuptake of norepinephrine, dopamine, serotonin.
+- Effects:
+  - Sympathetic stimulation.
+  - Vasoconstriction.
+  - CNS stimulation.
+- Toxicity:
+  - Hypertension.
+  - Coronary vasospasm.
+  - MI.
+  - Arrhythmias.
+  - Seizures.
+
+5. Clinical Correlations
+
+Orthostatic hypotension in autonomic failure
+- Failure of sympathetic compensation when standing.
+- Findings:
+  - Large BP drop on standing.
+  - Inadequate HR increase.
+  - Low plasma norepinephrine.
+- Treatment:
+  - Midodrine.
+  - Droxidopa.
+- Avoid:
+  - alpha blockers such as tamsulosin.
+  - unnecessary vasodilators.
+- Important: patients are hypersensitive to pressor drugs.
+
+Anaphylaxis
+- Drug of choice: intramuscular epinephrine.
+- Mechanisms:
+  - alpha1: vasoconstriction, reduces edema, increases BP.
+  - beta1: increases cardiac output.
+  - beta2: bronchodilation, reduces mediator release.
+
+Shock
+- Preferred vasopressor in septic shock: norepinephrine.
+- Dobutamine may be added when low cardiac output is present.
+
+Nasal congestion
+- alpha1 agonists constrict nasal mucosal vessels.
+- Drugs: phenylephrine, oxymetazoline, pseudoephedrine.
+- Pitfall: topical overuse → rebound congestion / rhinitis medicamentosa.
+
+Asthma/COPD
+- beta2 agonists cause bronchodilation.
+- Short acting: albuterol.
+- Long acting: salmeterol, formoterol.
+- Ultra-long acting in COPD: indacaterol, olodaterol, vilanterol.
+
+Horner syndrome pharmacology
+- Postganglionic lesion: indirect agonists fail because catecholamine stores are lost.
+- Direct agonists such as phenylephrine still dilate the pupil.
+
+6. Adverse Effects / Toxicity / Pitfalls
+
+Alpha1 agonists
+- Hypertension.
+- Reflex bradycardia.
+- Urinary retention.
+- Supine hypertension with midodrine.
+
+Alpha2 agonists
+- Sedation.
+- Dry mouth.
+- Bradycardia.
+- Rebound hypertension if abruptly stopped.
+
+Beta1 agonists
+- Tachycardia.
+- Arrhythmias.
+- Increased myocardial oxygen demand.
+
+Beta2 agonists
+- Tremor.
+- Tachycardia.
+- Hypokalemia.
+- Hyperglycemia.
+
+Indirect sympathomimetics
+- Hypertension.
+- Insomnia.
+- Anxiety.
+- Abuse potential.
+- Arrhythmias.
+
+7. Important Comparisons
+
+Epinephrine vs Norepinephrine
+Feature | Epinephrine | Norepinephrine
+Receptors | alpha1, alpha2, beta1, beta2 | alpha1, alpha2, beta1
+beta2 activity | Strong | Minimal
+Diastolic BP | May decrease at low dose | Increases
+Heart rate | Increases | Reflex bradycardia possible
+Best use | Anaphylaxis | Septic shock
+
+Phenylephrine vs Isoproterenol
+Feature | Phenylephrine | Isoproterenol
+Main receptor | alpha1 | beta1, beta2
+BP effect | ↑ BP | ↓ mean BP
+HR effect | Reflex ↓ HR | Marked ↑ HR
+Use | Decongestant, mydriasis, hypotension | Rare
+
+Dobutamine vs Dopamine
+Feature | Dobutamine | Dopamine
+Main action | beta1 inotrope | Dose-dependent D1/beta1/alpha1
+Use | Acute HF, stress test | Shock historically
+Major risk | Tachyarrhythmia | More arrhythmias
+
+Direct vs Indirect Sympathomimetics
+Direct | Indirect
+Bind receptors directly | Increase endogenous catecholamines
+Work even if NE stores depleted | Require catecholamine stores
+Examples: epinephrine, phenylephrine | Examples: amphetamine, tyramine, cocaine
+
+8. Must-Know Exam Points
+- alpha1 = vasoconstriction, mydriasis, urinary retention.
+- alpha2 = decreased sympathetic outflow.
+- beta1 = heart stimulation.
+- beta2 = bronchodilation, uterine relaxation, hypokalemia.
+- beta3 = bladder relaxation.
+- D1 = renal vasodilation.
+- Epinephrine is first-line for anaphylaxis.
+- Norepinephrine is preferred vasopressor in septic shock.
+- Phenylephrine causes reflex bradycardia.
+- Midodrine treats orthostatic hypotension but can cause supine hypertension.
+- Clonidine withdrawal causes rebound hypertension.
+- MAOI + tyramine causes hypertensive crisis.
+- Cocaine blocks catecholamine reuptake and can cause MI.
+- Dobutamine is used in cardiac stress testing and acute heart failure.
+- Albuterol toxicity includes tremor, tachycardia, and hypokalemia.
+- Mirabegron treats overactive bladder via beta3 activation.
+
+9. Case-Based Integration
+
+Diagnosis
+- Pure autonomic failure causing neurogenic orthostatic hypotension.
+
+Key clues
+- Lightheadedness on standing.
+- Worse after meals/hot environments.
+- Supine hypertension with standing hypotension.
+- Inadequate compensatory HR rise.
+- Low norepinephrine.
+- Autonomic symptoms: constipation, urinary retention, decreased sweating.
+- No diabetes, Parkinson disease, or drug cause.
+
+Mechanism
+- Loss of peripheral autonomic sympathetic fibers.
+- Inadequate norepinephrine release on standing.
+- Failure of reflex vasoconstriction.
+- Blood pools in lower body → decreased venous return → orthostatic hypotension.
+
+Why tamsulosin worsened symptoms
+- Tamsulosin blocks alpha1A receptors.
+- Reduces sympathetic vascular/urinary tract tone.
+- In autonomic failure, BP depends on limited residual sympathetic tone.
+- Blocking alpha receptors worsens orthostatic hypotension.
+
+Treatment concept
+- Use pressor agents carefully.
+- Midodrine can improve standing BP.
+- Droxidopa can increase norepinephrine availability.
+- Monitor for supine hypertension.
+- Avoid OTC sympathomimetics unless supervised.
+
+10. Rapid Review Table
+
+Drug | Receptor/Mechanism | Main Use | Key Toxicity
+Epinephrine | alpha1, alpha2, beta1, beta2 | Anaphylaxis, cardiac arrest | Tachycardia, arrhythmias
+Norepinephrine | alpha1, alpha2, beta1 | Septic shock | Ischemia, reflex bradycardia
+Dopamine | D1/beta1/alpha1 dose-dependent | Shock historically | Arrhythmias
+Phenylephrine | alpha1 | Decongestant, mydriasis, hypotension | Reflex bradycardia
+Midodrine | alpha1 | Orthostatic hypotension | Supine hypertension, urinary retention
+Clonidine | alpha2 | HTN, ADHD, withdrawal | Sedation, dry mouth, rebound HTN
+Dobutamine | beta1 | Acute HF, stress test | Tachyarrhythmias
+Albuterol | beta2 | Asthma/COPD | Tremor, hypokalemia
+Mirabegron | beta3 | Overactive bladder | Hypertension
+Fenoldopam | D1 | Hypertensive emergency | Hypotension, tachycardia
+Amphetamine | NE/DA release | ADHD, narcolepsy | Abuse, insomnia, HTN
+Tyramine | NE release | Toxic interaction | Hypertensive crisis with MAOI
+Cocaine | Blocks NE/DA/5HT reuptake | Local anesthetic/abuse | MI, arrhythmias, seizures
+
+One-line board review:
+Sympathomimetics increase sympathetic signaling: alpha1 squeezes vessels, alpha2 shuts down sympathetic outflow, beta1 boosts the heart, beta2 opens lungs, beta3 relaxes bladder, and D1 dilates renal vessels.

@@ -1,0 +1,1356 @@
+{
+  "id": "ch5",
+  "course": "Katzung Pharmacology",
+  "chapter": 5,
+  "title": "Pharmacogenomics",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-core-concept",
+      "number": 1,
+      "title": "Core Concept",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Pharmacogenomics = study of how genetic variation affects drug response."
+        },
+        {
+          "type": "group",
+          "label": "It explains variation in",
+          "items": [
+            "Drug efficacy",
+            "Drug toxicity",
+            "Drug metabolism",
+            "Drug transport",
+            "Drug dosing requirements"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Main goal",
+          "items": [
+            "Use genetic information to improve drug selection and dosing.",
+            "Reduce adverse drug reactions.",
+            "Support precision medicine."
+          ]
+        }
+      ],
+      "image": "data_5/01-fig-5-1.png",
+      "imageCaption": "FIGURE 5-1 — Growth of pharmacogenomic testing"
+    },
+    {
+      "id": "2-important-terms",
+      "number": 2,
+      "title": "Important Terms",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Allele",
+          "items": [
+            "One of several alternative forms of a gene."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "SNP",
+          "items": [
+            "Single nucleotide polymorphism.",
+            "A one-base DNA sequence change."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Coding SNP",
+          "items": [
+            "SNP in a protein-coding region."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Nonsynonymous SNP",
+          "items": [
+            "Coding SNP that changes an amino acid."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Synonymous SNP",
+          "items": [
+            "Coding SNP that does not change an amino acid."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Haplotype",
+          "items": [
+            "A group of linked alleles inherited together."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Copy number variation",
+          "items": [
+            "Variation in the number of copies of a gene segment."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Phenotype categories",
+          "items": [
+            "PM = poor metabolizer",
+            "IM = intermediate metabolizer",
+            "NM = normal metabolizer (older term: extensive metabolizer)",
+            "UM = ultrarapid metabolizer"
+          ]
+        }
+      ],
+      "image": "data_5/02-table-5-1.png",
+      "imageCaption": "TABLE 5-1 — Major alleles & population frequencies"
+    },
+    {
+      "id": "3-pharmacogenomics-and-precision-medicine",
+      "number": 3,
+      "title": "Pharmacogenomics and Precision Medicine",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Precision medicine uses patient-specific information to guide therapy."
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Avoiding codeine in CYP2D6 ultrarapid metabolizers",
+            "Avoiding clopidogrel in CYP2C19 poor metabolizers",
+            "Avoiding abacavir in HLA-B*57:01-positive patients",
+            "Adjusting warfarin dose using CYP2C9 and VKORC1"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important guideline group",
+          "items": [
+            "CPIC = Clinical Pharmacogenetics Implementation Consortium"
+          ]
+        }
+      ],
+      "image": "data_5/01-fig-5-1.png",
+      "imageCaption": "FIGURE 5-1 — Pharmacogenomics & precision medicine"
+    },
+    {
+      "id": "4-phase-i-enzyme-polymorphisms",
+      "number": 4,
+      "title": "Phase I Enzyme Polymorphisms",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Phase I enzymes often modify drugs by oxidation, reduction, or hydrolysis."
+        },
+        {
+          "type": "group",
+          "label": "Most important",
+          "items": [
+            "Cytochrome P450 enzymes"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Major pharmacogenomic CYP enzymes",
+          "items": [
+            "CYP2D6",
+            "CYP2C19",
+            "CYP2C9",
+            "CYP2B6"
+          ]
+        }
+      ],
+      "image": "data_5/02-table-5-1.png",
+      "imageCaption": "TABLE 5-1 — Phase I enzyme polymorphisms"
+    },
+    {
+      "id": "5-cyp2d6",
+      "number": 5,
+      "title": "CYP2D6",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "CYP2D6 metabolizes many clinically used drugs."
+        },
+        {
+          "type": "group",
+          "label": "Important drug classes",
+          "items": [
+            "Opioids",
+            "Beta blockers",
+            "Antidepressants",
+            "Antipsychotics"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important alleles",
+          "items": [
+            "Normal function: CYP2D6*1, *2",
+            "Reduced function: CYP2D6*10, *17, *41",
+            "No function: CYP2D6*3, *4, *5, *6",
+            "Increased function: gene duplication or multiplication"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Phenotypes",
+          "items": [
+            "PM: little or no CYP2D6 activity",
+            "IM: reduced activity",
+            "EM: normal activity",
+            "UM: increased activity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical example: Codeine activation",
+          "items": [
+            "Codeine → morphine via CYP2D6"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Poor metabolizers",
+          "items": [
+            "Little morphine formation",
+            "Poor analgesic response"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Ultrarapid metabolizers",
+          "items": [
+            "Excess morphine formation",
+            "Increased risk of sedation and respiratory depression"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Avoid codeine in PMs and UMs.",
+            "Use alternative analgesics such as morphine or nonopioid analgesics."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Other CYP2D6-related drugs",
+          "items": [
+            "Tramadol",
+            "Hydrocodone",
+            "Oxycodone",
+            "Metoprolol",
+            "Nortriptyline",
+            "Tamoxifen"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Tamoxifen",
+          "items": [
+            "Requires CYP2D6 activation to endoxifen.",
+            "CYP2D6 poor metabolizers may have reduced therapeutic effect."
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — Gene-based dosing (selected drugs)"
+    },
+    {
+      "id": "6-cyp2c19",
+      "number": 6,
+      "title": "CYP2C19",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "CYP2C19 metabolizes many clinically used drugs, including PPIs, antidepressants, antiepileptics, and clopidogrel."
+        },
+        {
+          "type": "group",
+          "label": "Important drug classes",
+          "items": [
+            "Proton pump inhibitors",
+            "Antidepressants",
+            "Antiepileptic drugs",
+            "Antiplatelet drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important alleles",
+          "items": [
+            "Normal function: CYP2C19*1",
+            "No function: CYP2C19*2, *3",
+            "Increased function: CYP2C19*17"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical example: Clopidogrel activation",
+          "items": [
+            "Requires CYP2C19 to form active thiol metabolite."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Poor or intermediate metabolizers",
+          "items": [
+            "Reduced active metabolite formation",
+            "Reduced antiplatelet effect",
+            "Increased risk of stent thrombosis after PCI"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Use alternative antiplatelet agents in PMs and IMs:",
+            "Prasugrel",
+            "Ticagrelor"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Other CYP2C19 drugs",
+          "items": [
+            "Omeprazole",
+            "Diazepam",
+            "Citalopram",
+            "Voriconazole",
+            "Mephenytoin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "CYP2C19 poor metabolizers",
+          "items": [
+            "Increased effect of omeprazole",
+            "Increased toxicity risk with some substrates",
+            "Reduced activation of clopidogrel"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "CYP2C19 ultrarapid metabolizers",
+          "items": [
+            "Increased clopidogrel active metabolite formation",
+            "Potentially increased bleeding risk",
+            "Reduced efficacy of some drugs due to rapid clearance"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — CYP2C19 & clopidogrel dosing"
+    },
+    {
+      "id": "7-cyp2b6",
+      "number": 7,
+      "title": "CYP2B6",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "CYP2B6 is highly polymorphic."
+        },
+        {
+          "type": "group",
+          "label": "Important drug",
+          "items": [
+            "Efavirenz"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important alleles",
+          "items": [
+            "Normal: CYP2B6*1",
+            "Decreased function: CYP2B6*6, *9",
+            "No function: CYP2B6*18",
+            "Increased function: CYP2B6*4"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Clinical example: Efavirenz is a nonnucleoside reverse transcriptase inhibitor used for HIV."
+        },
+        {
+          "type": "text",
+          "content": "CYP2B6 metabolizes efavirenz."
+        },
+        {
+          "type": "group",
+          "label": "Poor metabolizers",
+          "items": [
+            "Higher efavirenz levels",
+            "Increased CNS toxicity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "CNS adverse effects",
+          "items": [
+            "Sleep disturbance",
+            "Impaired concentration",
+            "Psychosis",
+            "Depression",
+            "Suicidal ideation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Consider reduced efavirenz dose in reduced-function CYP2B6 genotypes."
+          ]
+        }
+      ],
+      "image": "data_5/05-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — CYP2B6 & related dosing"
+    },
+    {
+      "id": "8-dihydropyrimidine-dehydrogenase-dpd-dpyd",
+      "number": 8,
+      "title": "Dihydropyrimidine Dehydrogenase (DPD / DPYD)",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "DPD is encoded by DPYD."
+        },
+        {
+          "type": "group",
+          "label": "Function",
+          "items": [
+            "Catabolizes pyrimidines",
+            "Major elimination pathway for fluoropyrimidines"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important drugs",
+          "items": [
+            "5-fluorouracil",
+            "Capecitabine",
+            "Tegafur"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important alleles",
+          "items": [
+            "DPYD*2A",
+            "DPYD*13 rs67376798",
+            "HapB3"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical significance",
+          "items": [
+            "Reduced DPD activity causes reduced 5-FU clearance.",
+            "Toxic metabolites accumulate."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Toxicities",
+          "items": [
+            "Myelosuppression",
+            "Mucositis",
+            "Neurotoxicity",
+            "Hand-foot syndrome",
+            "Severe diarrhea"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Reduced activity: reduce starting dose.",
+            "Complete deficiency: avoid fluoropyrimidines."
+          ]
+        }
+      ],
+      "image": "data_5/05-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — DPYD & fluoropyrimidine dosing"
+    },
+    {
+      "id": "9-phase-ii-enzyme-polymorphisms",
+      "number": 9,
+      "title": "Phase II Enzyme Polymorphisms",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Phase II enzymes conjugate drugs to enhance elimination."
+        },
+        {
+          "type": "group",
+          "label": "Important enzymes",
+          "items": [
+            "UGT1A1",
+            "TPMT"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — Phase II enzyme dosing recommendations"
+    },
+    {
+      "id": "10-ugt1a1",
+      "number": 10,
+      "title": "UGT1A1",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "UGT1A1 glucuronidates bilirubin and many drugs."
+        },
+        {
+          "type": "group",
+          "label": "Important allele",
+          "items": [
+            "UGT1A1*28"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Reduced UGT1A1 expression",
+            "Reduced bilirubin conjugation",
+            "Increased unconjugated bilirubin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical syndrome",
+          "items": [
+            "Gilbert syndrome"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical example 1: Irinotecan activation",
+          "items": [
+            "Irinotecan → SN-38"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Inactivation",
+          "items": [
+            "SN-38 is glucuronidated by UGT1A1."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "UGT1A1*28 or *6",
+          "items": [
+            "Reduced SN-38 clearance",
+            "Increased risk of neutropenia and diarrhea"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Reduce irinotecan starting dose in high-risk genotypes."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical example 2: Atazanavir effect",
+          "items": [
+            "Atazanavir inhibits UGT1A1",
+            "Increased unconjugated bilirubin",
+            "Jaundice"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Patients with UGT1A1*28/*28",
+          "items": [
+            "Higher risk of severe hyperbilirubinemia",
+            "Higher risk of discontinuing atazanavir"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Case answer",
+          "items": [
+            "Yes, UGT1A1*28 polymorphism likely contributed to atazanavir-induced jaundice."
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — UGT1A1 & irinotecan dosing"
+    },
+    {
+      "id": "11-tpmt",
+      "number": 11,
+      "title": "TPMT",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "TPMT = thiopurine S-methyltransferase."
+        },
+        {
+          "type": "group",
+          "label": "Function",
+          "items": [
+            "Inactivates thiopurine drugs."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important drugs",
+          "items": [
+            "Azathioprine",
+            "6-mercaptopurine",
+            "6-thioguanine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important alleles",
+          "items": [
+            "TPMT*2",
+            "TPMT*3A",
+            "TPMT*3B",
+            "TPMT*3C"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Low TPMT activity",
+          "items": [
+            "More active thioguanine nucleotides",
+            "Increased bone marrow toxicity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Toxicity",
+          "items": [
+            "Severe myelosuppression"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendations",
+          "items": [
+            "Normal activity: standard dose",
+            "Intermediate activity: reduce starting dose",
+            "Low activity: major dose reduction or alternative therapy"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — TPMT & thiopurine dosing"
+    },
+    {
+      "id": "12-nudt15",
+      "number": 12,
+      "title": "NUDT15",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "NUDT15 variants also affect thiopurine toxicity."
+        },
+        {
+          "type": "group",
+          "label": "Important especially in",
+          "items": [
+            "East Asian populations",
+            "Some Hispanic populations"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Increased thiopurine intolerance",
+            "Increased myelosuppression risk"
+          ]
+        }
+      ],
+      "image": "data_5/05-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — NUDT15 & thiopurine myelotoxicity"
+    },
+    {
+      "id": "13-g6pd",
+      "number": 13,
+      "title": "G6PD",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "G6PD = glucose-6-phosphate dehydrogenase."
+        },
+        {
+          "type": "group",
+          "label": "Function",
+          "items": [
+            "Provides NADPH in red blood cells.",
+            "Maintains reduced glutathione.",
+            "Protects against oxidative stress."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "G6PD deficiency",
+          "items": [
+            "Reduced ability to handle oxidative stress.",
+            "Risk of hemolysis."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Triggers",
+          "items": [
+            "Infection",
+            "Fava beans",
+            "Oxidant drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical example: Rasburicase reaction",
+          "items": [
+            "Hydrogen peroxide is produced."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "G6PD deficiency",
+          "items": [
+            "Increased risk of hemolytic anemia",
+            "Increased risk of methemoglobinemia"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Avoid rasburicase in G6PD deficiency.",
+            "Use an alternative urate-lowering strategy such as allopurinol or febuxostat when appropriate."
+          ]
+        }
+      ],
+      "image": "data_5/06-table-5-3.png",
+      "imageCaption": "TABLE 5-3 — G6PD deficiency classification"
+    },
+    {
+      "id": "14-genetic-variations-in-transporters",
+      "number": 14,
+      "title": "Genetic Variations in Transporters",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Transporters influence drug absorption, distribution, and elimination."
+        },
+        {
+          "type": "group",
+          "label": "Important transporter genes",
+          "items": [
+            "SLCO1B1",
+            "ABCG2",
+            "SLC22A1"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — Transporter pharmacogenomics"
+    },
+    {
+      "id": "15-slco1b1-oatp1b1",
+      "number": 15,
+      "title": "SLCO1B1 / OATP1B1",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "OATP1B1 is a hepatic uptake transporter."
+        },
+        {
+          "type": "group",
+          "label": "Encoded by",
+          "items": [
+            "SLCO1B1"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Substrates",
+          "items": [
+            "Statins",
+            "Methotrexate",
+            "Bilirubin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important variant",
+          "items": [
+            "rs4149056",
+            "Val174Ala"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Reduced hepatic uptake",
+            "Increased plasma statin levels",
+            "Increased myopathy risk"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical example: Simvastatin and reduced-function SLCO1B1 variants",
+          "items": [
+            "Increased simvastatin exposure",
+            "Increased risk of simvastatin-induced myopathy"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Use lower simvastatin dose or alternative statin."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Alternative statins",
+          "items": [
+            "Pravastatin",
+            "Rosuvastatin at an appropriate lower dose when indicated"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — SLCO1B1 & statin myopathy"
+    },
+    {
+      "id": "16-abcg2-bcrp",
+      "number": 16,
+      "title": "ABCG2 / BCRP",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "BCRP is an efflux transporter."
+        },
+        {
+          "type": "group",
+          "label": "Encoded by",
+          "items": [
+            "ABCG2"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important variant",
+          "items": [
+            "rs2231142",
+            "Q141K"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Reduced transporter function"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Affected drugs",
+          "items": [
+            "Rosuvastatin",
+            "Allopurinol",
+            "Some anticancer drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical relevance",
+          "items": [
+            "East Asian patients may have higher rosuvastatin levels.",
+            "Lower rosuvastatin dose may be considered."
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — ABCG2 (BCRP) variants"
+    },
+    {
+      "id": "17-slc22a1-oct1",
+      "number": 17,
+      "title": "SLC22A1 / OCT1",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "OCT1 is a hepatic uptake transporter."
+        },
+        {
+          "type": "group",
+          "label": "Substrates",
+          "items": [
+            "Morphine",
+            "Tramadol",
+            "Sumatriptan",
+            "Ondansetron"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Reduced-function variants",
+          "items": [
+            "May increase drug plasma concentrations."
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — SLC22A1 (OCT1) variants"
+    },
+    {
+      "id": "18-genetic-variation-in-immune-function",
+      "number": 18,
+      "title": "Genetic Variation in Immune Function",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Some adverse drug reactions are immune-mediated."
+        },
+        {
+          "type": "group",
+          "label": "Important system",
+          "items": [
+            "HLA genes",
+            "HLA variants can predict some drug hypersensitivity reactions."
+          ]
+        }
+      ],
+      "image": "data_5/07-table-5-4.png",
+      "imageCaption": "TABLE 5-4 — HLA alleles & drug hypersensitivity"
+    },
+    {
+      "id": "19-hla-b5701-and-abacavir",
+      "number": 19,
+      "title": "HLA-B*57:01 and Abacavir",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Drug",
+          "items": [
+            "Abacavir"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Risk",
+          "items": [
+            "Severe, potentially fatal multisystem hypersensitivity reaction"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Test for HLA-B*57:01 before starting abacavir.",
+            "If positive, avoid abacavir."
+          ]
+        }
+      ],
+      "image": "data_5/07-table-5-4.png",
+      "imageCaption": "TABLE 5-4 — HLA-B*57:01 & abacavir"
+    },
+    {
+      "id": "20-hla-b1502-and-carbamazepine",
+      "number": 20,
+      "title": "HLA-B*15:02 and Carbamazepine",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Drug",
+          "items": [
+            "Carbamazepine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Risk",
+          "items": [
+            "Stevens-Johnson syndrome",
+            "Toxic epidermal necrolysis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important population",
+          "items": [
+            "East Asian ancestry"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Avoid carbamazepine in HLA-B*15:02-positive patients."
+          ]
+        }
+      ],
+      "image": "data_5/07-table-5-4.png",
+      "imageCaption": "TABLE 5-4 — HLA-B*15:02 & carbamazepine"
+    },
+    {
+      "id": "21-hla-b5801-and-allopurinol",
+      "number": 21,
+      "title": "HLA-B*58:01 and Allopurinol",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Drug",
+          "items": [
+            "Allopurinol"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Risk",
+          "items": [
+            "Severe cutaneous adverse reactions"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Recommendation",
+          "items": [
+            "Avoid allopurinol in HLA-B*58:01-positive patients."
+          ]
+        }
+      ],
+      "image": "data_5/07-table-5-4.png",
+      "imageCaption": "TABLE 5-4 — HLA-B*58:01 & allopurinol"
+    },
+    {
+      "id": "22-hla-b5701-and-flucloxacillin",
+      "number": 22,
+      "title": "HLA-B*57:01 and Flucloxacillin",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Drug",
+          "items": [
+            "Flucloxacillin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Risk",
+          "items": [
+            "Drug-induced liver injury"
+          ]
+        }
+      ],
+      "image": "data_5/07-table-5-4.png",
+      "imageCaption": "TABLE 5-4 — HLA-B*57:01 & flucloxacillin DILI"
+    },
+    {
+      "id": "23-ifnl3-il28b",
+      "number": 23,
+      "title": "IFNL3 / IL28B",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "IFNL3 variants affect response to hepatitis C treatment."
+        },
+        {
+          "type": "group",
+          "label": "Important therapy",
+          "items": [
+            "Pegylated interferon-alpha + ribavirin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Favorable genotype",
+          "items": [
+            "Higher sustained virologic response"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Unfavorable genotype",
+          "items": [
+            "Lower cure rate"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — IFNL3/IL28B & hepatitis C response"
+    },
+    {
+      "id": "24-polygenic-effects",
+      "number": 24,
+      "title": "Polygenic Effects",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Many drug responses are influenced by more than one gene."
+        },
+        {
+          "type": "example",
+          "content": "Warfarin"
+        },
+        {
+          "type": "group",
+          "label": "Important genes",
+          "items": [
+            "CYP2C9",
+            "VKORC1"
+          ]
+        }
+      ],
+      "image": "data_5/01-fig-5-1.png",
+      "imageCaption": "FIGURE 5-1 — Polygenic pharmacogenomic effects"
+    },
+    {
+      "id": "25-cyp2c9-and-warfarin",
+      "number": 25,
+      "title": "CYP2C9 and Warfarin",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "CYP2C9 metabolizes S-warfarin."
+        },
+        {
+          "type": "group",
+          "label": "Important alleles",
+          "items": [
+            "CYP2C9*2",
+            "CYP2C9*3"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Reduced warfarin metabolism",
+            "Increased bleeding risk",
+            "Lower dose requirement"
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — CYP2C9 & warfarin dosing"
+    },
+    {
+      "id": "26-vkorc1-and-warfarin",
+      "number": 26,
+      "title": "VKORC1 and Warfarin",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "VKORC1 encodes vitamin K epoxide reductase."
+        },
+        {
+          "type": "group",
+          "label": "Warfarin target",
+          "items": [
+            "VKORC1"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important variant",
+          "items": [
+            "VKORC1 -1639G>A"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Reduced VKORC1 expression",
+            "Increased warfarin sensitivity",
+            "Lower dose requirement"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Warfarin dosing",
+          "items": [
+            "Best predicted using clinical factors + CYP2C9 + VKORC1."
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — VKORC1 & warfarin sensitivity"
+    },
+    {
+      "id": "27-epigenomics",
+      "number": 27,
+      "title": "Epigenomics",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Epigenomics = heritable changes in gene expression not due to DNA sequence changes."
+        },
+        {
+          "type": "group",
+          "label": "Mechanisms",
+          "items": [
+            "DNA methylation",
+            "Histone modification"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Potential relevance",
+          "items": [
+            "Drug response variability",
+            "Acquired drug resistance",
+            "Disease susceptibility"
+          ]
+        }
+      ],
+      "image": "data_5/01-fig-5-1.png",
+      "imageCaption": "FIGURE 5-1 — Epigenomics & drug response"
+    },
+    {
+      "id": "28-case-study-summary",
+      "number": 28,
+      "title": "Case Study Summary",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Patient",
+          "items": [
+            "HIV infection",
+            "Treated with atazanavir + ritonavir + nucleoside analogs",
+            "Developed jaundice after 1 year",
+            "Grade 4 hyperbilirubinemia"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Mechanism",
+          "items": [
+            "Atazanavir inhibits UGT1A1.",
+            "UGT1A1 normally glucuronidates bilirubin.",
+            "Reduced UGT1A1 activity causes unconjugated bilirubin accumulation."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Genetic factor",
+          "items": [
+            "UGT1A1*28/*28 reduces enzyme activity."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Conclusion",
+          "items": [
+            "UGT1A1*28 polymorphism likely contributed to severe hyperbilirubinemia and jaundice.",
+            "Switching from atazanavir to another antiretroviral improved bilirubin levels."
+          ]
+        }
+      ],
+      "image": "data_5/03-fig-5-2.png",
+      "imageCaption": "FIGURE 5-2 — Flucloxacillin DILI pharmacogenomics"
+    },
+    {
+      "id": "29-must-know-exam-pearls",
+      "number": 29,
+      "title": "Must-Know Exam Pearls",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Pharmacogenomics guides precision medicine.",
+            "CYP2D6 activates codeine to morphine.",
+            "CYP2D6 poor metabolizers have poor codeine analgesia.",
+            "CYP2D6 ultrarapid metabolizers risk morphine toxicity.",
+            "CYP2C19 activates clopidogrel.",
+            "CYP2C19 poor metabolizers have reduced clopidogrel response.",
+            "CYP2B6 poor metabolizers have increased efavirenz toxicity.",
+            "DPYD variants increase fluoropyrimidine toxicity.",
+            "UGT1A1*28 increases irinotecan toxicity and atazanavir jaundice risk.",
+            "TPMT deficiency increases thiopurine myelotoxicity.",
+            "G6PD deficiency increases rasburicase hemolysis risk.",
+            "SLCO1B1 variants increase simvastatin myopathy risk.",
+            "HLA-B*57:01 predicts abacavir hypersensitivity.",
+            "HLA-B*15:02 predicts carbamazepine SJS/TEN risk.",
+            "HLA-B*58:01 predicts allopurinol severe skin reactions.",
+            "Warfarin dosing is affected by CYP2C9 and VKORC1."
+          ]
+        }
+      ],
+      "image": "data_5/04-table-5-2.png",
+      "imageCaption": "TABLE 5-2 — Pharmacogenomics exam pearls"
+    }
+  ],
+  "introImage": "data_5/01-fig-5-1.png",
+  "introImageCaption": "FIGURE 5-1 — Pharmacogenomics overview"
+}

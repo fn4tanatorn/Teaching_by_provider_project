@@ -1,0 +1,57 @@
+[
+  {
+    "file": "data_10/01-table-10-1.png",
+    "was": "data_10/04.png",
+    "caption": "TABLE 10-1 — Selectivity of adrenoceptor antagonists"
+  },
+  {
+    "file": "data_10/02-fig-10-2.png",
+    "was": "data_10/02.png",
+    "caption": "FIGURE 10-2 — Competitive vs irreversible α-blockade"
+  },
+  {
+    "file": "data_10/03-table-10-2.png",
+    "was": "data_10/07.png",
+    "caption": "TABLE 10-2 — Beta-blocker properties"
+  },
+  {
+    "file": "data_10/04-fig-10-3.png",
+    "was": "data_10/03.png",
+    "caption": "FIGURE 10-3 — Phentolamine & epinephrine reversal"
+  },
+  {
+    "file": "data_10/05-table-10-3.png",
+    "was": "data_10/09.png",
+    "caption": "TABLE 10-3 — Topical β-blockers for glaucoma"
+  },
+  {
+    "file": "data_10/06-fig-10-4.png",
+    "was": "data_10/05.png",
+    "caption": "FIGURE 10-4 — Phenoxybenzamine & orthostatic hypotension"
+  },
+  {
+    "file": "data_10/07-fig-10-5.png",
+    "was": "data_10/06.png",
+    "caption": "FIGURE 10-5 — Propranolol & metoprolol structures"
+  },
+  {
+    "file": "data_10/08-fig-10-6.png",
+    "was": "data_10/08.png",
+    "caption": "FIGURE 10-6 — β-blockade & epinephrine risk"
+  },
+  {
+    "file": "data_10/09-fig-10-7.png",
+    "was": "data_10/10.png",
+    "caption": "FIGURE 10-7 — β-blocker effect on heart rate (IHD)"
+  },
+  {
+    "file": "data_10/10-fig-10-8.png",
+    "was": "data_10/11.png",
+    "caption": "FIGURE 10-8 — β-blocker therapy & survival"
+  },
+  {
+    "file": "data_10/11-summary.png",
+    "was": "data_10/12.png",
+    "caption": "Summary — sympathetic antagonists"
+  }
+]

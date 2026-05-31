@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Slide — TeachingByProvider</title>
+    <meta name="theme-color" content="#030000">
+    <link rel="stylesheet" href="css/theme.css?v=20260524-figure-contain">
+</head>
+<body class="hub-page">
+
+    <div class="bg-layer" aria-hidden="true"></div>
+
+    <main class="hub">
+        <header class="hub-header">
+            <p class="hub-eyebrow">TeachingByProvider</p>
+            <h1 class="hub-title">Katzung Pharmacology<br>Web Slide</h1>
+            <p class="hub-tagline">เลือกบทที่ต้องการเรียน — แต่ละบทเป็น deck แยก พร้อม keyboard navigation</p>
+        </header>
+
+        <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน">
+            <p class="hub-loading">กำลังโหลด...</p>
+        </nav>
+    </main>
+
+    <script>
+        (function initHub() {
+            const grid = document.getElementById("deck-grid");
+
+            fetch("data/manifest.json")
+                .then((r) => {
+                    if (!r.ok) throw new Error("manifest");
+                    return r.json();
+                })
+                .then((manifest) => {
+                    grid.innerHTML = manifest.decks
+                        .map(
+                            (deck) => `
+                        <a class="deck-card" href="deck.html?deck=${deck.id}">
+                            <span class="deck-card-ch">Chapter ${deck.chapter}</span>
+                            <h2 class="deck-card-title">${deck.title}</h2>
+                            <p class="deck-card-summary">${deck.summary}</p>
+                            <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
+                            <span class="deck-card-cta">เปิดสไลด์ →</span>
+                        </a>`
+                        )
+                        .join("");
+                })
+                .catch(() => {
+                    grid.innerHTML = `
+                        <div class="deck-card deck-card--error">
+                            <h2 class="deck-card-title">โหลดไม่สำเร็จ</h2>
+                            <p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>
+                        </div>`;
+                });
+        })();
+    </script>
+</body>
+</html>

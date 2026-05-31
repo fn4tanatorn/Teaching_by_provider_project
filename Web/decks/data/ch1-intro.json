@@ -1,0 +1,329 @@
+{
+  "course": "Katzung Pharmacology",
+  "chapter": 1,
+  "title": "Introduction to Pharmacology",
+  "subtitle": "Organized Notes — Chapter 1",
+  "introImage": "data_1/01-fig-1-1.png",
+  "introImageCaption": "FIGURE 1-1 — Introduction to pharmacology",
+  "sections": [
+    {
+      "id": "definitions",
+      "number": 1,
+      "title": "Definitions",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Pharmacology: Study of substances interacting with living systems through chemical processes.",
+            "Medical Pharmacology: Use of drugs to prevent, diagnose, and treat disease.",
+            "Toxicology: Study of harmful effects of chemicals on living systems."
+          ]
+        }
+      ],
+      "image": "data_1/01-fig-1-1.png",
+      "imageCaption": "FIGURE 1-1 — Major areas of study in pharmacology"
+    },
+    {
+      "id": "major-divisions",
+      "number": 2,
+      "title": "Major Divisions",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "A. Pharmacodynamics",
+          "items": [
+            "What the drug does to the body:",
+            "Drug-receptor interactions",
+            "Mechanism of action"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "B. Pharmacokinetics",
+          "items": [
+            "What the body does to the drug:",
+            "Absorption",
+            "Distribution",
+            "Metabolism",
+            "Excretion"
+          ]
+        }
+      ],
+      "image": "data_1/01-fig-1-1.png",
+      "imageCaption": "FIGURE 1-1 — Major areas of study in pharmacology"
+    },
+    {
+      "id": "drug-properties",
+      "number": 3,
+      "title": "Drug Properties",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Drugs may be solid, liquid, or gas.",
+            "Many small-molecule drugs are weak acids or weak bases.",
+            "Most small-molecule drugs have molecular weight about 100–1000 Da; larger biologics usually need specialized delivery or extracellular targets."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important Factors",
+          "items": [
+            "Size",
+            "Shape",
+            "Charge",
+            "Lipid solubility",
+            "Reactivity",
+            "Stereochemistry and receptor affinity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Why this table matters",
+          "items": [
+            "Kd is inversely related to receptor affinity.",
+            "Carvedilol enantiomers bind beta receptors very differently.",
+            "This shows how drug shape/stereochemistry can change pharmacologic effect."
+          ]
+        }
+      ],
+      "image": "data_1/04-table-1-2.png",
+      "imageCaption": "TABLE 1-2 — Dissociation constants (Kd) & stereochemistry",
+      "imageSupplement": "data_1/02-table-1-1.png",
+      "imageSupplementCaption": "TABLE 1-1 — Development of large-molecule drugs"
+    },
+    {
+      "id": "drug-receptor",
+      "number": 4,
+      "title": "Drug-Receptor Interactions",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Types of Bonds",
+          "items": [
+            "Covalent (strong, often irreversible)",
+            "Electrostatic",
+            "Hydrophobic"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Drug Types",
+          "items": [
+            "Agonist → activates receptor",
+            "Antagonist → binds without activating and reduces agonist effect",
+            "Partial agonist → activates receptor with lower maximal effect than a full agonist",
+            "Inverse agonist → reduces constitutive receptor activity"
+          ]
+        }
+      ],
+      "image": "data_1/03-fig-1-2.png",
+      "imageCaption": "FIGURE 1-2 — Drug–receptor interaction types",
+      "imageSupplement": "data_1/05-fig-1-3.png",
+      "imageSupplementCaption": "FIGURE 1-3 — Agonist, antagonist & inverse agonist model"
+    },
+    {
+      "id": "pharmacokinetics",
+      "number": 5,
+      "title": "Pharmacokinetic Principles",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Drug movement mechanisms (FIGURE 1-4)",
+          "items": [
+            "A — Aqueous diffusion through pores (paracellular)",
+            "B — Lipid diffusion across membranes",
+            "C — Carrier-mediated transport (incl. transporter uptake/efflux; see TABLE 1-3)",
+            "D — Endocytosis / exocytosis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Fick's Law",
+          "items": [
+            "Concentration gradient",
+            "Surface area",
+            "Membrane thickness",
+            "Permeability"
+          ],
+          "note": "Diffusion increases with gradient, area, and permeability, and decreases as membrane thickness increases."
+        }
+      ],
+      "image": "data_1/07-fig-1-4.png",
+      "imageCaption": "FIGURE 1-4 — Mechanisms of drug permeation",
+      "imageSupplement": "data_1/06-table-1-3.png",
+      "imageSupplementCaption": "TABLE 1-3 — Transport proteins in pharmacology"
+    },
+    {
+      "id": "weak-acids-bases",
+      "number": 6,
+      "title": "Weak Acids & Weak Bases",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "The Henderson–Hasselbalch equation predicts how much of a weak acid or weak base is ionized at a given pH.\n\n```text\nWeak acid:  pH = pKa + log([A⁻] / [HA])\nWeak base:  pH = pKa + log([BH⁺] / [B])\n```\n\nIonized vs unionized forms affect absorption, distribution, and renal elimination."
+        },
+        {
+          "type": "group",
+          "label": "Clinical Importance",
+          "items": [
+            "Weak acids excreted faster in alkaline urine.",
+            "Weak bases excreted faster in acidic urine."
+          ]
+        },
+        {
+          "type": "example",
+          "content": "Aspirin overdose treated with sodium bicarbonate to alkalinize urine."
+        }
+      ],
+      "image": "data_1/08-table-1-4.png",
+      "imageCaption": "TABLE 1-4 — Ionization constants (pKa) of common drugs",
+      "imageSupplement": "data_1/09-fig-1-5.png",
+      "imageSupplementCaption": "FIGURE 1-5 — Ion trapping of weak bases in urine"
+    },
+    {
+      "id": "drug-development",
+      "number": 7,
+      "title": "Drug Development Process",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "ordered",
+          "items": [
+            "Drug discovery",
+            "Preclinical testing",
+            "Clinical trials",
+            "FDA approval"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical Trial Phases",
+          "items": [
+            "Phase 1: Initial human safety, tolerability, and pharmacokinetics; usually healthy volunteers, but patients may be used for high-risk drugs",
+            "Phase 2: Dose-ranging and preliminary efficacy in patients",
+            "Phase 3: Larger confirmatory trials of efficacy and safety",
+            "Phase 4: Postmarketing safety monitoring and additional studies"
+          ]
+        }
+      ],
+      "image": "data_1/11-fig-1-6.png",
+      "imageCaption": "FIGURE 1-6 — Drug development & testing (USA)"
+    },
+    {
+      "id": "preclinical-safety",
+      "number": 8,
+      "title": "Preclinical Safety Testing",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Types of Safety Tests",
+          "items": [
+            "Acute toxicity",
+            "Chronic toxicity",
+            "Reproductive toxicity",
+            "Carcinogenicity",
+            "Mutagenicity"
+          ]
+        }
+      ],
+      "image": "data_1/10-table-1-5.png",
+      "imageCaption": "TABLE 1-5 — Safety tests"
+    },
+    {
+      "id": "fda-regulation",
+      "number": 9,
+      "title": "FDA Regulation",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Important Acts",
+          "items": [
+            "Pure Food and Drug Act (1906)",
+            "Food, Drug, and Cosmetic Act (1938)",
+            "Kefauver-Harris Amendments (1962)"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Modern FDA approval requires substantial evidence of effectiveness and an acceptable safety profile; the 1938 act emphasized safety and the 1962 amendments added efficacy requirements."
+        }
+      ],
+      "image": "data_1/12-table-1-6.png",
+      "imageCaption": "TABLE 1-6 — Major drug legislation in the USA"
+    },
+    {
+      "id": "adverse-reactions",
+      "number": 10,
+      "title": "Adverse Drug Reactions & Interactions",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Allergy",
+            "Toxicity",
+            "Idiosyncratic reactions",
+            "Drug interactions can arise from pharmacodynamic effects or pharmacokinetic transport/metabolism changes."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "orphan-drugs",
+      "number": 11,
+      "title": "Orphan Drugs",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Drugs or biologics intended to diagnose, prevent, or treat rare diseases.",
+            "In the US, rare disease generally means fewer than 200,000 affected people, or a condition meeting the act's cost-recovery provisions.",
+            "Supported by the Orphan Drug Act (1983), which provides development incentives and market exclusivity."
+          ]
+        }
+      ],
+      "image": "data_1/12-table-1-6.png",
+      "imageCaption": "TABLE 1-6 — Orphan Drug Act & legislation"
+    },
+    {
+      "id": "key-concepts",
+      "number": 12,
+      "title": "Key Concepts",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "All substances can be toxic depending on dose.",
+            "Drug selectivity depends on receptor binding.",
+            "Pharmacology integrates physiology, biochemistry, genetics, and pathology.",
+            "Large-molecule therapeutics and monoclonal antibodies have become an important part of modern drug approvals."
+          ]
+        }
+      ]
+    }
+  ],
+  "id": "ch1"
+}

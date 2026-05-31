@@ -1,0 +1,111 @@
+Drug Receptors & Pharmacodynamics — High-Yield Summary
+
+1.  Drug Receptors
+
+-   Receptors are usually proteins that bind drugs and initiate biologic responses.
+-   Main types:
+    -   Regulatory proteins
+    -   Enzymes
+    -   Ion channels
+    -   Transport proteins
+
+2.  Major Principles
+
+-   Receptors determine dose–response relationships.
+-   Receptors determine selectivity.
+-   Agonists activate receptors.
+-   Antagonists bind without activation.
+
+Key terms:
+- Kd = concentration causing 50% receptor occupancy
+- EC50 = concentration causing 50% maximal effect
+- Emax = maximal response
+
+3.  Dose–Response Curves
+
+-   Increasing dose increases response until plateau.
+-   Log-dose plots create sigmoid curves for easier interpretation.
+
+4.  Spare Receptors
+
+-   Maximal response can occur before all receptors are occupied.
+-   Increases tissue sensitivity.
+
+5.  Competitive vs Noncompetitive Antagonists
+
+Competitive antagonist:
+- Reversible
+- Shifts dose-response curve to the right
+- Emax unchanged
+
+Noncompetitive antagonist: - Irreversible or allosteric - Decreases Emax
+
+6.  Partial Agonists
+
+-   Produce less than maximal response.
+-   Can behave as agonists or antagonists.
+
+Example: - Buprenorphine
+
+7.  Other Antagonism Types
+
+-   Chemical antagonism: protamine vs heparin
+-   Physiologic antagonism: insulin vs glucocorticoids
+
+8.  Signal Transduction Mechanisms
+
+A. Intracellular receptors - Steroids, thyroid hormone - Alter gene transcription
+
+B. Receptor tyrosine kinases - Insulin receptor - EGF receptor
+
+C. Cytokine receptors - JAK-STAT pathway
+
+D. Ligand-gated ion channels - Nicotinic ACh receptor - GABA receptor
+
+E. GPCRs - Largest receptor family
+
+Major G proteins: - Gs → ↑ cAMP - Gi → ↓ cAMP - Gq → ↑ IP3/DAG/Ca2+
+
+9.  Second Messengers
+
+cAMP pathway: - Activates protein kinase A
+
+IP3/DAG pathway: - IP3 increases intracellular calcium - DAG activates
+PKC
+
+cGMP pathway: - Smooth muscle relaxation - Nitric oxide signaling
+
+10. Receptor Regulation
+
+-   Desensitization
+-   Downregulation
+-   Upregulation
+
+11. Potency vs Efficacy
+
+-   Potency = amount required
+-   Efficacy = maximal effect achievable
+
+12. Quantal Dose–Response Curves
+
+-   ED50 = effective dose in 50%
+-   TD50 = toxic dose in 50%
+-   LD50 = lethal dose in 50%
+
+Therapeutic index: TI = TD50 / ED50
+
+13. Causes of Variable Drug Response
+
+-   Pharmacokinetics
+-   Endogenous ligand levels
+-   Receptor changes
+-   Post-receptor changes
+
+14. Clinical Selectivity
+
+-   Drugs are selective, not specific.
+
+Case Study:
+- Propranolol worsens asthma by blocking β2 receptors.
+- Verapamil lowers blood pressure without bronchoconstriction.
+- Metoprolol is a safer β1-selective alternative.

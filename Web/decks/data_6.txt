@@ -1,0 +1,739 @@
+Introduction to Autonomic Pharmacology — High-Yield Summary
+============================================================
+
+1. Core Concept
+---------------
+Autonomic pharmacology studies drugs that affect the autonomic nervous system (ANS).
+
+The ANS controls involuntary visceral functions such as:
+- Heart rate
+- Blood pressure
+- Digestion
+- Bronchial tone
+- Pupil size
+- Gland secretion
+- Bladder function
+- Sexual function
+
+The ANS works mainly through chemical neurotransmission.
+
+2. Nervous System Divisions
+---------------------------
+Anatomic division:
+- Central nervous system (CNS): brain and spinal cord
+- Peripheral nervous system (PNS): neural tissue outside CNS
+
+Functional division:
+- Autonomic nervous system
+- Somatic nervous system
+
+Autonomic system:
+- Mostly involuntary
+- Controls visceral organs
+
+Somatic motor system:
+- Mostly voluntary
+- Controls skeletal muscle
+
+3. Major Divisions of the ANS
+-----------------------------
+The ANS has two major anatomic divisions:
+
+A. Sympathetic nervous system
+- Thoracolumbar outflow
+- Preganglionic fibers arise from thoracic and lumbar spinal cord
+- Associated with “fight or flight”
+
+B. Parasympathetic nervous system
+- Cranial outflow, traditionally craniosacral
+- Preganglionic fibers arise from brainstem cranial nerves
+- Associated with “rest and digest”
+
+Important update:
+- Sacral autonomic outflow may be sympathetic rather than parasympathetic based on developmental evidence.
+
+4. Basic Autonomic Pathway
+--------------------------
+Autonomic efferent pathway usually has two neurons:
+
+1. Preganglionic neuron
+- Cell body in CNS
+- Axon exits CNS
+- Synapses in autonomic ganglion
+
+2. Postganglionic neuron
+- Cell body in peripheral ganglion
+- Axon goes to effector organ
+
+Exception:
+- Adrenal medulla acts like a modified sympathetic ganglion.
+
+5. Sympathetic Anatomy
+----------------------
+Sympathetic preganglionic fibers:
+- Usually short
+- Synapse in paravertebral or prevertebral ganglia
+
+Sympathetic postganglionic fibers:
+- Usually long
+- Innervate target organs
+
+Adrenal medulla:
+- Receives sympathetic preganglionic fibers
+- Releases epinephrine and norepinephrine into blood
+
+6. Parasympathetic Anatomy
+--------------------------
+Parasympathetic preganglionic fibers:
+- Usually long
+- Travel through cranial nerves III, VII, IX, and X
+
+Parasympathetic ganglia:
+- Often located near or inside target organs
+
+Parasympathetic postganglionic fibers:
+- Usually short
+
+7. Enteric Nervous System
+-------------------------
+The enteric nervous system (ENS) is a large network of neurons in the GI tract.
+
+Main plexuses:
+- Myenteric plexus / Auerbach plexus
+- Submucosal plexus / Meissner plexus
+
+Functions:
+- Controls GI motility
+- Controls GI secretion
+- Coordinates peristalsis
+- Communicates with sympathetic and parasympathetic systems
+
+Important:
+- ENS can function semi-autonomously.
+- It receives modulatory input from the ANS.
+
+8. Neurotransmitters in the ANS
+-------------------------------
+Main autonomic neurotransmitters:
+- Acetylcholine
+- Norepinephrine
+
+Other transmitters/cotransmitters:
+- Dopamine
+- ATP
+- Nitric oxide
+- Neuropeptide Y
+- Substance P
+- Vasoactive intestinal peptide
+- Calcitonin gene-related peptide
+- Serotonin
+- GABA
+- Enkephalins
+
+9. Cholinergic Fibers
+---------------------
+Cholinergic fibers release acetylcholine.
+
+Cholinergic neurons include:
+- All autonomic preganglionic neurons
+- Most parasympathetic postganglionic neurons
+- Some sympathetic postganglionic neurons
+- Somatic motor neurons to skeletal muscle
+
+Examples of sympathetic cholinergic fibers:
+- Sweat gland innervation
+- Some skeletal muscle vasodilator fibers
+
+10. Adrenergic Fibers
+---------------------
+Adrenergic fibers release norepinephrine.
+
+Most sympathetic postganglionic fibers are noradrenergic.
+
+Adrenal medulla releases:
+- Epinephrine
+- Norepinephrine
+
+11. Cholinergic Transmission
+----------------------------
+Acetylcholine synthesis:
+- Choline + acetyl-CoA → acetylcholine
+- Enzyme: choline acetyltransferase
+
+Choline uptake:
+- Via sodium-dependent choline transporter
+- Blocked by hemicholinium
+
+Storage:
+- Acetylcholine stored in vesicles
+- Vesicular acetylcholine transporter loads ACh into vesicles
+- Blocked by vesamicol
+
+Release:
+- Action potential opens voltage-gated calcium channels
+- Calcium triggers vesicle fusion
+- ACh released into synaptic cleft
+
+Termination:
+- Acetylcholinesterase rapidly breaks down ACh
+- Products: acetate + choline
+
+12. Botulinum Toxin
+-------------------
+Botulinum toxin blocks acetylcholine release.
+
+Mechanism:
+- Cleaves SNARE fusion proteins
+- Prevents vesicle fusion with nerve terminal membrane
+- Blocks exocytotic ACh release
+
+Clinical effect:
+- Muscle paralysis or relaxation
+
+Uses:
+- Blepharospasm
+- Dystonia
+- Spasticity
+- Cosmetic reduction of wrinkles
+- Hyperhidrosis
+- Some migraine protocols
+
+Duration:
+- Usually 1–3 months after one treatment
+
+Case relevance:
+- Botulinum toxin improved vision by relaxing orbicularis oculi muscle and preventing involuntary eyelid closure.
+
+13. Tetanus Toxin
+-----------------
+Tetanus toxin also cleaves fusion proteins.
+
+Major site:
+- Inhibitory neurons in spinal cord
+
+Effect:
+- Blocks inhibitory transmitter release
+- Causes muscle spasm rather than paralysis
+
+14. Adrenergic Transmission
+---------------------------
+Catecholamine synthesis pathway:
+- Tyrosine → DOPA
+- DOPA → dopamine
+- Dopamine → norepinephrine
+- Norepinephrine → epinephrine
+
+Key enzymes:
+- Tyrosine hydroxylase
+- DOPA decarboxylase
+- Dopamine beta-hydroxylase
+- Phenylethanolamine-N-methyltransferase
+
+Rate-limiting step:
+- Tyrosine → DOPA
+- Enzyme: tyrosine hydroxylase
+
+Inhibitor:
+- Metyrosine
+
+15. Adrenergic Storage
+----------------------
+Norepinephrine is stored in vesicles.
+
+Transporter:
+- Vesicular monoamine transporter (VMAT)
+
+VMAT inhibitors:
+- Reserpine
+- Tetrabenazine
+- Deutetrabenazine
+
+Effect:
+- Deplete catecholamine stores
+
+16. Adrenergic Release
+----------------------
+Physiologic release:
+- Action potential opens calcium channels
+- Calcium triggers vesicle fusion
+- Norepinephrine released
+
+Release inhibitors:
+- Guanethidine
+- Bretylium
+
+Indirect sympathomimetics:
+- Tyramine
+- Amphetamine
+- Ephedrine
+
+Mechanism:
+- Enter nerve terminal via norepinephrine transporter
+- Displace norepinephrine from vesicles
+- Promote norepinephrine release by reverse transport
+
+17. Termination of Adrenergic Action
+------------------------------------
+Main mechanisms:
+- Reuptake into nerve terminal by NET
+- Diffusion away from receptor site
+- Metabolism by MAO and COMT
+
+NET inhibitors:
+- Cocaine
+- Tricyclic antidepressants
+- SNRIs
+
+Effect of NET inhibition:
+- Increased norepinephrine in synaptic cleft
+- Increased adrenergic effect
+
+18. Catecholamine Metabolism
+----------------------------
+Important enzymes:
+- MAO = monoamine oxidase
+- COMT = catechol-O-methyltransferase
+
+Major metabolite:
+- VMA = vanillylmandelic acid
+
+Clinical relevance:
+- Urinary catecholamine metabolites can help assess catecholamine turnover.
+
+19. Autonomic Receptors
+-----------------------
+Major receptor families:
+- Cholinoceptors
+- Adrenoceptors
+- Dopamine receptors
+
+20. Cholinoceptors
+------------------
+Two main types:
+- Muscarinic receptors
+- Nicotinic receptors
+
+21. Muscarinic Receptors
+------------------------
+Muscarinic receptors respond to acetylcholine and muscarine.
+
+Subtypes:
+- M1
+- M2
+- M3
+- M4
+- M5
+
+M1:
+- CNS neurons
+- Sympathetic ganglia
+- Increases IP3/DAG and intracellular calcium
+
+M2:
+- Heart
+- Some smooth muscle
+- Opens potassium channels
+- Inhibits adenylyl cyclase
+- Slows heart rate
+
+M3:
+- Exocrine glands
+- Smooth muscle
+- Vascular endothelium
+- Increases IP3/DAG and intracellular calcium
+
+M4:
+- CNS
+- Similar to M2
+
+M5:
+- CNS
+- Cerebral vascular endothelium
+- Similar to M1
+
+22. Nicotinic Receptors
+-----------------------
+Nicotinic receptors are ligand-gated ion channels.
+
+Types:
+- NN
+- NM
+
+NN receptors:
+- Autonomic ganglia
+- Adrenal medulla
+
+NM receptors:
+- Skeletal muscle neuromuscular junction
+
+Activation:
+- Opens Na+ and K+ channels
+- Causes depolarization
+
+23. Adrenoceptors
+-----------------
+Adrenoceptors respond to norepinephrine and epinephrine.
+
+Major types:
+- Alpha receptors
+- Beta receptors
+
+24. Alpha Receptors
+-------------------
+Alpha1:
+- Mostly postsynaptic
+- Smooth muscle contraction
+- Uses IP3/DAG pathway
+
+Common effects:
+- Vasoconstriction
+- Pupillary dilation
+- Sphincter contraction
+
+Alpha2:
+- Often presynaptic
+- Inhibits norepinephrine release
+- Inhibits adenylyl cyclase
+- Decreases cAMP
+
+Common effects:
+- Negative feedback on sympathetic nerve terminal
+- Platelet aggregation
+- Some vascular smooth muscle contraction
+
+25. Beta Receptors
+------------------
+Beta1:
+- Heart
+- Kidney juxtaglomerular cells
+
+Effects:
+- Increased heart rate
+- Increased contractility
+- Increased conduction
+- Increased renin release
+
+Beta2:
+- Bronchial smooth muscle
+- Vascular smooth muscle in skeletal muscle
+- Uterine smooth muscle
+- Liver
+
+Effects:
+- Bronchodilation
+- Vasodilation
+- Uterine relaxation
+- Glycogenolysis
+- Gluconeogenesis
+
+Beta3:
+- Adipose tissue
+- Bladder detrusor muscle
+
+Effects:
+- Lipolysis
+- Bladder relaxation
+
+26. Dopamine Receptors
+----------------------
+D1:
+- Renal vascular smooth muscle
+- Causes vasodilation
+- Increases cAMP
+
+D2:
+- Brain
+- Presynaptic nerve terminals
+- Inhibits adenylyl cyclase
+- Reduces transmitter release
+
+D3, D4, D5:
+- Mostly CNS roles
+
+27. Nonadrenergic, Noncholinergic Neurons
+-----------------------------------------
+NANC neurons do not use norepinephrine or acetylcholine as their main transmitter.
+
+Transmitters include:
+- Nitric oxide
+- ATP
+- VIP
+- Substance P
+- CGRP
+- Neuropeptide Y
+- Serotonin
+
+Important locations:
+- GI tract
+- Airways
+- Bladder
+- Blood vessels
+
+28. Nitric Oxide
+----------------
+Nitric oxide is a major NANC transmitter.
+
+Features:
+- Not stored in vesicles
+- Synthesized on demand by nitric oxide synthase
+- Diffuses locally
+- Causes smooth muscle relaxation
+
+Important role:
+- Vascular relaxation
+- GI sphincter relaxation
+- Penile erection
+
+29. Autonomic Reflexes
+----------------------
+The ANS uses reflexes to maintain homeostasis.
+
+Important cardiovascular reflex:
+- Baroreceptor reflex
+
+Sensors:
+- Carotid sinus
+- Aortic arch
+
+Controlled variable:
+- Mean arterial pressure
+
+If blood pressure rises:
+- Baroreceptor firing increases
+- Sympathetic outflow decreases
+- Parasympathetic outflow increases
+- Heart rate decreases
+- Vascular tone decreases
+
+If blood pressure falls:
+- Baroreceptor firing decreases
+- Sympathetic outflow increases
+- Parasympathetic outflow decreases
+- Heart rate increases
+- Contractility increases
+- Vasoconstriction occurs
+- Renin release increases
+
+30. Example: Norepinephrine Infusion
+------------------------------------
+Direct effects:
+- Vasoconstriction
+- Increased blood pressure
+- Direct cardiac stimulation
+
+Reflex effect:
+- Increased blood pressure activates baroreceptors
+- Increased vagal output slows heart rate
+
+Net effect:
+- Increased blood pressure
+- Often reflex bradycardia
+
+31. Presynaptic Regulation
+--------------------------
+Presynaptic receptors modulate transmitter release.
+
+Autoreceptors:
+- Respond to the same transmitter released by the neuron
+
+Heteroreceptors:
+- Respond to transmitters released by nearby neurons or tissues
+
+Example:
+- Alpha2 autoreceptors on adrenergic terminals inhibit norepinephrine release.
+
+Other presynaptic modulators:
+- Acetylcholine
+- Dopamine
+- Serotonin
+- ATP
+- Adenosine
+- Histamine
+- Enkephalins
+- Neuropeptide Y
+- Prostaglandins
+
+32. Postsynaptic Regulation
+---------------------------
+Postsynaptic responses can be modified by:
+- Receptor upregulation
+- Receptor downregulation
+- Desensitization
+- Interactions with other receptors
+
+Denervation supersensitivity:
+- Loss of nerve input causes increased receptor sensitivity.
+- Example: increased nicotinic receptors after skeletal muscle denervation.
+
+33. Ganglionic Transmission
+---------------------------
+Autonomic ganglia use nicotinic receptors for fast transmission.
+
+Main event:
+- ACh activates NN receptors
+- Fast excitatory postsynaptic potential occurs
+
+Additional slower effects:
+- Muscarinic receptors can modify ganglionic excitability
+- Peptides can cause slow postsynaptic potentials
+
+34. Eye Pharmacology
+--------------------
+Important autonomic tissues in the eye:
+- Iris radial muscle
+- Iris circular muscle
+- Ciliary muscle
+- Ciliary epithelium
+
+Iris radial muscle:
+- Receptor: alpha1
+- Effect: contraction
+- Result: mydriasis
+
+Iris circular muscle:
+- Receptor: M3
+- Effect: contraction
+- Result: miosis
+
+Ciliary muscle:
+- Receptor: M3
+- Effect: contraction
+- Result: accommodation for near vision
+- Also opens trabecular meshwork and increases aqueous outflow
+
+Ciliary epithelium:
+- Receptor: beta
+- Effect: aqueous humor secretion
+
+35. Glaucoma Pharmacology Concept
+---------------------------------
+Increased aqueous humor outflow:
+- Muscarinic agonists contract ciliary muscle
+- Opens trabecular meshwork
+- Reduces intraocular pressure
+
+Decreased aqueous humor production:
+- Beta blockers reduce secretion by ciliary epithelium
+- Reduces intraocular pressure
+
+36. Major Direct Effects of Sympathetic Activity
+------------------------------------------------
+Eye:
+- Iris radial muscle contracts → mydriasis
+
+Heart:
+- Increased heart rate
+- Increased contractility
+- Increased conduction
+
+Blood vessels:
+- Alpha1 vasoconstriction in skin and splanchnic vessels
+- Beta2 vasodilation in skeletal muscle vessels
+
+Bronchi:
+- Beta2 bronchodilation
+
+GI tract:
+- Reduced motility
+- Sphincter contraction
+
+Bladder:
+- Detrusor relaxation
+- Sphincter contraction
+
+Metabolic:
+- Glycogenolysis
+- Gluconeogenesis
+- Lipolysis
+- Renin release
+
+37. Major Direct Effects of Parasympathetic Activity
+----------------------------------------------------
+Eye:
+- Miosis
+- Accommodation for near vision
+
+Heart:
+- Decreased heart rate
+- Decreased atrial contractility
+
+Bronchi:
+- Bronchoconstriction
+- Increased secretion
+
+GI tract:
+- Increased motility
+- Increased secretion
+- Sphincter relaxation
+
+Bladder:
+- Detrusor contraction
+- Sphincter relaxation
+
+Sexual function:
+- Erection
+
+38. Pharmacologic Targets in Autonomic Transmission
+---------------------------------------------------
+Possible drug targets:
+- Action potential propagation
+- Transmitter synthesis
+- Transmitter storage
+- Transmitter release
+- Transmitter reuptake
+- Receptor activation
+- Receptor blockade
+- Transmitter degradation
+
+Examples:
+- Local anesthetics block sodium channels.
+- Hemicholinium blocks choline uptake.
+- Vesamicol blocks ACh vesicular storage.
+- Botulinum toxin blocks ACh release.
+- Metyrosine blocks catecholamine synthesis.
+- Reserpine blocks catecholamine storage.
+- Cocaine blocks norepinephrine reuptake.
+- Neostigmine inhibits acetylcholinesterase.
+- Atropine blocks muscarinic receptors.
+- Propranolol blocks beta receptors.
+- Phentolamine blocks alpha receptors.
+
+39. Case Study Summary
+----------------------
+Patient:
+- 56-year-old woman
+- Involuntary eyelid closure
+- Diagnosed with blepharospasm
+- Treated with botulinum toxin type A injections into orbicularis oculi
+
+Mechanism:
+- Botulinum toxin blocks acetylcholine release at neuromuscular junction.
+- Prevents skeletal muscle contraction.
+- Relaxes orbicularis oculi muscle.
+- Eyelids no longer close involuntarily.
+
+Expected duration:
+- About 1–3 months after a single treatment.
+
+40. Must-Know Exam Pearls
+-------------------------
+- All autonomic preganglionic neurons release acetylcholine.
+- Most parasympathetic postganglionic neurons release acetylcholine.
+- Most sympathetic postganglionic neurons release norepinephrine.
+- Sweat glands receive sympathetic cholinergic innervation.
+- Adrenal medulla releases epinephrine and norepinephrine into blood.
+- Nicotinic NN receptors are in autonomic ganglia.
+- Nicotinic NM receptors are at skeletal neuromuscular junction.
+- M2 receptors slow the heart.
+- M3 receptors contract smooth muscle and stimulate glands.
+- Alpha1 causes vasoconstriction and mydriasis.
+- Alpha2 inhibits norepinephrine release.
+- Beta1 increases heart rate, contractility, and renin release.
+- Beta2 causes bronchodilation and vasodilation.
+- Beta3 causes lipolysis and bladder relaxation.
+- Botulinum toxin blocks ACh release by cleaving SNARE proteins.
+- Acetylcholinesterase terminates ACh action.
+- NET reuptake terminates much norepinephrine action.
+- MAO and COMT metabolize catecholamines.
+- Baroreceptor reflex can reverse direct cardiac effects of adrenergic drugs.
+- Norepinephrine can cause reflex bradycardia despite direct beta1 stimulation.

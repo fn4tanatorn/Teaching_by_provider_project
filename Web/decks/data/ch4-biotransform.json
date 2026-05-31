@@ -1,0 +1,1071 @@
+{
+  "id": "ch4",
+  "course": "Katzung Pharmacology",
+  "chapter": 4,
+  "title": "Drug Biotransformation",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-core-concept",
+      "number": 1,
+      "title": "Core Concept",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drug biotransformation = chemical modification of drugs/xenobiotics by the body."
+        },
+        {
+          "type": "group",
+          "label": "Main purpose",
+          "items": [
+            "Convert lipophilic drugs into more polar, water-soluble compounds.",
+            "Facilitate renal or biliary excretion.",
+            "Terminate or modify drug activity."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important",
+          "items": [
+            "Metabolism usually inactivates drugs.",
+            "Some metabolites are active or toxic.",
+            "Some drugs are prodrugs and require metabolism for activation."
+          ]
+        }
+      ],
+      "image": "data_4/01-fig-4-1.png",
+      "imageCaption": "FIGURE 4-1 — Phase I, phase II & direct elimination"
+    },
+    {
+      "id": "2-why-biotransformation-is-needed",
+      "number": 2,
+      "title": "Why Biotransformation Is Needed",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Many drugs are",
+          "items": [
+            "Lipophilic",
+            "Poorly ionized at physiologic pH",
+            "Protein-bound",
+            "Easily reabsorbed from renal tubules"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Without metabolism, many drugs would have prolonged action."
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Thiopental",
+            "Pentobarbital"
+          ]
+        }
+      ],
+      "image": "data_4/01-fig-4-1.png",
+      "imageCaption": "FIGURE 4-1 — Why biotransformation is needed"
+    },
+    {
+      "id": "3-phase-i-and-phase-ii-reactions",
+      "number": 3,
+      "title": "Phase I and Phase II Reactions",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Phase I reactions",
+          "items": [
+            "Introduce or expose functional groups.",
+            "Common groups: -OH, -NH2, -SH",
+            "Often make drug more polar.",
+            "May activate, inactivate, or create toxic metabolites."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Common Phase I reactions",
+          "items": [
+            "Oxidation",
+            "Reduction",
+            "Hydrolysis"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Phase II reactions",
+          "items": [
+            "Conjugation reactions.",
+            "Add endogenous molecules to drug or Phase I metabolite.",
+            "Usually produce highly polar, inactive metabolites."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Common conjugates",
+          "items": [
+            "Glucuronic acid",
+            "Sulfate",
+            "Acetate",
+            "Glutathione",
+            "Glycine",
+            "Methyl groups"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important",
+          "items": [
+            "Phase II can occur before Phase I.",
+            "Example: isoniazid acetylation before hydrolysis."
+          ]
+        }
+      ],
+      "image": "data_4/02-table-4-1.png",
+      "imageCaption": "TABLE 4-1 — Phase I reactions",
+      "imageSupplement": "data_4/03-table-4-1.png",
+      "imageSupplementCaption": "TABLE 4-1 — Phase I reactions (continued)"
+    },
+    {
+      "id": "4-main-sites-of-drug-metabolism",
+      "number": 4,
+      "title": "Main Sites of Drug Metabolism",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Principal organ",
+          "items": [
+            "Liver"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Other sites",
+          "items": [
+            "Intestine",
+            "Lung",
+            "Kidney",
+            "Skin",
+            "Brain",
+            "Plasma",
+            "Gut microbiota"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important concept",
+          "items": [
+            "Oral drugs may undergo first-pass metabolism in intestine and liver."
+          ]
+        }
+      ],
+      "image": "data_4/01-fig-4-1.png",
+      "imageCaption": "FIGURE 4-1 — Sites of drug metabolism"
+    },
+    {
+      "id": "5-first-pass-metabolism",
+      "number": 5,
+      "title": "First-Pass Metabolism",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "First-pass effect = metabolism before drug reaches systemic circulation."
+        },
+        {
+          "type": "group",
+          "label": "Occurs mainly in",
+          "items": [
+            "Intestinal wall",
+            "Liver"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Consequences",
+          "items": [
+            "Reduced oral bioavailability",
+            "Need for higher oral dose or alternative route"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Morphine",
+            "Lidocaine",
+            "Midazolam",
+            "Cyclosporine",
+            "Chlorpromazine"
+          ]
+        }
+      ],
+      "image": "data_4/15-table-4-7.png",
+      "imageCaption": "TABLE 4-7 — Rapidly metabolized drugs (first-pass)"
+    },
+    {
+      "id": "6-microsomal-mixed-function-oxidase-system",
+      "number": 6,
+      "title": "Microsomal Mixed Function Oxidase System",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Located mainly in smooth endoplasmic reticulum."
+        },
+        {
+          "type": "group",
+          "label": "Major components",
+          "items": [
+            "Cytochrome P450 enzymes",
+            "NADPH-cytochrome P450 reductase",
+            "NADPH",
+            "Molecular oxygen"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "General reaction",
+          "items": [
+            "One oxygen atom enters drug.",
+            "One oxygen atom becomes water."
+          ]
+        }
+      ],
+      "image": "data_4/07-fig-4-3.png",
+      "imageCaption": "FIGURE 4-3 — Cytochrome P450 catalytic cycle"
+    },
+    {
+      "id": "7-cytochrome-p450-system",
+      "number": 7,
+      "title": "Cytochrome P450 System",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Cytochrome P450 enzymes are major Phase I enzymes."
+        },
+        {
+          "type": "group",
+          "label": "Important human CYP enzymes",
+          "items": [
+            "CYP1A2",
+            "CYP2A6",
+            "CYP2B6",
+            "CYP2C8",
+            "CYP2C9",
+            "CYP2C19",
+            "CYP2D6",
+            "CYP2E1",
+            "CYP3A4",
+            "CYP3A5"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Most important",
+          "items": [
+            "CYP3A enzymes, especially CYP3A4, metabolize a large share of clinically used drugs."
+          ]
+        }
+      ],
+      "image": "data_4/05-table-4-2.png",
+      "imageCaption": "TABLE 4-2 — Human liver P450s: substrates & interactions",
+      "imageSupplement": "data_4/06-table-4-2.png",
+      "imageSupplementCaption": "TABLE 4-2 — CYP3A4 substrates, inducers & inhibitors"
+    },
+    {
+      "id": "8-cyp-induction",
+      "number": 8,
+      "title": "CYP Induction",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Enzyme induction = increased enzyme expression or reduced degradation."
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Increased metabolism",
+            "Reduced drug concentration",
+            "Reduced therapeutic effect",
+            "Increased toxic metabolite formation for some drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Common inducers",
+          "items": [
+            "Rifampin",
+            "Phenobarbital",
+            "Carbamazepine",
+            "Phenytoin",
+            "St. John’s wort",
+            "Smoking",
+            "Charcoal-broiled foods",
+            "Cruciferous vegetables",
+            "Chronic alcohol use"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical examples",
+          "items": [
+            "Rifampin reduces oral contraceptive effectiveness.",
+            "Smoking increases metabolism of some drugs.",
+            "St. John’s wort reduces levels of many CYP3A4 substrates."
+          ]
+        }
+      ],
+      "image": "data_4/09-fig-4-4.png",
+      "imageCaption": "FIGURE 4-4 — Relative contributions of CYP pathways"
+    },
+    {
+      "id": "9-cyp-inhibition",
+      "number": 9,
+      "title": "CYP Inhibition",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Enzyme inhibition = decreased metabolism."
+        },
+        {
+          "type": "group",
+          "label": "Effect",
+          "items": [
+            "Increased drug concentration",
+            "Increased toxicity risk",
+            "Especially important for narrow therapeutic index drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Common inhibitors",
+          "items": [
+            "Cimetidine",
+            "Ketoconazole",
+            "Itraconazole",
+            "Erythromycin",
+            "Clarithromycin",
+            "Ritonavir",
+            "Grapefruit juice",
+            "Fluoxetine",
+            "Fluconazole",
+            "Amiodarone"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical examples",
+          "items": [
+            "Grapefruit juice inhibits intestinal CYP3A4.",
+            "Macrolides can increase levels of CYP3A4 substrates.",
+            "Allopurinol inhibits xanthine oxidase and increases mercaptopurine toxicity."
+          ]
+        }
+      ],
+      "image": "data_4/09-fig-4-4.png",
+      "imageCaption": "FIGURE 4-4 — Relative contributions of CYP and phase II pathways"
+    },
+    {
+      "id": "10-phase-ii-enzymes",
+      "number": 10,
+      "title": "Phase II Enzymes",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Major Phase II pathways",
+          "items": [
+            "Enzyme: UDP-glucuronosyltransferase (UGT)",
+            "Important for bilirubin, morphine, acetaminophen, lorazepam, and oxazepam"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "B. Sulfation",
+          "items": [
+            "Enzyme: sulfotransferase",
+            "Important for phenols, alcohols, aromatic amines"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "C. Acetylation",
+          "items": [
+            "Enzyme: N-acetyltransferase (NAT)",
+            "Important for isoniazid, sulfonamides, hydralazine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "D. Glutathione conjugation",
+          "items": [
+            "Enzyme: glutathione-S-transferase",
+            "Important for detoxifying reactive metabolites"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "E. Methylation",
+          "items": [
+            "Uses S-adenosylmethionine",
+            "Important for catecholamines and thiopurines"
+          ]
+        }
+      ],
+      "image": "data_4/08-table-4-3.png",
+      "imageCaption": "TABLE 4-3 — Phase II conjugation reactions"
+    },
+    {
+      "id": "11-toxic-metabolites",
+      "number": 11,
+      "title": "Toxic Metabolites",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drug metabolism can produce toxic reactive intermediates."
+        },
+        {
+          "type": "group",
+          "label": "Toxicity risk increases when",
+          "items": [
+            "Normal conjugation pathways are saturated.",
+            "Glutathione is depleted.",
+            "CYP activation increases.",
+            "Liver disease is present."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important example",
+          "items": [
+            "Acetaminophen overdose"
+          ]
+        }
+      ],
+      "image": "data_4/04-fig-4-2.png",
+      "imageCaption": "FIGURE 4-2 — Isoniazid hepatotoxic metabolite"
+    },
+    {
+      "id": "12-acetaminophen-metabolism",
+      "number": 12,
+      "title": "Acetaminophen Metabolism",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "At therapeutic doses",
+          "items": [
+            "Mostly glucuronidation and sulfation",
+            "Small amount converted by CYP enzymes to toxic NAPQI",
+            "NAPQI detoxified by glutathione"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "In overdose",
+          "items": [
+            "Glucuronidation and sulfation become saturated.",
+            "More drug goes through CYP pathway.",
+            "NAPQI increases.",
+            "Glutathione becomes depleted.",
+            "Hepatic injury occurs."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Antidote",
+          "items": [
+            "N-acetylcysteine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Mechanism of antidote",
+          "items": [
+            "Replenishes glutathione",
+            "Detoxifies NAPQI"
+          ]
+        }
+      ],
+      "image": "data_4/12-fig-4-5.png",
+      "imageCaption": "FIGURE 4-5 — Acetaminophen metabolism & toxicity"
+    },
+    {
+      "id": "13-genetic-polymorphisms",
+      "number": 13,
+      "title": "Genetic Polymorphisms",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Genetic variation affects drug metabolism."
+        },
+        {
+          "type": "group",
+          "label": "Important enzymes",
+          "items": [
+            "CYP2D6",
+            "CYP2C19",
+            "CYP2C9",
+            "NAT2",
+            "TPMT",
+            "UGT1A1",
+            "BCHE"
+          ]
+        }
+      ],
+      "image": "data_4/10-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — Genetic polymorphisms (phase I/II)"
+    },
+    {
+      "id": "14-cyp2d6-polymorphism",
+      "number": 14,
+      "title": "CYP2D6 Polymorphism",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Substrates",
+          "items": [
+            "Codeine",
+            "Tramadol",
+            "Metoprolol",
+            "Nortriptyline",
+            "Tamoxifen",
+            "Hydrocodone"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Poor metabolizers",
+          "items": [
+            "Reduced activation of codeine to morphine",
+            "Reduced tamoxifen activation",
+            "Higher risk of toxicity from some parent drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Ultrarapid metabolizers",
+          "items": [
+            "Excessive conversion of codeine to morphine",
+            "Risk of respiratory depression"
+          ]
+        }
+      ],
+      "image": "data_4/10-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — CYP polymorphisms & clinical effects"
+    },
+    {
+      "id": "15-cyp2c19-polymorphism",
+      "number": 15,
+      "title": "CYP2C19 Polymorphism",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Substrates",
+          "items": [
+            "Clopidogrel",
+            "Omeprazole",
+            "Diazepam",
+            "Citalopram",
+            "Voriconazole",
+            "Mephenytoin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Poor metabolizers",
+          "items": [
+            "Reduced clopidogrel activation",
+            "Increased omeprazole effect",
+            "Increased risk of toxicity from some substrates"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Ultrarapid metabolizers",
+          "items": [
+            "Increased clopidogrel activation",
+            "Increased bleeding risk"
+          ]
+        }
+      ],
+      "image": "data_4/11-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — CYP2C19, CYP2C9, NAT2 polymorphisms"
+    },
+    {
+      "id": "16-cyp2c9-polymorphism",
+      "number": 16,
+      "title": "CYP2C9 Polymorphism",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Substrates",
+          "items": [
+            "Warfarin",
+            "Phenytoin",
+            "Tolbutamide",
+            "NSAIDs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Poor metabolizers",
+          "items": [
+            "Increased warfarin bleeding risk",
+            "Increased phenytoin toxicity"
+          ]
+        }
+      ],
+      "image": "data_4/11-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — TPMT & UGT1A1 polymorphisms"
+    },
+    {
+      "id": "17-nat2-polymorphism",
+      "number": 17,
+      "title": "NAT2 Polymorphism",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Important drug",
+          "items": [
+            "Isoniazid"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Slow acetylators",
+          "items": [
+            "Increased risk of peripheral neuropathy",
+            "Increased risk of drug-induced lupus-like syndrome"
+          ]
+        }
+      ],
+      "image": "data_4/11-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — NAT2 acetylator phenotype"
+    },
+    {
+      "id": "18-tpmt-polymorphism",
+      "number": 18,
+      "title": "TPMT Polymorphism",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Important drugs",
+          "items": [
+            "6-mercaptopurine",
+            "Azathioprine",
+            "Thioguanine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Poor metabolizers",
+          "items": [
+            "Severe myelotoxicity risk"
+          ]
+        }
+      ],
+      "image": "data_4/11-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — TPMT & thiopurine toxicity"
+    },
+    {
+      "id": "19-ugt1a1-polymorphism",
+      "number": 19,
+      "title": "UGT1A1 Polymorphism",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Associated with",
+          "items": [
+            "Gilbert syndrome",
+            "Increased irinotecan toxicity"
+          ]
+        }
+      ],
+      "image": "data_4/11-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — UGT1A1 & glucuronidation"
+    },
+    {
+      "id": "20-bche-polymorphism",
+      "number": 20,
+      "title": "BCHE Polymorphism",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Important drug",
+          "items": [
+            "Succinylcholine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Deficiency causes",
+          "items": [
+            "Prolonged apnea",
+            "Prolonged paralysis"
+          ]
+        }
+      ],
+      "image": "data_4/11-table-4-4.png",
+      "imageCaption": "TABLE 4-4 — BCHE & ester hydrolysis"
+    },
+    {
+      "id": "21-gut-microbiota-and-drug-metabolism",
+      "number": 21,
+      "title": "Gut Microbiota and Drug Metabolism",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Gut bacteria can metabolize drugs."
+        },
+        {
+          "type": "group",
+          "label": "Important effects",
+          "items": [
+            "Reduce or activate drugs",
+            "Deconjugate glucuronides",
+            "Contribute to enterohepatic recycling",
+            "Modify toxicity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Digoxin metabolism by gut flora",
+            "Antibiotics can increase digoxin levels",
+            "Bacterial beta-glucuronidase contributes to irinotecan and NSAID GI toxicity"
+          ]
+        }
+      ],
+      "image": "data_4/01-fig-4-1.png",
+      "imageCaption": "FIGURE 4-1 — Gut microbiota & metabolism"
+    },
+    {
+      "id": "22-diet-and-environment",
+      "number": 22,
+      "title": "Diet and Environment",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Smoking",
+          "items": [
+            "Induces CYP1A enzymes"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Charcoal-broiled foods",
+          "items": [
+            "Induce CYP1A enzymes"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Cruciferous vegetables",
+          "items": [
+            "Induce CYP1A enzymes"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Grapefruit juice",
+          "items": [
+            "Inhibits intestinal CYP3A4"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Alcohol",
+          "items": [
+            "Chronic use induces CYP2E1",
+            "Acute use may inhibit metabolism of some drugs"
+          ]
+        }
+      ],
+      "image": "data_4/13-table-4-5.png",
+      "imageCaption": "TABLE 4-5 — Drugs that enhance or inhibit metabolism"
+    },
+    {
+      "id": "23-age-and-sex",
+      "number": 23,
+      "title": "Age and Sex",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Neonates and elderly patients",
+          "items": [
+            "Often have altered metabolism",
+            "Higher risk of toxicity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Sex differences",
+          "items": [
+            "May affect metabolism of some drugs, but less predictable in humans."
+          ]
+        }
+      ],
+      "image": "data_4/13-table-4-5.png",
+      "imageCaption": "TABLE 4-5 — Diet & environmental enzyme inducers"
+    },
+    {
+      "id": "24-disease-effects",
+      "number": 24,
+      "title": "Disease Effects",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Liver disease",
+          "items": [
+            "Reduces metabolism of many drugs",
+            "Prolongs half-life",
+            "Increases toxicity risk"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Diazepam",
+            "Chlordiazepoxide"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Cardiac disease",
+          "items": [
+            "Reduces hepatic blood flow",
+            "Affects high-extraction drugs"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples of flow-limited drugs",
+          "items": [
+            "Lidocaine",
+            "Morphine",
+            "Propranolol",
+            "Verapamil",
+            "Imipramine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Inflammation and infection",
+          "items": [
+            "Cytokines can reduce CYP expression and activity."
+          ]
+        }
+      ],
+      "image": "data_4/13-table-4-5.png",
+      "imageCaption": "TABLE 4-5 — Disease effects on drug metabolism"
+    },
+    {
+      "id": "25-biologics-metabolism",
+      "number": 25,
+      "title": "Biologics Metabolism",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Biologics include",
+          "items": [
+            "Monoclonal antibodies",
+            "Cytokines",
+            "Fusion proteins",
+            "Recombinant proteins",
+            "Antibody-drug conjugates"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Metabolism",
+          "items": [
+            "Not mainly by CYP enzymes",
+            "Degraded by proteolysis into amino acids",
+            "Often lysosomal degradation",
+            "FcRn recycling prolongs half-life of IgG antibodies"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important",
+          "items": [
+            "Biologics may still affect small-molecule drug metabolism by changing cytokine levels."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "26-drug-drug-interactions",
+      "number": 26,
+      "title": "Drug-Drug Interactions",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Major mechanisms",
+          "items": [
+            "CYP induction",
+            "CYP inhibition",
+            "Competition for conjugation pathways",
+            "Altered gut microbiota",
+            "Altered transporters",
+            "Cytokine-mediated CYP changes"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important examples",
+          "items": [
+            "Rifampin decreases warfarin and oral contraceptive levels.",
+            "Grapefruit juice increases felodipine, cyclosporine, some statins.",
+            "Ketoconazole increases CYP3A4 substrate levels.",
+            "Allopurinol increases mercaptopurine toxicity.",
+            "St. John’s wort decreases many CYP3A4 substrate levels."
+          ]
+        }
+      ],
+      "image": "data_4/13-table-4-5.png",
+      "imageCaption": "TABLE 4-5 — Drug–drug metabolic interactions"
+    },
+    {
+      "id": "27-case-study-summary",
+      "number": 27,
+      "title": "Case Study Summary",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Patient took overdose of",
+          "items": [
+            "Hydrocodone/acetaminophen",
+            "Carisoprodol",
+            "Duloxetine"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Findings",
+          "items": [
+            "Jaundice",
+            "High AST/ALT",
+            "High bilirubin",
+            "Prolonged prothrombin time",
+            "Low glucose",
+            "Reduced renal function",
+            "Detectable acetaminophen level 48 hours later",
+            "Hepatitis C positive"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Interpretation",
+          "items": [
+            "Severe acetaminophen toxicity",
+            "Ongoing liver failure",
+            "Mixed drug overdose and HCV likely worsened hepatic risk"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Management",
+          "items": [
+            "Give N-acetylcysteine",
+            "Provide IV glucose",
+            "Support renal and hepatic function",
+            "Monitor liver tests, coagulation, glucose, renal function, and acetaminophen level"
+          ]
+        }
+      ],
+      "image": "data_4/14-fig-4-6.png",
+      "imageCaption": "FIGURE 4-6 — Debrisoquin hydroxylation polymorphism"
+    },
+    {
+      "id": "28-must-know-exam-pearls",
+      "number": 28,
+      "title": "Must-Know Exam Pearls",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Drug metabolism usually makes drugs more water-soluble.",
+            "Phase I = oxidation, reduction, hydrolysis.",
+            "Phase II = conjugation.",
+            "CYP3A enzymes, especially CYP3A4, metabolize many drugs.",
+            "Enzyme induction decreases drug levels but may increase toxic metabolites.",
+            "Enzyme inhibition increases drug levels and toxicity risk.",
+            "Acetaminophen toxicity is due to NAPQI.",
+            "N-acetylcysteine replenishes glutathione.",
+            "CYP2D6 activates codeine to morphine and contributes to tamoxifen activation to endoxifen.",
+            "CYP2C19 activates clopidogrel.",
+            "CYP2C9 metabolizes warfarin and phenytoin.",
+            "NAT2 slow acetylators have more isoniazid toxicity.",
+            "TPMT deficiency increases thiopurine toxicity.",
+            "UGT1A1 variants increase irinotecan toxicity.",
+            "Grapefruit juice inhibits intestinal CYP3A4.",
+            "Rifampin is a strong inducer.",
+            "St. John’s wort induces CYP3A4."
+          ]
+        }
+      ],
+      "image": "data_4/01-fig-4-1.png",
+      "imageCaption": "FIGURE 4-1 — Phase I, phase II & direct elimination overview"
+    }
+  ],
+  "introImage": "data_4/01-fig-4-1.png",
+  "introImageCaption": "FIGURE 4-1 — Drug biotransformation"
+}

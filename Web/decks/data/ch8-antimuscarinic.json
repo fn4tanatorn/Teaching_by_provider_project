@@ -1,0 +1,809 @@
+{
+  "id": "ch8",
+  "course": "Katzung Pharmacology",
+  "chapter": 8,
+  "title": "Cholinoceptor-Blocking Drugs",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-high-yield-summary",
+      "number": 1,
+      "title": "High-Yield Summary",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Cholinoceptor antagonists are divided into:",
+            "Muscarinic receptor blockers = antimuscarinic drugs",
+            "Nicotinic receptor blockers = ganglion blockers and neuromuscular blockers",
+            "This chapter focuses mainly on antimuscarinic drugs.",
+            "Prototype drug: atropine.",
+            "Antimuscarinic drugs block parasympathetic effects at muscarinic receptors.",
+            "Major clinical uses:",
+            "Motion sickness: scopolamine",
+            "Ophthalmology: atropine, homatropine, cyclopentolate, tropicamide",
+            "COPD and selected asthma add-on therapy: ipratropium, tiotropium, aclidinium, umeclidinium",
+            "Overactive bladder/urge incontinence: oxybutynin, tolterodine, darifenacin, solifenacin, fesoterodine, trospium",
+            "Organophosphate cholinesterase inhibitor poisoning: atropine + pralidoxime",
+            "Parkinson tremor: benztropine, trihexyphenidyl",
+            "Classic antimuscarinic toxicity:",
+            "Dry as a bone",
+            "Blind as a bat",
+            "Red as a beet",
+            "Mad as a hatter",
+            "Hot as a hare"
+          ]
+        }
+      ],
+      "image": "data_8/01-fig-8-1.png",
+      "imageCaption": "FIGURE 8-1 — M₁ receptor structural model"
+    },
+    {
+      "id": "2-core-concepts",
+      "number": 2,
+      "title": "Core Concepts",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Muscarinic receptor subtypes",
+          "items": [
+            "M1:",
+            "Location: CNS, autonomic ganglia, presynaptic nerves",
+            "Signaling: Gq -> IP3/DAG",
+            "Drugs: pirenzepine, telenzepine, dicyclomine, trihexyphenidyl",
+            "M2:",
+            "Location: heart, nerves, smooth muscle",
+            "Signaling: Gi -> decreased cAMP, increased K+ conductance",
+            "Effect: slows SA and AV node activity",
+            "M3:",
+            "Location: glands, smooth muscle, endothelium",
+            "Signaling: Gq -> IP3/DAG",
+            "Major exam receptor for secretions, bronchoconstriction, bladder contraction, GI motility, miosis",
+            "Drugs: oxybutynin, tolterodine, darifenacin, solifenacin, tiotropium",
+            "M4/M5:",
+            "More important in CNS",
+            "M5 may have role in drug addiction"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Key principle",
+          "items": [
+            "Antimuscarinic drugs block muscarinic receptors but do not significantly block nicotinic receptors at therapeutic doses."
+          ]
+        }
+      ],
+      "image": "data_8/02-table-8-1.png",
+      "imageCaption": "TABLE 8-1 — Muscarinic subgroups & antagonists"
+    },
+    {
+      "id": "3-key-mechanisms-pathways",
+      "number": 3,
+      "title": "Key Mechanisms / Pathways",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Atropine mechanism",
+          "items": [
+            "Competitive, reversible muscarinic antagonist",
+            "Blocks acetylcholine at muscarinic receptors",
+            "Prevents:",
+            "IP3/DAG signaling through M1/M3/M5",
+            "Gi-mediated effects through M2/M4"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M2 cardiac blockade",
+          "items": [
+            "Normally acetylcholine activates M2 receptors -> decreased cAMP + increased K+ efflux",
+            "This slows SA node firing and AV conduction.",
+            "Atropine blocks M2 -> tachycardia and increased AV conduction."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M3 smooth muscle/gland blockade",
+          "items": [
+            "Normally acetylcholine activates M3 -> IP3/DAG -> increased intracellular Ca2+",
+            "Causes gland secretion and smooth muscle contraction.",
+            "Antimuscarinics block this -> dry mouth, bronchodilation, reduced bladder contraction, constipation."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "M3 eye blockade",
+          "items": [
+            "Blocks iris sphincter contraction -> mydriasis",
+            "Blocks ciliary muscle contraction -> cycloplegia",
+            "Can precipitate acute angle-closure glaucoma."
+          ]
+        }
+      ],
+      "image": "data_8/03-fig-8-2.png",
+      "imageCaption": "FIGURE 8-2 — Atropine structure & muscarinic blockade",
+      "imageSupplement": "data_8/05-fig-8-3.png",
+      "imageSupplementCaption": "FIGURE 8-3 — Semisynthetic & synthetic antimuscarinics"
+    },
+    {
+      "id": "4-important-drugs-systems",
+      "number": 4,
+      "title": "Important Drugs / Systems",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "A. Natural alkaloids",
+          "items": [
+            "Atropine:",
+            "Prototype antimuscarinic",
+            "Tertiary amine",
+            "Enters CNS",
+            "Uses: bradycardia, organophosphate poisoning, ophthalmology",
+            "Scopolamine:",
+            "More CNS effect than atropine",
+            "Causes sedation and amnesia",
+            "Used for motion sickness and postoperative nausea/vomiting"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "B. Ophthalmic antimuscarinics",
+          "items": [
+            "Atropine:",
+            "Duration: 7-14 days",
+            "Longest acting",
+            "Scopolamine:",
+            "Duration: 3-7 days",
+            "Homatropine:",
+            "Duration: 1-3 days",
+            "Cyclopentolate:",
+            "Duration: 6-24 hours",
+            "Tropicamide:",
+            "Duration: 15-60 minutes",
+            "Best for short funduscopic exam"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "C. Respiratory antimuscarinics",
+          "items": [
+            "Ipratropium:",
+            "Shorter acting",
+            "Used mainly in COPD; also used as add-on bronchodilator in acute asthma exacerbations",
+            "Tiotropium:",
+            "Long acting",
+            "Once daily",
+            "Slow dissociation from M3",
+            "Reduces COPD exacerbations",
+            "Aclidinium:",
+            "Long acting, twice daily",
+            "Umeclidinium:",
+            "Long acting, once daily",
+            "Glycopyrrolate:",
+            "Inhaled form used in COPD"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "D. Urinary antimuscarinics",
+          "items": [
+            "Oxybutynin:",
+            "Antimuscarinic with functional bladder selectivity",
+            "Used for overactive bladder, urge incontinence, postoperative bladder spasm",
+            "Oral, extended-release, transdermal, intravesical forms",
+            "Tolterodine:",
+            "Functional bladder selectivity; competitive muscarinic antagonist",
+            "Used for urinary incontinence",
+            "Darifenacin, solifenacin:",
+            "More M3 selective",
+            "Once daily due to long half-life",
+            "Fesoterodine:",
+            "Prodrug related to tolterodine; used for overactive bladder",
+            "Trospium:",
+            "Quaternary amine",
+            "Less CNS penetration"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "E. GI antimuscarinics",
+          "items": [
+            "Dicyclomine:",
+            "Used for irritable bowel syndrome and intestinal spasm",
+            "Hyoscyamine:",
+            "Longer acting GI antispasmodic",
+            "Atropine + diphenoxylate:",
+            "Used for diarrhea",
+            "Atropine discourages opioid abuse"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "F. CNS antimuscarinics",
+          "items": [
+            "Benztropine, trihexyphenidyl:",
+            "Parkinson disease tremor",
+            "Drug-induced extrapyramidal symptoms"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "G. Cholinergic poisoning drugs",
+          "items": [
+            "Atropine:",
+            "Treats muscarinic effects of organophosphate poisoning",
+            "Does not reverse nicotinic skeletal muscle weakness",
+            "Pralidoxime:",
+            "Reactivates acetylcholinesterase before aging",
+            "Most useful at neuromuscular junction",
+            "Does not enter CNS",
+            "Limited or not routine for carbamate poisoning because carbamate AChE inhibition is usually reversible"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "H. Ganglion blockers",
+          "items": [
+            "Mecamylamine:",
+            "Blocks neuronal nicotinic receptors",
+            "Enters CNS",
+            "Rarely used",
+            "Hexamethonium:",
+            "Historical antihypertensive",
+            "Blocks autonomic ganglia",
+            "Trimethaphan:",
+            "Short acting; mostly obsolete"
+          ]
+        }
+      ],
+      "image": "data_8/04-table-8-2.png",
+      "imageCaption": "TABLE 8-2 — Antimuscarinic drugs in clinical use",
+      "imageSupplement": "data_8/06-table-8-3.png",
+      "imageSupplementCaption": "TABLE 8-3 — Antimuscarinic preparations"
+    },
+    {
+      "id": "5-clinical-correlations",
+      "number": 5,
+      "title": "Clinical Correlations",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "A. Overactive bladder / urge incontinence",
+          "items": [
+            "Mechanism: involuntary detrusor contractions",
+            "Main receptor: M3",
+            "Treatment:",
+            "Oxybutynin",
+            "Tolterodine",
+            "Darifenacin",
+            "Solifenacin",
+            "Fesoterodine",
+            "Trospium",
+            "Adverse effects:",
+            "Dry mouth",
+            "Constipation",
+            "Blurred vision",
+            "Urinary retention",
+            "Confusion in elderly"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "B. COPD",
+          "items": [
+            "Vagal tone contributes to bronchoconstriction.",
+            "Antimuscarinics block M3 receptors on airway smooth muscle.",
+            "Tiotropium, umeclidinium, aclidinium = long-acting muscarinic antagonists.",
+            "Often combined with long-acting beta2 agonists."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "C. Eye exam",
+          "items": [
+            "Antimuscarinics cause:",
+            "Mydriasis",
+            "Cycloplegia",
+            "Tropicamide is short acting and useful for funduscopic exam.",
+            "Avoid in angle-closure glaucoma."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "D. Motion sickness",
+          "items": [
+            "Scopolamine patch prevents vestibular-induced nausea/vomiting.",
+            "Common adverse effects: sedation, dry mouth, blurred vision."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "E. Organophosphate poisoning",
+          "items": [
+            "Findings:",
+            "Muscarinic: salivation, lacrimation, urination, diarrhea, bronchorrhea, bronchospasm, bradycardia, miosis",
+            "Nicotinic: fasciculations, weakness, paralysis",
+            "CNS: confusion, seizures, coma",
+            "Treatment:",
+            "ABCs and decontamination",
+            "Atropine for muscarinic symptoms",
+            "Pralidoxime before aging to restore acetylcholinesterase",
+            "Benzodiazepines for seizures"
+          ]
+        }
+      ],
+      "image": "data_8/07-fig-8-4.png",
+      "imageCaption": "FIGURE 8-4 — Atropine dose effects (HR & salivation)"
+    },
+    {
+      "id": "6-adverse-effects-toxicity-pitfalls",
+      "number": 6,
+      "title": "Adverse Effects / Toxicity / Pitfalls",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Classic antimuscarinic toxicity",
+          "items": [
+            "Dry mouth",
+            "Mydriasis",
+            "Cycloplegia",
+            "Blurred vision",
+            "Tachycardia",
+            "Constipation",
+            "Urinary retention",
+            "Hot, flushed skin",
+            "Fever",
+            "Agitation, delirium, hallucinations"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Mnemonic",
+          "items": [
+            "Dry as a bone = decreased secretions",
+            "Blind as a bat = mydriasis/cycloplegia",
+            "Red as a beet = flushing",
+            "Mad as a hatter = delirium",
+            "Hot as a hare = hyperthermia"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Contraindications / cautions",
+          "items": [
+            "Angle-closure glaucoma",
+            "BPH or urinary retention",
+            "Elderly patients with cognitive impairment",
+            "Gastric retention",
+            "Children: high risk of atropine fever"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important pitfall",
+          "items": [
+            "Atropine reverses muscarinic effects of organophosphates but does not reverse nicotinic paralysis.",
+            "Pralidoxime must be given before aging of the organophosphate-enzyme complex.",
+            "Physostigmine can reverse severe antimuscarinic toxicity but is used cautiously due to seizure and cardiac risk."
+          ]
+        }
+      ],
+      "image": "data_8/08-fig-8-5.png",
+      "imageCaption": "FIGURE 8-5 — Systemic atropine effects",
+      "imageSupplement": "data_8/09-fig-8-6.png",
+      "imageSupplementCaption": "FIGURE 8-6 — Ganglion-blocking drugs"
+    },
+    {
+      "id": "7-important-comparisons",
+      "number": 7,
+      "title": "Important Comparisons",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Antimuscarinic vs Cholinomimetic Effects"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Organ/System",
+            "Cholinomimetic Effect",
+            "Antimuscarinic Effect"
+          ],
+          "rows": [
+            [
+              "Eye",
+              "Miosis, accommodation",
+              "Mydriasis, cycloplegia"
+            ],
+            [
+              "Heart",
+              "Bradycardia",
+              "Tachycardia"
+            ],
+            [
+              "Bronchi",
+              "Bronchoconstriction, secretions",
+              "Bronchodilation, decreased secretions"
+            ],
+            [
+              "GI tract",
+              "Increased motility/secretions",
+              "Decreased motility/secretions"
+            ],
+            [
+              "Bladder",
+              "Detrusor contraction",
+              "Detrusor relaxation"
+            ],
+            [
+              "Sweat glands",
+              "Sweating",
+              "Decreased sweating, hyperthermia"
+            ],
+            [
+              "CNS",
+              "Cholinergic activation",
+              "Sedation or delirium at high dose"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Tertiary vs Quaternary Antimuscarinics"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Tertiary Amines",
+            "Quaternary Amines"
+          ],
+          "rows": [
+            [
+              "CNS entry",
+              "Good",
+              "Poor"
+            ],
+            [
+              "Absorption",
+              "Better",
+              "Poor oral absorption"
+            ],
+            [
+              "Examples",
+              "Atropine, scopolamine, oxybutynin, tolterodine",
+              "Ipratropium, tiotropium, glycopyrrolate, trospium"
+            ],
+            [
+              "Main issue",
+              "CNS toxicity",
+              "Peripheral effects"
+            ],
+            [
+              "Clinical use",
+              "CNS, eye, urinary, poisoning",
+              "COPD, reduced secretions, bladder with less CNS effect"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Ophthalmic Drugs Duration"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Duration"
+          ],
+          "rows": [
+            [
+              "Atropine",
+              "7-14 days"
+            ],
+            [
+              "Scopolamine",
+              "3-7 days"
+            ],
+            [
+              "Homatropine",
+              "1-3 days"
+            ],
+            [
+              "Cyclopentolate",
+              "6-24 hours"
+            ],
+            [
+              "Tropicamide",
+              "15-60 minutes"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Overactive Bladder Drugs"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Key Feature"
+          ],
+          "rows": [
+            [
+              "Oxybutynin",
+              "M3 preference; oral/patch/intravesical"
+            ],
+            [
+              "Tolterodine",
+              "M2/M3 selective"
+            ],
+            [
+              "Darifenacin",
+              "More M3 selective"
+            ],
+            [
+              "Solifenacin",
+              "More M3 selective"
+            ],
+            [
+              "Fesoterodine",
+              "M3-selective prodrug"
+            ],
+            [
+              "Trospium",
+              "Quaternary; less CNS entry"
+            ]
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Organophosphate Treatment"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Role",
+            "Limitation"
+          ],
+          "rows": [
+            [
+              "Atropine",
+              "Blocks muscarinic excess",
+              "No effect on nicotinic paralysis"
+            ],
+            [
+              "Pralidoxime",
+              "Regenerates acetylcholinesterase",
+              "Must be before aging; poor CNS entry"
+            ],
+            [
+              "Benzodiazepines",
+              "Treat seizures",
+              "Supportive"
+            ],
+            [
+              "Decontamination",
+              "Prevents further absorption",
+              "Must protect healthcare workers"
+            ]
+          ]
+        }
+      ],
+      "image": "data_8/06-table-8-3.png",
+      "imageCaption": "TABLE 8-3 — Antimuscarinic drugs (continued)"
+    },
+    {
+      "id": "8-must-know-exam-points",
+      "number": 8,
+      "title": "Must-Know Exam Points",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Atropine is a competitive reversible muscarinic antagonist.",
+            "Atropine is nonselective for M1-M5.",
+            "M3 mediates gland secretion, bronchoconstriction, GI contraction, bladder contraction, and miosis.",
+            "M2 mediates bradycardia and AV nodal slowing.",
+            "Antimuscarinics cause mydriasis and cycloplegia.",
+            "Antimuscarinics can precipitate acute angle-closure glaucoma.",
+            "Scopolamine is best known for motion sickness.",
+            "Ipratropium and tiotropium are inhaled antimuscarinics used mainly for COPD; tiotropium may be used as add-on therapy in selected asthma patients.",
+            "Tiotropium is long acting due to slow dissociation from M3 receptors.",
+            "Oxybutynin and tolterodine treat overactive bladder/urge incontinence.",
+            "Antimuscarinics can cause urinary retention, especially in BPH.",
+            "Atropine treats muscarinic toxicity from organophosphate poisoning.",
+            "Pralidoxime regenerates acetylcholinesterase before aging.",
+            "Pralidoxime does not cross the blood-brain barrier well.",
+            "Ganglion blockers cause orthostatic hypotension, constipation, urinary retention, and sexual dysfunction.",
+            "Mecamylamine enters the CNS; hexamethonium is historical."
+          ]
+        }
+      ],
+      "image": "data_8/02-table-8-1.png",
+      "imageCaption": "TABLE 8-1 — Muscarinic antagonists: exam points"
+    },
+    {
+      "id": "9-case-based-integration",
+      "number": 9,
+      "title": "Case-Based Integration",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Case: 63-year-old man post-prostatectomy with urinary urgency and frequency"
+        },
+        {
+          "type": "group",
+          "label": "Most likely diagnosis",
+          "items": [
+            "Urge incontinence due to detrusor muscle instability after relief of chronic bladder outlet obstruction from BPH."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Why it happens",
+          "items": [
+            "Long-standing obstruction causes detrusor hypertrophy and instability.",
+            "After prostatectomy, outlet obstruction improves, but detrusor overactivity may persist."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Information to gather",
+          "items": [
+            "Urinalysis and urine culture to exclude UTI",
+            "Post-void residual urine to exclude retention/overflow",
+            "Ask about weak stream, incomplete emptying, dysuria, hematuria, fever, nocturia",
+            "Consider urodynamic studies if diagnosis is unclear"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Treatment",
+          "items": [
+            "Reassure that urgency/frequency may improve over time.",
+            "Start antimuscarinic therapy:",
+            "Tolterodine ER 4 mg daily, or",
+            "Oxybutynin ER 5-10 mg daily, or",
+            "Oxybutynin transdermal patch 3.9 mg/day",
+            "Monitor for:",
+            "Dry mouth",
+            "Constipation",
+            "Blurred vision",
+            "Confusion",
+            "Urinary retention",
+            "Consider alternatives if refractory:",
+            "More M3-selective agents such as darifenacin/solifenacin",
+            "Intrabladder botulinum toxin A for refractory cases"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Exam clue",
+          "items": [
+            "Post-prostatectomy urgency/frequency = detrusor instability -> treat with M3-blocking antimuscarinic."
+          ]
+        }
+      ],
+      "image": "data_8/07-fig-8-4.png",
+      "imageCaption": "FIGURE 8-4 — Antimuscarinic dose–response in practice"
+    },
+    {
+      "id": "10-rapid-review-table",
+      "number": 10,
+      "title": "Rapid Review Table",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "table",
+          "header": [
+            "Topic",
+            "High-Yield Point"
+          ],
+          "rows": [
+            [
+              "Prototype antimuscarinic",
+              "Atropine"
+            ],
+            [
+              "Best for motion sickness",
+              "Scopolamine"
+            ],
+            [
+              "Shortest ophthalmic agent",
+              "Tropicamide"
+            ],
+            [
+              "Longest ophthalmic agent",
+              "Atropine"
+            ],
+            [
+              "COPD antimuscarinics",
+              "Ipratropium, tiotropium, aclidinium, umeclidinium"
+            ],
+            [
+              "Long-acting COPD drug",
+              "Tiotropium"
+            ],
+            [
+              "Overactive bladder receptor",
+              "M3"
+            ],
+            [
+              "Overactive bladder drugs",
+              "Oxybutynin, tolterodine, darifenacin, solifenacin"
+            ],
+            [
+              "Less CNS urinary drug",
+              "Trospium"
+            ],
+            [
+              "Parkinson tremor drugs",
+              "Benztropine, trihexyphenidyl"
+            ],
+            [
+              "Organophosphate antidote for muscarinic symptoms",
+              "Atropine"
+            ],
+            [
+              "Organophosphate antidote for AChE regeneration",
+              "Pralidoxime"
+            ],
+            [
+              "Pralidoxime limitation",
+              "Poor CNS entry; ineffective after aging"
+            ],
+            [
+              "Classic toxicity",
+              "Dry, blind, red, mad, hot"
+            ],
+            [
+              "Major contraindication",
+              "Angle-closure glaucoma"
+            ],
+            [
+              "Important elderly caution",
+              "Confusion, urinary retention"
+            ],
+            [
+              "Ganglion blocker toxicity",
+              "Orthostatic hypotension, constipation, urinary retention"
+            ],
+            [
+              "Historical antihypertensive ganglion blocker",
+              "Hexamethonium"
+            ],
+            [
+              "CNS-entering ganglion blocker",
+              "Mecamylamine"
+            ]
+          ]
+        }
+      ],
+      "image": "data_8/10-summary.png",
+      "imageCaption": "Summary — anticholinergic (antimuscarinic) drugs"
+    }
+  ],
+  "introImage": "data_8/01-fig-8-1.png",
+  "introImageCaption": "FIGURE 8-1 — M1 receptor structural model"
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "file": "data_3/01-fig-3-1.png",
+    "was": "data_3/01.png",
+    "caption": "FIGURE 3-1 — Dose, concentration & effect (PK/PD)"
+  },
+  {
+    "file": "data_3/02-table-3-1.png",
+    "was": "data_3/02.png",
+    "caption": "TABLE 3-1 — PK/PD parameters (selected drugs)"
+  },
+  {
+    "file": "data_3/03-table-3-1.png",
+    "was": "data_3/03.png",
+    "caption": "TABLE 3-1 — PK/PD parameters (continued)"
+  },
+  {
+    "file": "data_3/04-fig-3-2.png",
+    "was": "data_3/04.png",
+    "caption": "FIGURE 3-2 — Drug distribution & elimination models"
+  },
+  {
+    "file": "data_3/05-table-3-2.png",
+    "was": "data_3/05.png",
+    "caption": "TABLE 3-2 — Body compartment volumes (L/kg)"
+  },
+  {
+    "file": "data_3/06-fig-3-3.png",
+    "was": "data_3/06.png",
+    "caption": "FIGURE 3-3 — Drug accumulation & elimination (half-lives)"
+  },
+  {
+    "file": "data_3/07-table-3-3.png",
+    "was": "data_3/07.png",
+    "caption": "TABLE 3-3 — Routes of administration & bioavailability"
+  },
+  {
+    "file": "data_3/08-fig-3-4.png",
+    "was": "data_3/08.png",
+    "caption": "FIGURE 3-4 — Bioavailability: rate vs extent of absorption"
+  },
+  {
+    "file": "data_3/09-fig-3-5.png",
+    "was": "data_3/09.png",
+    "caption": "FIGURE 3-5 — Delayed drug effect (ACE inhibitor example)"
+  },
+  {
+    "file": "data_3/10-fig-3-6.png",
+    "was": "data_3/10.png",
+    "caption": "FIGURE 3-6 — Dosing frequency vs plasma concentration"
+  }
+]

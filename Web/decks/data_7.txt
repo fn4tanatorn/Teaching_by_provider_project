@@ -1,0 +1,401 @@
+Cholinoceptor-Activating & Cholinesterase-Inhibiting Drugs
+
+1. High-Yield Summary
+- Cholinomimetics mimic acetylcholine (ACh) by:
+  - Directly activating cholinoceptors
+  - Indirectly increasing endogenous ACh by inhibiting acetylcholinesterase (AChE)
+- Receptor classes:
+  - Muscarinic receptors: G protein–coupled receptors
+  - Nicotinic receptors: ligand-gated Na+/K+ ion channels
+- Major clinical uses:
+  - Glaucoma
+  - Postoperative ileus / urinary retention
+  - Myasthenia gravis
+  - Reversal of nondepolarizing neuromuscular blockade
+  - Alzheimer disease
+  - Antimuscarinic toxicity
+  - Smoking cessation
+- Major toxic syndrome:
+  - Cholinergic excess: SLUDGE/DUMBELS + bronchospasm + bradycardia + miosis
+  - Organophosphate poisoning: muscarinic + nicotinic + CNS toxicity
+
+2. Core Concepts
+- Muscarinic effects resemble parasympathetic activation.
+- Nicotinic effects occur at:
+  - Autonomic ganglia
+  - Neuromuscular junction
+  - CNS
+- Cholinesterase inhibitors amplify ACh only where ACh is normally released.
+- Quaternary agents generally do not enter the CNS.
+- Tertiary/lipid-soluble agents can enter the CNS.
+
+3. Key Mechanisms / Pathways
+
+Muscarinic Receptors
+| Receptor | Location | Signaling | High-Yield Effect |
+|---|---|---|---|
+| M1 | CNS, autonomic ganglia | Gq → IP3/DAG ↑ | Neural excitation |
+| M2 | Heart | Gi → cAMP ↓, K+ efflux ↑ | Bradycardia, ↓ AV conduction |
+| M3 | Glands, smooth muscle, endothelium | Gq → IP3/DAG ↑ | Secretions, smooth muscle contraction, NO-mediated vasodilation |
+| M4 | CNS | Gi | CNS modulation |
+| M5 | CNS | Gq | CNS modulation |
+
+Nicotinic Receptors
+| Receptor | Location | Mechanism | Effect |
+|---|---|---|---|
+| Nm | Skeletal neuromuscular junction | Na+/K+ channel opening | Skeletal muscle contraction |
+| Nn | Autonomic ganglia, adrenal medulla, CNS | Na+/K+ channel opening | Ganglionic transmission |
+
+4. Important Drugs / Molecules / Systems
+
+Direct-Acting Muscarinic Agonists
+| Drug | Key Action | Clinical Use | Toxicity |
+|---|---|---|---|
+| Bethanechol | Muscarinic agonist, little/no nicotinic effect | Postoperative ileus, urinary retention | Bronchospasm, diarrhea, sweating, salivation |
+| Pilocarpine | Muscarinic agonist | Glaucoma, Sjögren syndrome | Sweating, salivation, bronchospasm |
+| Cevimeline | M3-selective agonist | Xerostomia in Sjögren syndrome | Muscarinic excess |
+| Carbachol | Muscarinic + nicotinic agonist | Ophthalmic use in glaucoma | Cholinergic excess |
+
+Direct-Acting Nicotinic Agonists
+| Drug | Key Action | Clinical Use |
+|---|---|---|
+| Nicotine | Nn/Nm agonist | Smoking cessation replacement; toxicity in overdose |
+| Varenicline | Partial α4β2 nicotinic agonist | Smoking cessation |
+
+Cholinesterase Inhibitors
+| Drug/Class | Duration | CNS Entry | Uses |
+|---|---:|---|---|
+| Edrophonium | 5–15 min | No | Historically myasthenia diagnosis; short-acting |
+| Neostigmine | 0.5–4 h | No | Myasthenia gravis, ileus, urinary retention, reversal of NM blockade |
+| Pyridostigmine | 4–6 h | No | Long-term myasthenia gravis |
+| Physostigmine | 0.5–2 h | Yes | Severe antimuscarinic toxicity |
+| Rivastigmine | 8–10 h | Yes | Alzheimer disease |
+| Donepezil | Long | Yes | Alzheimer disease |
+| Echothiophate | Very long | Minimal | Obsolete/rare glaucoma use |
+| Organophosphates | Very long | Yes | Insecticides, nerve agents; cause poisoning |
+
+5. Clinical Correlations
+
+Glaucoma
+- Pilocarpine causes:
+  - Miosis
+  - Ciliary muscle contraction
+  - Increased aqueous humor outflow via canal of Schlemm
+- Acute angle-closure glaucoma:
+  - Initial drug therapy may include pilocarpine
+  - Definitive therapy often requires laser iridotomy
+- Chronic glaucoma:
+  - Prostaglandins and beta-blockers are more commonly used than cholinomimetics.
+
+Postoperative Ileus / Urinary Retention
+- Bethanechol or neostigmine can stimulate GI and bladder smooth muscle.
+- Do not use if mechanical obstruction is present.
+
+Myasthenia Gravis
+- Autoantibodies against nicotinic ACh receptors at the neuromuscular junction.
+- Symptoms:
+  - Ptosis
+  - Diplopia
+  - Dysphagia
+  - Dysarthria
+  - Weakness worsens with use
+- Treatment:
+  - Pyridostigmine first-line symptomatic therapy
+  - Immunosuppression when needed
+  - Thymectomy in selected patients
+  - IVIG/plasmapheresis for severe crisis
+- Excess cholinesterase inhibitor can cause cholinergic crisis with weakness + muscarinic symptoms.
+
+Lambert-Eaton Myasthenic Syndrome
+- Autoantibodies against presynaptic voltage-gated Ca2+ channels.
+- ↓ ACh release → proximal muscle weakness.
+- Amifampridine/4-aminopyridine block K+ channels → prolong depolarization → ↑ Ca2+ entry → ↑ ACh release.
+
+Alzheimer Disease
+- Donepezil, rivastigmine, galantamine increase CNS ACh.
+- Benefit is modest.
+- Donepezil has long half-life and lacks tacrine hepatotoxicity.
+
+Antimuscarinic Toxicity
+- Physostigmine can reverse severe central and peripheral antimuscarinic toxicity.
+- Use cautiously due to risk of seizures, bradyarrhythmias, and cholinergic toxicity.
+
+6. Adverse Effects / Toxicity / Pitfalls
+
+Muscarinic Excess
+- DUMBELS:
+  - Diarrhea
+  - Urination
+  - Miosis
+  - Bronchospasm/bronchorrhea/bradycardia
+  - Emesis
+  - Lacrimation
+  - Salivation/sweating
+- Major life threats:
+  - Bronchospasm
+  - Bronchorrhea
+  - Bradycardia
+  - Respiratory failure
+
+Nicotinic Excess
+- Fasciculations
+- Muscle cramps
+- Weakness
+- Paralysis
+- Hypertension/tachycardia from sympathetic ganglionic stimulation
+
+CNS Excess
+- Agitation
+- Confusion
+- Seizures
+- Coma
+- Respiratory arrest
+
+Organophosphate Poisoning
+- Irreversible/very long AChE inhibition.
+- Found in insecticides and nerve agents.
+- Causes muscarinic + nicotinic + CNS toxicity.
+- “Aging” makes AChE-organophosphate bond resistant to pralidoxime.
+- Treat quickly before aging occurs.
+
+Treatment of Organophosphate Poisoning
+1. ABCs: airway, breathing, circulation
+2. Decontaminate:
+   - Remove clothing
+   - Wash skin
+   - Protect healthcare workers
+3. Atropine:
+   - Treats muscarinic toxicity
+   - Give until bronchorrhea/bronchospasm/bradycardia improve
+4. Pralidoxime (2-PAM):
+   - Regenerates AChE before aging
+   - Treats nicotinic weakness/fasciculations
+5. Benzodiazepines:
+   - For seizures/agitation
+6. Respiratory support:
+   - Often required
+
+High-Yield Pitfalls
+- Atropine does not reverse nicotinic paralysis.
+- Pralidoxime works best before organophosphate aging.
+- Physostigmine crosses the BBB; neostigmine does not.
+- Bethanechol is contraindicated in mechanical obstruction.
+- Cholinesterase inhibitors can worsen asthma/COPD due to bronchoconstriction.
+- Cholinesterase inhibitors can cause bradycardia and AV block.
+
+7. Important Comparisons
+
+Direct vs Indirect Cholinomimetics
+| Feature | Direct-Acting Agonists | Indirect-Acting AChE Inhibitors |
+|---|---|---|
+| Mechanism | Bind cholinoceptors | Inhibit ACh breakdown |
+| Effect depends on endogenous ACh? | No | Yes |
+| Examples | Bethanechol, pilocarpine, nicotine | Neostigmine, pyridostigmine, physostigmine |
+| Major use | Glaucoma, urinary retention, xerostomia | Myasthenia, NM blockade reversal, Alzheimer disease |
+| Toxicity | Cholinergic excess | Cholinergic excess, organophosphate poisoning |
+
+Muscarinic vs Nicotinic Effects
+| Muscarinic | Nicotinic |
+|---|---|
+| Miosis | Fasciculations |
+| Salivation | Muscle weakness |
+| Lacrimation | Paralysis |
+| Bronchospasm | Hypertension/tachycardia |
+| Bronchorrhea | Ganglionic stimulation |
+| Bradycardia | Adrenal medulla stimulation |
+| Diarrhea/urination | CNS stimulation at high doses |
+
+Myasthenic Crisis vs Cholinergic Crisis
+| Feature | Myasthenic Crisis | Cholinergic Crisis |
+|---|---|---|
+| Cause | Too little ACh signaling | Excess AChE inhibitor |
+| Weakness | Yes | Yes |
+| Muscarinic symptoms | Usually absent | Present |
+| Pupils | Normal | Miosis |
+| Secretions | Normal | Increased |
+| Treatment | Increase MG therapy, ventilatory support, IVIG/plasmapheresis | Hold AChE inhibitor, atropine, support ventilation |
+
+Neostigmine vs Physostigmine
+| Feature | Neostigmine | Physostigmine |
+|---|---|---|
+| Charge | Quaternary | Tertiary |
+| CNS entry | No | Yes |
+| Uses | Myasthenia, ileus, urinary retention, NM blockade reversal | Antimuscarinic toxicity |
+| Major risk | Muscarinic excess, bradycardia | CNS toxicity, seizures |
+
+Organophosphate vs Carbamate AChE Inhibition
+| Feature | Organophosphates | Carbamates |
+|---|---|---|
+| Bond with AChE | Very stable phosphorylated enzyme | Carbamoylated enzyme |
+| Duration | Long | Intermediate |
+| Aging | Yes | No clinically important aging |
+| Examples | Parathion, malathion, sarin | Neostigmine, pyridostigmine, physostigmine |
+| Antidote | Atropine + pralidoxime | Usually atropine/supportive; pralidoxime less central |
+
+8. Must-Know Exam Points
+- M2 receptors slow heart rate by ↓ cAMP and ↑ K+ conductance.
+- M3 receptors cause gland secretion and smooth muscle contraction.
+- M3 receptors on endothelium cause NO-mediated vasodilation.
+- Pilocarpine treats glaucoma and xerostomia.
+- Bethanechol treats postoperative ileus and urinary retention.
+- Neostigmine reverses nondepolarizing neuromuscular blockers.
+- Pyridostigmine is preferred for chronic myasthenia gravis.
+- Physostigmine treats severe antimuscarinic poisoning because it crosses BBB.
+- Donepezil/rivastigmine/galantamine treat Alzheimer disease.
+- Organophosphate poisoning presents with DUMBELS + fasciculations + CNS symptoms.
+- Atropine treats muscarinic symptoms but not nicotinic weakness.
+- Pralidoxime treats nicotinic symptoms if given before aging.
+- Nicotine overdose can cause seizures, hypertension, arrhythmias, and respiratory paralysis.
+- Varenicline is a partial α4β2 nicotinic agonist for smoking cessation.
+- Amifampridine helps Lambert-Eaton by increasing presynaptic ACh release.
+
+9. Case-Based Integration
+
+Case Diagnosis
+- JM likely has acute organophosphate poisoning from pesticide exposure.
+- Clues:
+  - Worked in recently sprayed field
+  - Sulfur-like odor
+  - Symptoms within hours
+  - Lacrimation
+  - Blurred vision/miosis
+  - Difficulty speaking/swallowing
+  - Chest tightness, bronchospasm/bronchorrhea
+  - Confusion/agitation
+  - Unsteady gait
+  - Possible nicotinic weakness
+
+Mechanism
+- Organophosphate inhibits acetylcholinesterase.
+- ACh accumulates at muscarinic, nicotinic, and CNS synapses.
+- Excess ACh causes:
+  - Muscarinic: secretions, bronchospasm, bradycardia, diarrhea, miosis
+  - Nicotinic: fasciculations, weakness, paralysis
+  - CNS: agitation, confusion, seizures, coma
+
+Management
+- Remove from exposure.
+- Decontaminate:
+  - Remove clothing
+  - Wash skin thoroughly
+  - Isolate contaminated clothing
+- Support airway and breathing.
+- Give oxygen and ventilatory support if needed.
+- Give atropine IV until bronchial secretions and bronchospasm improve.
+- Give pralidoxime early to regenerate AChE before aging.
+- Give benzodiazepines for seizures/agitation.
+- Monitor coworker:
+  - Decontaminate if exposed
+  - Observe for cholinergic symptoms
+  - Treat if symptomatic
+
+Emergency Considerations
+- Respiratory failure is the main cause of death.
+- Do not delay atropine for lab confirmation.
+- Repeated atropine dosing may be required.
+- Pralidoxime is time-sensitive.
+- Healthcare workers must avoid secondary contamination.
+
+10. Rapid Review Table
+
+| Topic | High-Yield Point |
+|---|---|
+| M1 | Neural excitation via Gq |
+| M2 | Heart: bradycardia, ↓ AV conduction via Gi |
+| M3 | Glands/smooth muscle/endothelium via Gq |
+| M3 endothelium | NO release → vasodilation |
+| Nm | Skeletal muscle contraction |
+| Nn | Autonomic ganglia/adrenal medulla |
+| Bethanechol | Ileus, urinary retention |
+| Pilocarpine | Glaucoma, Sjögren xerostomia |
+| Cevimeline | M3 agonist for dry mouth |
+| Neostigmine | MG, ileus, urinary retention, NM blockade reversal |
+| Pyridostigmine | Chronic MG |
+| Physostigmine | Antimuscarinic toxicity; crosses BBB |
+| Donepezil | Alzheimer disease |
+| Organophosphates | AChE inhibition, aging, severe cholinergic toxicity |
+| Atropine | Reverses muscarinic toxicity |
+| Pralidoxime | Regenerates AChE before aging |
+| Varenicline | Partial α4β2 agonist |
+| Amifampridine | K+ channel blocker; ↑ ACh release in Lambert-Eaton |
+
+Flashcards
+
+Q: Which muscarinic receptor slows the heart?
+A: M2.
+
+Q: Which muscarinic receptor mediates gland secretion and bronchoconstriction?
+A: M3.
+
+Q: Why can acetylcholine cause vasodilation despite vascular smooth muscle contraction via M3?
+A: Endothelial M3 activation releases nitric oxide, causing smooth muscle relaxation.
+
+Q: Which cholinomimetic treats urinary retention?
+A: Bethanechol.
+
+Q: Which cholinomimetic treats Sjögren xerostomia?
+A: Pilocarpine or cevimeline.
+
+Q: Which cholinesterase inhibitor is preferred for chronic myasthenia gravis?
+A: Pyridostigmine.
+
+Q: Which cholinesterase inhibitor reverses antimuscarinic toxicity?
+A: Physostigmine.
+
+Q: Why does physostigmine reverse central antimuscarinic toxicity?
+A: It is tertiary/lipid-soluble and crosses the blood-brain barrier.
+
+Q: What is the antidote combination for organophosphate poisoning?
+A: Atropine + pralidoxime + supportive care.
+
+Q: What does atropine reverse in organophosphate poisoning?
+A: Muscarinic toxicity.
+
+Q: What does pralidoxime reverse?
+A: AChE inhibition, especially nicotinic weakness/fasciculations, if given before aging.
+
+Q: What is “aging”?
+A: Strengthening of the organophosphate-AChE bond, making reactivation difficult.
+
+Q: What receptor does varenicline partially activate?
+A: α4β2 nicotinic receptor.
+
+Q: What is the mechanism of amifampridine?
+A: Blocks presynaptic K+ channels, prolonging depolarization and increasing ACh release.
+
+Board-Style MCQs
+
+1. A patient has urinary retention after surgery. Imaging shows no obstruction. Which drug is most appropriate?
+A. Atropine
+B. Bethanechol
+C. Varenicline
+D. Donepezil
+Answer: B. Bethanechol stimulates muscarinic receptors in the bladder detrusor.
+
+2. A farmer presents with lacrimation, diarrhea, bronchospasm, fasciculations, and confusion after pesticide exposure. Best initial therapy?
+A. Flumazenil only
+B. Atropine and pralidoxime
+C. Naloxone
+D. Physostigmine
+Answer: B. This is organophosphate poisoning.
+
+3. A child ingests atropine and develops fever, delirium, mydriasis, and tachycardia. Which antidote crosses the BBB?
+A. Neostigmine
+B. Pyridostigmine
+C. Physostigmine
+D. Bethanechol
+Answer: C. Physostigmine is tertiary and enters the CNS.
+
+4. A patient with myasthenia gravis is treated chronically with which agent?
+A. Pyridostigmine
+B. Pilocarpine
+C. Varenicline
+D. Nicotine
+Answer: A. Pyridostigmine is commonly used for chronic symptomatic MG treatment.
+
+5. A patient with Lambert-Eaton syndrome improves with amifampridine. What is the mechanism?
+A. Blocks ACh breakdown
+B. Blocks presynaptic K+ channels
+C. Directly activates Nm receptors
+D. Blocks muscarinic receptors
+Answer: B. It prolongs presynaptic depolarization and increases ACh release.

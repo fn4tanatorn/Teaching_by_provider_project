@@ -1,0 +1,1009 @@
+{
+  "id": "ch7",
+  "course": "Katzung Pharmacology",
+  "chapter": 7,
+  "title": "Cholinoceptor-Activating & Cholinesterase-Inhibiting Drugs",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-high-yield-summary",
+      "number": 1,
+      "title": "High-Yield Summary",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Cholinomimetics mimic acetylcholine (ACh) by:",
+            "Directly activating cholinoceptors",
+            "Indirectly increasing endogenous ACh by inhibiting acetylcholinesterase (AChE)",
+            "Receptor classes:",
+            "Muscarinic receptors: G protein–coupled receptors",
+            "Nicotinic receptors: ligand-gated Na+/K+ ion channels",
+            "Major clinical uses:",
+            "Glaucoma",
+            "Postoperative ileus / urinary retention",
+            "Myasthenia gravis",
+            "Reversal of nondepolarizing neuromuscular blockade",
+            "Alzheimer disease",
+            "Antimuscarinic toxicity",
+            "Smoking cessation",
+            "Major toxic syndrome:",
+            "Cholinergic excess: SLUDGE/DUMBELS + bronchospasm + bradycardia + miosis",
+            "Organophosphate poisoning: muscarinic + nicotinic + CNS toxicity"
+          ]
+        }
+      ],
+      "image": "data_7/01-fig-7-1.png",
+      "imageCaption": "FIGURE 7-1 — Cholinomimetic drugs, receptors & tissues"
+    },
+    {
+      "id": "2-core-concepts",
+      "number": 2,
+      "title": "Core Concepts",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Muscarinic effects resemble parasympathetic activation.",
+            "Nicotinic effects occur at:",
+            "Autonomic ganglia",
+            "Neuromuscular junction",
+            "CNS",
+            "Cholinesterase inhibitors amplify ACh only where ACh is normally released.",
+            "Quaternary agents generally do not enter the CNS.",
+            "Tertiary/lipid-soluble agents can enter the CNS."
+          ]
+        }
+      ],
+      "image": "data_7/02-table-7-1.png",
+      "imageCaption": "TABLE 7-1 — Cholinoceptor subtypes & characteristics"
+    },
+    {
+      "id": "3-key-mechanisms-pathways",
+      "number": 3,
+      "title": "Key Mechanisms / Pathways",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "Muscarinic Receptors"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Receptor",
+            "Location",
+            "Signaling",
+            "High-Yield Effect"
+          ],
+          "rows": [
+            [
+              "M1",
+              "CNS, autonomic ganglia",
+              "Gq → IP3/DAG ↑",
+              "Neural excitation"
+            ],
+            [
+              "M2",
+              "Heart",
+              "Gi → cAMP ↓, K+ efflux ↑",
+              "Bradycardia, ↓ AV conduction"
+            ],
+            [
+              "M3",
+              "Glands, smooth muscle, endothelium",
+              "Gq → IP3/DAG ↑",
+              "Secretions, smooth muscle contraction, NO-mediated vasodilation"
+            ],
+            [
+              "M4",
+              "CNS",
+              "Gi",
+              "CNS modulation"
+            ],
+            [
+              "M5",
+              "CNS",
+              "Gq",
+              "CNS modulation"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Nicotinic Receptors"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Receptor",
+            "Location",
+            "Mechanism",
+            "Effect"
+          ],
+          "rows": [
+            [
+              "Nm",
+              "Skeletal neuromuscular junction",
+              "Na+/K+ channel opening",
+              "Skeletal muscle contraction"
+            ],
+            [
+              "Nn",
+              "Autonomic ganglia, adrenal medulla, CNS",
+              "Na+/K+ channel opening",
+              "Ganglionic transmission"
+            ]
+          ]
+        }
+      ],
+      "image": "data_7/07-fig-7-4.png",
+      "imageCaption": "FIGURE 7-4 — Muscarinic & nicotinic signaling",
+      "imageSupplement": "data_7/03-fig-7-2.png",
+      "imageSupplementCaption": "FIGURE 7-2 — Structures of choline esters"
+    },
+    {
+      "id": "4-important-drugs-molecules-systems",
+      "number": 4,
+      "title": "Important Drugs / Molecules / Systems",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "Direct-Acting Muscarinic Agonists"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Key Action",
+            "Clinical Use",
+            "Toxicity"
+          ],
+          "rows": [
+            [
+              "Bethanechol",
+              "Muscarinic agonist, little/no nicotinic effect",
+              "Postoperative ileus, urinary retention",
+              "Bronchospasm, diarrhea, sweating, salivation"
+            ],
+            [
+              "Pilocarpine",
+              "Muscarinic agonist",
+              "Glaucoma, Sjögren syndrome",
+              "Sweating, salivation, bronchospasm"
+            ],
+            [
+              "Cevimeline",
+              "M3-selective agonist",
+              "Xerostomia in Sjögren syndrome",
+              "Muscarinic excess"
+            ],
+            [
+              "Carbachol",
+              "Muscarinic + nicotinic agonist",
+              "Ophthalmic use in glaucoma",
+              "Cholinergic excess"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Direct-Acting Nicotinic Agonists"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Key Action",
+            "Clinical Use"
+          ],
+          "rows": [
+            [
+              "Nicotine",
+              "Nn/Nm agonist",
+              "Smoking cessation replacement; toxicity in overdose"
+            ],
+            [
+              "Varenicline",
+              "Partial α4β2 nicotinic agonist",
+              "Smoking cessation"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Cholinesterase Inhibitors"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug/Class",
+            "Duration",
+            "CNS Entry",
+            "Uses"
+          ],
+          "rows": [
+            [
+              "Edrophonium",
+              "5–15 min",
+              "No",
+              "Historically myasthenia diagnosis; short-acting"
+            ],
+            [
+              "Neostigmine",
+              "0.5–4 h",
+              "No",
+              "Myasthenia gravis, ileus, urinary retention, reversal of NM blockade"
+            ],
+            [
+              "Pyridostigmine",
+              "4–6 h",
+              "No",
+              "Long-term myasthenia gravis"
+            ],
+            [
+              "Physostigmine",
+              "0.5–2 h",
+              "Yes",
+              "Severe antimuscarinic toxicity"
+            ],
+            [
+              "Rivastigmine",
+              "8–10 h",
+              "Yes",
+              "Alzheimer disease"
+            ],
+            [
+              "Donepezil",
+              "Long",
+              "Yes",
+              "Alzheimer disease"
+            ],
+            [
+              "Echothiophate",
+              "Very long",
+              "Minimal",
+              "Obsolete/rare glaucoma use"
+            ],
+            [
+              "Organophosphates",
+              "Very long",
+              "Yes",
+              "Insecticides, nerve agents; cause poisoning"
+            ]
+          ]
+        }
+      ],
+      "image": "data_7/04-table-7-2.png",
+      "imageCaption": "TABLE 7-2 — Properties of choline esters",
+      "imageSupplement": "data_7/05-fig-7-3.png",
+      "imageSupplementCaption": "FIGURE 7-3 — Cholinomimetic alkaloid structures"
+    },
+    {
+      "id": "5-clinical-correlations",
+      "number": 5,
+      "title": "Clinical Correlations",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "Glaucoma"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Pilocarpine causes:",
+            "Miosis",
+            "Ciliary muscle contraction",
+            "Increased aqueous humor outflow via canal of Schlemm",
+            "Acute angle-closure glaucoma:",
+            "Pilocarpine may be added after initial IOP lowering, because very high IOP can make the iris poorly responsive",
+            "Definitive therapy often requires laser iridotomy",
+            "Chronic glaucoma:",
+            "Prostaglandins and beta-blockers are more commonly used than cholinomimetics."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Postoperative Ileus / Urinary Retention"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Bethanechol or neostigmine can stimulate GI and bladder smooth muscle.",
+            "Do not use if mechanical obstruction is present."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Myasthenia Gravis"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Autoantibodies against nicotinic ACh receptors at the neuromuscular junction.",
+            "Symptoms:",
+            "Ptosis",
+            "Diplopia",
+            "Dysphagia",
+            "Dysarthria",
+            "Weakness worsens with use",
+            "Treatment:",
+            "Pyridostigmine first-line symptomatic therapy",
+            "Immunosuppression when needed",
+            "Thymectomy in selected patients",
+            "IVIG/plasmapheresis for severe crisis",
+            "Excess cholinesterase inhibitor can cause cholinergic crisis with weakness + muscarinic symptoms."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Lambert-Eaton Myasthenic Syndrome"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Autoantibodies against presynaptic voltage-gated Ca2+ channels.",
+            "↓ ACh release → proximal muscle weakness.",
+            "Amifampridine/4-aminopyridine block K+ channels → prolong depolarization → ↑ Ca2+ entry → ↑ ACh release."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Alzheimer Disease"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Donepezil, rivastigmine, galantamine increase CNS ACh.",
+            "Benefit is modest.",
+            "Donepezil has long half-life and lacks tacrine hepatotoxicity."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Antimuscarinic Toxicity"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Physostigmine can reverse severe central and peripheral antimuscarinic toxicity.",
+            "Use cautiously due to risk of seizures, bradyarrhythmias, and cholinergic toxicity."
+          ]
+        }
+      ],
+      "image": "data_7/06-table-7-3.png",
+      "imageCaption": "TABLE 7-3 — Direct-acting cholinoceptor effects",
+      "imageSupplement": "data_7/08-fig-7-5.png",
+      "imageSupplementCaption": "FIGURE 7-5 — Endothelial muscarinic receptors & NO"
+    },
+    {
+      "id": "6-adverse-effects-toxicity-pitfalls",
+      "number": 6,
+      "title": "Adverse Effects / Toxicity / Pitfalls",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "Muscarinic Excess"
+        },
+        {
+          "type": "list",
+          "items": [
+            "DUMBELS:",
+            "Diarrhea",
+            "Urination",
+            "Miosis",
+            "Bronchospasm/bronchorrhea/bradycardia",
+            "Emesis",
+            "Lacrimation",
+            "Salivation/sweating",
+            "Major life threats:",
+            "Bronchospasm",
+            "Bronchorrhea",
+            "Bradycardia",
+            "Respiratory failure"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Nicotinic Excess"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Fasciculations",
+            "Muscle cramps",
+            "Weakness",
+            "Paralysis",
+            "Hypertension/tachycardia from sympathetic ganglionic stimulation"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "CNS Excess"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Agitation",
+            "Confusion",
+            "Seizures",
+            "Coma",
+            "Respiratory arrest"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Organophosphate Poisoning"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Irreversible/very long AChE inhibition.",
+            "Found in insecticides and nerve agents.",
+            "Causes muscarinic + nicotinic + CNS toxicity.",
+            "“Aging” makes AChE-organophosphate bond resistant to pralidoxime.",
+            "Treat quickly before aging occurs."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Treatment of Organophosphate Poisoning"
+        },
+        {
+          "type": "subheading",
+          "content": "1. ABCs: airway, breathing, circulation"
+        },
+        {
+          "type": "group",
+          "label": "2. Decontaminate",
+          "items": [
+            "Remove clothing",
+            "Wash skin",
+            "Protect healthcare workers"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "3. Atropine",
+          "items": [
+            "Treats muscarinic toxicity",
+            "Give until bronchorrhea/bronchospasm/bradycardia improve"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "4. Pralidoxime (2-PAM)",
+          "items": [
+            "Regenerates AChE before aging",
+            "Treats nicotinic weakness/fasciculations"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "5. Benzodiazepines",
+          "items": [
+            "For seizures/agitation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "6. Respiratory support",
+          "items": [
+            "Often required"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "High-Yield Pitfalls"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Atropine does not reverse nicotinic paralysis.",
+            "Pralidoxime works best before organophosphate aging.",
+            "Physostigmine crosses the BBB; neostigmine does not.",
+            "Bethanechol is contraindicated in mechanical obstruction.",
+            "Cholinesterase inhibitors can worsen asthma/COPD due to bronchoconstriction.",
+            "Cholinesterase inhibitors can cause bradycardia and AV block."
+          ]
+        }
+      ],
+      "image": "data_7/10-fig-7-7.png",
+      "imageCaption": "FIGURE 7-7 — Organophosphate cholinesterase inhibitors",
+      "imageSupplement": "data_7/09-fig-7-6.png",
+      "imageSupplementCaption": "FIGURE 7-6 — Cholinesterase inhibitors (neostigmine)"
+    },
+    {
+      "id": "7-important-comparisons",
+      "number": 7,
+      "title": "Important Comparisons",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "Direct vs Indirect Cholinomimetics"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Direct-Acting Agonists",
+            "Indirect-Acting AChE Inhibitors"
+          ],
+          "rows": [
+            [
+              "Mechanism",
+              "Bind cholinoceptors",
+              "Inhibit ACh breakdown"
+            ],
+            [
+              "Effect depends on endogenous ACh?",
+              "No",
+              "Yes"
+            ],
+            [
+              "Examples",
+              "Bethanechol, pilocarpine, nicotine",
+              "Neostigmine, pyridostigmine, physostigmine"
+            ],
+            [
+              "Major use",
+              "Glaucoma, urinary retention, xerostomia",
+              "Myasthenia, NM blockade reversal, Alzheimer disease"
+            ],
+            [
+              "Toxicity",
+              "Cholinergic excess",
+              "Cholinergic excess, organophosphate poisoning"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Muscarinic vs Nicotinic Effects"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Muscarinic",
+            "Nicotinic"
+          ],
+          "rows": [
+            [
+              "Miosis",
+              "Fasciculations"
+            ],
+            [
+              "Salivation",
+              "Muscle weakness"
+            ],
+            [
+              "Lacrimation",
+              "Paralysis"
+            ],
+            [
+              "Bronchospasm",
+              "Hypertension/tachycardia"
+            ],
+            [
+              "Bronchorrhea",
+              "Ganglionic stimulation"
+            ],
+            [
+              "Bradycardia",
+              "Adrenal medulla stimulation"
+            ],
+            [
+              "Diarrhea/urination",
+              "CNS stimulation at high doses"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Myasthenic Crisis vs Cholinergic Crisis"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Myasthenic Crisis",
+            "Cholinergic Crisis"
+          ],
+          "rows": [
+            [
+              "Cause",
+              "Too little ACh signaling",
+              "Excess AChE inhibitor"
+            ],
+            [
+              "Weakness",
+              "Yes",
+              "Yes"
+            ],
+            [
+              "Muscarinic symptoms",
+              "Usually absent",
+              "Present"
+            ],
+            [
+              "Pupils",
+              "Normal",
+              "Miosis"
+            ],
+            [
+              "Secretions",
+              "Normal",
+              "Increased"
+            ],
+            [
+              "Treatment",
+              "Increase MG therapy, ventilatory support, IVIG/plasmapheresis",
+              "Hold AChE inhibitor, atropine, support ventilation"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Neostigmine vs Physostigmine"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Neostigmine",
+            "Physostigmine"
+          ],
+          "rows": [
+            [
+              "Charge",
+              "Quaternary",
+              "Tertiary"
+            ],
+            [
+              "CNS entry",
+              "No",
+              "Yes"
+            ],
+            [
+              "Uses",
+              "Myasthenia, ileus, urinary retention, NM blockade reversal",
+              "Antimuscarinic toxicity"
+            ],
+            [
+              "Major risk",
+              "Muscarinic excess, bradycardia",
+              "CNS toxicity, seizures"
+            ]
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Organophosphate vs Carbamate AChE Inhibition"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Feature",
+            "Organophosphates",
+            "Carbamates"
+          ],
+          "rows": [
+            [
+              "Bond with AChE",
+              "Very stable phosphorylated enzyme",
+              "Carbamoylated enzyme"
+            ],
+            [
+              "Duration",
+              "Long",
+              "Intermediate"
+            ],
+            [
+              "Aging",
+              "Yes",
+              "No clinically important aging"
+            ],
+            [
+              "Examples",
+              "Parathion, malathion, sarin",
+              "Neostigmine, pyridostigmine, physostigmine"
+            ],
+            [
+              "Antidote",
+              "Atropine + pralidoxime",
+              "Usually atropine/supportive; pralidoxime less central"
+            ]
+          ]
+        }
+      ],
+      "image": "data_7/12-summary.png",
+      "imageCaption": "Summary — cholinomimetic drugs compared"
+    },
+    {
+      "id": "8-must-know-exam-points",
+      "number": 8,
+      "title": "Must-Know Exam Points",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "M2 receptors slow heart rate by ↓ cAMP and ↑ K+ conductance.",
+            "M3 receptors cause gland secretion and smooth muscle contraction.",
+            "M3 receptors on endothelium cause NO-mediated vasodilation.",
+            "Pilocarpine treats glaucoma and xerostomia.",
+            "Bethanechol treats postoperative ileus and urinary retention.",
+            "Neostigmine reverses nondepolarizing neuromuscular blockers.",
+            "Pyridostigmine is preferred for chronic myasthenia gravis.",
+            "Physostigmine treats severe antimuscarinic poisoning because it crosses BBB.",
+            "Donepezil/rivastigmine/galantamine treat Alzheimer disease.",
+            "Organophosphate poisoning presents with DUMBELS + fasciculations + CNS symptoms.",
+            "Atropine treats muscarinic symptoms but not nicotinic weakness.",
+            "Pralidoxime treats nicotinic symptoms if given before aging.",
+            "Nicotine overdose can cause seizures, hypertension, arrhythmias, and respiratory paralysis.",
+            "Varenicline is a partial α4β2 nicotinic agonist for smoking cessation.",
+            "Amifampridine helps Lambert-Eaton by increasing presynaptic ACh release."
+          ]
+        }
+      ],
+      "image": "data_7/02-table-7-1.png",
+      "imageCaption": "TABLE 7-1 — Cholinoceptors: exam points"
+    },
+    {
+      "id": "9-case-based-integration",
+      "number": 9,
+      "title": "Case-Based Integration",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "Case Diagnosis"
+        },
+        {
+          "type": "list",
+          "items": [
+            "JM likely has acute organophosphate poisoning from pesticide exposure.",
+            "Clues:",
+            "Worked in recently sprayed field",
+            "Sulfur-like odor",
+            "Symptoms within hours",
+            "Lacrimation",
+            "Blurred vision/miosis",
+            "Difficulty speaking/swallowing",
+            "Chest tightness, bronchospasm/bronchorrhea",
+            "Confusion/agitation",
+            "Unsteady gait",
+            "Possible nicotinic weakness"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Mechanism"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Organophosphate inhibits acetylcholinesterase.",
+            "ACh accumulates at muscarinic, nicotinic, and CNS synapses.",
+            "Excess ACh causes:",
+            "Muscarinic: secretions, bronchospasm, bradycardia, diarrhea, miosis",
+            "Nicotinic: fasciculations, weakness, paralysis",
+            "CNS: agitation, confusion, seizures, coma"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Management"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Remove from exposure.",
+            "Decontaminate:",
+            "Remove clothing",
+            "Wash skin thoroughly",
+            "Isolate contaminated clothing",
+            "Support airway and breathing.",
+            "Give oxygen and ventilatory support if needed.",
+            "Give atropine IV until bronchial secretions and bronchospasm improve.",
+            "Give pralidoxime early to regenerate AChE before aging.",
+            "Give benzodiazepines for seizures/agitation.",
+            "Monitor coworker:",
+            "Decontaminate if exposed",
+            "Observe for cholinergic symptoms",
+            "Treat if symptomatic"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "Emergency Considerations"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Respiratory failure is the main cause of death.",
+            "Do not delay atropine for lab confirmation.",
+            "Repeated atropine dosing may be required.",
+            "Pralidoxime is time-sensitive.",
+            "Healthcare workers must avoid secondary contamination."
+          ]
+        }
+      ],
+      "image": "data_7/11-fig-7-8.png",
+      "imageCaption": "FIGURE 7-8 — Neuromuscular junction & ACh"
+    },
+    {
+      "id": "10-rapid-review-table",
+      "number": 10,
+      "title": "Rapid Review Table",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "table",
+          "header": [
+            "Topic",
+            "High-Yield Point"
+          ],
+          "rows": [
+            [
+              "M1",
+              "Neural excitation via Gq"
+            ],
+            [
+              "M2",
+              "Heart: bradycardia, ↓ AV conduction via Gi"
+            ],
+            [
+              "M3",
+              "Glands/smooth muscle/endothelium via Gq"
+            ],
+            [
+              "M3 endothelium",
+              "NO release → vasodilation"
+            ],
+            [
+              "Nm",
+              "Skeletal muscle contraction"
+            ],
+            [
+              "Nn",
+              "Autonomic ganglia/adrenal medulla"
+            ],
+            [
+              "Bethanechol",
+              "Ileus, urinary retention"
+            ],
+            [
+              "Pilocarpine",
+              "Glaucoma, Sjögren xerostomia"
+            ],
+            [
+              "Cevimeline",
+              "M3 agonist for dry mouth"
+            ],
+            [
+              "Neostigmine",
+              "MG, ileus, urinary retention, NM blockade reversal"
+            ],
+            [
+              "Pyridostigmine",
+              "Chronic MG"
+            ],
+            [
+              "Physostigmine",
+              "Antimuscarinic toxicity; crosses BBB"
+            ],
+            [
+              "Donepezil",
+              "Alzheimer disease"
+            ],
+            [
+              "Organophosphates",
+              "AChE inhibition, aging, severe cholinergic toxicity"
+            ],
+            [
+              "Atropine",
+              "Reverses muscarinic toxicity"
+            ],
+            [
+              "Pralidoxime",
+              "Regenerates AChE before aging"
+            ],
+            [
+              "Varenicline",
+              "Partial α4β2 agonist"
+            ],
+            [
+              "Amifampridine",
+              "K+ channel blocker; ↑ ACh release in Lambert-Eaton"
+            ]
+          ]
+        }
+      ],
+      "image": "data_7/12-summary.png",
+      "imageCaption": "Summary — cholinomimetic drugs"
+    },
+    {
+      "id": "11-board-style-mcqs",
+      "number": 11,
+      "title": "Board-Style MCQs",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "1. A patient has urinary retention after surgery. Imaging shows no obstruction. Which drug is most appropriate?",
+          "items": [
+            "A. Atropine",
+            "B. Bethanechol",
+            "C. Varenicline",
+            "D. Donepezil",
+            "Answer: B — Bethanechol stimulates muscarinic receptors in the bladder detrusor."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "2. A farmer presents with lacrimation, diarrhea, bronchospasm, fasciculations, and confusion after pesticide exposure. Best initial therapy?",
+          "items": [
+            "A. Flumazenil only",
+            "B. Atropine and pralidoxime",
+            "C. Naloxone",
+            "D. Physostigmine",
+            "Answer: B — Organophosphate poisoning."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "3. A child ingests atropine and develops fever, delirium, mydriasis, and tachycardia. Which antidote crosses the BBB?",
+          "items": [
+            "A. Neostigmine",
+            "B. Pyridostigmine",
+            "C. Physostigmine",
+            "D. Bethanechol",
+            "Answer: C — Physostigmine is tertiary and enters the CNS."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "4. A patient with myasthenia gravis is treated chronically with which agent?",
+          "items": [
+            "A. Pyridostigmine",
+            "B. Pilocarpine",
+            "C. Varenicline",
+            "D. Nicotine",
+            "Answer: A — Pyridostigmine is commonly used for chronic symptomatic MG treatment."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "5. A patient with Lambert-Eaton syndrome improves with amifampridine. What is the mechanism?",
+          "items": [
+            "A. Blocks ACh breakdown",
+            "B. Blocks presynaptic K+ channels",
+            "C. Directly activates Nm receptors",
+            "D. Blocks muscarinic receptors",
+            "Answer: B — Prolongs presynaptic depolarization and increases ACh release."
+          ]
+        }
+      ]
+    }
+  ],
+  "introImage": "data_7/01-fig-7-1.png",
+  "introImageCaption": "FIGURE 7-1 — Cholinomimetics overview"
+}

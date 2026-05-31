@@ -1,0 +1,864 @@
+{
+  "id": "ch3",
+  "course": "Katzung Pharmacology",
+  "chapter": 3,
+  "title": "Pharmacokinetics & Pharmacodynamics: Rational Dosing & Time Course of Drug Action",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-core-concept",
+      "number": 1,
+      "title": "Core Concept",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drug response depends on: **Dose → Concentration → Effect**"
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Pharmacokinetics (PK)** = what the body does to the drug:",
+            "Absorption",
+            "Distribution",
+            "Metabolism",
+            "Excretion"
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            "**Pharmacodynamics (PD)** = what the drug does to the body:",
+            "Drug concentration–effect relationship"
+          ]
+        }
+      ],
+      "image": "data_3/01-fig-3-1.png",
+      "imageCaption": "FIGURE 3-1 — Dose, concentration & effect (PK/PD)"
+    },
+    {
+      "id": "2-volume-of-distribution",
+      "number": 2,
+      "title": "Volume of Distribution (Vd)",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "A. Volume of Distribution (Vd)"
+        },
+        {
+          "type": "formula",
+          "lhs": "Vd",
+          "numerator": "Amount of drug in body",
+          "denominator": "Plasma concentration"
+        },
+        {
+          "type": "group",
+          "label": "Meaning",
+          "items": [
+            "Apparent space containing the drug",
+            "Large Vd → drug mainly in tissues",
+            "Small Vd → drug remains mostly in plasma"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "**Digoxin** → very large Vd",
+            "**Gentamicin** → low Vd; mainly extracellular fluid"
+          ]
+        }
+      ],
+      "image": "data_3/05-table-3-2.png",
+      "imageCaption": "TABLE 3-2 — Body compartment volumes (L/kg)"
+    },
+    {
+      "id": "3-clearance",
+      "number": 3,
+      "title": "Clearance (CL)",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "B. Clearance (CL)"
+        },
+        {
+          "type": "formula",
+          "lhs": "CL",
+          "numerator": "Rate of elimination",
+          "denominator": "Drug concentration"
+        },
+        {
+          "type": "group",
+          "label": "Meaning",
+          "items": [
+            "Efficiency of drug elimination"
+          ],
+          "note": "FIG 3-2 panels B & D show elimination (clearance); panels A & C show distribution (Vd) — see previous slide."
+        },
+        {
+          "type": "group",
+          "label": "Major elimination organs",
+          "items": [
+            "Kidney",
+            "Liver"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Total clearance: ```text CLtotal = CLrenal + CLhepatic + CLother ```"
+        }
+      ],
+      "image": "data_3/04-fig-3-2.png",
+      "imageCaption": "FIGURE 3-2 — Elimination models (panels B & D)"
+    },
+    {
+      "id": "4-half-life",
+      "number": 4,
+      "title": "Half-Life (t½)",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "C. Half-Life (t1/2)"
+        },
+        {
+          "type": "formula",
+          "expression": "t½ = 0.693 × Vd / CL"
+        },
+        {
+          "type": "group",
+          "label": "Meaning",
+          "items": [
+            "Time required for drug amount to decrease by 50%"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Rules",
+          "items": [
+            "1 half-life → 50% of the change is complete",
+            "2 half-lives → 75% of the change is complete",
+            "4–5 half-lives → about 94–97% of the way to steady state or elimination"
+          ],
+          "note": "t½ = 0.693 × Vd / CL — links Vd (slide 2), clearance (slide 3), and the elimination curves in FIG 3-2."
+        }
+      ]
+    },
+    {
+      "id": "3a-first-order-elimination",
+      "number": 5,
+      "title": "First-Order Elimination",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Most drugs follow first-order kinetics.",
+            "A constant **fraction** of drug is removed per unit time.",
+            "Rate of elimination is proportional to drug concentration.",
+            "Results in a straight line on a log-concentration vs. time plot."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Digoxin",
+            "Theophylline",
+            "Most antibiotics"
+          ]
+        }
+      ],
+      "image": "data_3/04-fig-3-2.png",
+      "imageCaption": "FIGURE 3-2 — First-order elimination (panel B: exponential decay)"
+    },
+    {
+      "id": "3b-capacity-limited-elimination",
+      "number": 6,
+      "title": "Capacity-Limited (Nonlinear) Elimination",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Elimination pathway becomes **saturated** at higher drug concentrations.",
+            "Small dose increase → disproportionately large rise in plasma concentration.",
+            "t½ is not constant — increases as dose increases."
+          ]
+        },
+        {
+          "type": "formula",
+          "lhs": "Rate",
+          "numerator": "Vmax × C",
+          "denominator": "Km + C"
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "**Phenytoin** — narrow therapeutic index; small dose change → large concentration change",
+            "**Ethanol** — zero-order at typical drinking doses",
+            "**Salicylates** at high/toxic concentrations"
+          ]
+        }
+      ],
+      "image": "data_3/04-fig-3-2.png",
+      "imageCaption": "FIGURE 3-2 — Drug elimination models"
+    },
+    {
+      "id": "3c-flow-dependent-elimination",
+      "number": 7,
+      "title": "Flow-Dependent Elimination",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Elimination rate depends primarily on organ **blood flow**, not enzyme capacity.",
+            "Liver extracts nearly all drug on each pass — enzyme activity is not the bottleneck.",
+            "Hepatic extraction ratio is high (>0.7)."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Clinical implication",
+          "items": [
+            "Reduced hepatic blood flow (e.g., heart failure, cirrhosis) → slower elimination → drug accumulation."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Morphine",
+            "Lidocaine",
+            "Propranolol"
+          ]
+        }
+      ],
+      "image": "data_3/04-fig-3-2.png",
+      "imageCaption": "FIGURE 3-2 — Drug distribution & elimination models"
+    },
+    {
+      "id": "4-drug-accumulation",
+      "number": 6,
+      "title": "Drug Accumulation",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Repeated dosing causes accumulation until steady state."
+        },
+        {
+          "type": "group",
+          "label": "Depends on",
+          "items": [
+            "Dosing interval",
+            "Half-life"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Rule",
+          "items": [
+            "Short dosing interval relative to half-life → more accumulation"
+          ]
+        }
+      ],
+      "image": "data_3/06-fig-3-3.png",
+      "imageCaption": "FIGURE 3-3 — Drug accumulation & elimination (half-lives)"
+    },
+    {
+      "id": "5-bioavailability-f",
+      "number": 7,
+      "title": "Bioavailability (F)",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Definition",
+          "items": [
+            "Fraction of unchanged drug reaching systemic circulation"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "IV drugs: ```text F = 1 ```"
+        },
+        {
+          "type": "text",
+          "content": "Oral drugs often have: ```text F < 1 ```"
+        },
+        {
+          "type": "text",
+          "content": "1. Poor absorption"
+        },
+        {
+          "type": "text",
+          "content": "2. First-pass metabolism"
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Morphine → extensive first-pass effect",
+            "Propranolol → high first-pass metabolism"
+          ]
+        }
+      ],
+      "image": "data_3/08-fig-3-4.png",
+      "imageCaption": "FIGURE 3-4 — Bioavailability: rate vs extent of absorption"
+    },
+    {
+      "id": "6-first-pass-effect",
+      "number": 8,
+      "title": "First-Pass Effect",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drug absorbed from the GI tract enters portal circulation, then passes through the liver before reaching systemic circulation."
+        },
+        {
+          "type": "group",
+          "label": "Consequences",
+          "items": [
+            "Reduced bioavailability",
+            "Increased metabolite formation"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Routes that avoid or reduce first-pass effect",
+          "items": [
+            "Sublingual",
+            "Transdermal",
+            "Partial rectal route"
+          ]
+        }
+      ],
+      "image": "data_3/08-fig-3-4.png",
+      "imageCaption": "FIGURE 3-4 — First-pass effect lowers bioavailability"
+    },
+    {
+      "id": "7-routes-of-administration",
+      "number": 9,
+      "title": "Routes of Administration",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "table",
+          "header": [
+            "Route",
+            "Key Feature"
+          ],
+          "rows": [
+            [
+              "IV",
+              "100% bioavailability"
+            ],
+            [
+              "Oral",
+              "Convenient, first-pass effect possible"
+            ],
+            [
+              "IM / SC",
+              "Good absorption"
+            ],
+            [
+              "Inhalation",
+              "Rapid onset"
+            ],
+            [
+              "Transdermal",
+              "Slow prolonged release"
+            ]
+          ]
+        }
+      ],
+      "image": "data_3/07-table-3-3.png",
+      "imageCaption": "TABLE 3-3 — Routes of administration & bioavailability"
+    },
+    {
+      "id": "8-loading-dose",
+      "number": 10,
+      "title": "Loading Dose",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Used to rapidly achieve target concentration."
+        },
+        {
+          "type": "text",
+          "content": "Formula: ```text Loading dose = (Vd × Target concentration) / F ```"
+        },
+        {
+          "type": "group",
+          "label": "Purpose",
+          "items": [
+            "Useful when the target concentration is needed quickly, especially for drugs with long half-life"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Digoxin",
+            "Phenytoin"
+          ]
+        }
+      ],
+      "image": "data_3/04-fig-3-2.png",
+      "imageCaption": "FIGURE 3-2 — Volume of distribution & loading dose"
+    },
+    {
+      "id": "9-maintenance-dose",
+      "number": 11,
+      "title": "Maintenance Dose",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Used to maintain steady-state concentration."
+        },
+        {
+          "type": "text",
+          "content": "Formula: ```text Dosing rate = CL × Target concentration ```"
+        },
+        {
+          "type": "text",
+          "content": "Oral dosing: ```text Dose = (CL × Target concentration × Dosing interval) / F ```"
+        },
+        {
+          "type": "group",
+          "label": "Main determinant",
+          "items": [
+            "**Clearance**"
+          ]
+        }
+      ],
+      "image": "data_3/10-fig-3-6.png",
+      "imageCaption": "FIGURE 3-6 — Dosing frequency vs plasma concentration"
+    },
+    {
+      "id": "10-concentrationeffect-relationship",
+      "number": 12,
+      "title": "Concentration–Effect Relationship",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Drug effect often follows the **Emax model**."
+        },
+        {
+          "type": "text",
+          "content": "Key terms:"
+        },
+        {
+          "type": "table",
+          "header": [
+            "Term",
+            "Meaning"
+          ],
+          "rows": [
+            [
+              "Emax",
+              "Maximal effect"
+            ],
+            [
+              "C50 / EC50",
+              "Concentration producing 50% effect"
+            ]
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important",
+          "items": [
+            "Concentration changes do not always produce proportional effect changes."
+          ]
+        }
+      ],
+      "image": "data_3/01-fig-3-1.png",
+      "imageCaption": "FIGURE 3-1 — Concentration–effect relationship"
+    },
+    {
+      "id": "11-delayed-drug-effects",
+      "number": 13,
+      "title": "Delayed Drug Effects",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "1. Distribution delay"
+        },
+        {
+          "type": "text",
+          "content": "2. Slow receptor dissociation"
+        },
+        {
+          "type": "text",
+          "content": "3. Slow physiologic turnover"
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Digoxin",
+            "Warfarin"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Warfarin",
+          "items": [
+            "Rapidly inhibits VKOR",
+            "INR effect is delayed because clotting factors have long half-lives"
+          ]
+        }
+      ],
+      "image": "data_3/09-fig-3-5.png",
+      "imageCaption": "FIGURE 3-5 — Delayed drug effect (ACE inhibitor example)"
+    },
+    {
+      "id": "12-schedule-dependent-toxicity",
+      "number": 14,
+      "title": "Schedule-Dependent Toxicity",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Toxicity may depend on dosing pattern."
+        },
+        {
+          "type": "example",
+          "content": "Example"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Aminoglycosides"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Continuous infusion",
+          "items": [
+            "More nephrotoxicity"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Intermittent dosing",
+          "items": [
+            "Less renal uptake"
+          ]
+        }
+      ],
+      "image": "data_3/10-fig-3-6.png",
+      "imageCaption": "FIGURE 3-6 — Peak/trough fluctuations with dosing interval"
+    },
+    {
+      "id": "13-cumulative-drug-effects",
+      "number": 15,
+      "title": "Cumulative Drug Effects",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Effect depends on total exposure."
+        },
+        {
+          "type": "text",
+          "content": "Important measure: ```text AUC = Area under the concentration-time curve ```"
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Many chemotherapy drugs"
+          ]
+        }
+      ],
+      "image": "data_3/06-fig-3-3.png",
+      "imageCaption": "FIGURE 3-3 — Accumulation with repeated dosing"
+    },
+    {
+      "id": "14-target-concentration-strategy",
+      "number": 16,
+      "title": "Target Concentration Strategy",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Goal",
+          "items": [
+            "Achieve desired therapeutic concentration"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "1. Choose target concentration"
+        },
+        {
+          "type": "text",
+          "content": "2. Estimate Vd and CL"
+        },
+        {
+          "type": "text",
+          "content": "3. Calculate dose"
+        },
+        {
+          "type": "text",
+          "content": "4. Measure response or concentration"
+        },
+        {
+          "type": "text",
+          "content": "5. Adjust regimen"
+        }
+      ],
+      "image": "data_3/10-fig-3-6.png",
+      "imageCaption": "FIGURE 3-6 — Target concentration strategy"
+    },
+    {
+      "id": "15-factors-affecting-drug-levels",
+      "number": 17,
+      "title": "Factors Affecting Drug Levels",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "subheading",
+          "content": "A. Renal Function"
+        },
+        {
+          "type": "group",
+          "label": "Reduced renal clearance affects drugs such as",
+          "items": [
+            "Digoxin",
+            "Aminoglycosides",
+            "Use creatinine clearance for dose adjustment."
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "B. Hepatic Disease"
+        },
+        {
+          "type": "text",
+          "content": "May reduce metabolism."
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Diazepam",
+            "Propranolol"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "C. Obesity"
+        },
+        {
+          "type": "group",
+          "label": "Affects Vd differently",
+          "items": [
+            "Lipophilic drugs → larger Vd",
+            "Hydrophilic drugs → minimal change"
+          ]
+        },
+        {
+          "type": "subheading",
+          "content": "D. Edema / Ascites"
+        },
+        {
+          "type": "text",
+          "content": "May increase Vd of hydrophilic drugs."
+        },
+        {
+          "type": "example",
+          "content": "Gentamicin"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Gentamicin"
+          ]
+        }
+      ],
+      "image": "data_3/02-table-3-1.png",
+      "imageCaption": "TABLE 3-1 — PK/PD parameters (selected drugs)"
+    },
+    {
+      "id": "16-plasma-protein-binding",
+      "number": 18,
+      "title": "Plasma Protein Binding",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "text",
+          "content": "Important mainly for interpretation of total drug concentration."
+        },
+        {
+          "type": "group",
+          "label": "Key proteins",
+          "items": [
+            "Albumin",
+            "Alpha-1 acid glycoprotein"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Important point",
+          "items": [
+            "Changes in protein binding usually affect total drug concentration more than free drug effect."
+          ]
+        }
+      ],
+      "image": "data_3/02-table-3-1.png",
+      "imageCaption": "TABLE 3-1 — Protein binding & drug parameters"
+    },
+    {
+      "id": "17-therapeutic-drug-monitoring-tdm",
+      "number": 19,
+      "title": "Therapeutic Drug Monitoring (TDM)",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Useful for drugs with",
+          "items": [
+            "Narrow therapeutic index",
+            "Variable pharmacokinetics"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Examples",
+          "items": [
+            "Digoxin",
+            "Lithium",
+            "Aminoglycosides",
+            "Phenytoin"
+          ]
+        },
+        {
+          "type": "table",
+          "header": [
+            "Drug",
+            "Sampling Note"
+          ],
+          "rows": [
+            [
+              "Digoxin",
+              "Measure after distribution, usually at least 6 h after dose"
+            ],
+            [
+              "Lithium",
+              "Trough level"
+            ],
+            [
+              "Aminoglycosides",
+              "Peak/trough monitoring"
+            ]
+          ]
+        }
+      ],
+      "image": "data_3/03-table-3-1.png",
+      "imageCaption": "TABLE 3-1 — PK/PD parameters (continued)"
+    },
+    {
+      "id": "18-digoxin-case-summary",
+      "number": 20,
+      "title": "Digoxin Case Summary",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Patient",
+          "items": [
+            "Elderly",
+            "Reduced renal function"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Key principle",
+          "items": [
+            "Digoxin clearance is mainly renal."
+          ]
+        },
+        {
+          "type": "text",
+          "content": "1. Estimate creatinine clearance"
+        },
+        {
+          "type": "text",
+          "content": "2. Calculate total clearance"
+        },
+        {
+          "type": "text",
+          "content": "3. Calculate maintenance dose"
+        },
+        {
+          "type": "text",
+          "content": "Example practical dose if clinically appropriate: ```text 125 mcg/day = one 125 mcg tablet daily, or two 62.5 mcg tablets daily ```"
+        }
+      ],
+      "image": "data_3/03-table-3-1.png",
+      "imageCaption": "TABLE 3-1 — Digoxin & renal dosing parameters"
+    },
+    {
+      "id": "19-must-know-exam-pearls",
+      "number": 21,
+      "title": "Must-Know Exam Pearls",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Clearance determines maintenance dose.",
+            "Volume of distribution determines loading dose.",
+            "Half-life depends on both Vd and CL.",
+            "Steady state is reached after about 4–5 half-lives.",
+            "First-pass metabolism lowers oral bioavailability.",
+            "Nonlinear elimination: phenytoin, ethanol, salicylates at high/toxic concentrations.",
+            "Digoxin dose must be reduced in renal failure.",
+            "Aminoglycoside toxicity depends on dosing schedule.",
+            "Protein binding changes usually alter total concentration more than free concentration."
+          ]
+        }
+      ],
+      "image": "data_3/02-table-3-1.png",
+      "imageCaption": "TABLE 3-1 — High-yield PK/PD parameters"
+    }
+  ],
+  "introImage": "data_3/01-fig-3-1.png",
+  "introImageCaption": "FIGURE 3-1 — Pharmacokinetics & pharmacodynamics"
+}

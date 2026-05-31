@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedQuiz — Quiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="heart-bg" aria-hidden="true"></div>
+
+    <div class="app">
+      <header class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MedQuiz</span>
+          <span class="brand-tag">Heart Health Practice</span>
+        </div>
+      </header>
+
+      <section id="card" class="problem card glass hidden" aria-live="polite">
+        <div class="card-hero">
+          <div class="card-hero-top">
+            <div class="meta-chips">
+              <div class="meta-chip">
+                <span class="meta-chip-label">Category</span>
+                <span id="badgeCategory" class="badge"></span>
+              </div>
+              <div class="meta-row">
+                <div class="meta-chip">
+                  <span class="meta-chip-label">Level</span>
+                  <span id="badgeDifficulty" class="badge muted"></span>
+                </div>
+                <div class="meta-chip topic-box">
+                  <span class="card-label">Topic</span>
+                  <h2 id="title"></h2>
+                </div>
+              </div>
+            </div>
+            <div id="timer" class="timer" aria-live="polite">
+              <span class="timer-label">Time</span>
+              <span id="timerValue" class="timer-value">60</span>
+              <span class="timer-unit">s</span>
+            </div>
+            <div class="heart-visual" aria-hidden="true">
+              <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#fb7185"/>
+                    <stop offset="50%" stop-color="#f97316"/>
+                    <stop offset="100%" stop-color="#ea580c"/>
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M60 105c-1.2-1.1-28.5-26.2-38.8-36.8C14.2 60.5 8 50.8 8 40.5 8 28.4 17.6 18 29.5 18c6.8 0 13.2 3.4 17.2 8.8 4-5.4 10.4-8.8 17.2-8.8 11.9 0 21.5 10.4 21.5 22.5 0 10.3-6.2 20-13.2 27.7C88.5 78.8 61.2 103.9 60 105z"
+                  fill="url(#heartGrad)"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div class="card-hero-text">
+            <p id="question" class="question"></p>
+          </div>
+        </div>
+
+        <ul id="choices" class="choices"></ul>
+        <p id="feedback" class="feedback hidden"></p>
+        <details class="hint">
+          <summary>Clinical hint</summary>
+          <p id="hint"></p>
+        </details>
+      </section>
+
+      <p id="status" class="status" role="status"></p>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="static-api.js"></script>
+    <script src="storage.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,457 @@
+Adrenoceptor Antagonist Drugs - Chapter 10
+High-Yield Exam-Oriented Review
+
+1. High-Yield Summary
+- Adrenoceptor antagonists block effects of catecholamines at alpha or beta receptors.
+- Alpha blockers:
+  - Nonselective alpha blockers: phenoxybenzamine, phentolamine
+  - Alpha-1 blockers: prazosin, terazosin, doxazosin, tamsulosin, alfuzosin, silodosin
+  - Alpha-2 blocker: yohimbine
+- Beta blockers:
+  - Nonselective beta blockers: propranolol, timolol, nadolol
+  - Beta-1 selective blockers: metoprolol, atenolol, esmolol, betaxolol, nebivolol
+  - Mixed alpha + beta blockers: labetalol, carvedilol
+- Major uses:
+  - Pheochromocytoma
+  - Hypertension
+  - Benign prostatic hyperplasia
+  - Angina
+  - Arrhythmias
+  - Heart failure
+  - Glaucoma
+  - Hyperthyroidism
+  - Migraine prophylaxis
+
+2. Core Concepts
+
+Alpha Receptors
+- Alpha-1 activation normally causes:
+  - Vasoconstriction
+  - Increased blood pressure
+  - Bladder/prostate smooth muscle contraction
+  - Mydriasis
+- Alpha-1 blockade causes:
+  - Vasodilation
+  - Decreased blood pressure
+  - Orthostatic hypotension
+  - Improved urine flow in BPH
+
+Beta Receptors
+- Beta-1 activation normally causes:
+  - Increased heart rate
+  - Increased contractility
+  - Increased renin release
+- Beta-1 blockade causes:
+  - Decreased heart rate
+  - Decreased contractility
+  - Decreased renin
+  - Decreased myocardial oxygen demand
+
+- Beta-2 activation normally causes:
+  - Bronchodilation
+  - Vasodilation
+  - Glycogenolysis
+  - Tremor
+- Beta-2 blockade may cause:
+  - Bronchoconstriction
+  - Worsening asthma/COPD
+  - Impaired recovery from hypoglycemia
+
+3. Key Mechanisms / Pathways
+
+Alpha-1 Antagonism
+- Blocks Gq-mediated vasoconstriction.
+- Decreases IP3/DAG signaling and intracellular calcium effects.
+- Results:
+  - Arteriolar dilation
+  - Venous dilation
+  - Reduced peripheral resistance
+  - Orthostatic hypotension
+
+Beta Antagonism
+- Blocks Gs-mediated cAMP signaling.
+- In the heart:
+  - Decreased SA node activity
+  - Decreased AV conduction
+  - Decreased contractility
+  - Decreased oxygen demand
+- In kidney:
+  - Decreased renin release
+- In eye:
+  - Decreased aqueous humor production
+
+Irreversible Alpha Blockade
+- Phenoxybenzamine covalently binds alpha receptors.
+- Effect lasts until new receptors are synthesized.
+- Useful in pheochromocytoma.
+
+Reversible Alpha Blockade
+- Phentolamine and prazosin are competitive/reversible antagonists.
+- Blockade can be overcome by high agonist concentrations.
+
+4. Important Drugs
+
+Alpha Antagonists
+
+Phenoxybenzamine
+- Nonselective alpha blocker.
+- Irreversible.
+- Main use: preoperative management of pheochromocytoma.
+- Effects:
+  - Prevents catecholamine-induced vasoconstriction
+  - Controls hypertension before tumor removal
+- Adverse effects:
+  - Orthostatic hypotension
+  - Reflex tachycardia
+  - Nasal congestion
+  - Inhibition of ejaculation
+  - Fatigue/sedation
+
+Phentolamine
+- Nonselective alpha blocker.
+- Reversible.
+- IV use.
+- Uses:
+  - Pheochromocytoma crisis
+  - Catecholamine excess
+- Adverse effects:
+  - Tachycardia
+  - Arrhythmias
+  - Myocardial ischemia
+  - Orthostatic hypotension
+
+Prazosin / Terazosin / Doxazosin
+- Selective alpha-1 blockers.
+- Uses:
+  - Hypertension
+  - Benign prostatic hyperplasia
+- Adverse effects:
+  - First-dose syncope
+  - Orthostatic hypotension
+  - Dizziness
+  - Reflex tachycardia
+
+Tamsulosin
+- Alpha-1A selective antagonist.
+- Main use: BPH.
+- More prostate-selective, less effect on blood pressure.
+- Adverse effects:
+  - Orthostatic hypotension
+  - Abnormal ejaculation
+  - Intraoperative floppy iris syndrome during cataract surgery
+
+Alfuzosin / Silodosin
+- Used in BPH.
+- Silodosin is alpha-1A selective.
+- Alfuzosin may prolong QT in susceptible patients.
+
+Yohimbine
+- Alpha-2 antagonist.
+- Increases norepinephrine release.
+- Can raise blood pressure and heart rate.
+- Limited clinical use.
+
+Mixed Alpha + Beta Blockers
+
+Labetalol
+- Blocks beta receptors and alpha-1 receptors.
+- Uses:
+  - Hypertension
+  - Hypertensive emergencies
+  - Pregnancy-related hypertension
+- Less reflex tachycardia than pure alpha blockers.
+
+Carvedilol
+- Nonselective beta blocker + alpha-1 blocker.
+- Uses:
+  - Heart failure with reduced ejection fraction
+  - Hypertension
+- Additional antioxidant/vascular effects may contribute to benefit.
+
+Beta Antagonists
+
+Propranolol
+- Nonselective beta blocker.
+- Blocks beta-1 and beta-2.
+- Uses:
+  - Hypertension
+  - Angina
+  - Arrhythmias
+  - Migraine prophylaxis
+  - Hyperthyroidism
+  - Essential tremor
+  - Portal hypertension/variceal bleed prophylaxis
+- Adverse effects:
+  - Bronchospasm
+  - Bradycardia
+  - Fatigue
+  - Cold extremities
+  - Masks hypoglycemia
+  - CNS effects due to lipid solubility
+
+Metoprolol / Atenolol
+- Beta-1 selective blockers.
+- Uses:
+  - Hypertension
+  - Angina
+  - Post-MI mortality reduction
+  - Heart failure, especially metoprolol
+  - Arrhythmias
+- Safer than nonselective beta blockers in asthma/COPD, but still use caution.
+
+Esmolol
+- Beta-1 selective.
+- Very short acting.
+- Half-life about 10 minutes.
+- IV only.
+- Uses:
+  - Acute supraventricular tachycardia
+  - Perioperative hypertension
+  - Thyrotoxic tachyarrhythmias
+  - Acute situations needing rapid titration
+
+Timolol
+- Nonselective beta blocker.
+- Important use: glaucoma, topical.
+- Also reduces post-MI mortality.
+- Can still cause systemic beta-blocker effects when used as eye drops.
+
+Nadolol
+- Nonselective beta blocker.
+- Long duration.
+- Used in:
+  - Hypertension
+  - Migraine prophylaxis
+  - Portal hypertension
+
+Nebivolol
+- Highly beta-1 selective.
+- Promotes nitric oxide-mediated vasodilation.
+- Less adverse metabolic effect than older beta blockers.
+
+Pindolol / Acebutolol
+- Beta blockers with partial agonist activity.
+- May cause less resting bradycardia.
+- Not preferred after MI compared with pure antagonists.
+
+Sotalol
+- Nonselective beta blocker.
+- Also class III antiarrhythmic due to potassium channel blockade.
+
+5. Clinical Correlations
+
+Pheochromocytoma
+- Catecholamine-secreting tumor, usually adrenal medulla.
+- Symptoms:
+  - Episodic hypertension
+  - Headache
+  - Palpitations
+  - Sweating
+  - Pallor
+- Diagnosis:
+  - Elevated plasma or urine metanephrine and normetanephrine
+  - Imaging with CT/MRI
+  - MIBG scan may localize tumor
+- Treatment:
+  1. Alpha blockade first: phenoxybenzamine or selective alpha-1 blocker
+  2. Volume expansion
+  3. Add beta blocker only after alpha blockade if tachycardia persists
+  4. Surgical resection
+- Never give beta blocker first:
+  - Unopposed alpha stimulation can cause severe hypertension.
+
+Benign Prostatic Hyperplasia
+- Alpha-1A receptors mediate prostate smooth muscle contraction.
+- Alpha-1 blockers relax prostate/bladder neck.
+- Drugs:
+  - Tamsulosin
+  - Alfuzosin
+  - Silodosin
+  - Terazosin
+  - Doxazosin
+- Clinical benefit:
+  - Improved urinary flow
+  - Reduced urinary obstruction
+
+Ischemic Heart Disease / Angina
+- Beta blockers decrease myocardial oxygen demand by:
+  - Decreasing heart rate
+  - Decreasing contractility
+  - Decreasing blood pressure
+- Useful in chronic stable angina.
+- Improve survival after MI.
+
+Heart Failure
+- Certain beta blockers reduce mortality:
+  - Metoprolol
+  - Bisoprolol
+  - Carvedilol
+- Start low and titrate slowly.
+- Avoid initiating during acute decompensated heart failure.
+
+Glaucoma
+- Topical beta blockers reduce aqueous humor production.
+- Drugs:
+  - Timolol
+  - Betaxolol
+  - Levobunolol
+  - Carteolol
+- Betaxolol is beta-1 selective and may have less bronchospasm risk.
+
+Hyperthyroidism
+- Beta blockers reduce adrenergic symptoms:
+  - Palpitations
+  - Tremor
+  - Anxiety
+  - Tachycardia
+- Propranolol is commonly used in thyroid storm.
+
+Migraine Prophylaxis
+- Drugs:
+  - Propranolol
+  - Metoprolol
+  - Timolol
+  - Atenolol
+  - Nadolol
+
+Portal Hypertension
+- Nonselective beta blockers reduce portal pressure.
+- Drugs:
+  - Propranolol
+  - Nadolol
+- Used to prevent variceal bleeding.
+
+6. Adverse Effects / Toxicity / Pitfalls
+
+Alpha Blockers
+- Orthostatic hypotension
+- Reflex tachycardia
+- Dizziness/syncope
+- Nasal congestion
+- Ejaculatory dysfunction
+- First-dose syncope, especially prazosin
+- Intraoperative floppy iris syndrome with tamsulosin
+
+Beta Blockers
+- Bradycardia
+- AV block
+- Worsening heart failure if started aggressively
+- Bronchoconstriction, especially nonselective agents
+- Fatigue
+- Cold extremities
+- Sexual dysfunction
+- Depression or sleep disturbance, especially lipophilic agents
+- Masks hypoglycemia symptoms
+- Delays recovery from hypoglycemia
+- Rebound tachycardia/angina/hypertension if abruptly stopped
+
+Important Contraindications / Cautions
+- Asthma: avoid nonselective beta blockers.
+- Severe bradycardia or AV block: avoid beta blockers.
+- Acute decompensated heart failure: do not initiate beta blockers.
+- Diabetes with frequent hypoglycemia: use caution.
+- BPH with orthostatic hypotension risk: use caution with alpha blockers.
+- Cataract surgery: ask about tamsulosin due to floppy iris syndrome.
+
+7. Important Comparisons
+
+Alpha Blockers
+
+| Drug | Selectivity | Reversible? | Main Use | Key Toxicity |
+|---|---|---|---|---|
+| Phenoxybenzamine | alpha-1 + alpha-2 | Irreversible | Pheochromocytoma | Orthostatic hypotension, tachycardia |
+| Phentolamine | alpha-1 + alpha-2 | Reversible | Pheochromocytoma crisis | Tachycardia, arrhythmias |
+| Prazosin | alpha-1 | Reversible | HTN, BPH | First-dose syncope |
+| Tamsulosin | alpha-1A | Reversible | BPH | Floppy iris syndrome |
+
+Beta Blockers
+
+| Drug | Selectivity | Key Use | Key Point |
+|---|---|---|---|
+| Propranolol | beta-1 + beta-2 | Tremor, migraine, thyroid storm | Avoid in asthma |
+| Metoprolol | beta-1 | MI, HF, HTN | Cardioselective |
+| Atenolol | beta-1 | HTN, angina | Renal clearance |
+| Esmolol | beta-1 | Acute arrhythmias | Very short acting |
+| Timolol | beta-1 + beta-2 | Glaucoma | Topical use |
+| Carvedilol | beta + alpha-1 | Heart failure | Vasodilating beta blocker |
+| Labetalol | beta + alpha-1 | Hypertensive emergency | Useful in pregnancy |
+| Nebivolol | beta-1 | HTN | NO-mediated vasodilation |
+
+Pheochromocytoma Treatment Sequence
+
+| Step | Action |
+|---|---|
+| 1 | Alpha blockade first |
+| 2 | Restore/expand volume |
+| 3 | Add beta blocker only if needed |
+| 4 | Surgical removal |
+
+8. Must-Know Exam Points
+- Phenoxybenzamine = irreversible alpha blocker for pheochromocytoma.
+- Phentolamine = reversible alpha blocker, IV, catecholamine crisis.
+- Prazosin causes first-dose syncope.
+- Tamsulosin targets alpha-1A in prostate.
+- Tamsulosin is associated with intraoperative floppy iris syndrome.
+- Beta blockers decrease renin release.
+- Beta blockers decrease myocardial oxygen demand.
+- Nonselective beta blockers can worsen asthma.
+- Beta blockers mask hypoglycemia symptoms.
+- Abrupt beta blocker withdrawal can precipitate angina or MI.
+- Esmolol has an ultrashort half-life.
+- Timolol is used topically for glaucoma.
+- Metoprolol, bisoprolol, carvedilol reduce mortality in HFrEF.
+- Never give beta blocker before alpha blockade in pheochromocytoma.
+- Epinephrine reversal: alpha blockade converts epinephrine pressor effect into depressor effect due to unopposed beta-2 vasodilation.
+
+9. Case-Based Integration
+
+Case Diagnosis
+- Most likely diagnosis: pheochromocytoma.
+- Clues:
+  - Episodic palpitations
+  - Severe headaches
+  - Drenching sweats
+  - Hypertensive spells
+  - Attack triggered by abdominal palpation
+  - Facial pallor from intense alpha-mediated vasoconstriction
+
+Why did BP and HR rise during abdominal palpation?
+- Physical pressure on the adrenal tumor caused catecholamine release.
+- Norepinephrine/epinephrine activated:
+  - Alpha-1 receptors: intense vasoconstriction and hypertension
+  - Beta-1 receptors: tachycardia and palpitations
+
+Treatment Plan
+- Confirm with plasma free metanephrines or urinary fractionated metanephrines.
+- Localize tumor with CT/MRI or MIBG.
+- Begin alpha blockade before surgery:
+  - Phenoxybenzamine is classic.
+  - Selective alpha-1 blockers may also be used.
+- Expand blood volume.
+- Add beta blocker only after adequate alpha blockade if tachycardia persists.
+- Definitive treatment: surgical resection.
+
+Emergency Pitfall
+- Beta blocker before alpha blockade can worsen hypertension by leaving alpha vasoconstriction unopposed.
+
+10. Rapid Review Table
+
+| Topic | High-Yield Point |
+|---|---|
+| Phenoxybenzamine | Irreversible alpha blocker; pheochromocytoma |
+| Phentolamine | Reversible alpha blocker; acute catecholamine excess |
+| Prazosin | Alpha-1 blocker; first-dose syncope |
+| Tamsulosin | Alpha-1A blocker; BPH; floppy iris syndrome |
+| Yohimbine | Alpha-2 blocker; increases NE release |
+| Propranolol | Nonselective beta blocker; avoid in asthma |
+| Metoprolol | Beta-1 selective; post-MI and HF |
+| Esmolol | Very short-acting IV beta-1 blocker |
+| Timolol | Topical glaucoma treatment |
+| Carvedilol | Beta + alpha-1 blocker; HFrEF |
+| Labetalol | Beta + alpha-1 blocker; hypertensive emergencies |
+| Nebivolol | Beta-1 blocker with NO vasodilation |
+| Beta blocker toxicity | Bradycardia, bronchospasm, AV block |
+| Alpha blocker toxicity | Orthostatic hypotension |
+| Pheochromocytoma rule | Alpha block before beta block |
+
+End of High-Yield Review

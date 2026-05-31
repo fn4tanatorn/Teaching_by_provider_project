@@ -1,0 +1,62 @@
+[
+  {
+    "file": "data_1/01-fig-1-1.png",
+    "was": "data_1/01.png",
+    "caption": "FIGURE 1-1 — Major areas of study in pharmacology"
+  },
+  {
+    "file": "data_1/02-table-1-1.png",
+    "was": "data_1/02.png",
+    "caption": "TABLE 1-1 — Large-molecule drugs in new approvals"
+  },
+  {
+    "file": "data_1/03-fig-1-2.png",
+    "was": "data_1/04.png",
+    "caption": "FIGURE 1-2 — Drug–receptor interaction types"
+  },
+  {
+    "file": "data_1/04-table-1-2.png",
+    "was": "data_1/03.png",
+    "caption": "TABLE 1-2 — Dissociation constants (Kd) & stereochemistry"
+  },
+  {
+    "file": "data_1/05-fig-1-3.png",
+    "was": "data_1/05.png",
+    "caption": "FIGURE 1-3 — Agonist, antagonist & inverse agonist model"
+  },
+  {
+    "file": "data_1/06-table-1-3.png",
+    "was": "data_1/07.png",
+    "caption": "TABLE 1-3 — Transport proteins in pharmacology"
+  },
+  {
+    "file": "data_1/07-fig-1-4.png",
+    "was": "data_1/06.png",
+    "caption": "FIGURE 1-4 — Mechanisms of drug permeation"
+  },
+  {
+    "file": "data_1/08-table-1-4.png",
+    "was": "data_1/08.png",
+    "caption": "TABLE 1-4 — Ionization constants (pKa) of common drugs"
+  },
+  {
+    "file": "data_1/09-fig-1-5.png",
+    "was": "data_1/09.png",
+    "caption": "FIGURE 1-5 — Ion trapping of weak bases in urine"
+  },
+  {
+    "file": "data_1/10-table-1-5.png",
+    "was": "data_1/11.png",
+    "caption": "TABLE 1-5 — Safety tests"
+  },
+  {
+    "file": "data_1/11-fig-1-6.png",
+    "was": "data_1/10.png",
+    "caption": "FIGURE 1-6 — Drug development & testing (USA)"
+  },
+  {
+    "file": "data_1/12-table-1-6.png",
+    "was": "data_1/12.png",
+    "caption": "TABLE 1-6 — Major drug legislation in the USA"
+  }
+]

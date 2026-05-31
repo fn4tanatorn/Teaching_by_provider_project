@@ -1,0 +1,489 @@
+Drug Biotransformation — High-Yield Summary
+============================================
+
+1. Core Concept
+---------------
+Drug biotransformation = chemical modification of drugs/xenobiotics by the body.
+
+Main purpose:
+- Convert lipophilic drugs into more polar, water-soluble compounds.
+- Facilitate renal or biliary excretion.
+- Terminate or modify drug activity.
+
+Important:
+- Metabolism usually inactivates drugs.
+- Some metabolites are active or toxic.
+- Some drugs are prodrugs and require metabolism for activation.
+
+2. Why Biotransformation Is Needed
+----------------------------------
+Many drugs are:
+- Lipophilic
+- Poorly ionized at physiologic pH
+- Protein-bound
+- Easily reabsorbed from renal tubules
+
+Without metabolism, many drugs would have prolonged action.
+
+Examples:
+- Thiopental
+- Pentobarbital
+
+3. Phase I and Phase II Reactions
+---------------------------------
+
+Phase I reactions:
+- Introduce or expose functional groups.
+- Common groups: -OH, -NH2, -SH
+- Often make drug more polar.
+- May activate, inactivate, or create toxic metabolites.
+
+Common Phase I reactions:
+- Oxidation
+- Reduction
+- Hydrolysis
+
+Phase II reactions:
+- Conjugation reactions.
+- Add endogenous molecules to drug or Phase I metabolite.
+- Usually produce highly polar, inactive metabolites.
+
+Common conjugates:
+- Glucuronic acid
+- Sulfate
+- Acetate
+- Glutathione
+- Glycine
+- Methyl groups
+
+Important:
+- Phase II can occur before Phase I.
+- Example: isoniazid acetylation before hydrolysis.
+
+4. Main Sites of Drug Metabolism
+--------------------------------
+Principal organ:
+- Liver
+
+Other sites:
+- Intestine
+- Lung
+- Kidney
+- Skin
+- Brain
+- Plasma
+- Gut microbiota
+
+Important concept:
+- Oral drugs may undergo first-pass metabolism in intestine and liver.
+
+5. First-Pass Metabolism
+------------------------
+First-pass effect = metabolism before drug reaches systemic circulation.
+
+Occurs mainly in:
+- Intestinal wall
+- Liver
+
+Consequences:
+- Reduced oral bioavailability
+- Need for higher oral dose or alternative route
+
+Examples:
+- Morphine
+- Lidocaine
+- Midazolam
+- Cyclosporine
+- Chlorpromazine
+
+6. Microsomal Mixed Function Oxidase System
+-------------------------------------------
+Located mainly in smooth endoplasmic reticulum.
+
+Major components:
+- Cytochrome P450 enzymes
+- NADPH-cytochrome P450 reductase
+- NADPH
+- Molecular oxygen
+
+General reaction:
+- One oxygen atom enters drug.
+- One oxygen atom becomes water.
+
+7. Cytochrome P450 System
+-------------------------
+Cytochrome P450 enzymes are major Phase I enzymes.
+
+Important human CYP enzymes:
+- CYP1A2
+- CYP2A6
+- CYP2B6
+- CYP2C8
+- CYP2C9
+- CYP2C19
+- CYP2D6
+- CYP2E1
+- CYP3A4
+- CYP3A5
+
+Most important:
+- CYP3A4 metabolizes more than 50% of many prescription drugs.
+
+8. CYP Induction
+----------------
+Enzyme induction = increased enzyme expression or reduced degradation.
+
+Effect:
+- Increased metabolism
+- Reduced drug concentration
+- Reduced therapeutic effect
+- Increased toxic metabolite formation for some drugs
+
+Common inducers:
+- Rifampin
+- Phenobarbital
+- Carbamazepine
+- Phenytoin
+- St. John’s wort
+- Smoking
+- Charcoal-broiled foods
+- Cruciferous vegetables
+- Chronic alcohol use
+
+Clinical examples:
+- Rifampin reduces oral contraceptive effectiveness.
+- Smoking increases metabolism of some drugs.
+- St. John’s wort reduces levels of many CYP3A4 substrates.
+
+9. CYP Inhibition
+-----------------
+Enzyme inhibition = decreased metabolism.
+
+Effect:
+- Increased drug concentration
+- Increased toxicity risk
+- Especially important for narrow therapeutic index drugs
+
+Common inhibitors:
+- Cimetidine
+- Ketoconazole
+- Itraconazole
+- Erythromycin
+- Clarithromycin
+- Ritonavir
+- Grapefruit juice
+- Fluoxetine
+- Fluconazole
+- Amiodarone
+
+Clinical examples:
+- Grapefruit juice inhibits intestinal CYP3A4.
+- Macrolides can increase levels of CYP3A4 substrates.
+- Allopurinol inhibits xanthine oxidase and increases mercaptopurine toxicity.
+
+10. Phase II Enzymes
+--------------------
+Major Phase II pathways:
+
+A. Glucuronidation
+- Enzyme: UDP-glucuronosyltransferase (UGT)
+- Important for bilirubin, morphine, acetaminophen, diazepam
+
+B. Sulfation
+- Enzyme: sulfotransferase
+- Important for phenols, alcohols, aromatic amines
+
+C. Acetylation
+- Enzyme: N-acetyltransferase (NAT)
+- Important for isoniazid, sulfonamides, hydralazine
+
+D. Glutathione conjugation
+- Enzyme: glutathione-S-transferase
+- Important for detoxifying reactive metabolites
+
+E. Methylation
+- Uses S-adenosylmethionine
+- Important for catecholamines and thiopurines
+
+11. Toxic Metabolites
+---------------------
+Drug metabolism can produce toxic reactive intermediates.
+
+Toxicity risk increases when:
+- Normal conjugation pathways are saturated.
+- Glutathione is depleted.
+- CYP activation increases.
+- Liver disease is present.
+
+Important example:
+- Acetaminophen overdose
+
+12. Acetaminophen Metabolism
+----------------------------
+At therapeutic doses:
+- Mostly glucuronidation and sulfation
+- Small amount converted by CYP enzymes to toxic NAPQI
+- NAPQI detoxified by glutathione
+
+In overdose:
+- Glucuronidation and sulfation become saturated.
+- More drug goes through CYP pathway.
+- NAPQI increases.
+- Glutathione becomes depleted.
+- Hepatic injury occurs.
+
+Antidote:
+- N-acetylcysteine
+
+Mechanism of antidote:
+- Replenishes glutathione
+- Detoxifies NAPQI
+
+13. Genetic Polymorphisms
+-------------------------
+Genetic variation affects drug metabolism.
+
+Important enzymes:
+- CYP2D6
+- CYP2C19
+- CYP2C9
+- NAT2
+- TPMT
+- UGT1A1
+- BCHE
+
+14. CYP2D6 Polymorphism
+-----------------------
+Substrates:
+- Codeine
+- Tramadol
+- Metoprolol
+- Nortriptyline
+- Tamoxifen
+- Hydrocodone
+
+Poor metabolizers:
+- Reduced activation of codeine to morphine
+- Reduced tamoxifen activation
+- Higher risk of toxicity from some parent drugs
+
+Ultrarapid metabolizers:
+- Excessive conversion of codeine to morphine
+- Risk of respiratory depression
+
+15. CYP2C19 Polymorphism
+------------------------
+Substrates:
+- Clopidogrel
+- Omeprazole
+- Diazepam
+- Citalopram
+- Voriconazole
+- Mephenytoin
+
+Poor metabolizers:
+- Reduced clopidogrel activation
+- Increased omeprazole effect
+- Increased risk of toxicity from some substrates
+
+Ultrarapid metabolizers:
+- Increased clopidogrel activation
+- Increased bleeding risk
+
+16. CYP2C9 Polymorphism
+-----------------------
+Substrates:
+- Warfarin
+- Phenytoin
+- Tolbutamide
+- NSAIDs
+
+Poor metabolizers:
+- Increased warfarin bleeding risk
+- Increased phenytoin toxicity
+
+17. NAT2 Polymorphism
+---------------------
+Important drug:
+- Isoniazid
+
+Slow acetylators:
+- Increased risk of peripheral neuropathy
+- Increased risk of drug-induced lupus-like syndrome
+
+18. TPMT Polymorphism
+---------------------
+Important drugs:
+- 6-mercaptopurine
+- Azathioprine
+- Thioguanine
+
+Poor metabolizers:
+- Severe myelotoxicity risk
+
+19. UGT1A1 Polymorphism
+-----------------------
+Associated with:
+- Gilbert syndrome
+- Increased irinotecan toxicity
+
+20. BCHE Polymorphism
+---------------------
+Important drug:
+- Succinylcholine
+
+Deficiency causes:
+- Prolonged apnea
+- Prolonged paralysis
+
+21. Gut Microbiota and Drug Metabolism
+--------------------------------------
+Gut bacteria can metabolize drugs.
+
+Important effects:
+- Reduce or activate drugs
+- Deconjugate glucuronides
+- Contribute to enterohepatic recycling
+- Modify toxicity
+
+Examples:
+- Digoxin metabolism by gut flora
+- Antibiotics can increase digoxin levels
+- Bacterial beta-glucuronidase contributes to irinotecan and NSAID GI toxicity
+
+22. Diet and Environment
+------------------------
+Factors affecting metabolism:
+
+Smoking:
+- Induces CYP1A enzymes
+
+Charcoal-broiled foods:
+- Induce CYP1A enzymes
+
+Cruciferous vegetables:
+- Induce CYP1A enzymes
+
+Grapefruit juice:
+- Inhibits intestinal CYP3A4
+
+Alcohol:
+- Chronic use induces CYP2E1
+- Acute use may inhibit metabolism of some drugs
+
+23. Age and Sex
+---------------
+Neonates and elderly patients:
+- Often have altered metabolism
+- Higher risk of toxicity
+
+Sex differences:
+- May affect metabolism of some drugs, but less predictable in humans.
+
+24. Disease Effects
+-------------------
+Liver disease:
+- Reduces metabolism of many drugs
+- Prolongs half-life
+- Increases toxicity risk
+
+Examples:
+- Diazepam
+- Chlordiazepoxide
+
+Cardiac disease:
+- Reduces hepatic blood flow
+- Affects high-extraction drugs
+
+Examples of flow-limited drugs:
+- Lidocaine
+- Morphine
+- Propranolol
+- Verapamil
+- Imipramine
+
+Inflammation and infection:
+- Cytokines can reduce CYP expression and activity.
+
+25. Biologics Metabolism
+------------------------
+Biologics include:
+- Monoclonal antibodies
+- Cytokines
+- Fusion proteins
+- Recombinant proteins
+- Antibody-drug conjugates
+
+Metabolism:
+- Not mainly by CYP enzymes
+- Degraded by proteolysis into amino acids
+- Often lysosomal degradation
+- FcRn recycling prolongs half-life of IgG antibodies
+
+Important:
+- Biologics may still affect small-molecule drug metabolism by changing cytokine levels.
+
+26. Drug-Drug Interactions
+--------------------------
+Major mechanisms:
+- CYP induction
+- CYP inhibition
+- Competition for conjugation pathways
+- Altered gut microbiota
+- Altered transporters
+- Cytokine-mediated CYP changes
+
+Important examples:
+- Rifampin decreases warfarin and oral contraceptive levels.
+- Grapefruit juice increases felodipine, cyclosporine, some statins.
+- Ketoconazole increases CYP3A4 substrate levels.
+- Allopurinol increases mercaptopurine toxicity.
+- St. John’s wort decreases many CYP3A4 substrate levels.
+
+27. Case Study Summary
+----------------------
+Patient took overdose of:
+- Hydrocodone/acetaminophen
+- Carisoprodol
+- Duloxetine
+
+Findings:
+- Jaundice
+- High AST/ALT
+- High bilirubin
+- Prolonged prothrombin time
+- Low glucose
+- Reduced renal function
+- Detectable acetaminophen level 48 hours later
+- Hepatitis C positive
+
+Interpretation:
+- Severe acetaminophen toxicity
+- Ongoing liver failure
+- Mixed drug overdose and HCV likely worsened hepatic risk
+
+Management:
+- Give N-acetylcysteine
+- Provide IV glucose
+- Support renal and hepatic function
+- Monitor liver tests, coagulation, glucose, renal function, and acetaminophen level
+
+28. Must-Know Exam Pearls
+-------------------------
+- Drug metabolism usually makes drugs more water-soluble.
+- Phase I = oxidation, reduction, hydrolysis.
+- Phase II = conjugation.
+- CYP3A4 metabolizes many drugs.
+- Enzyme induction decreases drug levels but may increase toxic metabolites.
+- Enzyme inhibition increases drug levels and toxicity risk.
+- Acetaminophen toxicity is due to NAPQI.
+- N-acetylcysteine replenishes glutathione.
+- CYP2D6 activates codeine and tamoxifen.
+- CYP2C19 activates clopidogrel.
+- CYP2C9 metabolizes warfarin and phenytoin.
+- NAT2 slow acetylators have more isoniazid toxicity.
+- TPMT deficiency increases thiopurine toxicity.
+- UGT1A1 variants increase irinotecan toxicity.
+- Grapefruit juice inhibits intestinal CYP3A4.
+- Rifampin is a strong inducer.
+- St. John’s wort induces CYP3A4.

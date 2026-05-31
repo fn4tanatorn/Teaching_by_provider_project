@@ -1,0 +1,95 @@
+{
+  "course": "Katzung Pharmacology",
+  "decks": [
+    {
+      "id": "ch1",
+      "file": "ch1-intro.json",
+      "chapter": 1,
+      "title": "Introduction to Pharmacology",
+      "summary": "Definitions, PK/PD overview, drug development & FDA",
+      "sections": 12,
+      "hasImages": true
+    },
+    {
+      "id": "ch2",
+      "file": "ch2-receptors.json",
+      "chapter": 2,
+      "title": "Drug Receptors & Pharmacodynamics",
+      "summary": "Dose–response, agonists, signal transduction",
+      "sections": 14,
+      "hasImages": true
+    },
+    {
+      "id": "ch3",
+      "file": "ch3-pk-pd.json",
+      "chapter": 3,
+      "title": "PK/PD — Rational Dosing",
+      "summary": "Vd, clearance, half-life, loading & maintenance dose",
+      "sections": 19,
+      "hasImages": true
+    },
+    {
+      "id": "ch4",
+      "file": "ch4-biotransform.json",
+      "chapter": 4,
+      "title": "Drug Biotransformation",
+      "summary": "Phase I/II, CYP450, polymorphisms & interactions",
+      "sections": 28,
+      "hasImages": true
+    },
+    {
+      "id": "ch5",
+      "file": "ch5-pharmacogenomics.json",
+      "chapter": 5,
+      "title": "Pharmacogenomics",
+      "summary": "CYP polymorphisms, TPMT, HLA, warfarin & precision medicine",
+      "sections": 29,
+      "hasImages": true
+    },
+    {
+      "id": "ch6",
+      "file": "ch6-autonomic.json",
+      "chapter": 6,
+      "title": "Introduction to Autonomic Pharmacology",
+      "summary": "ANS divisions, neurotransmitters, receptors & autonomic drug targets",
+      "sections": 40,
+      "hasImages": true
+    },
+    {
+      "id": "ch7",
+      "file": "ch7-cholinomimetics.json",
+      "chapter": 7,
+      "title": "Cholinomimetics & Cholinesterase Inhibitors",
+      "summary": "Direct/indirect cholinomimetics, myasthenia, glaucoma, Alzheimer, organophosphates",
+      "sections": 11,
+      "hasImages": true
+    },
+    {
+      "id": "ch8",
+      "file": "ch8-antimuscarinic.json",
+      "chapter": 8,
+      "title": "Cholinoceptor-Blocking Drugs",
+      "summary": "Antimuscarinics, atropine toxicity, COPD/asthma, OAB, NM blockade",
+      "sections": 12,
+      "hasImages": true
+    },
+    {
+      "id": "ch9",
+      "file": "ch9-sympathomimetics.json",
+      "chapter": 9,
+      "title": "Adrenoceptor Agonists & Sympathomimetic Drugs",
+      "summary": "Alpha/beta/D1 agonists, epinephrine & NE, shock, anaphylaxis, indirect sympathomimetics",
+      "sections": 10,
+      "hasImages": true
+    },
+    {
+      "id": "ch10",
+      "file": "ch10-adrenoceptor-antagonists.json",
+      "chapter": 10,
+      "title": "Adrenoceptor Antagonist Drugs",
+      "summary": "Alpha & beta blockers, BPH, HF, pheochromocytoma, labetalol, exam pitfalls",
+      "sections": 10,
+      "hasImages": true
+    }
+  ]
+}

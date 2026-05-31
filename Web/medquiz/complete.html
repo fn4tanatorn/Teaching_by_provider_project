@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedQuiz — ทำครบแล้ว</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="heart-bg" aria-hidden="true"></div>
+
+    <a href="index.html" id="skipLimitBtn" class="corner-btn skip-limit-btn hidden">
+      Skip limit
+    </a>
+
+    <div class="app">
+      <header class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MedQuiz</span>
+          <span class="brand-tag">Heart Health Practice</span>
+        </div>
+      </header>
+
+      <section class="quota card glass">
+        <div class="quota-icon" aria-hidden="true">
+          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 68l-2.2-2C22 54 14 46.5 14 36.5 14 27 21.5 19.5 31 19.5c5.5 0 10.7 2.6 14 6.8 3.3-4.2 8.5-6.8 14-6.8 9.5 0 17 7.5 17 17 0 10-8 17.5-23.8 29.5L40 68z" fill="currentColor" opacity="0.9"/>
+          </svg>
+        </div>
+        <h1 class="quota-title">ทำครบทุกข้อแล้ว</h1>
+        <p class="quota-message">ตอบถูกครบทุกข้อที่มีในวันนี้แล้ว</p>
+        <p class="quota-sub">กลับมาใหม่พรุ่งนี้นะครับ</p>
+        <a href="index.html" class="btn primary quota-btn">กลับหน้าหลัก</a>
+      </section>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="storage.js"></script>
+    <script src="skip-limit.js"></script>
+    <script src="complete.js"></script>
+  </body>
+</html>

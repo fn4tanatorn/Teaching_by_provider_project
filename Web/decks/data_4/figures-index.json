@@ -1,0 +1,77 @@
+[
+  {
+    "file": "data_4/01-fig-4-1.png",
+    "was": "data_4/01.png",
+    "caption": "FIGURE 4-1 — Phase I, phase II & direct elimination"
+  },
+  {
+    "file": "data_4/02-table-4-1.png",
+    "was": "data_4/04.png",
+    "caption": "TABLE 4-1 — Phase I reactions"
+  },
+  {
+    "file": "data_4/03-table-4-1.png",
+    "was": "data_4/05.png",
+    "caption": "TABLE 4-1 — Phase I reactions (continued)"
+  },
+  {
+    "file": "data_4/04-fig-4-2.png",
+    "was": "data_4/02.png",
+    "caption": "FIGURE 4-2 — Isoniazid hepatotoxic metabolite"
+  },
+  {
+    "file": "data_4/05-table-4-2.png",
+    "was": "data_4/06.png",
+    "caption": "TABLE 4-2 — Human liver P450s: substrates & interactions"
+  },
+  {
+    "file": "data_4/06-table-4-2.png",
+    "was": "data_4/07.png",
+    "caption": "TABLE 4-2 — CYP3A4 substrates, inducers & inhibitors"
+  },
+  {
+    "file": "data_4/07-fig-4-3.png",
+    "was": "data_4/03.png",
+    "caption": "FIGURE 4-3 — Cytochrome P450 catalytic cycle"
+  },
+  {
+    "file": "data_4/08-table-4-3.png",
+    "was": "data_4/09.png",
+    "caption": "TABLE 4-3 — Phase II conjugation reactions"
+  },
+  {
+    "file": "data_4/09-fig-4-4.png",
+    "was": "data_4/08.png",
+    "caption": "FIGURE 4-4 — Relative contributions of CYP and phase II pathways"
+  },
+  {
+    "file": "data_4/10-table-4-4.png",
+    "was": "data_4/11.png",
+    "caption": "TABLE 4-4 — Genetic polymorphisms (phase I/II)"
+  },
+  {
+    "file": "data_4/11-table-4-4.png",
+    "was": "data_4/12.png",
+    "caption": "TABLE 4-4 — CYP, TPMT, UGT1A1 & other metabolic polymorphisms (continued)"
+  },
+  {
+    "file": "data_4/12-fig-4-5.png",
+    "was": "data_4/10.png",
+    "caption": "FIGURE 4-5 — Acetaminophen metabolism & toxicity"
+  },
+  {
+    "file": "data_4/13-table-4-5.png",
+    "was": "data_4/14.png",
+    "caption": "TABLE 4-5 — Drugs that enhance or inhibit metabolism"
+  },
+  {
+    "file": "data_4/14-fig-4-6.png",
+    "was": "data_4/13.png",
+    "caption": "FIGURE 4-6 — Debrisoquin hydroxylation polymorphism"
+  },
+  {
+    "file": "data_4/15-table-4-7.png",
+    "was": "data_4/16.png",
+    "caption": "TABLE 4-7 — Rapidly metabolized drugs (first-pass)"
+  }
+]

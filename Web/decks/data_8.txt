@@ -1,0 +1,431 @@
+Cholinoceptor-Blocking Drugs
+Todd W. Vanderah, PhD
+Chapter 8 High-Yield Output
+
+1. High-Yield Summary
+
+- Cholinoceptor antagonists are divided into:
+  - Muscarinic receptor blockers = antimuscarinic drugs
+  - Nicotinic receptor blockers = ganglion blockers and neuromuscular blockers
+- This chapter focuses mainly on antimuscarinic drugs.
+- Prototype drug: atropine.
+- Antimuscarinic drugs block parasympathetic effects at muscarinic receptors.
+- Major clinical uses:
+  - Motion sickness: scopolamine
+  - Ophthalmology: atropine, homatropine, cyclopentolate, tropicamide
+  - COPD/asthma: ipratropium, tiotropium, aclidinium, umeclidinium
+  - Overactive bladder/urge incontinence: oxybutynin, tolterodine, darifenacin, solifenacin, fesoterodine, trospium
+  - Cholinesterase inhibitor poisoning: atropine + pralidoxime
+  - Parkinson tremor: benztropine, trihexyphenidyl
+- Classic antimuscarinic toxicity:
+  - Dry as a bone
+  - Blind as a bat
+  - Red as a beet
+  - Mad as a hatter
+  - Hot as a hare
+
+2. Core Concepts
+
+Muscarinic receptor subtypes:
+- M1:
+  - Location: CNS, autonomic ganglia, presynaptic nerves
+  - Signaling: Gq -> IP3/DAG
+  - Drugs: pirenzepine, telenzepine, dicyclomine, trihexyphenidyl
+- M2:
+  - Location: heart, nerves, smooth muscle
+  - Signaling: Gi -> decreased cAMP, increased K+ conductance
+  - Effect: slows SA and AV node activity
+- M3:
+  - Location: glands, smooth muscle, endothelium
+  - Signaling: Gq -> IP3/DAG
+  - Major exam receptor for secretions, bronchoconstriction, bladder contraction, GI motility, miosis
+  - Drugs: oxybutynin, tolterodine, darifenacin, solifenacin, tiotropium
+- M4/M5:
+  - More important in CNS
+  - M5 may have role in drug addiction
+
+Key principle:
+- Antimuscarinic drugs block muscarinic receptors but do not significantly block nicotinic receptors at therapeutic doses.
+
+3. Key Mechanisms / Pathways
+
+Atropine mechanism:
+- Competitive, reversible muscarinic antagonist
+- Blocks acetylcholine at muscarinic receptors
+- Prevents:
+  - IP3/DAG signaling through M1/M3/M5
+  - Gi-mediated effects through M2/M4
+
+M2 cardiac blockade:
+- Normally acetylcholine activates M2 receptors -> decreased cAMP + increased K+ efflux
+- This slows SA node firing and AV conduction.
+- Atropine blocks M2 -> tachycardia and increased AV conduction.
+
+M3 smooth muscle/gland blockade:
+- Normally acetylcholine activates M3 -> IP3/DAG -> increased intracellular Ca2+
+- Causes gland secretion and smooth muscle contraction.
+- Antimuscarinics block this -> dry mouth, bronchodilation, reduced bladder contraction, constipation.
+
+M3 eye blockade:
+- Blocks iris sphincter contraction -> mydriasis
+- Blocks ciliary muscle contraction -> cycloplegia
+- Can precipitate acute angle-closure glaucoma.
+
+4. Important Drugs / Systems
+
+A. Natural alkaloids
+- Atropine:
+  - Prototype antimuscarinic
+  - Tertiary amine
+  - Enters CNS
+  - Uses: bradycardia, organophosphate poisoning, ophthalmology
+- Scopolamine:
+  - More CNS effect than atropine
+  - Causes sedation and amnesia
+  - Used for motion sickness and postoperative nausea/vomiting
+
+B. Ophthalmic antimuscarinics
+- Atropine:
+  - Duration: 5-6 days
+  - Longest acting
+- Scopolamine:
+  - Duration: 3-7 days
+- Homatropine:
+  - Duration: 12-24 hours
+- Cyclopentolate:
+  - Duration: 3-6 hours
+- Tropicamide:
+  - Duration: 15-60 minutes
+  - Best for short funduscopic exam
+
+C. Respiratory antimuscarinics
+- Ipratropium:
+  - Shorter acting
+  - Used in COPD and asthma
+- Tiotropium:
+  - Long acting
+  - Once daily
+  - Slow dissociation from M3
+  - Reduces COPD exacerbations
+- Aclidinium:
+  - Long acting, twice daily
+- Umeclidinium:
+  - Long acting, once daily
+- Glycopyrrolate:
+  - Inhaled form used in COPD
+
+D. Urinary antimuscarinics
+- Oxybutynin:
+  - Some M3 selectivity
+  - Used for overactive bladder, urge incontinence, postoperative bladder spasm
+  - Oral, extended-release, transdermal, intravesical forms
+- Tolterodine:
+  - M2/M3 selective
+  - Used for urinary incontinence
+- Darifenacin, solifenacin:
+  - More M3 selective
+  - Once daily due to long half-life
+- Fesoterodine:
+  - M3 selective prodrug
+- Trospium:
+  - Quaternary amine
+  - Less CNS penetration
+
+E. GI antimuscarinics
+- Dicyclomine:
+  - Used for irritable bowel syndrome and intestinal spasm
+- Hyoscyamine:
+  - Longer acting GI antispasmodic
+- Atropine + diphenoxylate:
+  - Used for diarrhea
+  - Atropine discourages opioid abuse
+
+F. CNS antimuscarinics
+- Benztropine, trihexyphenidyl:
+  - Parkinson disease tremor
+  - Drug-induced extrapyramidal symptoms
+
+G. Cholinergic poisoning drugs
+- Atropine:
+  - Treats muscarinic effects of organophosphate poisoning
+  - Does not reverse nicotinic skeletal muscle weakness
+- Pralidoxime:
+  - Reactivates acetylcholinesterase before aging
+  - Most useful at neuromuscular junction
+  - Does not enter CNS
+  - Not useful for carbamate poisoning
+
+H. Ganglion blockers
+- Mecamylamine:
+  - Blocks neuronal nicotinic receptors
+  - Enters CNS
+  - Rarely used
+- Hexamethonium:
+  - Historical antihypertensive
+  - Blocks autonomic ganglia
+- Trimethaphan:
+  - Short acting; mostly obsolete
+
+5. Clinical Correlations
+
+A. Overactive bladder / urge incontinence
+- Mechanism: involuntary detrusor contractions
+- Main receptor: M3
+- Treatment:
+  - Oxybutynin
+  - Tolterodine
+  - Darifenacin
+  - Solifenacin
+  - Fesoterodine
+  - Trospium
+- Adverse effects:
+  - Dry mouth
+  - Constipation
+  - Blurred vision
+  - Urinary retention
+  - Confusion in elderly
+
+B. COPD
+- Vagal tone contributes to bronchoconstriction.
+- Antimuscarinics block M3 receptors on airway smooth muscle.
+- Tiotropium, umeclidinium, aclidinium = long-acting muscarinic antagonists.
+- Often combined with long-acting beta2 agonists.
+
+C. Eye exam
+- Antimuscarinics cause:
+  - Mydriasis
+  - Cycloplegia
+- Tropicamide is short acting and useful for funduscopic exam.
+- Avoid in angle-closure glaucoma.
+
+D. Motion sickness
+- Scopolamine patch prevents vestibular-induced nausea/vomiting.
+- Common adverse effects: sedation, dry mouth, blurred vision.
+
+E. Organophosphate poisoning
+- Findings:
+  - Muscarinic: salivation, lacrimation, urination, diarrhea, bronchorrhea, bronchospasm, bradycardia, miosis
+  - Nicotinic: fasciculations, weakness, paralysis
+  - CNS: confusion, seizures, coma
+- Treatment:
+  - ABCs and decontamination
+  - Atropine for muscarinic symptoms
+  - Pralidoxime before aging to restore acetylcholinesterase
+  - Benzodiazepines for seizures
+
+6. Adverse Effects / Toxicity / Pitfalls
+
+Classic antimuscarinic toxicity:
+- Dry mouth
+- Mydriasis
+- Cycloplegia
+- Blurred vision
+- Tachycardia
+- Constipation
+- Urinary retention
+- Hot, flushed skin
+- Fever
+- Agitation, delirium, hallucinations
+
+Mnemonic:
+- Dry as a bone = decreased secretions
+- Blind as a bat = mydriasis/cycloplegia
+- Red as a beet = flushing
+- Mad as a hatter = delirium
+- Hot as a hare = hyperthermia
+
+Contraindications / cautions:
+- Angle-closure glaucoma
+- BPH or urinary retention
+- Elderly patients with cognitive impairment
+- Gastric retention
+- Children: high risk of atropine fever
+
+Important pitfall:
+- Atropine reverses muscarinic effects of organophosphates but does not reverse nicotinic paralysis.
+- Pralidoxime must be given before aging of the organophosphate-enzyme complex.
+- Physostigmine can reverse severe antimuscarinic toxicity but is used cautiously due to seizure and cardiac risk.
+
+7. Important Comparisons
+
+Antimuscarinic vs Cholinomimetic Effects
+
+| Organ/System | Cholinomimetic Effect | Antimuscarinic Effect |
+|---|---|---|
+| Eye | Miosis, accommodation | Mydriasis, cycloplegia |
+| Heart | Bradycardia | Tachycardia |
+| Bronchi | Bronchoconstriction, secretions | Bronchodilation, decreased secretions |
+| GI tract | Increased motility/secretions | Decreased motility/secretions |
+| Bladder | Detrusor contraction | Detrusor relaxation |
+| Sweat glands | Sweating | Decreased sweating, hyperthermia |
+| CNS | Cholinergic activation | Sedation or delirium at high dose |
+
+Tertiary vs Quaternary Antimuscarinics
+
+| Feature | Tertiary Amines | Quaternary Amines |
+|---|---|---|
+| CNS entry | Good | Poor |
+| Absorption | Better | Poor oral absorption |
+| Examples | Atropine, scopolamine, oxybutynin, tolterodine | Ipratropium, tiotropium, glycopyrrolate, trospium |
+| Main issue | CNS toxicity | Peripheral effects |
+| Clinical use | CNS, eye, urinary, poisoning | COPD, reduced secretions, bladder with less CNS effect |
+
+Ophthalmic Drugs Duration
+
+| Drug | Duration |
+|---|---|
+| Atropine | 5-6 days |
+| Scopolamine | 3-7 days |
+| Homatropine | 12-24 hours |
+| Cyclopentolate | 3-6 hours |
+| Tropicamide | 15-60 minutes |
+
+Overactive Bladder Drugs
+
+| Drug | Key Feature |
+|---|---|
+| Oxybutynin | M3 preference; oral/patch/intravesical |
+| Tolterodine | M2/M3 selective |
+| Darifenacin | More M3 selective |
+| Solifenacin | More M3 selective |
+| Fesoterodine | M3-selective prodrug |
+| Trospium | Quaternary; less CNS entry |
+
+Organophosphate Treatment
+
+| Drug | Role | Limitation |
+|---|---|---|
+| Atropine | Blocks muscarinic excess | No effect on nicotinic paralysis |
+| Pralidoxime | Regenerates acetylcholinesterase | Must be before aging; poor CNS entry |
+| Benzodiazepines | Treat seizures | Supportive |
+| Decontamination | Prevents further absorption | Must protect healthcare workers |
+
+8. Must-Know Exam Points
+
+- Atropine is a competitive reversible muscarinic antagonist.
+- Atropine is nonselective for M1-M5.
+- M3 mediates gland secretion, bronchoconstriction, GI contraction, bladder contraction, and miosis.
+- M2 mediates bradycardia and AV nodal slowing.
+- Antimuscarinics cause mydriasis and cycloplegia.
+- Antimuscarinics can precipitate acute angle-closure glaucoma.
+- Scopolamine is best known for motion sickness.
+- Ipratropium and tiotropium are inhaled antimuscarinics for COPD/asthma.
+- Tiotropium is long acting due to slow dissociation from M3 receptors.
+- Oxybutynin and tolterodine treat overactive bladder/urge incontinence.
+- Antimuscarinics can cause urinary retention, especially in BPH.
+- Atropine treats muscarinic toxicity from organophosphate poisoning.
+- Pralidoxime regenerates acetylcholinesterase before aging.
+- Pralidoxime does not cross the blood-brain barrier well.
+- Ganglion blockers cause orthostatic hypotension, constipation, urinary retention, and sexual dysfunction.
+- Mecamylamine enters the CNS; hexamethonium is historical.
+
+9. Case-Based Integration
+
+Case: 63-year-old man post-prostatectomy with urinary urgency and frequency
+
+Most likely diagnosis:
+- Urge incontinence due to detrusor muscle instability after relief of chronic bladder outlet obstruction from BPH.
+
+Why it happens:
+- Long-standing obstruction causes detrusor hypertrophy and instability.
+- After prostatectomy, outlet obstruction improves, but detrusor overactivity may persist.
+
+Information to gather:
+- Urinalysis and urine culture to exclude UTI
+- Post-void residual urine to exclude retention/overflow
+- Ask about weak stream, incomplete emptying, dysuria, hematuria, fever, nocturia
+- Consider urodynamic studies if diagnosis is unclear
+
+Treatment:
+- Reassure that urgency/frequency may improve over time.
+- Start antimuscarinic therapy:
+  - Tolterodine ER 4 mg daily, or
+  - Oxybutynin ER 5-10 mg daily, or
+  - Oxybutynin transdermal patch 3.9 mg/day
+- Monitor for:
+  - Dry mouth
+  - Constipation
+  - Blurred vision
+  - Confusion
+  - Urinary retention
+- Consider alternatives if refractory:
+  - More M3-selective agents such as darifenacin/solifenacin
+  - Intrabladder botulinum toxin A for refractory cases
+
+Exam clue:
+- Post-prostatectomy urgency/frequency = detrusor instability -> treat with M3-blocking antimuscarinic.
+
+10. Rapid Review Table
+
+| Topic | High-Yield Point |
+|---|---|
+| Prototype antimuscarinic | Atropine |
+| Best for motion sickness | Scopolamine |
+| Shortest ophthalmic agent | Tropicamide |
+| Longest ophthalmic agent | Atropine |
+| COPD antimuscarinics | Ipratropium, tiotropium, aclidinium, umeclidinium |
+| Long-acting COPD drug | Tiotropium |
+| Overactive bladder receptor | M3 |
+| Overactive bladder drugs | Oxybutynin, tolterodine, darifenacin, solifenacin |
+| Less CNS urinary drug | Trospium |
+| Parkinson tremor drugs | Benztropine, trihexyphenidyl |
+| Organophosphate antidote for muscarinic symptoms | Atropine |
+| Organophosphate antidote for AChE regeneration | Pralidoxime |
+| Pralidoxime limitation | Poor CNS entry; ineffective after aging |
+| Classic toxicity | Dry, blind, red, mad, hot |
+| Major contraindication | Angle-closure glaucoma |
+| Important elderly caution | Confusion, urinary retention |
+| Ganglion blocker toxicity | Orthostatic hypotension, constipation, urinary retention |
+| Historical antihypertensive ganglion blocker | Hexamethonium |
+| CNS-entering ganglion blocker | Mecamylamine |
+
+11. Mini Flashcards
+
+Q: What is the prototype antimuscarinic drug?
+A: Atropine.
+
+Q: Which muscarinic receptor slows the SA and AV nodes?
+A: M2.
+
+Q: Which muscarinic receptor mediates bladder detrusor contraction?
+A: M3.
+
+Q: Which antimuscarinic is used for motion sickness?
+A: Scopolamine.
+
+Q: Which antimuscarinic has the shortest ophthalmic duration?
+A: Tropicamide.
+
+Q: Which antimuscarinics are used for COPD?
+A: Ipratropium, tiotropium, aclidinium, umeclidinium, glycopyrrolate.
+
+Q: Which drug treats muscarinic symptoms of organophosphate poisoning?
+A: Atropine.
+
+Q: Which drug regenerates acetylcholinesterase in organophosphate poisoning?
+A: Pralidoxime.
+
+Q: Why must pralidoxime be given early?
+A: It works before aging of the organophosphate-acetylcholinesterase complex.
+
+Q: What is the classic antimuscarinic toxidrome?
+A: Dry mouth, mydriasis, tachycardia, flushed skin, hyperthermia, delirium, urinary retention.
+
+12. Mini MCQs
+
+1. A patient develops dry mouth, mydriasis, tachycardia, urinary retention, and delirium after ingesting jimson weed. What receptor is blocked?
+Answer: Muscarinic acetylcholine receptor.
+
+2. A man with COPD is started on a once-daily inhaled antimuscarinic that dissociates slowly from M3 receptors. What drug is most likely?
+Answer: Tiotropium.
+
+3. A patient with organophosphate poisoning receives atropine but still has muscle weakness. What drug should be added early?
+Answer: Pralidoxime.
+
+4. A patient needs a short-acting drug for funduscopic examination. Which antimuscarinic is preferred?
+Answer: Tropicamide.
+
+5. A post-prostatectomy patient has urinary urgency and frequency due to detrusor instability. What drug class is useful?
+Answer: Antimuscarinic drugs, such as oxybutynin or tolterodine.
+
+End of high-yield output.

@@ -1,0 +1,37 @@
+[
+  {
+    "file": "data_5/01-fig-5-1.png",
+    "was": "data_5/09.png",
+    "caption": "FIGURE 5-1 — Growth of pharmacogenomic testing"
+  },
+  {
+    "file": "data_5/02-table-5-1.png",
+    "was": "data_5/02.png",
+    "caption": "TABLE 5-1 — Major alleles & population frequencies"
+  },
+  {
+    "file": "data_5/03-fig-5-2.png",
+    "was": "data_5/10.png",
+    "caption": "FIGURE 5-2 — Flucloxacillin DILI pharmacogenomics"
+  },
+  {
+    "file": "data_5/04-table-5-2.png",
+    "was": "data_5/04.png",
+    "caption": "TABLE 5-2 — Gene-based dosing (selected drugs)"
+  },
+  {
+    "file": "data_5/05-table-5-2.png",
+    "was": "data_5/05.png",
+    "caption": "TABLE 5-2 — CYP2B6 & related dosing"
+  },
+  {
+    "file": "data_5/06-table-5-3.png",
+    "was": "data_5/07.png",
+    "caption": "TABLE 5-3 — G6PD deficiency classification"
+  },
+  {
+    "file": "data_5/07-table-5-4.png",
+    "was": "data_5/08.png",
+    "caption": "TABLE 5-4 — HLA alleles & drug hypersensitivity"
+  }
+]

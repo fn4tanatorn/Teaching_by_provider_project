@@ -1,0 +1,371 @@
+{
+  "id": "ch2",
+  "course": "Katzung Pharmacology",
+  "chapter": 2,
+  "title": "Drug Receptors & Pharmacodynamics",
+  "subtitle": "High-Yield Summary",
+  "sections": [
+    {
+      "id": "1-drug-receptors",
+      "number": 1,
+      "title": "Drug Receptors",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Receptors are usually proteins that bind drugs and initiate biologic responses."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Main types",
+          "items": [
+            "Regulatory proteins",
+            "Enzymes",
+            "Ion channels",
+            "Transport proteins"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2-major-principles",
+      "number": 2,
+      "title": "Major Principles",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Receptors determine dose–response relationships.",
+            "Receptors determine selectivity.",
+            "Agonists activate receptors.",
+            "Antagonists bind without activating the receptor and reduce agonist effect."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Key terms",
+          "items": [
+            "Kd = concentration at which 50% of receptors are occupied",
+            "EC50 = concentration causing 50% of maximal effect",
+            "Emax = maximal response"
+          ]
+        }
+      ],
+      "image": "data_2/01-fig-2-1.png",
+      "imageCaption": "FIGURE 2-1 — EC50, Kd & receptor binding"
+    },
+    {
+      "id": "3-doseresponse-curves",
+      "number": 3,
+      "title": "Dose–Response Curves",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Increasing dose increases response until plateau.",
+            "Log-dose plots create sigmoid curves for easier interpretation."
+          ]
+        }
+      ],
+      "image": "data_2/03-fig-2-2.png",
+      "imageCaption": "FIGURE 2-2 — Log dose axis & sigmoid dose–response"
+    },
+    {
+      "id": "4-spare-receptors",
+      "number": 4,
+      "title": "Spare Receptors",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Maximal response can occur before all receptors are occupied.",
+            "Increases tissue sensitivity."
+          ]
+        }
+      ],
+      "image": "data_2/01-fig-2-1.png",
+      "imageCaption": "FIGURE 2-1 — Drug concentration, effect & receptor occupancy"
+    },
+    {
+      "id": "5-competitive-vs-noncompetitive-antagonists",
+      "number": 5,
+      "title": "Competitive vs Noncompetitive Antagonists",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "Competitive antagonist",
+          "items": [
+            "Reversible",
+            "Shifts dose-response curve to the right",
+            "Emax unchanged"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Noncompetitive antagonist",
+          "items": [
+            "Irreversible or allosteric",
+            "Decreases Emax"
+          ]
+        }
+      ],
+      "image": "data_2/04-fig-2-3.png",
+      "imageCaption": "FIGURE 2-3 — Competitive antagonist shifts dose–response"
+    },
+    {
+      "id": "6-partial-agonists",
+      "number": 6,
+      "title": "Partial Agonists",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Produce a lower maximal response than a full agonist, even at full receptor occupancy.",
+            "Can behave as agonists when no full agonist is present, or functionally antagonize a full agonist by competing for receptors."
+          ]
+        },
+        {
+          "type": "example",
+          "content": "Buprenorphine"
+        }
+      ],
+      "image": "data_2/05-fig-2-4.png",
+      "imageCaption": "FIGURE 2-4 — Full vs partial agonist effects"
+    },
+    {
+      "id": "7-other-antagonism-types",
+      "number": 7,
+      "title": "Other Antagonism Types",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Chemical antagonism: protamine vs heparin",
+            "Physiologic antagonism: insulin vs glucocorticoids"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8-signal-transduction-mechanisms",
+      "number": 8,
+      "title": "Signal Transduction Mechanisms",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "A. Intracellular receptors",
+          "items": [
+            "Lipid-soluble drugs cross the cell membrane to reach cytoplasmic or nuclear receptors.",
+            "Drug–receptor complex acts as a transcription factor → alters gene expression.",
+            "Onset: slow (hours to days) — requires new protein synthesis.",
+            "Examples: steroids, thyroid hormone, vitamin D, retinoic acid."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "B. Receptor tyrosine kinases",
+          "items": [
+            "Ligand binds extracellular domain → activates intrinsic tyrosine kinase in cytoplasmic domain.",
+            "Autophosphorylation triggers downstream signaling cascade.",
+            "Involved in cell growth, differentiation, and metabolism.",
+            "Examples: insulin receptor, EGF receptor, PDGF receptor."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "C. Cytokine receptors (JAK-STAT)",
+          "items": [
+            "No intrinsic kinase activity — receptor associates with JAK (Janus kinase).",
+            "JAK phosphorylates STAT proteins → STAT translocates to nucleus → gene transcription.",
+            "Examples: interferons, interleukins, erythropoietin.",
+            "Exam pearl: JAK inhibitors (e.g., tofacitinib) block this pathway."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "D. Ligand-gated ion channels",
+          "items": [
+            "Ligand binds → conformational change → ion channel opens immediately.",
+            "Fastest signal transduction — onset in milliseconds.",
+            "Examples: nicotinic ACh receptor (Na⁺/K⁺), GABA-A receptor (Cl⁻).",
+            "Exam pearl: benzodiazepines increase frequency of Cl⁻ channel opening at GABA-A."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "E. G protein-coupled receptors (GPCRs)",
+          "items": [
+            "Largest receptor superfamily (>800 genes in humans).",
+            "7 transmembrane domains; coupled to G proteins that activate second messengers.",
+            "Examples: β-adrenoceptors, muscarinic receptors, opioid receptors.",
+            "Gs → ↑ cAMP | Gi → ↓ cAMP | Gq → ↑ IP3/DAG/Ca²⁺"
+          ]
+        }
+      ],
+      "image": "data_2/06-fig-2-5.png",
+      "imageCaption": "FIGURE 2-5 — Transmembrane signaling mechanisms",
+      "imageSupplement": "data_2/02-table-2-1.png",
+      "imageSupplementCaption": "TABLE 2-1 — G proteins, receptors & signaling"
+    },
+    {
+      "id": "9-second-messengers",
+      "number": 9,
+      "title": "Second Messengers",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "group",
+          "label": "cAMP pathway",
+          "items": [
+            "Activates protein kinase A"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "IP3/DAG pathway",
+          "items": [
+            "IP3 increases intracellular calcium",
+            "DAG activates PKC"
+          ]
+        },
+        {
+          "type": "group",
+          "label": "cGMP pathway",
+          "items": [
+            "Smooth muscle relaxation",
+            "Nitric oxide signaling"
+          ],
+          "note": "No separate Ch.2 figure — remember: NO activates guanylyl cyclase → ↑ cGMP (e.g. vascular smooth muscle relaxation)."
+        }
+      ],
+      "image": "data_2/08-fig-2-13.png",
+      "imageCaption": "FIGURE 2-13 — cAMP second messenger pathway",
+      "imageSupplement": "data_2/09-fig-2-14.png",
+      "imageSupplementCaption": "FIGURE 2-14 — Ca²⁺/phosphoinositide signaling pathway"
+    },
+    {
+      "id": "10-receptor-regulation",
+      "number": 10,
+      "title": "Receptor Regulation",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Desensitization",
+            "Downregulation",
+            "Upregulation"
+          ]
+        }
+      ],
+      "image": "data_2/07-fig-2-12.png",
+      "imageCaption": "FIGURE 2-12 — β-receptor desensitization & downregulation"
+    },
+    {
+      "id": "11-potency-vs-efficacy",
+      "number": 11,
+      "title": "Potency vs Efficacy",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Potency = concentration or dose required for a given effect; lower EC50 means higher potency",
+            "Efficacy = maximal effect achievable, reflected by Emax"
+          ]
+        }
+      ],
+      "image": "data_2/10-fig-2-15.png",
+      "imageCaption": "FIGURE 2-15 — Graded dose–response: potency vs efficacy"
+    },
+    {
+      "id": "12-quantal-doseresponse-curves",
+      "number": 12,
+      "title": "Quantal Dose–Response Curves",
+      "layout": "center",
+      "reveal": "up",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "ED₅₀ = dose producing the desired effect in 50% of a population",
+            "TD₅₀ = dose producing toxicity in 50% of a population",
+            "LD₅₀ = dose lethal to 50% of animals in preclinical studies"
+          ]
+        },
+        {
+          "type": "text",
+          "content": "Therapeutic index: TI = TD₅₀ / ED₅₀ — a larger TI indicates a wider safety margin."
+        }
+      ],
+      "image": "data_2/11-fig-2-16.png",
+      "imageCaption": "FIGURE 2-16 — Quantal dose–effect plots"
+    },
+    {
+      "id": "13-causes-of-variable-drug-response",
+      "number": 13,
+      "title": "Causes of Variable Drug Response",
+      "layout": "left",
+      "reveal": "left",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Pharmacokinetics",
+            "Endogenous ligand levels",
+            "Receptor changes",
+            "Post-receptor changes"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14-clinical-selectivity",
+      "number": 14,
+      "title": "Clinical Selectivity",
+      "layout": "right",
+      "reveal": "right",
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Drugs are selective, not specific."
+          ]
+        },
+        {
+          "type": "group",
+          "label": "Example",
+          "items": [
+            "**Propranolol** — non-selective β blocker; worsens asthma by blocking β2 receptors.",
+            "**Verapamil** — Ca²⁺ channel blocker; lowers BP without bronchoconstriction.",
+            "**Metoprolol** — β1-selective blocker; safer alternative in asthmatic patients."
+          ]
+        }
+      ],
+      "image": "data_2/10-fig-2-15.png",
+      "imageCaption": "FIGURE 2-15 — Selectivity and dose–response separation"
+    }
+  ],
+  "introImage": "data_2/01-fig-2-1.png",
+  "introImageCaption": "FIGURE 2-1 — Receptors & pharmacodynamics"
+}
