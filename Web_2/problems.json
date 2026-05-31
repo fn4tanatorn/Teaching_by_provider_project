@@ -1,0 +1,2197 @@
+{
+  "problems": [
+    {
+      "id": 1,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Antidote Route of Administration",
+      "question": "An 18-year-old female patient is brought to the emergency department due to drug overdose. Which of the following routes of administration is the most desirable for administering the antidote for the drug overdose?",
+      "choices": [
+        { "id": "a", "text": "Intramuscular" },
+        { "id": "b", "text": "Intravenous" },
+        { "id": "c", "text": "Oral" },
+        { "id": "d", "text": "Subcutaneous" },
+        { "id": "e", "text": "Transdermal" }
+      ],
+      "answer": "b",
+      "hint": "Think about the route that reaches therapeutic plasma levels fastest and most reliably.",
+      "explanation": "The intravenous route is preferred in overdose emergencies because it rapidly achieves therapeutic plasma levels of the antidote.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 2,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Weak Base Absorption Site",
+      "question": "Drug A is a weakly basic drug with a pKa of 7.8. If administered orally, at which of the following sites of absorption will the drug be able to readily pass through the membrane?",
+      "choices": [
+        { "id": "a", "text": "Mouth (pH approximately 7.0)" },
+        { "id": "b", "text": "Stomach (pH of 2.5)" },
+        { "id": "c", "text": "Duodenum (pH approximately 6.1)" },
+        { "id": "d", "text": "Jejunum (pH approximately 8.0)" },
+        { "id": "e", "text": "Ileum (pH approximately 7.0)" }
+      ],
+      "answer": "d",
+      "hint": "Weak bases cross membranes best when they are in the nonionized form.",
+      "explanation": "Because Drug A is a weak base with a pKa of 7.8, it is predominantly nonionized in the jejunum at about pH 8.0. The nonionized form crosses cell membranes more readily.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 3,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Apparent Volume of Distribution",
+      "question": "KR2250 is an investigational cholesterol-lowering agent. KR2250 has a high molecular weight and is extensively bound to albumin. KR2250 will have a(n) ______________ apparent volume of distribution (Vd).",
+      "choices": [
+        { "id": "a", "text": "High" },
+        { "id": "b", "text": "Low" },
+        { "id": "c", "text": "Extremely high" },
+        { "id": "d", "text": "Normal" }
+      ],
+      "answer": "b",
+      "hint": "Drugs that remain in the vascular compartment tend to have a smaller Vd.",
+      "explanation": "High molecular weight and high protein binding keep KR2250 largely trapped in the plasma compartment, so its apparent volume of distribution is low.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 4,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Vancomycin Vd Calculation",
+      "question": "A 40-year-old male patient (70 kg) was recently diagnosed with infection involving methicillin-resistant S. aureus. He received 2000 mg of vancomycin as an IV loading dose. The peak plasma concentration of vancomycin was 28.5 mg/L. The apparent volume of distribution is:",
+      "choices": [
+        { "id": "a", "text": "1 L/kg" },
+        { "id": "b", "text": "7 L/kg" },
+        { "id": "c", "text": "10 L/kg" },
+        { "id": "d", "text": "14 L/kg" },
+        { "id": "e", "text": "70 L/kg" }
+      ],
+      "answer": "a",
+      "hint": "Use Vd = dose / plasma concentration, then divide by body weight.",
+      "explanation": "Vd = dose / concentration = 2000 mg / 28.5 mg/L = about 70.1 L. For a 70 kg patient, this is approximately 1 L/kg.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 5,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Renal Disease and Drug X",
+      "question": "A 55-year-old woman is brought to the emergency department because of seizures. She has a history of renal disease and currently undergoes dialysis. She receives an intravenous infusion of anti-seizure drug X. Which of the following is likely to be observed with use of drug X in this patient?",
+      "choices": [
+        { "id": "a", "text": "Half-life increases; dosage increases" },
+        { "id": "b", "text": "Half-life decreases; dosage decreases" },
+        { "id": "c", "text": "Half-life increases; dosage is unchanged" },
+        { "id": "d", "text": "Half-life increases; dosage decreases" },
+        { "id": "e", "text": "Half-life is unchanged; dosage is unchanged" }
+      ],
+      "answer": "d",
+      "hint": "Renal impairment can reduce drug excretion and change dosing needs.",
+      "explanation": "Renal disease can impair excretion of drug X, prolonging its half-life. The dosage should be reduced to lower the risk of serious toxic effects.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 6,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Clopidogrel Interaction",
+      "question": "A 68-year-old woman is brought to the emergency department for treatment of a myocardial infarction. She is currently taking clopidogrel and aspirin daily, as well as omeprazole for heartburn. Which of the following is the most likely contributor to her myocardial infarction today?",
+      "choices": [
+        { "id": "a", "text": "Reduced antiplatelet activity of clopidogrel due to aspirin" },
+        { "id": "b", "text": "Reduced antiplatelet activity of clopidogrel due to omeprazole" },
+        { "id": "c", "text": "Hypersensitivity reaction due to clopidogrel" },
+        { "id": "d", "text": "Increased antiplatelet activity of clopidogrel due to omeprazole" },
+        { "id": "e", "text": "Increased antiplatelet activity of clopidogrel due to aspirin" }
+      ],
+      "answer": "b",
+      "hint": "Clopidogrel is a prodrug that needs CYP-mediated activation.",
+      "explanation": "Clopidogrel requires CYP2C19 activity to become an active metabolite. Omeprazole inhibits CYP activity, reducing clopidogrel activation and antiplatelet effect.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 7,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Phase II Metabolism",
+      "question": "Which of the following reactions represents Phase II of drug metabolism?",
+      "choices": [
+        { "id": "a", "text": "Amidation" },
+        { "id": "b", "text": "Hydrolysis" },
+        { "id": "c", "text": "Oxidation" },
+        { "id": "d", "text": "Reduction" },
+        { "id": "e", "text": "Sulfation" }
+      ],
+      "answer": "e",
+      "hint": "Phase II reactions usually add a polar conjugate.",
+      "explanation": "Phase II metabolism involves conjugation reactions that make metabolites more polar. Sulfation and glucuronidation are common Phase II reactions.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 8,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Time to Steady State",
+      "question": "A pharmacokinetic study of a new antihypertensive drug is being conducted in healthy human volunteers. The half-life of the drug after administration by continuous intravenous infusion is 12 hours. Which of the following best approximates the time for the drug to reach steady state?",
+      "choices": [
+        { "id": "a", "text": "24 hours" },
+        { "id": "b", "text": "48 hours" },
+        { "id": "c", "text": "72 hours" },
+        { "id": "d", "text": "120 hours" },
+        { "id": "e", "text": "240 hours" }
+      ],
+      "answer": "b",
+      "hint": "Steady state is usually reached after about 4 to 5 half-lives.",
+      "explanation": "A drug reaches steady state after about four to five half-lives. With a half-life of 12 hours, 48 hours is the best approximation.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 9,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Phenytoin Zero-order Kinetics",
+      "question": "Most of the clinically useful drugs follow first-order kinetics. Which of the following is the best explanation for zero-order kinetics of phenytoin?",
+      "choices": [
+        { "id": "a", "text": "Limited metabolizing enzymes" },
+        { "id": "b", "text": "Extensive first-pass metabolism" },
+        { "id": "c", "text": "Elimination by tubular secretion" },
+        { "id": "d", "text": "Extensive distribution" }
+      ],
+      "answer": "a",
+      "hint": "Zero-order kinetics can appear when elimination pathways are saturated.",
+      "explanation": "Phenytoin can follow zero-order kinetics after metabolizing enzymes become saturated.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 10,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Oral Loading Dose",
+      "question": "A 64-year-old female patient (60 kg) is treated with experimental Drug A for type 2 diabetes. Drug A is available as tablets with an oral bioavailability of 90%. If the Vd is 2 L/kg and the desired steady-state plasma concentration is 3.0 mg/L, which of the following is the most appropriate oral loading dose of Drug A?",
+      "choices": [
+        { "id": "a", "text": "6 mg" },
+        { "id": "b", "text": "6.66 mg" },
+        { "id": "c", "text": "108 mg" },
+        { "id": "d", "text": "360 mg" },
+        { "id": "e", "text": "400 mg" }
+      ],
+      "answer": "e",
+      "hint": "For oral loading dose, correct the dose for bioavailability.",
+      "explanation": "For oral dosing, loading dose = (Vd x desired concentration) / F. Vd = 2 L/kg x 60 kg = 120 L, F = 0.9, so (120 L x 3.0 mg/L) / 0.9 = 400 mg.",
+      "difficulty": "hard",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 11,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Additional Digoxin Dose",
+      "question": "A 74-year-old man was admitted to the hospital for treatment of heart failure. He received 160 mcg of digoxin intravenously, and the plasma digoxin level was 0.4 ng/mL. If the desired plasma concentration of digoxin for optimal therapeutic activity in heart failure is 1.2 ng/mL, and the patient has an estimated Vd of 400 L, calculate the additional dose of digoxin needed for this patient to achieve the desired plasma concentration.",
+      "choices": [
+        { "id": "a", "text": "128 mcg" },
+        { "id": "b", "text": "160 mcg" },
+        { "id": "c", "text": "320 mcg" },
+        { "id": "d", "text": "480 mcg" },
+        { "id": "e", "text": "640 mcg" }
+      ],
+      "answer": "c",
+      "hint": "Additional dose depends on Vd and the target concentration increase.",
+      "explanation": "The additional dose is Vd x (C2 - C1). Here, 400 L x (1.2 - 0.4) ng/mL = 320 mcg.",
+      "difficulty": "hard",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 12,
+      "type": "mcq",
+      "category": "pharmacology",
+      "title": "Thiopental and Redistribution",
+      "question": "Various pharmacokinetic concepts help to select a drug and formulate dosage schedule of drugs. Which of the following concept best describes the selection of thiopental as induction agent in general anesthesia?",
+      "choices": [
+        { "id": "a", "text": "Bioavailability" },
+        { "id": "b", "text": "Redistribution" },
+        { "id": "c", "text": "Plasma half-life" },
+        { "id": "d", "text": "Clearance" }
+      ],
+      "answer": "b",
+      "hint": "Think about rapid movement from the brain to less vascular tissues.",
+      "explanation": "Thiopental first enters highly vascular tissues such as the brain, causing unconsciousness, then rapidly redistributes to less vascular tissues. This makes it useful as an induction agent only.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_1.pdf"
+    },
+    {
+      "id": 13,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "GABA-A Signal Transduction",
+      "question": "Which of the following best describes how a drug that acts as an agonist at the A subtype of GABA receptors affects signal transduction in a neuron?",
+      "choices": [
+        { "id": "a", "text": "Activation of this receptor subtype alters transcription of DNA in the nucleus of the neuron." },
+        { "id": "b", "text": "Activation of this receptor subtype opens ion channels that allow sodium to enter cells and increases the chance of generating an action potential." },
+        { "id": "c", "text": "Activation of this receptor subtype opens ion channels that allow chloride to enter cells and decreases the chance of generating an action potential." },
+        { "id": "d", "text": "Activation of this receptor subtype results in G protein activation and increased intracellular second messenger levels." }
+      ],
+      "answer": "c",
+      "hint": "GABA-A is a ligand-gated ion channel.",
+      "explanation": "The GABA-A receptor is a ligand-gated chloride channel. Agonists increase chloride entry into neurons, causing hyperpolarization and decreasing action potential events.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 14,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Lorazepam Potency",
+      "question": "If 1 mg of lorazepam produces the same anxiolytic response as 10 mg of diazepam, which is correct?",
+      "choices": [
+        { "id": "a", "text": "Lorazepam is more potent than diazepam." },
+        { "id": "b", "text": "Lorazepam is more efficacious than diazepam." },
+        { "id": "c", "text": "Lorazepam is a full agonist, and diazepam is a partial agonist." },
+        { "id": "d", "text": "Lorazepam is a better drug to take for anxiety than diazepam." }
+      ],
+      "answer": "a",
+      "hint": "Potency compares the dose needed to produce a given effect.",
+      "explanation": "A drug that produces the same effect at a lower dose is more potent. Lorazepam produces the same anxiolytic response at 1 mg that diazepam produces at 10 mg.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 15,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Oxycodone Efficacy",
+      "question": "If 10 mg of oxycodone produces a greater analgesic response than aspirin at any dose, which is correct?",
+      "choices": [
+        { "id": "a", "text": "Oxycodone is more efficacious than aspirin." },
+        { "id": "b", "text": "Oxycodone is less potent than aspirin." },
+        { "id": "c", "text": "Aspirin is a full agonist, and oxycodone is a partial agonist." },
+        { "id": "d", "text": "Oxycodone and aspirin act on the same drug target." }
+      ],
+      "answer": "a",
+      "hint": "Efficacy compares maximal response.",
+      "explanation": "A drug with a greater maximal response is more efficacious. Aspirin cannot produce the same maximal analgesic effect as oxycodone at any dose.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 16,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Competitive Antagonism",
+      "question": "In the presence of propranolol, a higher concentration of epinephrine is required to elicit full antiasthmatic activity. Propranolol has no effect on asthma symptoms. Which is correct regarding these medications?",
+      "choices": [
+        { "id": "a", "text": "Epinephrine is less efficacious than propranolol." },
+        { "id": "b", "text": "Epinephrine is a full agonist, and propranolol is a partial agonist." },
+        { "id": "c", "text": "Epinephrine is an agonist, and propranolol is a competitive antagonist." },
+        { "id": "d", "text": "Epinephrine is an agonist, and propranolol is a noncompetitive antagonist." }
+      ],
+      "answer": "c",
+      "hint": "If higher agonist concentration overcomes inhibition, think competitive antagonism.",
+      "explanation": "Propranolol decreases epinephrine's effect, but the inhibition can be overcome by a higher epinephrine dose. This pattern is consistent with competitive antagonism.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 17,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Picrotoxin Antagonism",
+      "question": "In the presence of picrotoxin, diazepam is less efficacious at causing sedation, regardless of the dose. Picrotoxin has no sedative effect, even at the highest dose. Which of the following is correct regarding these agents?",
+      "choices": [
+        { "id": "a", "text": "Picrotoxin is a competitive antagonist." },
+        { "id": "b", "text": "Picrotoxin is a noncompetitive antagonist." },
+        { "id": "c", "text": "Diazepam is less efficacious than picrotoxin." },
+        { "id": "d", "text": "Diazepam is less potent than picrotoxin." }
+      ],
+      "answer": "b",
+      "hint": "A reduced maximal effect that cannot be overcome by more agonist suggests noncompetitive antagonism.",
+      "explanation": "Picrotoxin decreases the maximal effect of diazepam regardless of diazepam dose, so it is a noncompetitive antagonist. Picrotoxin has no efficacy alone.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 18,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "D2 Binding and Antipsychotic Effect",
+      "question": "Haloperidol, chlorpromazine, and clozapine are antipsychotic medications that bind to the D2 subtype of dopamine receptors, with a binding affinity of haloperidol > chlorpromazine > clozapine. Which statement would have to be correct to conclude that the mechanism of antipsychotic effects for these drugs is via binding to D2 receptors?",
+      "choices": [
+        { "id": "a", "text": "Haloperidol should have the lowest potency of the three antipsychotic drugs." },
+        { "id": "b", "text": "D2 receptor binding should also be related to the potency of these drugs in causing Parkinson-like adverse effects." },
+        { "id": "c", "text": "A positive correlation should exist between the affinity of these drugs to bind to D2 receptors and their potency for antipsychotic actions." },
+        { "id": "d", "text": "Clozapine would have to be more potent than chlorpromazine for decreasing psychosis." }
+      ],
+      "answer": "c",
+      "hint": "To infer mechanism, receptor affinity should track with therapeutic potency.",
+      "explanation": "To conclude that antipsychotic action is mediated by D2 binding, there should be a positive correlation between D2 receptor affinity and antipsychotic potency.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 19,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Spare Receptors",
+      "question": "If there were spare beta1 adrenergic receptors on cardiac muscle cells, which statement would be correct?",
+      "choices": [
+        { "id": "a", "text": "The number of spare beta1 adrenergic receptors determines the size of the maximum effect of the agonist epinephrine." },
+        { "id": "b", "text": "Spare beta1 adrenergic receptors make the cardiac tissue less sensitive to epinephrine." },
+        { "id": "c", "text": "A maximal effect of epinephrine is seen when only a portion of beta1 adrenergic receptors are occupied." },
+        { "id": "d", "text": "Spare receptors are active even in the absence of epinephrine." }
+      ],
+      "answer": "c",
+      "hint": "Spare receptors mean maximal response does not require full receptor occupancy.",
+      "explanation": "When spare receptors are present, only a fraction of the total receptors need to be bound to elicit a maximal cellular response.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 20,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Alpha1 Receptor Up-regulation",
+      "question": "Which of the following up-regulates postsynaptic alpha1 adrenergic receptors?",
+      "choices": [
+        { "id": "a", "text": "Daily use of amphetamine that causes release of norepinephrine." },
+        { "id": "b", "text": "A disease that causes an increase in the activity of norepinephrine neurons." },
+        { "id": "c", "text": "Daily use of phenylephrine, an alpha1 receptor agonist." },
+        { "id": "d", "text": "Daily use of prazosin, an alpha1 receptor antagonist." }
+      ],
+      "answer": "d",
+      "hint": "Receptors often up-regulate when activation is chronically reduced.",
+      "explanation": "Receptor up-regulation occurs when receptor activation is lower than normal, such as with continuous exposure to an antagonist. Agonist exposure or increased norepinephrine activity tends to down-regulate receptors.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 21,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Methylphenidate Therapeutic Index",
+      "question": "Methylphenidate helps patients with attention deficit hyperactivity disorder (ADHD) maintain attention and perform better at school or work, with an ED50 of 10 mg. However, methylphenidate can also cause significant nausea at higher doses (TD50 = 30 mg). Which is correct regarding methylphenidate?",
+      "choices": [
+        { "id": "a", "text": "The therapeutic index of methylphenidate is 3." },
+        { "id": "b", "text": "The therapeutic index of methylphenidate is 0.3." },
+        { "id": "c", "text": "Methylphenidate is more potent at causing nausea than treating ADHD." },
+        { "id": "d", "text": "Methylphenidate is more efficacious at causing nausea than treating ADHD." }
+      ],
+      "answer": "a",
+      "hint": "Therapeutic index is TD50 divided by ED50.",
+      "explanation": "Therapeutic index = TD50 / ED50 = 30 / 10 = 3. Methylphenidate is more potent at treating ADHD than causing nausea because a lower dose is needed for the therapeutic effect.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 22,
+      "type": "mcq",
+      "category": "pharmacodynamics",
+      "title": "Therapeutic Index Safety",
+      "question": "Which is correct concerning the safety of using warfarin (with a small therapeutic index) versus penicillin (with a large therapeutic index)?",
+      "choices": [
+        { "id": "a", "text": "Warfarin is a safer drug because it has a low therapeutic index." },
+        { "id": "b", "text": "Warfarin treatment has a high chance of resulting in dangerous adverse effects if bioavailability is altered." },
+        { "id": "c", "text": "The high therapeutic index makes penicillin a safe drug for all patients." },
+        { "id": "d", "text": "Penicillin treatment has a high chance of causing dangerous adverse effects if bioavailability is altered." }
+      ],
+      "answer": "b",
+      "hint": "Low therapeutic index drugs are more sensitive to exposure changes.",
+      "explanation": "Drugs with a low therapeutic index have doses where exposure is critically important. Changes in bioavailability can alter therapeutic and adverse effects, making dangerous adverse effects more likely.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_2.pdf"
+    },
+    {
+      "id": 23,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "Serious Adverse Drug Reactions",
+      "question": "Which type of adverse drug reactions are serious?",
+      "choices": [
+        { "id": "a", "text": "Type A: Augmented reactions such as hypotension with antihypertensives" },
+        { "id": "b", "text": "Type B: Bizarre reactions such as hypersensitivity" },
+        { "id": "c", "text": "Type C: Chronic reactions such as renal toxicity and ototoxicity" },
+        { "id": "d", "text": "Type D: Delayed reactions such as cancer and teratogenicity" },
+        { "id": "e", "text": "All of the above" }
+      ],
+      "answer": "b",
+      "hint": "Think about reactions that are unexpected, unpredictable, and often related to patient factors.",
+      "explanation": "Type B, or bizarre, reactions are unexpected and unpredictable. They are often related to patient factors such as genetic predisposition or allergy, and serious forms can include toxic epidermal necrolysis, Stevens-Johnson syndrome, and drug hypersensitivity syndrome.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 24,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "Drug-drug Interaction Outcomes",
+      "question": "Drug-drug interaction can lead to:",
+      "choices": [
+        { "id": "a", "text": "Beneficial effects." },
+        { "id": "b", "text": "Toxicity." },
+        { "id": "c", "text": "Lack of response." },
+        { "id": "d", "text": "All of the above." },
+        { "id": "e", "text": "Both B and C." }
+      ],
+      "answer": "d",
+      "hint": "Drug interactions can be helpful, but harmful outcomes are more common.",
+      "explanation": "Drug interactions can produce beneficial or harmful effects. Harmful effects include lack of efficacy, toxicity, or increased adverse reactions.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 25,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "ADR Reporting",
+      "question": "Which of the following adverse drug reactions would you report to the pharmacovigilance center?",
+      "choices": [
+        { "id": "a", "text": "A patient reports a skin rash after starting a course on amoxicillin capsules." },
+        { "id": "b", "text": "A patient reports experiencing dyspepsia when they take their indomethacin capsules." },
+        { "id": "c", "text": "A patient complains of a dry irritating cough since they have started taking ramipril." },
+        { "id": "d", "text": "A patient complains of experiencing diarrhea since taking azilsartan." }
+      ],
+      "answer": "d",
+      "hint": "Newly marketed drugs and unexpected reactions should be reported.",
+      "explanation": "Azilsartan is a newly introduced drug, so uncommon or rare side effects may not have been fully revealed in clinical trials. Reporting adverse effects after marketing helps improve safety analysis, labeling, and warning precautions.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 26,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "Patients at Risk for ADRs",
+      "question": "Which of the following patients are most at risk of suffering from an adverse drug reaction?",
+      "choices": [
+        { "id": "a", "text": "A 2-month-old infant receiving a prescription for an antibiotic." },
+        { "id": "b", "text": "A 22-year-old patient with asthma receiving prescriptions for inhalers to relieve and prevent their asthma." },
+        { "id": "c", "text": "A 48-year-old patient who has hypertension and receives a prescription for an ACE inhibitor." },
+        { "id": "d", "text": "A 50-year-old patient who has edema receiving a prescription for a diuretic." }
+      ],
+      "answer": "a",
+      "hint": "Children and older adults are generally at greater risk for side effects.",
+      "explanation": "Children and elderly patients are at greater risk of side effects. Children are often excluded from clinical trials for ethical reasons, so pediatric adverse effects may not be evident from adult trial safety data.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 27,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "Stevens-Johnson Syndrome Reaction Type",
+      "question": "Which of the following type of allergic reaction is Stevens-Johnson syndrome?",
+      "choices": [
+        { "id": "a", "text": "Type I" },
+        { "id": "b", "text": "Type II" },
+        { "id": "c", "text": "Type III" },
+        { "id": "d", "text": "Type IV" }
+      ],
+      "answer": "c",
+      "hint": "This answer follows the source PDF exactly.",
+      "explanation": "The source PDF gives Type III as the correct answer and explains it as complement system activation due to an antigen-antibody conjugate.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 28,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "Who Cannot Report ADRs",
+      "question": "Reporting adverse drug reactions is the backbone of pharmacovigilance. Which of the following personnel CANNOT report adverse drug reactions to pharmacovigilance program in India?",
+      "choices": [
+        { "id": "a", "text": "Pharmacist" },
+        { "id": "b", "text": "Physician" },
+        { "id": "c", "text": "Physiotherapist" },
+        { "id": "d", "text": "Patient" }
+      ],
+      "answer": "c",
+      "hint": "The source PDF says the other three listed groups can report ADRs in India.",
+      "explanation": "According to the source PDF, pharmacists, physicians, and patients can report adverse drug reactions in India; physiotherapist is the option that cannot.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 29,
+      "type": "mcq",
+      "category": "adverse_drug_reactions",
+      "title": "Serious Adverse Drug Event",
+      "question": "Adverse drug events are classified into various types. Which of the following is a serious adverse drug event?",
+      "choices": [
+        { "id": "a", "text": "Rashes on forearm with ampicillin" },
+        { "id": "b", "text": "Dry mouth with atropine" },
+        { "id": "c", "text": "Prolongation of hospitalization" },
+        { "id": "d", "text": "Impairment of driving capability for a day" }
+      ],
+      "answer": "c",
+      "hint": "A serious ADR can be defined by outcomes such as hospitalization.",
+      "explanation": "Prolongation of hospitalization is one criterion for serious adverse drug reactions. The other listed options do not qualify as serious ADRs in the source.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_3.pdf"
+    },
+    {
+      "id": 30,
+      "type": "mcq",
+      "category": "pharmacotherapeutics",
+      "title": "Essential Medicine List",
+      "question": "Essential medicine list is a:",
+      "choices": [
+        { "id": "a", "text": "List of life-saving drugs" },
+        { "id": "b", "text": "List of drugs by generic names" },
+        { "id": "c", "text": "List of drugs required for common ailments" },
+        { "id": "d", "text": "List of drugs required for majority of ailments and people" },
+        { "id": "e", "text": "List of drugs required for priority needs of the population" }
+      ],
+      "answer": "e",
+      "hint": "Essential medicines are selected for priority healthcare needs.",
+      "explanation": "Essential medicines satisfy the priority healthcare needs of the population. They are selected with regard to disease prevalence, evidence on efficacy and safety, and comparative cost-effectiveness.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_4.pdf"
+    },
+    {
+      "id": 31,
+      "type": "mcq",
+      "category": "pharmacotherapeutics",
+      "title": "Essential Drug Selection Criteria",
+      "question": "All are criteria for selection of essential drugs EXCEPT:",
+      "choices": [
+        { "id": "a", "text": "Pattern of prevalent diseases" },
+        { "id": "b", "text": "The training and experience of available personnel" },
+        { "id": "c", "text": "Treatment facilities" },
+        { "id": "d", "text": "Relative efficacy, cost, and suitability" },
+        { "id": "e", "text": "Latest drug in the market" }
+      ],
+      "answer": "e",
+      "hint": "Essential drug selection is not based simply on novelty.",
+      "explanation": "Essential drugs are selected based on factors such as prevalent disease patterns, treatment facilities, training and experience of personnel, financial resources, and genetic, demographic, and environmental factors.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_4.pdf"
+    },
+    {
+      "id": 32,
+      "type": "mcq",
+      "category": "pharmacotherapeutics",
+      "title": "AMR as a Public Health Concern",
+      "question": "Antimicrobial resistance (AMR) is of public health concern because of:",
+      "choices": [
+        { "id": "a", "text": "Higher cost of therapy." },
+        { "id": "b", "text": "Increased risk of morbidity." },
+        { "id": "c", "text": "Antimicrobial resistance." },
+        { "id": "d", "text": "Reduced quality of care." },
+        { "id": "e", "text": "All of the above." }
+      ],
+      "answer": "e",
+      "hint": "AMR affects clinical outcomes, cost, and quality of care.",
+      "explanation": "AMR is a serious global public health problem associated with prolonged illness and hospitalization, mortality, higher costs, reduced affordability, and increased out-of-pocket expenditure.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_4.pdf"
+    },
+    {
+      "id": 33,
+      "type": "mcq",
+      "category": "pharmacotherapeutics",
+      "title": "Development and Spread of AMR",
+      "question": "Development and spread of antimicrobial resistance is due to:",
+      "choices": [
+        { "id": "a", "text": "Antimicrobial use." },
+        { "id": "b", "text": "Overuse, misuse, and irrational use." },
+        { "id": "c", "text": "Noncompliance and self-medication by patients." },
+        { "id": "d", "text": "Use in animal husbandry, aquaculture, and agriculture." },
+        { "id": "e", "text": "All of the above." }
+      ],
+      "answer": "e",
+      "hint": "AMR development is multifactorial.",
+      "explanation": "Development and spread of antimicrobial resistance is due to antimicrobial use, overuse, misuse, irrational use, noncompliance, self-medication, and use in animal husbandry, aquaculture, and agriculture.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_4.pdf"
+    },
+    {
+      "id": 34,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Sympathetic Nervous System",
+      "question": "Which is correct regarding the sympathetic nervous system?",
+      "choices": [
+        { "id": "a", "text": "It generally mediates body functions in rest-and-digest mode." },
+        { "id": "b", "text": "The neurotransmitter at the sympathetic ganglion is norepinephrine (NE)." },
+        { "id": "c", "text": "The neurotransmitter at the sympathetic ganglion is acetylcholine (ACh)." },
+        { "id": "d", "text": "Sympathetic neurons release ACh in the effector organs." }
+      ],
+      "answer": "c",
+      "hint": "Both sympathetic and parasympathetic ganglia use the same preganglionic neurotransmitter.",
+      "explanation": "The neurotransmitter at sympathetic and parasympathetic ganglia is acetylcholine. The sympathetic system generally mediates fight-or-flight functions, and sympathetic neurons usually release norepinephrine at effector cells.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 35,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Somatic Nervous System Speed",
+      "question": "Why does the somatic nervous system enable a faster response compared to the ANS?",
+      "choices": [
+        { "id": "a", "text": "Somatic motor neurons have ganglia where neurotransmission is mediated by ACh." },
+        { "id": "b", "text": "Somatic motor neurons have ganglia where neurotransmission is mediated by NE." },
+        { "id": "c", "text": "Somatic motor neurons are not myelinated." },
+        { "id": "d", "text": "Somatic motor neurons are myelinated and do not have ganglia." }
+      ],
+      "answer": "d",
+      "hint": "Faster transmission is helped by myelination and a simpler pathway.",
+      "explanation": "Somatic motor neurons are myelinated and have no ganglia. This enables faster transmission compared with autonomic pathways.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 36,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Parasympathetic Activation",
+      "question": "Which physiological change occurs when the parasympathetic system is activated?",
+      "choices": [
+        { "id": "a", "text": "Increase in heart rate" },
+        { "id": "b", "text": "Inhibition of lacrimation (tears)" },
+        { "id": "c", "text": "Dilation of the pupil (mydriasis)" },
+        { "id": "d", "text": "Increase in gastric motility" }
+      ],
+      "answer": "d",
+      "hint": "The parasympathetic system supports rest-and-digest functions.",
+      "explanation": "Parasympathetic activation increases gastric motility and fluid secretions, reduces heart rate, and constricts the pupil.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 37,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Sympathetic Inhibition",
+      "question": "Which physiological change is expected when the sympathetic system is inhibited using a pharmacological agent?",
+      "choices": [
+        { "id": "a", "text": "Reduction in heart rate" },
+        { "id": "b", "text": "Increase in blood pressure" },
+        { "id": "c", "text": "Decrease in fluid secretions" },
+        { "id": "d", "text": "Constriction of blood vessels" }
+      ],
+      "answer": "a",
+      "hint": "Work backward from the normal effects of sympathetic activation.",
+      "explanation": "Sympathetic activation increases heart rate and blood pressure, reduces or thickens fluid secretions, and constricts blood vessels. Inhibition should theoretically reduce heart rate and blood pressure, increase fluid secretions, and relax blood vessels.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 38,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "ANS Effector Receptors",
+      "question": "Which is correct regarding activation of receptors on the effector organs in the ANS?",
+      "choices": [
+        { "id": "a", "text": "Acetylcholine activates muscarinic receptors." },
+        { "id": "b", "text": "Acetylcholine activates adrenergic receptors." },
+        { "id": "c", "text": "Epinephrine activates nicotinic receptors." },
+        { "id": "d", "text": "Norepinephrine activates muscarinic receptors." }
+      ],
+      "answer": "a",
+      "hint": "Acetylcholine is the transmitter of the cholinergic system.",
+      "explanation": "Acetylcholine activates muscarinic and nicotinic cholinergic receptors, not adrenergic receptors. Norepinephrine and epinephrine activate adrenergic receptors, not muscarinic receptors.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 39,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Parasympathetic Nervous System",
+      "question": "Which statement concerning the parasympathetic nervous system is correct?",
+      "choices": [
+        { "id": "a", "text": "The parasympathetic system often discharges as a single, functional system." },
+        { "id": "b", "text": "The parasympathetic division is involved in near vision, movement of food, and urination." },
+        { "id": "c", "text": "The postganglionic fibers of the parasympathetic division are long, compared to those of the sympathetic nervous system." },
+        { "id": "d", "text": "The parasympathetic system controls the secretion of the adrenal medulla." }
+      ],
+      "answer": "b",
+      "hint": "Parasympathetic activity maintains several essential local functions.",
+      "explanation": "The parasympathetic nervous system maintains functions such as near vision, movement of food, and urination. It uses acetylcholine, discharges as discrete fibers, has short postganglionic fibers, and does not control the adrenal medulla.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 40,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Neurotransmitter Release",
+      "question": "Which is correct regarding neurotransmitters and neurotransmission?",
+      "choices": [
+        { "id": "a", "text": "Neurotransmitters are released from the presynaptic nerve terminals." },
+        { "id": "b", "text": "Arrival of an action potential in the postsynaptic cell triggers release of neurotransmitter." },
+        { "id": "c", "text": "Intracellular calcium levels drop in the neuron before the release of neurotransmitter." },
+        { "id": "d", "text": "Serotonin and dopamine are the primary neurotransmitters in the ANS." }
+      ],
+      "answer": "a",
+      "hint": "Neurotransmitter release starts at the presynaptic side.",
+      "explanation": "Neurotransmitters are released from presynaptic neurons after an action potential arrives in the presynaptic neuron. Calcium enters and intracellular calcium rises before neurotransmitter release. The main ANS neurotransmitters are norepinephrine and acetylcholine.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 41,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Alpha1 Blockade",
+      "question": "An elderly man is brought to the emergency room after ingesting a large quantity of prazosin tablets, a drug that blocks alpha1 adrenergic receptors, which mediate effects of epinephrine and norepinephrine on the blood vessels and urinary bladder. Which symptom is most likely to be seen in this patient?",
+      "choices": [
+        { "id": "a", "text": "Reduced heart rate (bradycardia)" },
+        { "id": "b", "text": "Dilation of blood vessels (vasorelaxation)" },
+        { "id": "c", "text": "Increased blood pressure" },
+        { "id": "d", "text": "Reduction in urinary frequency" }
+      ],
+      "answer": "b",
+      "hint": "Alpha1 receptor activation normally causes vascular smooth muscle contraction.",
+      "explanation": "Activation of alpha1 receptors causes vasoconstriction, reduced urinary frequency, and increased blood pressure. Blocking alpha1 receptors can cause vasodilation, reduced blood pressure, and increased urinary frequency, without directly reducing heart rate.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 42,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "ANS Innervation",
+      "question": "Which statement is correct regarding the autonomic nervous system?",
+      "choices": [
+        { "id": "a", "text": "Afferent neurons carry impulses from the central nervous system (CNS) to the effector organs." },
+        { "id": "b", "text": "Preganglionic neurons of the sympathetic system arise from the cranial nerves, as well as from the sacral region." },
+        { "id": "c", "text": "When there is a sudden drop in blood pressure, the baroreceptors send signals to the brain to activate the parasympathetic system." },
+        { "id": "d", "text": "The heart receives both sympathetic and parasympathetic innervation." }
+      ],
+      "answer": "d",
+      "hint": "The heart is regulated by both major branches of the ANS.",
+      "explanation": "The heart receives both sympathetic and parasympathetic innervation. Sympathetic activation increases heart rate and contractile force, while parasympathetic activation reduces heart rate and slightly reduces force of contraction.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 43,
+      "type": "mcq",
+      "category": "autonomic_nervous_system",
+      "title": "Membrane Receptors and Signal Transduction",
+      "question": "Which is correct regarding membrane receptors and signal transduction?",
+      "choices": [
+        { "id": "a", "text": "ANS neurotransmitters bind to membrane receptors on the effector cells, which leads to intracellular events." },
+        { "id": "b", "text": "Cholinergic muscarinic receptors are ionotropic receptors." },
+        { "id": "c", "text": "Cholinergic nicotinic receptors are metabotropic receptors." },
+        { "id": "d", "text": "Metabotropic receptors activate ion channels directly." }
+      ],
+      "answer": "a",
+      "hint": "ANS neurotransmitters act through receptors on postsynaptic effector cells.",
+      "explanation": "Neurotransmitters bind membrane receptors on postsynaptic effector cells and cause cellular effects. Muscarinic receptors use second messenger pathways, while nicotinic receptors directly activate ion channels.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_5.pdf"
+    },
+    {
+      "id": 44,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Botulinum Toxin Effect",
+      "question": "Botulinum toxin blocks the release of acetylcholine from cholinergic nerve terminals. Which is a possible effect of botulinum toxin?",
+      "choices": [
+        { "id": "a", "text": "Skeletal muscle paralysis" },
+        { "id": "b", "text": "Improvement of myasthenia gravis symptoms" },
+        { "id": "c", "text": "Increased salivation" },
+        { "id": "d", "text": "Reduced heart rate" }
+      ],
+      "answer": "a",
+      "hint": "Skeletal muscle contraction needs acetylcholine release at nicotinic receptors.",
+      "explanation": "Acetylcholine released by cholinergic neurons activates nicotinic receptors in skeletal muscle to cause contraction. Blocking acetylcholine release causes skeletal muscle paralysis and can worsen myasthenia gravis symptoms.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 45,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Postoperative Urinary Retention",
+      "question": "A patient develops urinary retention after an abdominal surgery. Urinary obstruction was ruled out in this patient. Which strategy would be helpful in promoting urination?",
+      "choices": [
+        { "id": "a", "text": "Activating nicotinic receptors" },
+        { "id": "b", "text": "Inhibiting the release of acetylcholine" },
+        { "id": "c", "text": "Inhibiting cholinesterase enzyme" },
+        { "id": "d", "text": "Blocking muscarinic receptors" }
+      ],
+      "answer": "c",
+      "hint": "Increasing acetylcholine can increase detrusor muscle tone.",
+      "explanation": "Inhibiting cholinesterase increases acetylcholine levels. Acetylcholine activates muscarinic receptors in detrusor muscle and can increase bladder tone to promote urination.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 46,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Pupil Dilation for Eye Exam",
+      "question": "If an ophthalmologist wants to dilate the pupils for an eye examination, which drug/class of drugs is theoretically useful?",
+      "choices": [
+        { "id": "a", "text": "Muscarinic receptor activator (agonist)" },
+        { "id": "b", "text": "Muscarinic receptor inhibitor (antagonist)" },
+        { "id": "c", "text": "Pilocarpine" },
+        { "id": "d", "text": "Neostigmine" }
+      ],
+      "answer": "b",
+      "hint": "Muscarinic agonists constrict pupils; antagonists do the opposite.",
+      "explanation": "Muscarinic agonists such as pilocarpine contract circular smooth muscle in the iris sphincter and cause miosis. Muscarinic antagonists relax this muscle and cause mydriasis.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 47,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Alzheimer Disease Cholinergic Strategy",
+      "question": "In Alzheimer disease, there is a deficiency of cholinergic neuronal function in the brain. Theoretically, which strategy is useful in treating symptoms of Alzheimer disease?",
+      "choices": [
+        { "id": "a", "text": "Inhibiting cholinergic receptors in the brain" },
+        { "id": "b", "text": "Inhibiting the release of acetylcholine in the brain" },
+        { "id": "c", "text": "Inhibiting the acetylcholinesterase enzyme in the brain" },
+        { "id": "d", "text": "Activating the acetylcholinesterase enzyme in the brain" }
+      ],
+      "answer": "c",
+      "hint": "The goal is to raise acetylcholine activity in the brain.",
+      "explanation": "Because Alzheimer disease involves deficient brain cholinergic function, inhibiting acetylcholinesterase helps increase acetylcholine levels and can relieve symptoms. Blocking cholinergic receptors, reducing ACh release, or activating acetylcholinesterase would worsen the condition.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 48,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Reverse Nondepolarizing NMB",
+      "question": "A patient who had received a nondepolarizing neuromuscular blocker (NMB) for skeletal muscle relaxation during surgery is experiencing mild skeletal muscle paralysis after the surgery. Which drug could reverse this effect of NMBs?",
+      "choices": [
+        { "id": "a", "text": "Pilocarpine" },
+        { "id": "b", "text": "Bethanechol" },
+        { "id": "c", "text": "Neostigmine" },
+        { "id": "d", "text": "Atropine" }
+      ],
+      "answer": "c",
+      "hint": "Increase acetylcholine at the neuromuscular junction.",
+      "explanation": "Nondepolarizing neuromuscular blockers block nicotinic receptors in skeletal muscle. Increasing acetylcholine at the neuromuscular junction with neostigmine, a cholinesterase inhibitor, can reverse their effects.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 49,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Xerostomia Treatment",
+      "question": "A 60-year-old female who had a cancerous growth in the neck region underwent radiation therapy. Her salivary secretion was reduced due to radiation and she suffers from dry mouth (xerostomia). Which drug would be most useful in treating xerostomia in this patient?",
+      "choices": [
+        { "id": "a", "text": "Acetylcholine" },
+        { "id": "b", "text": "Pilocarpine" },
+        { "id": "c", "text": "Echothiophate" },
+        { "id": "d", "text": "Atropine" }
+      ],
+      "answer": "b",
+      "hint": "Salivary secretion can be increased by muscarinic activation.",
+      "explanation": "Pilocarpine is an oral muscarinic agonist that can enhance salivary secretion. Acetylcholine is rapidly destroyed by cholinesterase, echothiophate is too toxic for this use, and atropine worsens dry mouth.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 50,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Myasthenia Gravis Diagnosis",
+      "question": "A 40-year-old male presents to his family physician with drooping eyelids, difficulty chewing and swallowing, and muscle fatigue even on mild exertion. Which agent could be used to diagnose myasthenia gravis in this patient?",
+      "choices": [
+        { "id": "a", "text": "Atropine" },
+        { "id": "b", "text": "Edrophonium" },
+        { "id": "c", "text": "Pralidoxime" },
+        { "id": "d", "text": "Echothiophate" }
+      ],
+      "answer": "b",
+      "hint": "The diagnostic agent briefly increases acetylcholine at the neuromuscular junction.",
+      "explanation": "Edrophonium is a short-acting reversible cholinesterase inhibitor. It temporarily increases acetylcholine at the neuromuscular junction and can briefly improve weakness in myasthenia gravis, serving as a diagnostic tool.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 51,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Belladonna Poisoning Treatment",
+      "question": "Atropa belladonna is a plant that contains atropine (a muscarinic antagonist). Which of the following drugs or classes of drugs will be most useful in treating poisoning with belladonna?",
+      "choices": [
+        { "id": "a", "text": "Malathion" },
+        { "id": "b", "text": "Physostigmine" },
+        { "id": "c", "text": "Muscarinic antagonists" },
+        { "id": "d", "text": "Nicotinic antagonists" }
+      ],
+      "answer": "b",
+      "hint": "Choose an agent that can counteract atropine's muscarinic blockade and is usable systemically.",
+      "explanation": "Atropine is a competitive muscarinic antagonist. Anticholinesterases can counteract atropine by increasing acetylcholine, but malathion is an irreversible inhibitor and is not used systemically. Physostigmine is the useful option.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 52,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Pilocarpine in Angle-closure Glaucoma",
+      "question": "Pilocarpine is used in both chronic simple and angle closure glaucoma. Which of the following mechanisms of action of the pilocarpine is useful in angle-closure glaucoma?",
+      "choices": [
+        { "id": "a", "text": "Contracts ciliary muscles" },
+        { "id": "b", "text": "Relaxes ciliary muscles" },
+        { "id": "c", "text": "Contracts circular muscles" },
+        { "id": "d", "text": "Relaxes circular muscles" }
+      ],
+      "answer": "c",
+      "hint": "In angle-closure glaucoma, miosis is the key useful effect.",
+      "explanation": "Pilocarpine causes miosis by contracting circular muscles. It also contracts ciliary muscle, helping decrease intraocular pressure in open-angle glaucoma.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 53,
+      "type": "mcq",
+      "category": "cholinergic_agonists",
+      "title": "Preferred Drug in Belladonna Poisoning",
+      "question": "Belladonna is a flowering species that is well known for its deadly toxins. Powerful hallucinogenic alkaloids found in all parts of the plant can be lethal even in small doses. Which of the following drug is preferred in belladonna poisoning?",
+      "choices": [
+        { "id": "a", "text": "Pyridostigmine" },
+        { "id": "b", "text": "Neostigmine" },
+        { "id": "c", "text": "Distigmine" },
+        { "id": "d", "text": "Physostigmine" }
+      ],
+      "answer": "d",
+      "hint": "The preferred drug must reverse central anticholinergic effects.",
+      "explanation": "Physostigmine can penetrate the central nervous system and reverse central anticholinergic actions of belladonna alkaloids.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_6.pdf"
+    },
+    {
+      "id": 54,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Accidental Mydriasis During Eye Surgery",
+      "question": "During an ophthalmic surgical procedure, the surgeon wanted to constrict the pupil using a miotic drug. However, he accidentally used another drug that caused dilation of the pupil (mydriasis). Which drug was most likely used?",
+      "choices": [
+        { "id": "a", "text": "Acetylcholine" },
+        { "id": "b", "text": "Pilocarpine" },
+        { "id": "c", "text": "Tropicamide" },
+        { "id": "d", "text": "Bethanechol" }
+      ],
+      "answer": "c",
+      "hint": "Muscarinic antagonists dilate the pupil.",
+      "explanation": "Muscarinic agonists such as acetylcholine, pilocarpine, and bethanechol contract circular muscle of the iris sphincter and cause miosis. Tropicamide is a muscarinic antagonist that prevents this contraction and causes mydriasis.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 55,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Sarin Poisoning Antidote",
+      "question": "Sarin is a nerve gas that is an organophosphate cholinesterase inhibitor. Which agent could be used as an antidote to sarin poisoning?",
+      "choices": [
+        { "id": "a", "text": "Pilocarpine" },
+        { "id": "b", "text": "Carbachol" },
+        { "id": "c", "text": "Atropine" },
+        { "id": "d", "text": "Physostigmine" }
+      ],
+      "answer": "c",
+      "hint": "Most symptoms of cholinergic crisis are mediated through muscarinic receptors.",
+      "explanation": "Sarin increases acetylcholine levels and causes cholinergic crisis through muscarinic and nicotinic receptors. Since many symptoms are muscarinic, atropine is used as an antidote. Cholinergic agonists or indirect agonists worsen symptoms.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 56,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Overactive Bladder in Alzheimer Disease",
+      "question": "A patient with Alzheimer disease needs treatment for overactive bladder (OAB). Which drug is the best choice for this patient?",
+      "choices": [
+        { "id": "a", "text": "Darifenacin" },
+        { "id": "b", "text": "Solifenacin" },
+        { "id": "c", "text": "Tolterodine" },
+        { "id": "d", "text": "Trospium" }
+      ],
+      "answer": "d",
+      "hint": "Choose the agent that minimally crosses the blood-brain barrier.",
+      "explanation": "Most overactive bladder agents cross the blood-brain barrier to some degree and can worsen dementia symptoms. Trospium is a quaternary ammonium compound that minimally crosses the blood-brain barrier.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 57,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Long-acting Anticholinergic for COPD",
+      "question": "A 50-year-old male who is noncompliant with medications was recently diagnosed with chronic obstructive pulmonary disease (COPD). His physician would like to prescribe an inhaled anticholinergic that is dosed once or twice daily. Which drug is most appropriate for this patient?",
+      "choices": [
+        { "id": "a", "text": "Atropine" },
+        { "id": "b", "text": "Ipratropium" },
+        { "id": "c", "text": "Tiotropium" },
+        { "id": "d", "text": "Trospium" }
+      ],
+      "answer": "c",
+      "hint": "Once- or twice-daily inhaled therapy points to a LAMA.",
+      "explanation": "Tiotropium is a long-acting muscarinic antagonist (LAMA) used for COPD and can be dosed once or twice daily. Ipratropium is short-acting, while atropine and trospium are not indicated as inhaled pulmonary therapies.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 58,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Ganglion-blocking Drugs",
+      "question": "Which is correct regarding ganglion-blocking drugs?",
+      "choices": [
+        { "id": "a", "text": "Blockade of sympathetic ganglia could result in reduced blood pressure." },
+        { "id": "b", "text": "Blockade of parasympathetic ganglia could result in reduced heart rate." },
+        { "id": "c", "text": "Nicotine is a nondepolarizing ganglion blocker." },
+        { "id": "d", "text": "Atropine is a nondepolarizing ganglion blocker." }
+      ],
+      "answer": "a",
+      "hint": "Blocking sympathetic ganglia reduces norepinephrine release.",
+      "explanation": "Selective blockade of sympathetic ganglia would reduce norepinephrine release and lower heart rate and blood pressure. Parasympathetic ganglion blockade reduces acetylcholine release and increases heart rate. Nicotine causes a depolarizing block, and atropine affects muscarinic receptors rather than ganglionic nicotinic receptors.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 59,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Sinus Bradycardia Treatment",
+      "question": "Which drug is useful in treating sinus bradycardia?",
+      "choices": [
+        { "id": "a", "text": "Atropine" },
+        { "id": "b", "text": "Cisatracurium" },
+        { "id": "c", "text": "Neostigmine" },
+        { "id": "d", "text": "Succinylcholine" }
+      ],
+      "answer": "a",
+      "hint": "Sinus bradycardia is often due to increased vagal tone at the SA node.",
+      "explanation": "Sinus bradycardia is often caused by increased vagal acetylcholine activity at muscarinic receptors in the sinoatrial node. Atropine, a muscarinic antagonist, can raise the heart rate. Neostigmine can worsen bradycardia by increasing acetylcholine.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 60,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Neuromuscular Blocker in Liver and Renal Failure",
+      "question": "An ICU patient with severe lung injury requires a neuromuscular blocking agent to assist in his ventilator management. He has liver disease and is currently in renal failure. Which neuromuscular blocker is the best choice for this patient?",
+      "choices": [
+        { "id": "a", "text": "Cisatracurium" },
+        { "id": "b", "text": "Pancuronium" },
+        { "id": "c", "text": "Vecuronium" },
+        { "id": "d", "text": "Rocuronium" }
+      ],
+      "answer": "a",
+      "hint": "Choose the agent with organ-independent metabolism.",
+      "explanation": "Pancuronium is renally eliminated, while vecuronium and rocuronium are hepatically metabolized. Cisatracurium is cleared by organ-independent Hofmann elimination, making it preferred in renal and hepatic failure.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 61,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Muscle Relaxant in Renal and Hepatic Insufficiency",
+      "question": "A 50-year-old male presents in emergency with renal and hepatic insufficiency. Which of the following muscle relaxant is the best choice in the given scenario?",
+      "choices": [
+        { "id": "a", "text": "Rocuronium" },
+        { "id": "b", "text": "Pipecuronium" },
+        { "id": "c", "text": "Mivacurium" },
+        { "id": "d", "text": "Atracurium" }
+      ],
+      "answer": "d",
+      "hint": "Look for spontaneous breakdown without dependence on renal or hepatic enzymes.",
+      "explanation": "Atracurium undergoes spontaneous molecular rearrangement for termination of action without involving enzymes, so it can be used in renal and hepatic insufficiency.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 62,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Prevent Respiratory Failure in OP Poisoning",
+      "question": "A 50-year-old farmer is admitted to emergency with organophosphorus poisoning symptoms. Which of the following is the preferred drug to prevent respiratory failure in this patient?",
+      "choices": [
+        { "id": "a", "text": "Atropine sulfate" },
+        { "id": "b", "text": "Pralidoxime" },
+        { "id": "c", "text": "Ipratropium bromide" },
+        { "id": "d", "text": "Drotaverine" }
+      ],
+      "answer": "b",
+      "hint": "Respiratory failure in OP poisoning is related to nicotinic effects.",
+      "explanation": "Respiratory failure is due to nicotinic actions. Pralidoxime reactivates cholinesterase enzyme and reverses these nicotinic effects.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 63,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Not an Anticholinergic Adverse Effect",
+      "question": "Anticholinergic effects of drugs can be used therapeutically, or these effects can lead to adverse effects. Many drugs can lead to anticholinergic adverse effects. Which of the following is NOT anticholinergic adverse effect?",
+      "choices": [
+        { "id": "a", "text": "Dry mouth" },
+        { "id": "b", "text": "Diarrhea" },
+        { "id": "c", "text": "Deterioration of vision" },
+        { "id": "d", "text": "Bradycardia" }
+      ],
+      "answer": "b",
+      "hint": "Anticholinergics reduce GI motility.",
+      "explanation": "Typical anticholinergic effects include tachycardia, dry mouth, visual deterioration, decreased secretions, and constipation. Diarrhea is not an anticholinergic adverse effect.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 64,
+      "type": "mcq",
+      "category": "cholinergic_antagonists",
+      "title": "Antimuscarinic Mydriatics Contraindication",
+      "question": "Which of the following conditions should be ruled out before giving antimuscarinic mydriatics?",
+      "choices": [
+        { "id": "a", "text": "If the patient has open angle glaucoma" },
+        { "id": "b", "text": "If the patient has angle-closure glaucoma" },
+        { "id": "c", "text": "If the patient is taking muscarinic miotics" },
+        { "id": "d", "text": "If the patient is taking steroids" }
+      ],
+      "answer": "b",
+      "hint": "Mydriasis can precipitate this type of glaucoma.",
+      "explanation": "Antimuscarinic mydriatics can cause mydriasis, which may precipitate angle-closure glaucoma.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_7.pdf"
+    },
+    {
+      "id": 65,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Adrenergic Neurotransmission",
+      "question": "Which of the following is correct regarding adrenergic neurotransmission?",
+      "choices": [
+        { "id": "a", "text": "Norepinephrine is the major neurotransmitter released from sympathetic nerve terminals." },
+        { "id": "b", "text": "Norepinephrine is mainly released from the adrenal glands." },
+        { "id": "c", "text": "Tricyclic antidepressants and cocaine prevent the release of norepinephrine from the nerve terminals." },
+        { "id": "d", "text": "Monoamine oxidase (MAO) converts dopamine to norepinephrine in the nerve terminal." }
+      ],
+      "answer": "a",
+      "hint": "Sympathetic nerve terminals mainly release norepinephrine.",
+      "explanation": "Norepinephrine is the major neurotransmitter released from sympathetic nerve terminals. Epinephrine is mainly released from the adrenal glands. TCAs and cocaine inhibit norepinephrine reuptake, and dopamine beta-hydroxylase converts dopamine to norepinephrine.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 66,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Adrenergic Drug for Overactive Bladder",
+      "question": "Which of the following adrenergic drugs is used in the treatment of overactive bladder?",
+      "choices": [
+        { "id": "a", "text": "Epinephrine" },
+        { "id": "b", "text": "Dobutamine" },
+        { "id": "c", "text": "Phenylephrine" },
+        { "id": "d", "text": "Mirabegron" }
+      ],
+      "answer": "d",
+      "hint": "Overactive bladder can be treated by relaxing the detrusor muscle via beta3 receptors.",
+      "explanation": "Detrusor muscle in the bladder wall has beta3 receptors. Stimulation relaxes the bladder wall and relieves overactive bladder. Mirabegron is a beta3 agonist.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 67,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Adrenergic Agents in Hypertension",
+      "question": "Which of the following classes of adrenergic agents has utility in the management of hypertension?",
+      "choices": [
+        { "id": "a", "text": "alpha1 agonist" },
+        { "id": "b", "text": "alpha2 agonist" },
+        { "id": "c", "text": "beta1 agonist" },
+        { "id": "d", "text": "beta3 agonist" }
+      ],
+      "answer": "b",
+      "hint": "Presynaptic alpha2 activation reduces norepinephrine release.",
+      "explanation": "Alpha2 agonists activate presynaptic alpha2 receptors on sympathetic neurons, reducing norepinephrine release and lowering blood pressure. Clonidine and methyldopa are examples.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 68,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Adrenergic Receptor Responses",
+      "question": "Which of the following is correct regarding responses mediated by adrenergic receptors?",
+      "choices": [
+        { "id": "a", "text": "Stimulation of alpha1 receptors increases blood pressure." },
+        { "id": "b", "text": "Stimulation of sympathetic presynaptic alpha2 receptors increases norepinephrine release." },
+        { "id": "c", "text": "Stimulation of beta2 receptors increases heart rate (tachycardia)." },
+        { "id": "d", "text": "Stimulation of beta2 receptors causes bronchoconstriction." }
+      ],
+      "answer": "a",
+      "hint": "Alpha1 receptors on blood vessels cause vasoconstriction.",
+      "explanation": "Stimulation of alpha1 receptors, mostly found in blood vessels, causes vasoconstriction and increases blood pressure. Presynaptic alpha2 stimulation reduces norepinephrine release, and beta2 stimulation causes bronchodilation.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 69,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Nonselective Beta Agonist Adverse Effect",
+      "question": "An asthma patient was given a nonselective beta agonist to relieve bronchoconstriction. Which adverse effect would you expect in this patient?",
+      "choices": [
+        { "id": "a", "text": "Bradycardia" },
+        { "id": "b", "text": "Tachycardia" },
+        { "id": "c", "text": "Hypotension (reduction in blood pressure)" },
+        { "id": "d", "text": "Worsening bronchoconstriction" }
+      ],
+      "answer": "b",
+      "hint": "Nonselective beta agonists activate both beta1 and beta2 receptors.",
+      "explanation": "A nonselective beta agonist activates beta1 and beta2 receptors. Beta1 activation increases heart rate and contractility, causing tachycardia, while beta2 activation relieves bronchoconstriction.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 70,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Cocaine Overdose Symptom",
+      "question": "A 22-year-old male is brought to the emergency room with suspected cocaine overdose. Which of the following symptoms is most likely in this patient?",
+      "choices": [
+        { "id": "a", "text": "Hypertension" },
+        { "id": "b", "text": "Bronchoconstriction" },
+        { "id": "c", "text": "Bradycardia" },
+        { "id": "d", "text": "Miosis (constriction of pupil)." }
+      ],
+      "answer": "a",
+      "hint": "Cocaine increases norepinephrine in the synaptic cleft.",
+      "explanation": "Cocaine prevents norepinephrine reuptake into nerve terminals, increasing norepinephrine in the synaptic cleft. This causes sympathetic overactivity, including hypertension, tachycardia, and mydriasis.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 71,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Anaphylactic Shock Treatment",
+      "question": "A 12-year-old boy with a peanut allergy is brought to the emergency room after accidental consumption of peanuts. He is in anaphylactic shock. Which of the following drugs is most appropriate to treat this patient?",
+      "choices": [
+        { "id": "a", "text": "Norepinephrine" },
+        { "id": "b", "text": "Phenylephrine" },
+        { "id": "c", "text": "Dobutamine" },
+        { "id": "d", "text": "Epinephrine" }
+      ],
+      "answer": "d",
+      "hint": "The drug of choice should stimulate the heart and dilate bronchioles.",
+      "explanation": "Epinephrine activates alpha1, alpha2, beta1, and beta2 receptors. In anaphylactic shock, it can stimulate the heart through beta1 activation and dilate bronchioles through beta2 activation, making it the drug of choice.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 72,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Acute Heart Failure Inotrope",
+      "question": "An elderly patient is brought to the emergency room with a blood pressure of 76/60 mm Hg, tachycardia, and low cardiac output. He is diagnosed with acute heart failure. Which of the following drugs is most appropriate to improve his cardiac function?",
+      "choices": [
+        { "id": "a", "text": "Epinephrine" },
+        { "id": "b", "text": "Fenoldopam" },
+        { "id": "c", "text": "Dobutamine" },
+        { "id": "d", "text": "Isoproterenol" }
+      ],
+      "answer": "c",
+      "hint": "Choose the beta1-selective agonist that improves contractility.",
+      "explanation": "Dobutamine is a selective beta1-adrenergic agonist and is the best choice among the options to increase contractility in acute heart failure.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 73,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Herbal Asthma Remedy and Blood Pressure",
+      "question": "A patient who has hypertension and mild asthma attacks bought an herbal remedy for asthma online. He does not take any prescription medications for asthma, but takes a beta1-selective blocker for hypertension. The herbal remedy relieves the asthma attacks, but his blood pressure seems to increase despite the beta-blocker therapy. Which of the following drugs is most likely present in the herbal remedy?",
+      "choices": [
+        { "id": "a", "text": "Phenylephrine" },
+        { "id": "b", "text": "Norepinephrine" },
+        { "id": "c", "text": "Ephedrine" },
+        { "id": "d", "text": "Salmeterol" }
+      ],
+      "answer": "c",
+      "hint": "The agent must relieve asthma and also raise blood pressure.",
+      "explanation": "Ephedrine can relieve asthma by beta2-mediated bronchodilation, but it also stimulates norepinephrine release and directly activates alpha and beta adrenergic receptors, increasing blood pressure. Salmeterol is beta2 selective and should not increase blood pressure.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 74,
+      "type": "mcq",
+      "category": "adrenergic_agonists",
+      "title": "Drug-induced Tremors",
+      "question": "Drug-induced tremors can be quite troublesome for routine activities. Which of the following drug can cause tremors?",
+      "choices": [
+        { "id": "a", "text": "Esmolol" },
+        { "id": "b", "text": "Betaxolol" },
+        { "id": "c", "text": "Propofol" },
+        { "id": "d", "text": "Salbutamol" }
+      ],
+      "answer": "d",
+      "hint": "Beta2 agonists can cause fine skeletal muscle tremor.",
+      "explanation": "Salbutamol can cause heterogeneity in contraction of hand muscles, leading to fine tremors.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_8.pdf"
+    },
+    {
+      "id": 75,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Orthostatic Hypotension from Antihypertensive",
+      "question": "A 60-year-old patient started a new antihypertensive medication. His blood pressure is well controlled, but he complains of fatigue, drowsiness, and fainting when he gets up from the bed (orthostatic hypotension). Which of the following drugs is he most likely taking?",
+      "choices": [
+        { "id": "a", "text": "Metoprolol" },
+        { "id": "b", "text": "Propranolol" },
+        { "id": "c", "text": "Prazosin" },
+        { "id": "d", "text": "Alfuzosin" }
+      ],
+      "answer": "c",
+      "hint": "Alpha1 blockade can reduce vascular tone when standing.",
+      "explanation": "Alpha blockers such as prazosin block alpha1-mediated vasoconstriction and are more likely to cause orthostatic hypotension than beta blockers. Alfuzosin is more selective for alpha1A receptors in the prostate and bladder and is less likely to cause hypotension than prazosin.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 76,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Amphetamine Overdose Cardiovascular Treatment",
+      "question": "A 30-year-old male patient was brought to the ER with amphetamine overdose. He presented with high blood pressure and arrhythmias. Which drug is the most appropriate to treat the cardiovascular symptoms of amphetamine overdose in this patient?",
+      "choices": [
+        { "id": "a", "text": "Metoprolol" },
+        { "id": "b", "text": "Prazosin" },
+        { "id": "c", "text": "Labetalol" },
+        { "id": "d", "text": "Nebivolol" }
+      ],
+      "answer": "c",
+      "hint": "Amphetamine indirectly activates both alpha and beta adrenergic receptors.",
+      "explanation": "Amphetamine enhances norepinephrine release from peripheral sympathetic neurons, indirectly activating alpha and beta receptors. Alpha or beta blockade alone cannot fully relieve the cardiovascular effects, while labetalol blocks alpha1 and beta receptors.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 77,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Beta Blocker in Asthma",
+      "question": "A beta blocker was prescribed for hypertension in a patient with asthma. After a week of treatment, the asthma attacks got worse, and the patient was asked to stop taking the beta blocker. Which beta blocker would you suggest as an alternative that is less likely to worsen the asthma?",
+      "choices": [
+        { "id": "a", "text": "Propranolol" },
+        { "id": "b", "text": "Celiprolol" },
+        { "id": "c", "text": "Labetalol" },
+        { "id": "d", "text": "Carvedilol" }
+      ],
+      "answer": "b",
+      "hint": "Avoid nonselective beta blockade when bronchospasm is a concern.",
+      "explanation": "Nonselective beta blockers can worsen asthma by antagonizing beta2 receptors in bronchioles. Celiprolol has bronchosparing properties in asthmatic patients and improves ventilatory parameters due to beta2 agonist activity.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 78,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "BPH Drug with Less Dizziness",
+      "question": "A 70-year-old male is treated with doxazosin for overflow incontinence due to his enlarged prostate. He complains of dizzy spells while getting up from bed at night. Which drug would you suggest as an alternative that may not cause dizziness?",
+      "choices": [
+        { "id": "a", "text": "Propranolol" },
+        { "id": "b", "text": "Phentolamine" },
+        { "id": "c", "text": "Tamsulosin" },
+        { "id": "d", "text": "Terazosin" }
+      ],
+      "answer": "c",
+      "hint": "Choose the alpha1A-selective antagonist.",
+      "explanation": "Doxazosin can cause dizziness from orthostatic hypotension. Tamsulosin is more selective for alpha1A receptors in the prostate and less selective for alpha1B receptors in blood vessels, so it has less effect on blood pressure.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 79,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Reduced Epinephrine Response in Anaphylaxis",
+      "question": "A 50-year-old male was in anaphylactic shock after being stung by a hornet. The medical team tried to reverse the bronchoconstriction and hypotension using epinephrine; however, the patient did not fully respond to the treatment. The patient's wife mentioned that he is taking a prescription medication for blood pressure. Which medication is he most likely taking that contributed to a reduced response to epinephrine?",
+      "choices": [
+        { "id": "a", "text": "Doxazosin" },
+        { "id": "b", "text": "Propranolol" },
+        { "id": "c", "text": "Metoprolol" },
+        { "id": "d", "text": "Acebutolol" }
+      ],
+      "answer": "b",
+      "hint": "Epinephrine needs beta1 and beta2 effects in anaphylaxis.",
+      "explanation": "Epinephrine reverses hypotension through beta1 effects and relieves bronchoconstriction through beta2 effects. A nonselective beta blocker such as propranolol can prevent these effects more completely than beta1-selective blockers.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 80,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Beta Blocker Therapy",
+      "question": "Which of the following is correct regarding beta blockers?",
+      "choices": [
+        { "id": "a", "text": "Treatment with beta blockers should not be stopped abruptly." },
+        { "id": "b", "text": "Propranolol is a cardioselective beta blocker." },
+        { "id": "c", "text": "Cardioselective beta blockers worsen asthma." },
+        { "id": "d", "text": "Beta blockers decrease peripheral resistance by causing vasorelaxation." }
+      ],
+      "answer": "a",
+      "hint": "Abrupt withdrawal can cause rebound effects.",
+      "explanation": "Abrupt beta blocker withdrawal can cause angina and rebound hypertension, possibly due to beta receptor up-regulation. Propranolol is nonselective, and beta blockers do not directly decrease peripheral resistance through vasorelaxation.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 81,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Topical Glaucoma Beta Blocker",
+      "question": "Which of the following drugs is commonly used topically in the treatment of glaucoma?",
+      "choices": [
+        { "id": "a", "text": "Esmolol" },
+        { "id": "b", "text": "Timolol" },
+        { "id": "c", "text": "Silodosin" },
+        { "id": "d", "text": "Yohimbine" }
+      ],
+      "answer": "b",
+      "hint": "This nonselective beta blocker reduces aqueous humor formation.",
+      "explanation": "Beta blockers reduce aqueous humor formation and lower intraocular pressure. Timolol is a nonselective beta blocker commonly used topically for glaucoma.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 82,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Esmolol Ultrashort Action",
+      "question": "Intravenous esmolol is used for intraoperative stage where continuous beta-blocker action is needed. Which of the following is the reason for esmolol to be ultrashort acting beta-adrenergic blocking agent?",
+      "choices": [
+        { "id": "a", "text": "Redistribution" },
+        { "id": "b", "text": "Inactivated in blood" },
+        { "id": "c", "text": "Rapid excretion" },
+        { "id": "d", "text": "Action through enzyme inhibition" }
+      ],
+      "answer": "b",
+      "hint": "Esmolol is rapidly broken down by circulating esterases.",
+      "explanation": "Esmolol is inactivated by esterases in circulating blood. Its plasma half-life is less than 10 minutes, and its action ends about 15 to 20 minutes after stopping intravenous infusion.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 83,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Beta Blocker in Liver Impairment",
+      "question": "A 45-year-old hypertensive patient with liver function impairment is to be started on beta blocker. Which of the following beta blocker is the safest in this scenario?",
+      "choices": [
+        { "id": "a", "text": "Atenolol" },
+        { "id": "b", "text": "Acebutolol" },
+        { "id": "c", "text": "Metoprolol" },
+        { "id": "d", "text": "Pindolol" }
+      ],
+      "answer": "a",
+      "hint": "Choose the water-soluble beta blocker eliminated by the kidneys.",
+      "explanation": "Atenolol is a water-soluble beta blocker eliminated by the renal route, so it can be used in a patient with liver disease.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 84,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Condition to Avoid Beta Blockers",
+      "question": "Beta blockers have many therapeutic uses as well as adverse effects. In which of the following conditions, beta blockers should be avoided.",
+      "choices": [
+        { "id": "a", "text": "Tremors" },
+        { "id": "b", "text": "Diabetes insipidus" },
+        { "id": "c", "text": "Hyperthyroidism" },
+        { "id": "d", "text": "Peripheral vascular disease" }
+      ],
+      "answer": "b",
+      "hint": "This answer follows the source PDF exactly.",
+      "explanation": "The source PDF gives choice B as the correct answer and explains that beta blockers can mask signs and symptoms of hypoglycemia in diabetic patients and delay recovery from hypoglycemia.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 85,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Tamsulosin Mechanism",
+      "question": "Tamsulosin is used in benign hypertrophy of prostate. Which of the following is the mechanism of action of tamsulosin?",
+      "choices": [
+        { "id": "a", "text": "Alpha1B adrenergic receptor agonism" },
+        { "id": "b", "text": "Alpha1B adrenergic receptor antagonism" },
+        { "id": "c", "text": "Alpha1A adrenergic receptor agonism" },
+        { "id": "d", "text": "Alpha1A adrenergic receptor antagonism" }
+      ],
+      "answer": "d",
+      "hint": "The alpha1A subtype predominates in the prostate and bladder base.",
+      "explanation": "Tamsulosin acts through alpha1A adrenergic receptor antagonism. The alpha1A subtype predominates in the bladder base and prostate and is useful in benign prostatic hyperplasia.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 86,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Terazosin Adverse Effect",
+      "question": "A patient is worried about starting terazosin because he is very sensitive to side effects of medications. Which adverse effect would be most expected in this patient?",
+      "choices": [
+        { "id": "a", "text": "Erectile dysfunction" },
+        { "id": "b", "text": "Gynecomastia" },
+        { "id": "c", "text": "Dizziness" },
+        { "id": "d", "text": "Vomiting" }
+      ],
+      "answer": "c",
+      "hint": "Alpha blockade can cause orthostatic symptoms.",
+      "explanation": "Because of alpha-blocking properties, terazosin commonly causes dizziness, which may be related to orthostatic hypotension. Erectile dysfunction and gynecomastia are unexpected with alpha blockers.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 87,
+      "type": "mcq",
+      "category": "adrenergic_antagonists",
+      "title": "Terazosin vs Tamsulosin",
+      "question": "Which describes an important difference between terazosin and tamsulosin?",
+      "choices": [
+        { "id": "a", "text": "Terazosin blocks alpha1A receptors, whereas tamsulosin blocks alpha1A and alpha1B receptors." },
+        { "id": "b", "text": "Terazosin blocks alpha1A and alpha1B receptors, whereas tamsulosin blocks alpha1A receptors." },
+        { "id": "c", "text": "Terazosin blocks 5-alpha reductase, whereas tamsulosin blocks PDE-5." },
+        { "id": "d", "text": "Terazosin must be taken with food, whereas tamsulosin can be taken on an empty stomach." }
+      ],
+      "answer": "b",
+      "hint": "Tamsulosin is more selective for the prostate alpha1A receptor.",
+      "explanation": "Tamsulosin is more selective for alpha1A receptors in the prostate. Terazosin blocks alpha1A and alpha1B receptors. Neither drug blocks 5-alpha reductase or PDE-5.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_9.pdf"
+    },
+    {
+      "id": 88,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Allergy Treatment for Machine Operator",
+      "question": "A 43-year-old heavy machine operator complains of seasonal allergies. Which medication is most appropriate for management of his allergy symptoms?",
+      "choices": [
+        { "id": "a", "text": "Diphenhydramine" },
+        { "id": "b", "text": "Doxylamine" },
+        { "id": "c", "text": "Hydroxyzine" },
+        { "id": "d", "text": "Fexofenadine" }
+      ],
+      "answer": "d",
+      "hint": "Choose an antihistamine with lower drowsiness potential.",
+      "explanation": "First-generation H1 antihistamines are contraindicated for people who must remain alert. Fexofenadine has lower potential to cause drowsiness and is more appropriate for jobs where wakefulness is critical.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 89,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "H1 Antihistamine Statement",
+      "question": "Which statement concerning H1 antihistamines is correct?",
+      "choices": [
+        { "id": "a", "text": "Second-generation H1 antihistamines are relatively free of adverse effects." },
+        { "id": "b", "text": "Because of the established long-term safety of first-generation H1 antihistamines, they are the first choice for allergic rhinitis." },
+        { "id": "c", "text": "The motor coordination involved in driving an automobile is not affected by the use of first-generation H1 antihistamines." },
+        { "id": "d", "text": "H1 antihistamines can be used in the treatment of acute anaphylaxis." }
+      ],
+      "answer": "a",
+      "hint": "Second-generation agents cross the blood-brain barrier less.",
+      "explanation": "Second-generation H1 antihistamines are preferred over first-generation agents because they are relatively free of adverse effects and penetrate the blood-brain barrier less. First-generation H1 antihistamines can impair driving performance.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 90,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Sedating Histamine Antagonist",
+      "question": "Which histamine receptor antagonist is known to enter the central nervous system readily and cause sedation?",
+      "choices": [
+        { "id": "a", "text": "Hydroxyzine" },
+        { "id": "b", "text": "Cetirizine" },
+        { "id": "c", "text": "Desloratadine" },
+        { "id": "d", "text": "Loratadine" }
+      ],
+      "answer": "a",
+      "hint": "Choose the first-generation antihistamine.",
+      "explanation": "Hydroxyzine readily crosses the blood-brain barrier and can cause sedation. Cetirizine, desloratadine, and loratadine are second-generation antihistamines with less central nervous system penetration.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 91,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Appetite-stimulating H1 Antagonist",
+      "question": "Which drug is an H1-receptor antagonist that also has serotonin receptor antagonism on the appetite center, with the ability to stimulate appetite?",
+      "choices": [
+        { "id": "a", "text": "Hydroxyzine" },
+        { "id": "b", "text": "Loratadine" },
+        { "id": "c", "text": "Diphenhydramine" },
+        { "id": "d", "text": "Cyproheptadine" }
+      ],
+      "answer": "d",
+      "hint": "This H1 antagonist also has significant serotonin antagonism.",
+      "explanation": "Cyproheptadine has significant serotonin antagonism and is known to increase appetite.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 92,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Headache Drug Contraindicated in PVD",
+      "question": "Which drug for headache is contraindicated in patients with peripheral vascular disease?",
+      "choices": [
+        { "id": "a", "text": "Ergotamine" },
+        { "id": "b", "text": "Piroxicam" },
+        { "id": "c", "text": "Acetaminophen" },
+        { "id": "d", "text": "Naproxen" }
+      ],
+      "answer": "a",
+      "hint": "Avoid potent vasoconstrictors in peripheral vascular disease.",
+      "explanation": "Ergotamine is contraindicated in peripheral vascular disease because it is a significant vasoconstrictor.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 93,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Triptan for Migraine with Vomiting",
+      "question": "A 29-year-old woman complains of migraine headaches associated with early onset vomiting. Currently, she uses ibuprofen as needed for her migraines, but it is not very effective. Which triptan would be ideal for this patient?",
+      "choices": [
+        { "id": "a", "text": "Naratriptan" },
+        { "id": "b", "text": "Zolmitriptan" },
+        { "id": "c", "text": "Frovatriptan" },
+        { "id": "d", "text": "Almotriptan" }
+      ],
+      "answer": "b",
+      "hint": "Vomiting favors a non-oral route if available.",
+      "explanation": "Although all listed triptans are available orally, this patient has vomiting with migraines. Zolmitriptan and sumatriptan are available intranasally, which is useful in this setting.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 94,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Migraine Prophylaxis",
+      "question": "A 35-year-old woman is having several severe migraines per month. The migraines are usually relieved with one or two doses of triptan drugs. Which is most appropriate for prophylaxis to reduce the frequency of her migraines?",
+      "choices": [
+        { "id": "a", "text": "Dihydroergotamine" },
+        { "id": "b", "text": "Ibuprofen" },
+        { "id": "c", "text": "Propranolol" },
+        { "id": "d", "text": "Sumatriptan" }
+      ],
+      "answer": "c",
+      "hint": "Beta blockers can be used for migraine prevention.",
+      "explanation": "Beta blockers such as propranolol are used for migraine prophylaxis to reduce migraine frequency. The other listed drugs are used for acute migraine treatment.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 95,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Obesity Drug to Avoid with Pregnancy Risk",
+      "question": "A 27-year-old married woman is asking about treatment options for obesity. She recently stopped taking her birth control medications, as she felt they were contributing to her weight gain. Which medication should be avoided in this patient?",
+      "choices": [
+        { "id": "a", "text": "Phentermine/topiramate" },
+        { "id": "b", "text": "Orlistat" },
+        { "id": "c", "text": "Diethylpropion" },
+        { "id": "d", "text": "Lorcaserin" }
+      ],
+      "answer": "a",
+      "hint": "Topiramate can be teratogenic.",
+      "explanation": "Weight loss medications should not be used during pregnancy, and topiramate is especially concerning because it can be teratogenic. Since the patient stopped birth control, she is at risk of pregnancy while taking phentermine/topiramate.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 96,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Orlistat Discontinuation Side Effect",
+      "question": "A fellow healthcare provider is concerned about prescribing orlistat to adolescent patients. Many of his adolescent patients are stopping the medication during the first month of treatment. Which side effect is the most likely reason the adolescents are stopping orlistat?",
+      "choices": [
+        { "id": "a", "text": "Valvulopathy" },
+        { "id": "b", "text": "Suicidal ideation" },
+        { "id": "c", "text": "Drowsiness" },
+        { "id": "d", "text": "Flatulence" }
+      ],
+      "answer": "d",
+      "hint": "Orlistat commonly causes gastrointestinal adverse effects.",
+      "explanation": "Flatulence is a very common side effect of orlistat, along with other gastrointestinal disturbances. These effects can be embarrassing and difficult for adolescents to manage.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 97,
+      "type": "mcq",
+      "category": "histamine_serotonin",
+      "title": "Weight Loss Medication with Depression",
+      "question": "A 38-year-old obese man with depression is considering a weight loss medication following several failed attempts with diet and exercise. Which medication could be considered in this individual?",
+      "choices": [
+        { "id": "a", "text": "Liraglutide" },
+        { "id": "b", "text": "Bupropion + naltrexone" },
+        { "id": "c", "text": "Orlistat" },
+        { "id": "d", "text": "Lorcaserin" }
+      ],
+      "answer": "c",
+      "hint": "Avoid options associated with suicidal ideation in a patient with depression.",
+      "explanation": "Only orlistat has not been associated with suicidal ideation among the listed options. Other listed drugs may cause suicidal ideation and would not be advisable in an individual with depression.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_10.pdf"
+    },
+    {
+      "id": 98,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Rapid Reversal of Asthma Bronchoconstriction",
+      "question": "A 12-year-old girl with asthma presents to the emergency room with complaints of cough, dyspnea, and wheezing after visiting a riding stable. Which is the most appropriate drug to rapidly reverse her bronchoconstriction?",
+      "choices": [
+        { "id": "a", "text": "Inhaled fluticasone" },
+        { "id": "b", "text": "Inhaled beclomethasone" },
+        { "id": "c", "text": "Inhaled salbutamol" },
+        { "id": "d", "text": "Intravenous propranolol" }
+      ],
+      "answer": "c",
+      "hint": "Choose the rapid-acting inhaled beta2 agonist used for acute bronchospasm.",
+      "explanation": "Inhaled salbutamol is a rapid-acting beta2 agonist that provides immediate bronchodilation in an acute asthmatic episode. Inhaled corticosteroids are used for chronic airway inflammation, and propranolol can worsen bronchoconstriction.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 99,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Reducing Severe Asthma Attacks",
+      "question": "A 9-year-old girl has severe asthma that required three hospitalizations in the past year. She is now receiving therapy that has greatly reduced the frequency of severe attacks. Which drug is most likely responsible for this benefit?",
+      "choices": [
+        { "id": "a", "text": "Inhaled salbutamol" },
+        { "id": "b", "text": "Inhaled ipratropium" },
+        { "id": "c", "text": "Inhaled fluticasone" },
+        { "id": "d", "text": "Oral zafirlukast" }
+      ],
+      "answer": "c",
+      "hint": "Long-term reduction of severe asthma attacks depends on anti-inflammatory controller therapy.",
+      "explanation": "Inhaled corticosteroids such as fluticasone significantly reduce the frequency of severe asthma attacks with less systemic toxicity than oral corticosteroids. Salbutamol treats acute symptoms, and zafirlukast is generally less consistent than inhaled corticosteroids.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 100,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Add-on Therapy for COPD on Salmeterol",
+      "question": "A 68-year-old man has COPD with moderate airway obstruction. Despite using salmeterol twice daily, he reports continued symptoms of shortness of breath with mild exertion. Which agent is an appropriate addition to his current therapy?",
+      "choices": [
+        { "id": "a", "text": "Systemic corticosteroids" },
+        { "id": "b", "text": "Salbutamol" },
+        { "id": "c", "text": "Tiotropium" },
+        { "id": "d", "text": "Roflumilast" }
+      ],
+      "answer": "c",
+      "hint": "Add a bronchodilator with a different mechanism from the LABA already being used.",
+      "explanation": "Tiotropium is an anticholinergic bronchodilator and can add therapeutic benefit to salmeterol in COPD. Chronic systemic corticosteroids are not recommended, salbutamol has the same beta-agonist mechanism, and roflumilast is not indicated for moderate obstruction in this scenario.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 101,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "COPD Exacerbations on LABA and LAMA",
+      "question": "A 58-year-old woman with COPD has been hospitalized three times in the past year for COPD exacerbations. She reports only mild symptoms between exacerbations. Her regimen for the past year has included inhaled salmeterol twice daily and inhaled tiotropium once daily. Her current FEV1 is below 60%. Which is an appropriate change in her drug therapy?",
+      "choices": [
+        { "id": "a", "text": "Discontinue the tiotropium." },
+        { "id": "b", "text": "Discontinue the salmeterol." },
+        { "id": "c", "text": "Change the salmeterol to a combination product that includes both a LABA and an inhaled corticosteroid, such as salmeterol/fluticasone DPI." },
+        { "id": "d", "text": "Add theophylline." }
+      ],
+      "answer": "c",
+      "hint": "Frequent COPD exacerbations with significant obstruction can justify adding an inhaled corticosteroid.",
+      "explanation": "Because she has significant airway obstruction and frequent COPD exacerbations requiring hospitalization, adding an inhaled corticosteroid through a LABA/inhaled corticosteroid combination may provide additional benefit. The source does not recommend routinely stopping either long-acting bronchodilator, and theophylline is limited by toxicity.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 102,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Cough Treatment with Opioid Addiction History",
+      "question": "A 32-year-old man with a history of opioid addiction presents with cough due to a viral upper respiratory system infection. Which is appropriate symptomatic treatment for cough in this patient?",
+      "choices": [
+        { "id": "a", "text": "Guaifenesin/dextromethorphan" },
+        { "id": "b", "text": "Guaifenesin/codeine" },
+        { "id": "c", "text": "Benzonatate" },
+        { "id": "d", "text": "Montelukast" }
+      ],
+      "answer": "c",
+      "hint": "Avoid antitussives with opioid-related abuse potential.",
+      "explanation": "Benzonatate suppresses the cough reflex through peripheral action and has no abuse potential. Dextromethorphan and codeine have abuse potential, and montelukast is not indicated for cough suppression.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 103,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Regular Anti-inflammatory Asthma Therapy",
+      "question": "Because of its anti-inflammatory mechanism of action, which drug requires regular administration for the treatment of asthma?",
+      "choices": [
+        { "id": "a", "text": "Tiotropium" },
+        { "id": "b", "text": "Salmeterol" },
+        { "id": "c", "text": "Mometasone" },
+        { "id": "d", "text": "Salbutamol" }
+      ],
+      "answer": "c",
+      "hint": "Choose the inhaled corticosteroid.",
+      "explanation": "Mometasone is an inhaled corticosteroid with direct anti-inflammatory effects in the airways and must be administered regularly. Tiotropium, salmeterol, and salbutamol are bronchodilators rather than anti-inflammatory corticosteroids.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 104,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "5-lipoxygenase Inhibitor",
+      "question": "Which medication inhibits the action of 5-lipoxygenase and consequently the action of leukotriene B4 and the cysteinyl leukotrienes?",
+      "choices": [
+        { "id": "a", "text": "Cromolyn" },
+        { "id": "b", "text": "Zafirlukast" },
+        { "id": "c", "text": "Zileuton" },
+        { "id": "d", "text": "Montelukast" }
+      ],
+      "answer": "c",
+      "hint": "This drug blocks leukotriene synthesis, not the leukotriene receptor.",
+      "explanation": "Zileuton is the 5-lipoxygenase inhibitor. Zafirlukast and montelukast block leukotriene receptors, while cromolyn inhibits mast cell degranulation and histamine release.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 105,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Dry Powder Inhaler Technique",
+      "question": "Which statement describes appropriate inhaler technique for a dry powder inhaler?",
+      "choices": [
+        { "id": "a", "text": "Inhale slowly and deeply just before and throughout actuation of the inhaler." },
+        { "id": "b", "text": "Use a large-volume chamber, or spacer, to decrease deposition of drug in the mouth caused by improper inhaler technique." },
+        { "id": "c", "text": "Inhale quickly and deeply to optimize drug delivery to the lungs." },
+        { "id": "d", "text": "Rinse mouth in a swish-and-spit method with water prior to inhaler use to decrease the chance of adverse events." }
+      ],
+      "answer": "c",
+      "hint": "Dry powder inhalers require enough inspiratory force to pull drug into the lungs.",
+      "explanation": "A dry powder inhaler requires a quick and deep inhalation for effective delivery. Slow inhalation and spacer use apply to metered-dose inhalers, and rinsing the mouth should occur after inhaled corticosteroid use rather than before inhaler use.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 106,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Rhinitis Medicamentosa Risk",
+      "question": "Which category of allergic rhinitis medications is most likely to be associated with rhinitis medicamentosa, or rebound nasal congestion, with prolonged use?",
+      "choices": [
+        { "id": "a", "text": "Intranasal corticosteroid" },
+        { "id": "b", "text": "Intranasal decongestant" },
+        { "id": "c", "text": "Leukotriene antagonist" },
+        { "id": "d", "text": "Oral antihistamine" }
+      ],
+      "answer": "b",
+      "hint": "This adverse effect is linked to prolonged topical alpha-adrenergic decongestant use.",
+      "explanation": "Intranasal decongestants should generally be used no longer than 3 days because prolonged use can cause rebound nasal congestion, known as rhinitis medicamentosa. The other listed agents may be used chronically.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 107,
+      "type": "mcq",
+      "category": "respiratory_system",
+      "title": "Preferred Drug for Dry Cough",
+      "question": "A 40-year-old male presents with complaints of dry cough. Which of the following is preferred drug in this patient?",
+      "choices": [
+        { "id": "a", "text": "Ambroxol" },
+        { "id": "b", "text": "Bromhexine" },
+        { "id": "c", "text": "Carbocisteine" },
+        { "id": "d", "text": "Dextromethorphan" }
+      ],
+      "answer": "d",
+      "hint": "Dry, nonproductive cough is treated with an antitussive rather than a mucolytic.",
+      "explanation": "Dextromethorphan acts centrally to suppress cough and is useful for dry nonproductive cough. Ambroxol, bromhexine, and carbocisteine are mucolytics and are preferred for productive cough.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_11.pdf"
+    },
+    {
+      "id": 108,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Appropriate Parkinson Drug Combination",
+      "question": "Which one of the following combinations of antiparkinsonian drugs is an appropriate treatment plan?",
+      "choices": [
+        { "id": "a", "text": "Amantadine, carbidopa, and entacapone" },
+        { "id": "b", "text": "Levodopa, carbidopa, and entacapone" },
+        { "id": "c", "text": "Pramipexole, carbidopa, and entacapone" },
+        { "id": "d", "text": "Ropinirole, selegiline, and entacapone" }
+      ],
+      "answer": "b",
+      "hint": "Carbidopa and entacapone are used to preserve levodopa before it reaches the CNS.",
+      "explanation": "Carbidopa inhibits peripheral decarboxylation of levodopa, and entacapone inhibits COMT metabolism of levodopa. Together they allow more levodopa to enter the brain. The other combinations do not appropriately match these adjuncts with levodopa.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 109,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Reducing Peripheral Levodopa Effects",
+      "question": "Peripheral adverse effects of levodopa, including nausea, hypotension, and cardiac arrhythmias, can be diminished by including which of the following drugs in the therapy?",
+      "choices": [
+        { "id": "a", "text": "Amantadine" },
+        { "id": "b", "text": "Ropinirole" },
+        { "id": "c", "text": "Carbidopa" },
+        { "id": "d", "text": "Entacapone" }
+      ],
+      "answer": "c",
+      "hint": "Block peripheral conversion of levodopa to dopamine.",
+      "explanation": "Carbidopa inhibits peripheral decarboxylation of levodopa to dopamine, reducing gastrointestinal and cardiovascular adverse effects. The other listed agents do not directly reduce the peripheral adverse effects of levodopa in this way.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 110,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Antiparkinson Drug Causing Vasospasm",
+      "question": "Which of the following antiparkinsonian drugs may cause vasospasm?",
+      "choices": [
+        { "id": "a", "text": "Amantadine" },
+        { "id": "b", "text": "Bromocriptine" },
+        { "id": "c", "text": "Carbidopa" },
+        { "id": "d", "text": "Entacapone" }
+      ],
+      "answer": "b",
+      "hint": "Choose the dopamine receptor agonist with vascular contraindications.",
+      "explanation": "Bromocriptine is a dopamine receptor agonist that may cause vasospasm and is contraindicated in patients with peripheral vascular disease.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 111,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Alzheimer Memory Improvement Receptors",
+      "question": "Modest improvement in the memory of patients with Alzheimer's disease may occur with drugs that increase transmission at which of the following receptors?",
+      "choices": [
+        { "id": "a", "text": "Adrenergic" },
+        { "id": "b", "text": "Cholinergic" },
+        { "id": "c", "text": "Dopaminergic" },
+        { "id": "d", "text": "GABAergic" }
+      ],
+      "answer": "b",
+      "hint": "Acetylcholinesterase inhibitors increase this CNS transmission.",
+      "explanation": "Acetylcholinesterase inhibitors such as galantamine increase cholinergic transmission in the CNS and can modestly delay progression of Alzheimer's disease.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 112,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Glutamate Antagonist in Alzheimer Disease",
+      "question": "Which medication is a glutamate receptor antagonist that can be used in combination with an acetylcholinesterase inhibitor to manage the symptoms of Alzheimer's disease?",
+      "choices": [
+        { "id": "a", "text": "Rivastigmine" },
+        { "id": "b", "text": "Pramipexole" },
+        { "id": "c", "text": "Memantine" },
+        { "id": "d", "text": "Galantamine" }
+      ],
+      "answer": "c",
+      "hint": "This NMDA receptor antagonist can be combined with a cholinesterase inhibitor.",
+      "explanation": "Memantine is a glutamate receptor antagonist used in Alzheimer's disease. When combined with an acetylcholinesterase inhibitor, it may modestly help maintain function and delay progression.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 113,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Alzheimer Patch Therapy",
+      "question": "Which of the following agents is available as a patch for once-daily use and is likely to provide steady drug levels to treat Alzheimer's disease?",
+      "choices": [
+        { "id": "a", "text": "Rivastigmine" },
+        { "id": "b", "text": "Donepezil" },
+        { "id": "c", "text": "Memantine" },
+        { "id": "d", "text": "Galantamine" }
+      ],
+      "answer": "a",
+      "hint": "This acetylcholinesterase inhibitor is available as a transdermal system.",
+      "explanation": "Rivastigmine is available as a once-daily transdermal patch for Alzheimer's disease and may also be used for dementia associated with Parkinson's disease.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 114,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "ALS-approved Medication",
+      "question": "Which of the following is approved for the management of amyotrophic lateral sclerosis?",
+      "choices": [
+        { "id": "a", "text": "Pramipexole" },
+        { "id": "b", "text": "Selegiline" },
+        { "id": "c", "text": "Riluzole" },
+        { "id": "d", "text": "Glatiramer" }
+      ],
+      "answer": "c",
+      "hint": "Choose the drug used to delay progression and ventilator need in ALS.",
+      "explanation": "Riluzole is approved for amyotrophic lateral sclerosis and is used to help delay disease progression and the need for ventilator support in severe patients.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 115,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Pyrimidine Synthesis Inhibitor in MS",
+      "question": "Which of the following medications reduces immune system-mediated inflammation via inhibition of pyrimidine synthesis to reduce the number of activated lymphocytes in the CNS?",
+      "choices": [
+        { "id": "a", "text": "Riluzole" },
+        { "id": "b", "text": "Rotigotine" },
+        { "id": "c", "text": "Teriflunomide" },
+        { "id": "d", "text": "Dexamethasone" }
+      ],
+      "answer": "c",
+      "hint": "This multiple sclerosis drug inhibits dihydro-orotate dehydrogenase.",
+      "explanation": "Teriflunomide inhibits dihydro-orotate dehydrogenase, which reduces pyrimidine synthesis and decreases the number of activated lymphocytes in the CNS.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 116,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Rivastigmine Caution in Parkinson Disease",
+      "question": "Which of the following agents may cause tremors as an adverse effect and, thus, should be used with caution in patients with Parkinson's disease, even though it is also indicated for the treatment of dementia associated with Parkinson's disease?",
+      "choices": [
+        { "id": "a", "text": "Benztropine" },
+        { "id": "b", "text": "Rotigotine" },
+        { "id": "c", "text": "Rivastigmine" },
+        { "id": "d", "text": "Dimethyl fumarate" }
+      ],
+      "answer": "c",
+      "hint": "This acetylcholinesterase inhibitor can worsen parkinsonian tremor.",
+      "explanation": "Rivastigmine is an acetylcholinesterase inhibitor approved for dementia associated with Parkinson's disease, but it can cause or worsen tremors and should be used with caution.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 117,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Potassium Channel Blockade in MS",
+      "question": "Which of the following agents exerts its therapeutic effect in multiple sclerosis via potassium channel blockade?",
+      "choices": [
+        { "id": "a", "text": "Dalfampridine" },
+        { "id": "b", "text": "Donepezil" },
+        { "id": "c", "text": "Riluzole" },
+        { "id": "d", "text": "Bromocriptine" }
+      ],
+      "answer": "a",
+      "hint": "This agent is used to improve walking speed in multiple sclerosis.",
+      "explanation": "Dalfampridine is a potassium channel blocker and is indicated to improve walking speed in patients with multiple sclerosis.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 118,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Levodopa-induced Dyskinesias",
+      "question": "A 65-year-old man complained to his physician of facial grimacing, lip smacking, and rocking of the trunk that occurred 1 to 2 hours after taking his prescribed medication. The man was diagnosed with Parkinson's disease and had been receiving an antiparkinsonian drug for 3 years. Which of the following drugs most likely caused the adverse effects reported by the patient?",
+      "choices": [
+        { "id": "a", "text": "Selegiline" },
+        { "id": "b", "text": "Levodopa" },
+        { "id": "c", "text": "Entacapone" },
+        { "id": "d", "text": "Amantadine" }
+      ],
+      "answer": "b",
+      "hint": "Peak dopamine activity during chronic therapy can cause excess involuntary movement.",
+      "explanation": "The facial grimacing, lip smacking, and rocking movements are consistent with levodopa-induced dyskinesias. These dyskinesias are dose-related and commonly occur with long-term levodopa therapy when striatal dopamine levels are high or changing.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 119,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Donepezil Early Adverse Effects",
+      "question": "A 73-year-old woman recently diagnosed with Alzheimer's disease started pharmacotherapy with donepezil. Which of the following sets of adverse effects most likely occur during the first days of treatment?",
+      "choices": [
+        { "id": "a", "text": "Hypertension, palpitations" },
+        { "id": "b", "text": "Nausea, vomiting, and diarrhea" },
+        { "id": "c", "text": "Dry mouth, anhidrosis" },
+        { "id": "d", "text": "Drowsiness, lethargy" }
+      ],
+      "answer": "b",
+      "hint": "Donepezil enhances cholinergic effects, especially in the GI tract.",
+      "explanation": "Donepezil is an acetylcholinesterase inhibitor and can cause cholinergic adverse effects. Gastrointestinal effects such as nausea, vomiting, and diarrhea are common early in treatment.",
+      "difficulty": "easy",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 120,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Metoclopramide Worsening Parkinson Symptoms",
+      "question": "A 78-year-old diabetic man with Parkinson's disease complained of worsening of his tremor and rigidity in his arms and legs. His Parkinson's disease had been responding well to treatment with levodopa/carbidopa and amantadine, and his diabetes had been controlled by glyburide and metformin. Recently, metoclopramide was prescribed to manage diabetic gastroparesis. Which of the following drugs could have triggered the worsening of symptoms reported by the patient?",
+      "choices": [
+        { "id": "a", "text": "Glyburide or metformin" },
+        { "id": "b", "text": "Amantadine" },
+        { "id": "c", "text": "Carbidopa" },
+        { "id": "d", "text": "Metoclopramide" }
+      ],
+      "answer": "d",
+      "hint": "Look for the dopamine D2 receptor blocker.",
+      "explanation": "Metoclopramide can block dopamine D2 receptors in the brain. This antagonizes dopaminergic signaling and can worsen Parkinson's disease symptoms despite levodopa/carbidopa therapy.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    },
+    {
+      "id": 121,
+      "type": "mcq",
+      "category": "neurodegenerative_diseases",
+      "title": "Therapeutic Effect of Levodopa",
+      "question": "A 62-year-old man recently diagnosed with Parkinson's disease started treatment with levodopa/carbidopa. Which of the following actions most likely mediated the therapeutic effect of levodopa in the patient's disease?",
+      "choices": [
+        { "id": "a", "text": "Downregulation of dopaminergic receptors in the striatum" },
+        { "id": "b", "text": "Increased synthesis of dopamine in the subthalamic nucleus" },
+        { "id": "c", "text": "Increased synthesis of dopamine in the striatum" },
+        { "id": "d", "text": "Inhibition of dopa decarboxylase in the striatum" }
+      ],
+      "answer": "c",
+      "hint": "Levodopa crosses into the brain and is converted to dopamine in the target dopaminergic pathway.",
+      "explanation": "Levodopa crosses the blood-brain barrier via neutral amino acid transporters and is converted to dopamine in presynaptic dopaminergic terminals in the striatum. This increases dopamine availability and helps compensate for loss of dopaminergic neurons in Parkinson's disease.",
+      "difficulty": "medium",
+      "source": "D0_raw_data/raw_data_12.pdf"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MedQuiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="heart-bg" aria-hidden="true"></div>
+
+    <button
+      type="button"
+      id="adminModeBtn"
+      class="corner-btn admin-mode-btn"
+      aria-pressed="false"
+    >
+      Admin mode
+    </button>
+
+    <div
+      id="adminModal"
+      class="reset-modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="adminModalTitle"
+    >
+      <div class="reset-modal-backdrop" data-admin-close></div>
+      <div class="reset-modal-card">
+        <h2 id="adminModalTitle" class="reset-modal-title">เปิด Admin mode</h2>
+        <p class="reset-modal-desc">พิมพ์รหัสผ่านเพื่อเปิดใช้งาน</p>
+        <input
+          type="password"
+          id="adminCodeInput"
+          class="reset-input"
+          placeholder="รหัสผ่าน"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <p id="adminCodeError" class="admin-code-error hidden"></p>
+        <div class="reset-modal-actions">
+          <button type="button" id="adminCancel" class="btn btn-ghost">ยกเลิก</button>
+          <button type="button" id="adminConfirm" class="btn primary" disabled>
+            ยืนยัน
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="app app--start">
+      <header class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">MedQuiz</span>
+          <span class="brand-tag">Heart Health Practice</span>
+        </div>
+      </header>
+
+      <a href="/quiz.html" id="startBtn" class="btn primary start-btn">
+        Random Question to day
+      </a>
+    </div>
+
+    <script src="/storage.js"></script>
+    <script src="/admin.js"></script>
+    <script src="/start.js"></script>
+  </body>
+</html>

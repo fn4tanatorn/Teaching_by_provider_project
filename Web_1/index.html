@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Video — Medical education hub</title>
+    <meta name="description" content="Calm, trustworthy video learning for clinicians.">
+    <!-- Supabase: วาง URL + anon key จาก Project Settings → API (แทนการแก้ js/supabase-config.js ก็ได้; เว้นว่าง = ใช้ไฟล์ config) -->
+    <meta name="clinical-supabase-url" content="">
+    <meta name="clinical-supabase-anon-key" content="">
+    <!-- เก็บแบบร่างฟอร์มใน localStorage: บน localhost เปิดอัตโนมัติ; บนโดเมนจริงใส่ content="true" หรือในเบราว์เซอร์ localStorage clinical_video_persist_forms = 1 -->
+    <meta name="clinical-persist-forms" content="">
+    <!-- MedQuiz (Web_2): ใส่ URL เต็มบน Netlify; เว้นว่าง = localhost ใช้ http://localhost:3000 อัตโนมัติ -->
+    <meta name="clinical-beta-url" content="https://clinical-quiz.netlify.app">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23dc2626'/%3E%3Cpath fill='%23fff' d='M16 24.5l-1.2-1.1C9.5 18.4 7 15.8 7 12.5 7 10 9 8 11.5 8c1.2 0 2.4.6 3.2 1.5.8-.9 2-1.5 3.3-1.5 2.5 0 4.5 2 4.5 4.5 0 3.3-2.5 5.9-7.8 10.9L16 24.5z'/%3E%3C/svg%3E">
+</head>
+<body>
+    <div id="welcome-heart-host" class="welcome-heart-host" aria-hidden="true"></div>
+    <div class="clinical-bg heart-bg" aria-hidden="true"></div>
+
+    <button id="btn-admin-login" class="admin-login-btn" type="button">Admin</button>
+
+    <main class="app-container">
+
+        <!-- Page 0: Welcome / Hero -->
+        <section id="page-welcome" class="page page-landing active" data-screen-label="Welcome">
+            <header class="sticky-site-header">
+                <div class="brand brand-lockup">
+                    <div class="brand-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <div class="brand-text">
+                        <span class="brand-name">Clinical Video</span>
+                        <span class="brand-tag">Medical education</span>
+                    </div>
+                </div>
+            </header>
+            <div class="hero-section">
+                <div class="hero-shell">
+                    <div class="hero-layout">
+                        <div class="hero-copy">
+                            <span class="hero-eyebrow">Medical education</span>
+                            <h1 class="hero-headline">A calmer way to study clinical video</h1>
+                            <p class="hero-sub">Structured paths in anatomy and histology, with a quiet, spacious interface designed to lower cognitive load between cases.</p>
+                            <ul class="hero-bullets">
+                                <li>Subject-first navigation keeps anatomy and histology distinct.</li>
+                                <li>Daily check-ins keep your study cadence honest.</li>
+                                <li>Admin-approved enrollment for trusted cohorts.</li>
+                            </ul>
+                        </div>
+                        <div class="glass-card welcome-card-inner glass">
+                            <div class="logo-area">
+                                <div class="logo-icon brand-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                                </div>
+                            </div>
+                            <h2>Member access</h2>
+                            <p>ถ้าชื่อ Line Open Chat ของคุณ<strong>ตรงกับรายชื่อที่แอดมินใส่ใน Allowed names</strong> ให้กด <strong>Register</strong> ครั้งแรกเพื่อตั้งรหัสผ่านที่คุณเลือกเอง แล้วครั้งถัดไปใช้ <strong>Log in</strong> ด้วยชื่อและรหัสเดิม</p>
+                            <div class="btn-stack">
+                                <button type="button" id="btn-go-register" class="btn primary-btn">Register</button>
+                                <button type="button" id="btn-go-login" class="btn outline-btn">Log in</button>
+                            </div>
+                            <p class="welcome-staff-row">
+                                <button type="button" id="btn-admin-staff" class="btn text-btn">Staff — Admin login</button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="trust-strip" aria-label="Highlights">
+                    <div class="trust-metric">
+                        <strong>Clinical minimal</strong>
+                        <span>Soft contrast & generous spacing</span>
+                    </div>
+                    <div class="trust-metric">
+                        <strong>Subject-aware</strong>
+                        <span>Anatomy · Histology paths</span>
+                    </div>
+                    <div class="trust-metric">
+                        <strong>Secure flows</strong>
+                        <span>Admin-approved enrollment</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Register -->
+        <section id="page-register" class="page page-auth" data-screen-label="Register">
+            <header class="brand brand--auth">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Clinical Video</span>
+                    <span class="brand-tag">Member access</span>
+                </div>
+            </header>
+            <div class="glass-card login-card glass">
+                <h2>Register</h2>
+                <p>กรอก<strong>ชื่อ Line Open Chat ให้ตรงกับรายชื่อใน Allowed Line Open Chat Names</strong> (ตัวพิมพ์เล็ก–ใหญ่ไม่มีผล) และ<strong>รหัสผ่านที่คุณตั้งเอง</strong> — ไม่ต้องรอแอดมินอนุมัติแยก</p>
+                <form id="register-form">
+                    <div class="input-group">
+                        <input type="text" id="reg-username" required placeholder=" ">
+                        <label for="reg-username">Line Open Chat name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="reg-password" required placeholder=" ">
+                        <label for="reg-password">Password</label>
+                    </div>
+                    <p id="reg-msg" class="error-msg"></p>
+                    <button type="submit" class="btn primary-btn" style="width:100%;">Create account</button>
+                    <button type="button" class="btn text-btn btn-back-welcome" style="margin-top:0.6rem;width:100%;">Cancel</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Page 1: Login -->
+        <section id="page-login" class="page page-auth" data-screen-label="Login">
+            <header class="brand brand--auth">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">Clinical Video</span>
+                    <span class="brand-tag">Medical education</span>
+                </div>
+            </header>
+            <div class="glass-card login-card glass">
+                <h2>Welcome back</h2>
+                <p>Sign in to continue your clinical learning.</p>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="text" id="username" required placeholder=" ">
+                        <label for="username">Line Open Chat name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" required placeholder=" ">
+                        <label for="password">Password</label>
+                    </div>
+                    <p id="login-error" class="error-msg"></p>
+                    <button type="submit" class="btn primary-btn" style="width:100%;">Log in</button>
+                    <button type="button" class="btn text-btn btn-back-welcome" style="margin-top:0.6rem;width:100%;">Back</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Page 2: Videos -->
+        <section id="page-videos" class="page" data-screen-label="Videos">
+            <nav class="glass-nav glass">
+                <div class="nav-brand">
+                    <div class="logo-icon-small brand-icon brand-icon--sm" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                    </div>
+                    <h2>Video feed</h2>
+                </div>
+                <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
+                    <div id="badge-checkin-streak" class="countdown-badge" style="color: var(--ok); border-color: var(--ok-soft); background: var(--ok-soft);" title="Continue: consecutive check-in days (resets when you miss a day)">Continue · 0d</div>
+                    <div id="badge-video-streak" class="countdown-badge" style="color: var(--info); border-color: var(--info-soft); background: var(--info-soft);" title="Progress: consecutive video days">Progress · 0d</div>
+                    <div id="countdown-timer" class="countdown-badge">⏳ EXAM coming in: --:--:--</div>
+                    <button id="btn-checkin" class="btn outline-btn btn-compact">Daily Check-in</button>
+                    <button id="btn-stats" class="btn outline-btn btn-compact">Statistics</button>
+                    <button id="btn-beta" type="button" class="btn btn-beta btn-compact">Beta function</button>
+                    <button id="btn-logout" class="btn text-btn btn-compact">Log out</button>
+                </div>
+            </nav>
+            <div class="content videos-layout">
+                <aside class="subject-sidebar glass-card" aria-label="Subjects">
+                    <p class="subject-sidebar-title">Subjects</p>
+                    <div class="subject-pill-group" id="sidebar-subject-pills" role="tablist">
+                        <!-- Populated via JS -->
+                    </div>
+                </aside>
+                <div class="videos-main">
+                    <div class="video-grid" id="user-video-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: single video — link + Finished -->
+        <section id="page-video-watch" class="page" data-screen-label="Watch">
+            <nav class="glass-nav">
+                <div class="nav-brand">
+                    <button type="button" id="btn-back-from-watch" class="btn icon-btn" title="Back to feed">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </button>
+                    <h2 id="watch-nav-title">Video</h2>
+                </div>
+                <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
+                    <div id="countdown-timer-watch" class="countdown-badge">⏳ EXAM coming in: --:--:--</div>
+                </div>
+            </nav>
+            <div class="content watch-layout">
+                <div class="video-player-container">
+                    <iframe id="watch-iframe" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="watch-sidebar" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div class="glass-card watch-card">
+                        <h3 id="watch-video-title" class="watch-title">—</h3>
+                        <p class="watch-hint">Watch the video carefully and mark as finished when done.</p>
+                        
+                        <div style="margin: 1.5rem 0;">
+                            <label for="video-feedback" style="font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem; display: block;">Leave a comment or positive feedback ✨</label>
+                            <textarea id="video-feedback" rows="3" placeholder="What did you learn? What did you like?" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                        </div>
+
+                        <div class="watch-actions">
+                            <button type="button" id="btn-video-finished" class="btn primary-btn" style="width: 100%;">Mark as finished</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-card watch-card" style="margin-top: 1.5rem;">
+                        <h4 style="font-size: 14px; margin-bottom: 1rem; color: var(--ink-2); font-family: var(--font-display);">Community Comments</h4>
+                        <div id="video-comments-list" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 400px; overflow-y: auto; padding-right: 0.5rem;">
+                            <!-- Comments rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Post-quiz (Native) -->
+        <section id="page-post-quiz" class="page" data-screen-label="Post-quiz">
+            <nav class="glass-nav">
+                <div class="nav-brand">
+                    <h2>Post-quiz</h2>
+                </div>
+            </nav>
+            <div class="content" style="align-items: center; justify-content: center; min-height: 70vh;">
+                <div class="glass-card" style="width: 100%; max-width: 540px; padding: 2.5rem 2rem;">
+                    <span class="subject-tag" id="pq-badge" style="margin-bottom: 1rem;">Quiz</span>
+                    <h2 id="pq-question" style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--ink); line-height: 1.5;">Question text...</h2>
+                    <img id="pq-image" src="" style="width: 100%; border-radius: var(--r-card); margin-bottom: 1.5rem; display: none; border: 1px solid var(--border);" alt="Question image">
+                    
+                    <div id="pq-choices" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
+                        <!-- Choices injected here -->
+                    </div>
+
+                    <p id="pq-feedback" style="font-size: 14px; font-weight: 500; margin-bottom: 1rem; display: none; padding: 0.85rem; border-radius: 12px;"></p>
+                    <button type="button" id="btn-pq-submit" class="btn primary-btn" style="width: 100%;" disabled>Submit Answer</button>
+                    <button type="button" id="btn-pq-continue" class="btn primary-btn" style="width: 100%; display: none;">Continue to Feed</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Daily Check-in (merged) -->
+        <section id="page-quiz" class="page" data-screen-label="Quiz">
+            <nav class="glass-nav">
+                <div class="nav-brand">
+                    <button type="button" id="btn-back-from-quiz" class="btn icon-btn" title="Back to feed">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </button>
+                    <h2>Daily check-in</h2>
+                </div>
+                <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
+                    <div id="countdown-timer-quiz" class="countdown-badge">⏳ EXAM coming in: --:--:--</div>
+                </div>
+            </nav>
+            <div class="content" style="align-items:center; justify-content:center; min-height:70vh;">
+
+                <!-- Task view -->
+                <div id="checkin-task-view" class="glass-card checkin-card">
+                    <p id="checkin-loading" style="color:var(--text-muted); font-size:14px;">Loading today's question…</p>
+                    <div id="checkin-question-box" style="display:none; flex-direction:column; gap:1.25rem;">
+                        <div class="checkin-task-box">
+                            <div class="checkin-task-date" id="checkin-date"></div>
+                            <div class="checkin-task-q" id="checkin-question-text"></div>
+                        </div>
+                        <img id="checkin-img" style="display:none; width:100%; border-radius:var(--r-input); border:1px solid var(--border);" alt="">
+                        <div id="checkin-wrap-text">
+                            <textarea id="checkin-answer" rows="4" placeholder="Type your answer here…" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; resize:vertical; outline:none; background:var(--surface); color:var(--ink);"></textarea>
+                        </div>
+                        <div class="checkin-choice-list" id="checkin-wrap-choice" style="display:none;"></div>
+                        <p id="checkin-err-ans" class="error-msg"></p>
+                        <button id="btn-checkin-submit" class="btn primary-btn" style="width:100%;">Submit answer</button>
+                    </div>
+                </div>
+
+                <!-- OK view -->
+                <div id="checkin-ok-view" class="glass-card checkin-card" style="display:none; text-align:center;">
+                    <div class="checkin-check-circle">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3F8B6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <h3 style="font-family:var(--font-display); font-size:1.2rem; color:var(--ink);">Check-in complete</h3>
+                    <p id="checkin-ok-msg" style="color:var(--text-muted); font-size:14px;"></p>
+                    <p id="checkin-ok-stats" style="display:none; font-size:13px; color:var(--ok); background:var(--ok-soft); padding:0.75rem 1rem; border-radius:var(--r-input); text-align:left;"></p>
+                    <button id="btn-checkin-continue" class="btn primary-btn" style="width:100%;">Continue to lesson</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Page 3: Statistics -->
+        <section id="page-stats" class="page" data-screen-label="Statistics">
+            <nav class="glass-nav">
+                <div class="nav-brand">
+                    <button id="btn-back" class="btn icon-btn" title="Back to videos">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </button>
+                    <h2>Channel analytics</h2>
+                </div>
+            </nav>
+            <div class="content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <h3 style="font-size: 15px; margin-bottom: 1rem;">🔥 Top 10 Daily Quiz Streaks</h3>
+                        <div class="top-videos-list compact-list" id="top-quiz-streak-list"></div>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <h3 style="font-size: 15px; margin-bottom: 1rem;">📺 Top 10 Video Streaks</h3>
+                        <div class="top-videos-list compact-list" id="top-video-streak-list"></div>
+                    </div>
+                </div>
+
+                <div class="glass-card admin-panel panel-block" style="overflow-x: auto;">
+                    <h3 style="font-size: 15px; margin-bottom: 1rem;">Top 5 most-viewed videos</h3>
+                    <div id="top-videos-list" style="display: grid; grid-template-columns: repeat(5, minmax(160px, 1fr)); gap: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 4: Admin Back Office -->
+        <section id="page-admin" class="page" data-screen-label="Admin">
+            <nav class="glass-nav">
+                <div class="nav-brand">
+                    <div class="logo-icon-small logo-icon-small--admin" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <h2>Back office</h2>
+                </div>
+                <div class="nav-actions">
+                    <button id="btn-admin-logout" class="btn outline-btn btn-compact">Exit admin</button>
+                </div>
+            </nav>
+            <div class="content">
+                <p id="local-admin-banner" lang="th" role="status" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem; background: var(--warn-soft); color: var(--ink); border-radius: var(--r-input); font-size: 14px;">เข้าผ่านรหัสลับอย่างเดียว — การบันทึกลงฐานข้อมูลอาจไม่สำเร็จจนกว่าจะมีบัญชีแอดมินใน Supabase และแถวในตาราง admin_users</p>
+                <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
+                    <div class="panel-header-inline">
+                        <h3>Allowed Line Open Chat Names</h3>
+                        <div style="display:flex;gap:0.5rem;">
+                            <button id="btn-clear-allowed-names" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear</button>
+                            <button id="btn-save-allowed-names" type="button" class="btn outline-btn btn-compact">Save List</button>
+                        </div>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Enter names separated by commas or new lines. Only users with these names can register or stay signed in — removing a name immediately revokes their access on next action.</p>
+                    <textarea id="admin-allowed-names" rows="4" placeholder="e.g. John Doe, Doctor Strange, Pathologist101" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                </div>
+
+                <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
+                    <div class="panel-header-inline">
+                        <h3>Exam countdown (all students)</h3>
+                        <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save</button>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Shown on the video feed for members who do not have a personal <code style="font-size:12px;">expiresAt</code> on their user record. Time uses this browser’s local timezone.</p>
+                    <div class="input-group" style="max-width: 360px;">
+                        <input type="datetime-local" id="admin-exam-deadline" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; outline: none; background: var(--surface); color: var(--ink);">
+                        <label for="admin-exam-deadline">Exam date &amp; time</label>
+                    </div>
+                    <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline" style="margin-top: 0.75rem;">Clear shared deadline</button>
+                </div>
+
+                <div class="glass-card admin-panel panel-block">
+                    <div class="panel-header-inline">
+                        <h3>Manage members</h3>
+                        <div class="panel-header-actions">
+                            <button id="btn-toggle-members" type="button" class="btn outline-btn btn-compact">View members</button>
+                            <button id="btn-clear-all-members" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear all</button>
+                        </div>
+                    </div>
+                    <div class="admin-member-list" id="admin-member-list" hidden></div>
+                </div>
+
+                <div class="glass-card admin-panel panel-block">
+                    <div class="panel-header-inline">
+                        <h3>Clear Data</h3>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Reset user analytics across all videos.</p>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button id="btn-clear-views" type="button" class="btn outline-btn btn-delete-outline">Clear All Video Views</button>
+                        <button id="btn-clear-feedbacks" type="button" class="btn outline-btn btn-delete-outline">Clear All Positive Feedbacks</button>
+                    </div>
+                </div>
+
+                <div class="glass-card admin-panel panel-block">
+                    <div class="panel-header-inline">
+                        <h3>Positive Feedback & Comments</h3>
+                        <button id="btn-refresh-feedbacks" type="button" class="btn outline-btn btn-compact">Refresh</button>
+                    </div>
+                    <div class="admin-feedback-list" id="admin-feedback-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                </div>
+
+                <div class="glass-card admin-panel panel-block">
+                    <div class="panel-header-inline">
+                        <h3>Check-in Questions</h3>
+                        <button id="btn-checkin-new-q" type="button" class="btn outline-btn btn-compact">+ New question</button>
+                    </div>
+                    <div id="checkin-q-list" style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem;"></div>
+                    <!-- Question form (hidden by default) -->
+                    <div id="checkin-q-form" style="display:none; flex-direction:column; gap:1rem; margin-top:1rem;">
+                        <div class="input-group">
+                            <input type="date" id="cq-date" placeholder=" ">
+                            <label for="cq-date">Date</label>
+                        </div>
+                        <div class="input-group">
+                            <textarea id="cq-question" rows="3" placeholder=" " style="resize:vertical;"></textarea>
+                            <label for="cq-question">Question</label>
+                        </div>
+                        <div>
+                            <label style="font-size:13px; font-weight:600; color:var(--ink-2); display:block; margin-bottom:0.4rem;">Answer type</label>
+                            <div style="display:flex; gap:0.5rem;">
+                                <button type="button" id="cq-type-text" class="btn outline-btn btn-compact cq-type-active" onclick="setCQType('text')">Free text</button>
+                                <button type="button" id="cq-type-choice" class="btn outline-btn btn-compact" onclick="setCQType('choice')">Multiple choice</button>
+                            </div>
+                        </div>
+                        <div id="cq-choice-fields" style="display:none; flex-direction:column; gap:0.5rem;">
+                            <input type="text" id="cq-c1" placeholder="Choice A" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
+                            <input type="text" id="cq-c2" placeholder="Choice B" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
+                            <input type="text" id="cq-c3" placeholder="Choice C (optional)" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
+                            <input type="text" id="cq-c4" placeholder="Choice D (optional)" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
+                            <input type="text" id="cq-c5" placeholder="Choice E (optional)" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
+                        </div>
+                        <div>
+                            <label style="font-size:13px; font-weight:600; color:var(--ink-2); display:block; margin-bottom:0.4rem;">Image (optional)</label>
+                            <div id="cq-img-zone" class="img-upload-zone" style="border: 2px dashed var(--border); padding: 1.5rem 1rem; border-radius: var(--r-card); text-align: center; cursor: pointer; background: var(--surface); position: relative; transition: border-color 0.2s;">
+                                <input type="file" class="q-img-file" accept="image/*" style="display:none;">
+                                <input type="hidden" id="cq-img" class="q-img" value="">
+                                <div class="upload-placeholder">
+                                    <p style="font-size: 13px; color: var(--text-muted); margin: 0; pointer-events: none;">📸 Drag &amp; Drop image here or Click to upload</p>
+                                </div>
+                                <div class="upload-preview" style="display:none;">
+                                    <img src="" style="max-height: 120px; max-width: 100%; border-radius: var(--r-input); object-fit: contain;">
+                                    <button type="button" class="btn icon-btn remove-img-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(255,255,255,0.9); color: var(--danger); padding: 4px; height: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">🗑️</button>
+                                </div>
+                                <div class="upload-loading" style="display:none; pointer-events: none;">
+                                    <p style="font-size: 13px; color: var(--teal); margin: 0; font-weight: 500;">Uploading…</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                            <button type="button" id="btn-cq-delete" class="btn outline-btn btn-compact btn-delete-outline" style="display:none; margin-right:auto;">Delete</button>
+                            <button type="button" id="btn-cq-cancel" class="btn outline-btn btn-compact">Cancel</button>
+                            <button type="button" id="btn-cq-save" class="btn primary-btn btn-compact">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card admin-panel panel-block">
+                    <div class="panel-header-inline">
+                        <h3>Check-in Dashboard</h3>
+                        <button id="btn-checkin-dash-refresh" type="button" class="btn outline-btn btn-compact">Refresh</button>
+                    </div>
+                    <div id="checkin-dash-stats" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;"></div>
+                    <div id="checkin-dash-leaders" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+                    <h4 style="font-size:13px; font-weight:600; color:var(--ink-2); margin:1rem 0 0.5rem;">Today's responses</h4>
+                    <div id="checkin-dash-today" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+                </div>
+
+                <div class="glass-card admin-panel">
+                    <h3>Add new video</h3>
+                    <div class="add-video-form">
+                        <div class="input-group">
+                            <input type="text" id="new-video-url" placeholder=" ">
+                            <label for="new-video-url">YouTube link (https://www.youtube.com/watch?v=…)</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="new-video-title" placeholder=" ">
+                            <label for="new-video-title">Video title</label>
+                        </div>
+                        <div class="admin-field-row" style="display:flex; gap: 0.5rem; align-items: flex-end;">
+                            <div style="flex: 1;">
+                                <label class="admin-field-label" for="new-video-subject">Subject</label>
+                                <select id="new-video-subject" class="admin-select">
+                                    <!-- Populated via JS -->
+                                </select>
+                            </div>
+                            <button type="button" id="btn-add-subject" class="btn outline-btn" style="height: 44px; padding: 0 1rem; flex-shrink: 0;">+ New</button>
+                        </div>
+                        
+                        <h4 style="margin-top: 1.25rem; margin-bottom: 0.75rem; font-size: 14px; color: var(--teal-700);">Post-quiz Builder (Optional)</h4>
+                        <div id="quiz-questions-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+                        <button type="button" id="btn-add-question" class="btn secondary-btn" style="width: 100%; margin-bottom: 1.25rem; border: 1px dashed var(--teal); color: var(--teal-700); background: transparent;">+ Add Question</button>
+                        
+                        <div style="display:flex; gap:0.5rem;">
+                            <button type="button" id="btn-add-video" class="btn primary-btn" style="flex:1;">Attach video</button>
+                            <button id="btn-cancel-edit-video" class="btn secondary-btn" style="display:none;">Cancel</button>
+                        </div>
+                    </div>
+
+                    <h3 class="section-spacer-title">Attached videos</h3>
+                    <div class="admin-video-grid" id="admin-video-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Admin Login Modal -->
+    <div id="admin-login-modal" style="display:none; position:fixed; inset:0; z-index:200; background:rgba(15,42,54,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;">
+        <div class="glass-card" style="width:100%; max-width:360px; padding:2rem; display:flex; flex-direction:column; gap:1.25rem;">
+            <h2 style="font-size:1.2rem;">Admin</h2>
+            <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.45;">กรอกรหัสผู้ดูแลอย่างเดียว (ตั้งค่าได้ที่ js/supabase-config.js)</p>
+            <div class="input-group">
+                <input type="password" id="admin-password" placeholder=" " autocomplete="current-password">
+                <label for="admin-password">รหัสแอดมิน</label>
+            </div>
+            <p id="admin-login-error" class="error-msg"></p>
+            <div style="display:flex; gap:0.5rem;">
+                <button id="btn-admin-modal-cancel" type="button" class="btn outline-btn" style="flex:1;">Cancel</button>
+                <button id="btn-admin-modal-submit" type="button" class="btn primary-btn" style="flex:1;">Sign in</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- เพิ่มวิชา (ใช้แทน window.prompt — รองรับ Safari / มือถือ) -->
+    <div
+        id="subject-add-modal"
+        style="display:none; position:fixed; inset:0; z-index:201; background:rgba(15,42,54,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="subject-add-title"
+    >
+        <div class="glass-card" style="width:100%; max-width:380px; padding:2rem; display:flex; flex-direction:column; gap:1rem;">
+            <h2 id="subject-add-title" style="font-size:1.15rem;">เพิ่มวิชาใหม่</h2>
+            <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.45;">พิมพ์ชื่อสั้นๆ (เช่น cardiology) — จะแปลงเป็นตัวพิมพ์เล็กให้อัตโนมัติ</p>
+            <div class="input-group">
+                <input type="text" id="subject-add-input" placeholder=" " autocomplete="off">
+                <label for="subject-add-input">ชื่อวิชา</label>
+            </div>
+            <p id="subject-add-error" class="error-msg" style="display:none; margin:0;"></p>
+            <div style="display:flex; gap:0.5rem;">
+                <button type="button" id="btn-subject-add-cancel" class="btn outline-btn" style="flex:1;">ยกเลิก</button>
+                <button type="button" id="btn-subject-add-confirm" class="btn primary-btn" style="flex:1;">เพิ่มวิชา</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js?v=37"></script>
+</body>
+</html>
