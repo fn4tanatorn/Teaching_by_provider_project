@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medica Mist Quest</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="screen-home" class="screen home-screen active" aria-label="หน้าหลัก">
+        <div class="mist-scene" aria-hidden="true">
+          <div class="pixel-tower"></div>
+          <div class="pixel-orb orb-one"></div>
+          <div class="pixel-orb orb-two"></div>
+        </div>
+        <div class="home-copy">
+          <p class="eyebrow">Pixel Fantasy Medicine</p>
+          <h1>Medica Mist Quest</h1>
+          <p class="lead">เดินทางผ่านหมอกเวทมนตร์ รักษาเส้นทางด้วยความรู้ และเอาชนะ Boss ประจำจุดโจทย์</p>
+          <div class="home-actions">
+            <button id="continueButton" type="button">เริ่มเล่น</button>
+            <button class="secondary-button" data-screen-target="screen-levels" type="button">เลือกด่าน</button>
+            <button class="secondary-button" data-screen-target="screen-admin" type="button">ระบบหลังบ้าน</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-levels" class="screen" aria-label="เลือกด่าน">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Level Archive</p>
+            <h2>เลือกด่าน</h2>
+          </div>
+          <button class="secondary-button" data-screen-target="screen-home" type="button">หน้าหลัก</button>
+        </header>
+        <div id="levelList" class="level-list"></div>
+      </section>
+
+      <section id="screen-game" class="screen game-screen" aria-label="เกม">
+        <header class="game-topbar">
+          <div>
+            <p class="eyebrow" id="levelMeta">Fixed 100 x 100 Map</p>
+            <h2 id="levelTitle">Medica Mist Quest</h2>
+          </div>
+          <div class="hud">
+            <div>
+              <strong id="positionText">0,0</strong>
+              <span>ตำแหน่ง</span>
+            </div>
+            <div>
+              <strong id="bossText">0/0</strong>
+              <span>Boss</span>
+            </div>
+            <div>
+              <strong id="stepText">0</strong>
+              <span>ก้าว</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="game-layout">
+          <section class="viewport-panel" aria-label="พื้นที่เล่น">
+            <div class="fog-frame">
+              <div id="gameBoard" class="game-board" aria-label="แผนที่เต็ม 100 คูณ 100"></div>
+            </div>
+            <div class="move-pad" aria-label="ปุ่มเดิน">
+              <button data-move="up" type="button">ขึ้น</button>
+              <button data-move="left" type="button">ซ้าย</button>
+              <button data-move="right" type="button">ขวา</button>
+              <button data-move="down" type="button">ลง</button>
+            </div>
+          </section>
+
+          <aside class="side-panel">
+            <div class="panel-block">
+              <h3>Map</h3>
+              <p id="gameStatus">map อยู่กับที่ ใช้ปุ่มทิศทางหรือ keyboard เพื่อขยับหมอ</p>
+            </div>
+            <div class="panel-block">
+              <h3>Boss</h3>
+              <div class="boss-legend">
+                <span class="boss-pill boss-easy">B1 ง่าย</span>
+                <span class="boss-pill boss-normal">B2 กลาง</span>
+                <span class="boss-pill boss-hard">B3 ยาก</span>
+              </div>
+            </div>
+            <div class="button-stack">
+              <button id="restartLevelButton" type="button">เริ่มด่านใหม่</button>
+              <button class="secondary-button" data-screen-target="screen-levels" type="button">เลือกด่าน</button>
+              <button class="secondary-button" data-screen-target="screen-admin" type="button">ระบบหลังบ้าน</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="screen-admin" class="screen admin-screen" aria-label="ระบบหลังบ้าน">
+        <header class="page-header">
+          <div>
+            <p class="eyebrow">Admin Map Forge</p>
+            <h2>ระบบหลังบ้าน</h2>
+          </div>
+          <div class="header-actions">
+            <button id="saveMapButton" type="button">บันทึก Map</button>
+            <button class="secondary-button" data-screen-target="screen-home" type="button">หน้าหลัก</button>
+          </div>
+        </header>
+
+        <div class="admin-layout">
+          <aside class="admin-tools">
+            <div class="panel-block">
+              <label>
+                ด่านที่แก้ไข
+                <select id="adminLevelSelect"></select>
+              </label>
+              <label>
+                ชื่อด่าน
+                <input id="adminLevelName" type="text" />
+              </label>
+              <div class="field-grid">
+                <label>
+                  Row
+                  <input id="adminRows" type="number" min="10" max="100" value="100" />
+                </label>
+                <label>
+                  Column
+                  <input id="adminCols" type="number" min="10" max="100" value="100" />
+                </label>
+              </div>
+              <button id="newMapButton" class="secondary-button" type="button">สร้างด่านใหม่ 100 x 100</button>
+            </div>
+
+            <div class="panel-block">
+              <h3>เครื่องมือวาด Map</h3>
+              <div class="mode-grid" role="group" aria-label="เครื่องมือแก้ map">
+                <button class="tool-button active" data-tool="path" type="button">ทางเดิน</button>
+                <button class="tool-button" data-tool="wall" type="button">กำแพง</button>
+                <button class="tool-button" data-tool="boss" type="button">Boss</button>
+                <button class="tool-button" data-tool="start" type="button">เริ่ม</button>
+                <button class="tool-button" data-tool="goal" type="button">จบ</button>
+              </div>
+            </div>
+
+            <div class="panel-block">
+              <h3>ตำแหน่งกล้อง</h3>
+              <div class="field-grid">
+                <label>
+                  Row
+                  <input id="cameraRow" type="number" min="0" max="99" value="0" />
+                </label>
+                <label>
+                  Column
+                  <input id="cameraCol" type="number" min="0" max="99" value="0" />
+                </label>
+              </div>
+              <div class="button-row">
+                <button class="secondary-button" data-pan="up" type="button">ขึ้น</button>
+                <button class="secondary-button" data-pan="down" type="button">ลง</button>
+                <button class="secondary-button" data-pan="left" type="button">ซ้าย</button>
+                <button class="secondary-button" data-pan="right" type="button">ขวา</button>
+              </div>
+            </div>
+          </aside>
+
+          <section class="admin-map-panel">
+            <div class="admin-map-head">
+              <div>
+                <strong id="selectedAdminCell">0,0</strong>
+                <span>เลือกช่องบน editor เพื่อแก้ไข</span>
+              </div>
+              <span>editor view 15 x 15 จาก map จริง 100 x 100</span>
+            </div>
+            <div id="adminBoard" class="admin-board" aria-label="ตัวแก้ไขแผนที่"></div>
+          </section>
+
+          <aside class="boss-editor">
+            <div class="panel-block">
+              <h3>Boss Question</h3>
+              <label>
+                ระดับ
+                <select id="bossDifficulty">
+                  <option value="1">B1 ง่าย</option>
+                  <option value="2">B2 กลาง</option>
+                  <option value="3">B3 ยาก</option>
+                </select>
+              </label>
+              <label>
+                คำถาม
+                <textarea id="bossQuestion" rows="4" placeholder="เช่น สมุนไพรใดช่วยลดไข้ในตำราด่านนี้"></textarea>
+              </label>
+              <label>
+                คำตอบ
+                <input id="bossAnswer" type="text" placeholder="เช่น ฟ้าทะลายโจร" />
+              </label>
+              <div class="button-row">
+                <button id="saveBossButton" type="button">บันทึก Boss</button>
+                <button id="removeBossButton" class="danger-button" type="button">ลบ Boss</button>
+              </div>
+            </div>
+
+            <div class="panel-block">
+              <h3>Boss ทั้งหมด</h3>
+              <div id="adminBossList" class="boss-list"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="bossDialog" class="boss-dialog">
+      <form id="bossForm" method="dialog">
+        <p class="eyebrow" id="bossDialogMeta">Boss</p>
+        <h2 id="bossDialogTitle">คำถาม</h2>
+        <label>
+          คำตอบ
+          <input id="bossAnswerInput" type="text" autocomplete="off" />
+        </label>
+        <p id="bossFeedback" class="feedback" aria-live="polite"></p>
+        <div class="dialog-actions">
+          <button id="cancelBossButton" class="secondary-button" type="button">ถอยก่อน</button>
+          <button type="submit">ตอบ</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
