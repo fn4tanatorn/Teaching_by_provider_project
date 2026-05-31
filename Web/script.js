@@ -1,4 +1,4 @@
-import * as SB from './js/supabase-config.js';
+import * as PUBLIC_SB from './js/supabase-config.js';
 import { createDataService, profileRowToUser } from './js/data-service.js';
 import {
     localMemberRegister,
@@ -10,6 +10,12 @@ import {
     localMemberLoadProfile
 } from './js/local-member-auth.js';
 import { initWelcomeHeartScene, disposeWelcomeHeartScene } from './js/welcome-heart-scene.js';
+
+const LOCAL_SB =
+    typeof location !== 'undefined' && ['localhost', '127.0.0.1'].includes(location.hostname)
+        ? await import('./js/supabase-config.local.js').catch(() => ({}))
+        : {};
+const SB = { ...PUBLIC_SB, ...LOCAL_SB };
 
 function metaConfig(name) {
     const el = document.querySelector(`meta[name="${name}"]`);

@@ -8,4 +8,4 @@ Teaching web project containing one combined web app:
 
 ## Local Configuration
 
-`Web/js/supabase-config.js` is intentionally ignored because it contains local Supabase/API configuration. Copy `Web/js/supabase-config.example.js` to `Web/js/supabase-config.js` and fill in local values when setting up the project.
+`Web/js/supabase-config.js` contains only public browser-safe deployment settings. Keep local-only secrets in `Web/js/supabase-config.local.js`, which is intentionally ignored and only loaded on localhost.

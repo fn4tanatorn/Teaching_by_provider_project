@@ -2,7 +2,7 @@
 .env
 .env.*
 !.env.example
-Web/js/supabase-config.js
+Web/js/supabase-config.local.js
 
 # Dependencies and build output
 node_modules/
