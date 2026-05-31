@@ -23,10 +23,10 @@ Pixel fantasy medicine board game prototype.
 
 ## Run
 
-เปิด `index.html` ได้โดยตรง หรือรัน local server:
+เปิด `index.html` ได้โดยตรง หรือรัน local server จากโฟลเดอร์ `Web/`:
 
 ```bash
 python3 -m http.server 5173
 ```
 
-จากนั้นเปิด `http://localhost:5173`
+จากนั้นเปิด `http://localhost:5173/mini-game/`

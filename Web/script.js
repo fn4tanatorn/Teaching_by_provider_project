@@ -79,6 +79,11 @@ function getDecksUrl() {
     return resolveAppUrl('decks/');
 }
 
+/** Mini game path inside the combined web app. */
+function getMiniGameUrl() {
+    return resolveAppUrl(metaConfig('clinical-mini-game-url') || 'mini-game/');
+}
+
 const BETA_DAILY_PREFIX = 'clinical_video_beta_used_v1:';
 
 function getLocalTodayYMD() {
@@ -890,6 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btnStats = document.getElementById('btn-stats');
     const btnDecks = document.getElementById('btn-decks');
+    const btnMiniGame = document.getElementById('btn-mini-game');
     const btnBeta = document.getElementById('btn-beta');
     const btnBack = document.getElementById('btn-back');
     const btnLogout = document.getElementById('btn-logout');
@@ -2266,6 +2272,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             window.location.href = getDecksUrl();
+        });
+    }
+    if (btnMiniGame) {
+        btnMiniGame.addEventListener('click', () => {
+            if (!currentUser) {
+                showToast('กรุณาเข้าสู่ระบบก่อนเปิด Mini Game', 'error');
+                return;
+            }
+            window.location.href = getMiniGameUrl();
         });
     }
     if (btnBeta) {
