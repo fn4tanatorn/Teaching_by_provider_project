@@ -15,7 +15,7 @@ export const SYSTEM_ADMIN_AUTH_EMAIL = '';
 /** Do not publish gate passwords or upload API keys. */
 export const ADMIN_GATE_PASSWORD = '';
 export const SYSTEM_ADMIN_GATE_PASSWORD = '';
-export const IMGBB_API_KEY = '';
+export const IMGBB_API_KEY = 'd041009954320b64feb7911e2a40ac6a';
 
 /** Use Supabase Auth for online student accounts across devices. */
 export const LOCAL_MEMBER_AUTH = false;
