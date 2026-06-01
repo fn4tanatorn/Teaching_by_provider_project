@@ -5,8 +5,8 @@
  * Keep service_role keys, admin gate passwords, and third-party API secrets out of
  * this file. Protect real data with Supabase Row Level Security policies.
  */
-export const SUPABASE_URL = 'https://ilaqvikdtuuipbjeljio.supabase.co';
-export const SUPABASE_ANON_KEY = 'sb_publishable_qNNy8huwQIKmYhrWrynXPw_ELHe6ThF';
+export const SUPABASE_URL = 'https://vzbvmswohjhjmotrhyvk.supabase.co';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6YnZtc3dvaGpoam1vdHJoeXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAyOTM3NjEsImV4cCI6MjA5NTg2OTc2MX0.4L_2DlIc5HsogloMh2-6HBFFDIMfY2-eoQ2TFOHaFlE';
 
 /** Admin sign-in uses this public email plus the password typed by staff. */
 export const ADMIN_AUTH_EMAIL = 'admin@med.local';
