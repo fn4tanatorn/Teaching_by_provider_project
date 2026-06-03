@@ -1,0 +1,9 @@
+{
+  "name": "daily-design-review",
+  "version": "1.0.0",
+  "description": "Daily web design review script using Claude AI",
+  "main": "daily-review.js",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  }
+}
