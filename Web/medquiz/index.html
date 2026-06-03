@@ -13,7 +13,28 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหา</a>
     <div class="heart-bg" aria-hidden="true"></div>
+
+    <nav class="app-nav" aria-label="เมนูหลัก">
+      <a href="../index.html" class="app-nav-brand">
+        <span class="app-nav-brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </span>
+        <span class="app-nav-brand-text">Clinical Video</span>
+      </a>
+      <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="app-nav-links" id="appNavLinks">
+        <li><a href="../index.html">หน้าหลัก</a></li>
+        <li><a href="index.html" aria-current="page">MedQuiz</a></li>
+        <li><a href="../decks/index.html">Pharmacology Decks</a></li>
+        <li><a href="../mini-game/index.html">Mini-Game</a></li>
+      </ul>
+    </nav>
 
     <button
       type="button"
@@ -53,7 +74,7 @@
       </div>
     </div>
 
-    <div class="app app--start">
+    <div class="app app--start" id="main-content">
       <header class="brand">
         <div class="brand-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -71,6 +92,19 @@
       </a>
     </div>
 
+    <script>
+      (function () {
+        var toggle = document.getElementById('appNavToggle');
+        var links = document.getElementById('appNavLinks');
+        if (toggle && links) {
+          toggle.addEventListener('click', function () {
+            var open = links.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.setAttribute('aria-label', open ? 'ปิดเมนู' : 'เปิดเมนู');
+          });
+        }
+      })();
+    </script>
     <script src="storage.js"></script>
     <script src="admin.js"></script>
     <script src="start.js"></script>
