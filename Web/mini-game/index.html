@@ -345,11 +345,32 @@
                 คำตอบ
                 <input id="bossAnswer" type="text" placeholder="พิมพ์คำตอบที่ถูกต้อง" />
               </label>
+              <div class="admin-actions">
+                <button id="saveBossButton" type="button">บันทึก Boss</button>
+                <button id="removeBossButton" class="secondary-button" type="button">ลบ Boss</button>
+              </div>
+              <div id="adminBossList" class="boss-list" aria-label="รายการ Boss"></div>
             </div>
           </aside>
         </div>
       </section>
     </main>
+
+    <dialog id="bossDialog" class="boss-dialog">
+      <form id="bossForm" method="dialog">
+        <p id="bossDialogMeta" class="eyebrow">Boss</p>
+        <h2 id="bossDialogTitle">คำถาม Boss</h2>
+        <label>
+          คำตอบ
+          <input id="bossAnswerInput" type="text" autocomplete="off" />
+        </label>
+        <p id="bossFeedback" class="feedback"></p>
+        <div class="dialog-actions">
+          <button type="submit">ตอบ</button>
+          <button id="cancelBossButton" class="secondary-button" type="button">ยกเลิก</button>
+        </div>
+      </form>
+    </dialog>
 
     <script>
       (function () {

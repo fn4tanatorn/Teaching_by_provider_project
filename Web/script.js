@@ -195,7 +195,7 @@ function loadDraftJson(key) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function initClinicalVideoApp() {
 
     if (typeof location !== 'undefined' && location.protocol === 'file:') {
         console.warn(
@@ -260,7 +260,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentWatchVideo = null;
     let loginStuckTimer = null;
 
-    if (useLocalMemberAuth) {
+    const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
+    if (useLocalMemberStorage) {
         const origSave = ds.saveProfileFull.bind(ds);
         ds.saveProfileFull = async (u) => {
             if (u && u.localMember) {
@@ -894,6 +895,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const btnStats = document.getElementById('btn-stats');
+    const btnSheets = document.getElementById('btn-sheets');
     const btnDecks = document.getElementById('btn-decks');
     const btnMiniGame = document.getElementById('btn-mini-game');
     const btnBeta = document.getElementById('btn-beta');
@@ -2005,29 +2007,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loginSubmitBtn?.disabled) return;
         clearTimeout(loginStuckTimer);
 
+        if (isEmbeddedTestLogin(un, pw)) {
+            setLoginLoading(true);
+            const base = buildEmbeddedTestUser();
+            localMemberSetSessionUid(base.uid);
+            const existing = localMemberLoadProfile(base.uid);
+            const merged = existing
+                ? { ...existing, ...base, username: base.username, status: 'approved' }
+                : base;
+            localMemberPersistUser(merged);
+            currentUser = {
+                ...merged,
+                isAdmin: false,
+                localMember: true,
+                embeddedTestLogin: true
+            };
+            renderStreaks();
+            syncExamCountdown();
+            setLoginLoading(false);
+            routeStudentAfterLoginFromGate();
+            return;
+        }
+
         if (useLocalMemberAuth) {
             setLoginLoading(true);
             try {
-                if (isEmbeddedTestLogin(un, pw)) {
-                    const base = buildEmbeddedTestUser();
-                    localMemberSetSessionUid(base.uid);
-                    const existing = localMemberLoadProfile(base.uid);
-                    const merged = existing
-                        ? { ...existing, ...base, username: base.username, status: 'approved' }
-                        : base;
-                    localMemberPersistUser(merged);
-                    currentUser = {
-                        ...merged,
-                        isAdmin: false,
-                        localMember: true,
-                        embeddedTestLogin: true
-                    };
-                    renderStreaks();
-                    syncExamCountdown();
-                    setLoginLoading(false);
-                    routeStudentAfterLoginFromGate();
-                    return;
-                }
                 if (allowedNames.length > 0 && !isLineNameOnAllowList(un, allowedNames)) {
                     loginError.textContent =
                         'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ชื่อ Line Open Chat ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
@@ -2265,6 +2269,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     btnStats.addEventListener('click', () => { renderStats(); navigateTo(pageStats); });
+    if (btnSheets) {
+        btnSheets.addEventListener('click', () => {
+            window.location.href = resolveAppUrl('sheets/index.html');
+        });
+    }
     if (btnDecks) {
         btnDecks.addEventListener('click', () => {
             if (!currentUser) {
@@ -2996,7 +3005,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderVideos();
     });
 
-    if (useLocalMemberAuth) {
+    if (useLocalMemberStorage) {
         const loc = localMemberTryRestore();
         if (loc) {
             currentUser = loc;
@@ -3014,4 +3023,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const heartHost = document.getElementById('welcome-heart-host');
         if (heartHost) initWelcomeHeartScene(heartHost).catch(() => {});
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initClinicalVideoApp, { once: true });
+} else {
+    initClinicalVideoApp();
+}

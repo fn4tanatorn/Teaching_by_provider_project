@@ -109,6 +109,13 @@
         counterEl = document.getElementById("slide-counter");
         slideIds = slides.map((s) => s.dataset.slideId);
 
+        if (!slides.length) {
+            if (dotsContainer) dotsContainer.innerHTML = "";
+            if (counterEl) counterEl.textContent = "0 / 0";
+            updatePagePhase();
+            return;
+        }
+
         if (dotsContainer) {
             dotsContainer.innerHTML = "";
             slideIds.forEach((id, i) => {

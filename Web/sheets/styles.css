@@ -1,0 +1,466 @@
+:root {
+  --bg: #eef8ff;
+  --surface: rgba(255, 255, 255, 0.78);
+  --surface-solid: #fff;
+  --border: rgba(255, 255, 255, 0.86);
+  --border-soft: rgba(16, 32, 51, 0.08);
+  --text: #102033;
+  --muted: #6b8394;
+  --heart: #38bdf8;
+  --heart-soft: #e0f2fe;
+  --heart-glow: rgba(56, 189, 248, 0.24);
+  --radius: 18px;
+  --font: "Sarabun", "Segoe UI", system-ui, sans-serif;
+  --shadow: 0 12px 40px rgba(56, 189, 248, 0.14);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.heart-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(125, 211, 252, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 75%, rgba(56, 189, 248, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(224, 242, 254, 0.5) 0%, transparent 60%);
+}
+
+.top-nav,
+.shell {
+  position: relative;
+  z-index: 1;
+}
+
+.top-nav {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 0.75rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0 0 18px 18px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 700;
+}
+
+.brand-icon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: linear-gradient(145deg, #bae6fd 0%, var(--heart) 55%, #0284c7 100%);
+  border-radius: 11px;
+  box-shadow: 0 6px 20px var(--heart-glow);
+}
+
+.brand-icon svg {
+  width: 19px;
+  height: 19px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.nav-btn,
+.upload-btn {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.95rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nav-btn:hover,
+.upload-btn:hover {
+  background: var(--heart-soft);
+}
+
+.upload-btn {
+  background: linear-gradient(135deg, #7dd3fc 0%, var(--heart) 50%, #0284c7 100%);
+  color: #fff;
+  border-color: rgba(2, 132, 199, 0.48);
+  box-shadow: 0 4px 14px var(--heart-glow);
+}
+
+.upload-btn input {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shell {
+  width: min(1120px, calc(100% - 2rem));
+  margin: 1.4rem auto 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.hero-panel,
+.sheet-list-panel,
+.reader-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+}
+
+.hero-panel {
+  padding: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.eyebrow,
+.reader-kicker {
+  margin: 0 0 0.25rem;
+  color: var(--heart);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 0.35rem;
+  font-size: clamp(2rem, 5vw, 3.3rem);
+  line-height: 1;
+}
+
+.lead {
+  margin-bottom: 0;
+  max-width: 44rem;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.reader-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 300px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.sheet-list-panel {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  align-self: start;
+}
+
+.panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+#sheetCount {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--heart-soft);
+  color: #0284c7;
+  font-weight: 800;
+}
+
+.sheet-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.sheet-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: stretch;
+}
+
+.sheets-admin .sheet-row {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.sheet-item {
+  width: 100%;
+  padding: 0.62rem;
+  text-align: left;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.sheet-delete {
+  min-width: 48px;
+  border: 1px solid rgba(220, 38, 38, 0.22);
+  border-radius: 12px;
+  background: rgba(254, 226, 226, 0.72);
+  color: #b91c1c;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sheet-delete:hover {
+  background: rgba(254, 202, 202, 0.9);
+}
+
+.sheet-item strong,
+.sheet-item span {
+  display: block;
+}
+
+.sheet-item strong {
+  font-size: 0.84rem;
+}
+
+.sheet-item span {
+  margin-top: 0.15rem;
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+.sheet-item.active {
+  border-color: rgba(56, 189, 248, 0.6);
+  background: var(--heart-soft);
+}
+
+.hint-box {
+  padding: 0.68rem;
+  display: grid;
+  gap: 0.35rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+code {
+  padding: 0.1rem 0.3rem;
+  border-radius: 5px;
+  background: rgba(16, 32, 51, 0.08);
+  color: var(--text);
+}
+
+.reader-panel {
+  min-height: min(680px, calc(100vh - 210px));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.pdf-active .hero-panel {
+  display: none;
+}
+
+body.pdf-active .top-nav {
+  display: none;
+}
+
+body.pdf-active .shell {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+}
+
+body.pdf-active .reader-layout {
+  grid-template-columns: minmax(210px, 260px) minmax(0, 1fr);
+}
+
+body.pdf-active .reader-panel {
+  min-height: calc(100vh - 0.7rem);
+  overflow: visible;
+}
+
+body.pdf-active #pdfFrame {
+  height: calc(118vh - 74px);
+  min-height: calc(118vh - 74px);
+}
+
+.reader-toolbar {
+  min-height: 70px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.reader-toolbar h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+#pdfFrame {
+  width: 100%;
+  min-height: calc(100vh - 280px);
+  flex: 1;
+  border: 0;
+  background: #fff;
+}
+
+.empty-state {
+  min-height: 280px;
+  padding: 1.4rem;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 0.75rem;
+  text-align: center;
+  color: var(--muted);
+}
+
+.empty-icon {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #bae6fd 0%, var(--heart) 55%, #0284c7 100%);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 10px 28px var(--heart-glow);
+}
+
+.empty-state h3 {
+  margin-bottom: 0;
+  color: var(--text);
+}
+
+.empty-state p {
+  max-width: 34rem;
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .hero-panel,
+  .reader-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .reader-layout {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  body.pdf-active .reader-layout {
+    grid-template-columns: 1fr;
+  }
+
+  body.pdf-active .sheet-list-panel {
+    display: none;
+  }
+
+  body.pdf-active .shell {
+    width: calc(100% - 0.75rem);
+    margin-top: 0.35rem;
+  }
+
+  body.pdf-active .reader-panel {
+    min-height: calc(100vh - 0.7rem);
+  }
+
+  body.pdf-active #pdfFrame {
+    height: calc(116vh - 74px);
+    min-height: calc(116vh - 74px);
+  }
+
+  .sheet-list-panel {
+    padding: 0.85rem;
+    gap: 0.65rem;
+  }
+
+  .hint-box {
+    padding: 0.7rem;
+    font-size: 0.78rem;
+  }
+
+  .reader-panel {
+    min-height: auto;
+  }
+
+  #pdfFrame {
+    min-height: 72vh;
+  }
+
+  .empty-state {
+    min-height: 240px;
+    padding: 1rem;
+  }
+
+  .empty-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 16px;
+  }
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sheets — Clinical Video</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="heart-bg" aria-hidden="true"></div>
+
+    <nav class="top-nav" aria-label="Sheets navigation">
+      <a href="../index.html" class="brand-link">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </span>
+        <span>Clinical Video</span>
+      </a>
+      <div class="nav-actions">
+        <a href="../index.html" class="nav-btn">Video feed</a>
+        <a href="../medquiz/index.html" class="nav-btn">MedQuiz</a>
+        <a href="../decks/index.html" class="nav-btn">Pharma Decks</a>
+      </div>
+    </nav>
+
+    <main class="shell">
+      <section class="hero-panel">
+        <div>
+          <p class="eyebrow">PDF reader</p>
+          <h1>Sheets</h1>
+          <p class="lead">วางชีท PDF ไว้ในเว็บ แล้วให้นักศึกษาเปิดอ่านแบบเลื่อนขึ้นลงเหมือนไฟล์จริงได้ทันที</p>
+        </div>
+        <label id="uploadPdfControl" class="upload-btn" hidden>
+          <input id="pdfFileInput" type="file" accept="application/pdf,.pdf" />
+          Upload PDF
+        </label>
+      </section>
+
+      <section class="reader-layout">
+        <aside class="sheet-list-panel" aria-label="Sheet list">
+          <div class="panel-head">
+            <h2>Available sheets</h2>
+            <span id="sheetCount">0</span>
+          </div>
+          <div id="sheetList" class="sheet-list"></div>
+          <div class="hint-box">
+            <strong id="sheetHintTitle">Sheets</strong>
+            <span id="sheetHintText">เลือกชีทในรายการเพื่ออ่าน PDF ในเว็บ</span>
+          </div>
+        </aside>
+
+        <section class="reader-panel" aria-label="PDF reader">
+          <div class="reader-toolbar">
+            <div>
+              <p class="reader-kicker">Now reading</p>
+              <h2 id="readerTitle">ยังไม่ได้เลือกชีท</h2>
+            </div>
+            <a id="openPdfLink" class="nav-btn" href="#" target="_blank" rel="noopener" hidden></a>
+          </div>
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">PDF</div>
+            <h3>เลือก PDF เพื่อเริ่มอ่าน</h3>
+            <p id="emptyStateText">ยังไม่มีชีทให้เลือก</p>
+          </div>
+          <iframe id="pdfFrame" title="PDF reader" hidden></iframe>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

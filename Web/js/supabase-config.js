@@ -20,6 +20,11 @@ export const IMGBB_API_KEY = 'd041009954320b64feb7911e2a40ac6a';
 /** Use Supabase Auth for online student accounts across devices. */
 export const LOCAL_MEMBER_AUTH = false;
 
+/** Sheets PDF upload/read settings. */
+export const SHEETS_USE_SUPABASE = true;
+export const SHEETS_STORAGE_BUCKET = 'sheets';
+export const SHEETS_TABLE = 'sheet_files';
+
 /** Do not publish embedded test accounts. */
 export const EMBEDDED_TEST_LOGIN_USERNAME = '';
 export const EMBEDDED_TEST_LOGIN_PASSWORD = '';

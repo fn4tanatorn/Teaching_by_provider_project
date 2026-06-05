@@ -43,3 +43,8 @@ export const EMBEDDED_TEST_LOGIN_PASSWORD = '';
 
 /** true = สมาชิกล็อกอินเก็บใน localStorage ไม่ใช้ Supabase Auth */
 export const LOCAL_MEMBER_AUTH = false;
+
+/** Sheets PDF upload/read settings. */
+export const SHEETS_USE_SUPABASE = true;
+export const SHEETS_STORAGE_BUCKET = 'sheets';
+export const SHEETS_TABLE = 'sheet_files';
