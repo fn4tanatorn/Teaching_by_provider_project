@@ -4,9 +4,162 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Medica Mist Quest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Shared top navigation — mirrors MedQuiz nav for cross-app consistency */
+      .app-nav {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.65rem 1.1rem;
+        background: rgba(12, 8, 24, 0.82);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom: 1px solid rgba(125, 211, 252, 0.22);
+        font-family: "Sarabun", "Segoe UI", system-ui, sans-serif;
+      }
+      .app-nav-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: #e0f2fe;
+        text-decoration: none;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+      .app-nav-brand-icon {
+        display: inline-flex;
+        width: 30px;
+        height: 30px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: linear-gradient(145deg, #38bdf8 0%, #0284c7 100%);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35);
+      }
+      .app-nav-brand-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+      .app-nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .app-nav-links a {
+        display: inline-block;
+        padding: 0.45rem 0.85rem;
+        border-radius: 999px;
+        color: #cbd5f5;
+        text-decoration: none;
+        font-size: 0.92rem;
+        font-weight: 600;
+        transition: background 0.15s, color 0.15s;
+      }
+      .app-nav-links a:hover {
+        background: rgba(125, 211, 252, 0.16);
+        color: #f0f9ff;
+      }
+      .app-nav-links a[aria-current="page"] {
+        background: rgba(56, 189, 248, 0.28);
+        color: #fff;
+      }
+      .app-nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        width: 42px;
+        height: 38px;
+        padding: 9px 8px;
+        background: rgba(125, 211, 252, 0.12);
+        border: 1px solid rgba(125, 211, 252, 0.3);
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .app-nav-toggle span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: #e0f2fe;
+        border-radius: 2px;
+      }
+      .skip-link {
+        position: absolute;
+        left: -999px;
+        top: 0;
+        z-index: 100;
+        padding: 0.6rem 1rem;
+        background: #0284c7;
+        color: #fff;
+        border-radius: 0 0 10px 0;
+        text-decoration: none;
+      }
+      .skip-link:focus {
+        left: 0;
+      }
+      @media (max-width: 640px) {
+        .app-nav-toggle {
+          display: flex;
+        }
+        .app-nav-links {
+          flex-basis: 100%;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0.2rem;
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: max-height 0.25s ease, opacity 0.2s ease;
+        }
+        .app-nav-links.open {
+          max-height: 360px;
+          opacity: 1;
+          padding-top: 0.4rem;
+        }
+        .app-nav-links a {
+          padding: 0.7rem 0.9rem;
+        }
+      }
+    </style>
   </head>
   <body>
+    <a href="#screen-home" class="skip-link">ข้ามไปยังเนื้อหา</a>
+
+    <nav class="app-nav" aria-label="เมนูหลัก">
+      <a href="../index.html" class="app-nav-brand">
+        <span class="app-nav-brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </span>
+        <span class="app-nav-brand-text">Clinical Video</span>
+      </a>
+      <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="เปิดเมนู">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="app-nav-links" id="appNavLinks">
+        <li><a href="../index.html">หน้าหลัก</a></li>
+        <li><a href="../medquiz/index.html">MedQuiz</a></li>
+        <li><a href="../decks/index.html">Pharmacology Decks</a></li>
+        <li><a href="index.html" aria-current="page">Mini-Game</a></li>
+      </ul>
+    </nav>
+
     <main class="app-shell">
       <section id="screen-home" class="screen home-screen active" aria-label="หน้าหลัก">
         <div class="mist-scene" aria-hidden="true">
@@ -190,39 +343,27 @@
               </label>
               <label>
                 คำตอบ
-                <input id="bossAnswer" type="text" placeholder="เช่น ฟ้าทะลายโจร" />
+                <input id="bossAnswer" type="text" placeholder="พิมพ์คำตอบที่ถูกต้อง" />
               </label>
-              <div class="button-row">
-                <button id="saveBossButton" type="button">บันทึก Boss</button>
-                <button id="removeBossButton" class="danger-button" type="button">ลบ Boss</button>
-              </div>
-            </div>
-
-            <div class="panel-block">
-              <h3>Boss ทั้งหมด</h3>
-              <div id="adminBossList" class="boss-list"></div>
             </div>
           </aside>
         </div>
       </section>
     </main>
 
-    <dialog id="bossDialog" class="boss-dialog">
-      <form id="bossForm" method="dialog">
-        <p class="eyebrow" id="bossDialogMeta">Boss</p>
-        <h2 id="bossDialogTitle">คำถาม</h2>
-        <label>
-          คำตอบ
-          <input id="bossAnswerInput" type="text" autocomplete="off" />
-        </label>
-        <p id="bossFeedback" class="feedback" aria-live="polite"></p>
-        <div class="dialog-actions">
-          <button id="cancelBossButton" class="secondary-button" type="button">ถอยก่อน</button>
-          <button type="submit">ตอบ</button>
-        </div>
-      </form>
-    </dialog>
-
+    <script>
+      (function () {
+        var toggle = document.getElementById('appNavToggle');
+        var links = document.getElementById('appNavLinks');
+        if (toggle && links) {
+          toggle.addEventListener('click', function () {
+            var open = links.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            toggle.setAttribute('aria-label', open ? 'ปิดเมนู' : 'เปิดเมนู');
+          });
+        }
+      })();
+    </script>
     <script src="app.js"></script>
   </body>
 </html>
