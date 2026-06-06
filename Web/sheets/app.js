@@ -235,7 +235,10 @@ async function deleteUploadedPdf(sheet) {
     pdfFrame.hidden = true;
     pdfFrame.removeAttribute("src");
     emptyState.hidden = false;
-    openPdfLink.hidden = true;
+    openPdfLink.href = "#";
+    openPdfLink.removeAttribute("download");
+    openPdfLink.classList.add("is-disabled");
+    openPdfLink.setAttribute("aria-disabled", "true");
     readerTitle.textContent = "ยังไม่ได้เลือกชีท";
     document.body.classList.remove("pdf-active");
     activeId = "";
@@ -260,7 +263,17 @@ function pdfEmbedUrl(url) {
   return `${url}${separator}toolbar=0&navpanes=0&scrollbar=1`;
 }
 
-function displayPdf({ id, title, url, objectUrl = false }) {
+function fileNameFromUrl(url) {
+  try {
+    const pathname = new URL(url, window.location.href).pathname;
+    const name = decodeURIComponent(pathname.split("/").pop() || "");
+    return name || "sheet.pdf";
+  } catch {
+    return "sheet.pdf";
+  }
+}
+
+function displayPdf({ id, title, url, downloadName, objectUrl = false }) {
   if (!objectUrl) revokeActiveObjectUrl();
   activeId = id;
   readerTitle.textContent = title;
@@ -269,11 +282,38 @@ function displayPdf({ id, title, url, objectUrl = false }) {
   emptyState.hidden = true;
   document.body.classList.add("pdf-active");
   openPdfLink.href = url;
-  openPdfLink.hidden = true;
+  openPdfLink.download = downloadName || fileNameFromUrl(url);
+  openPdfLink.classList.remove("is-disabled");
+  openPdfLink.setAttribute("aria-disabled", "false");
 
   document.querySelectorAll(".sheet-item").forEach((button) => {
     button.classList.toggle("active", button.dataset.sheetId === id);
   });
+}
+
+async function downloadActivePdf(event) {
+  event.preventDefault();
+  if (openPdfLink.classList.contains("is-disabled")) return;
+  const url = openPdfLink.href;
+  const fileName = openPdfLink.download || "sheet.pdf";
+  if (!url || url.endsWith("#")) return;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Download failed: ${response.status}`);
+    const blob = await response.blob();
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = fileName;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+  } catch (err) {
+    console.error(err);
+    window.open(url, "_blank", "noopener");
+  }
 }
 
 function createSheetButton({ id, title, meta, onOpen }) {
@@ -299,7 +339,13 @@ function renderStaticSheets(fragment) {
         id,
         title: sheet.title,
         meta: sheet.file,
-        onOpen: () => displayPdf({ id, title: sheet.title, url: sheet.file })
+        onOpen: () =>
+          displayPdf({
+            id,
+            title: sheet.title,
+            url: sheet.file,
+            downloadName: fileNameFromUrl(sheet.file)
+          })
       })
     );
   });
@@ -322,7 +368,8 @@ function renderUploadedSheets(fragment) {
             displayPdf({
               id: sheet.id,
               title: sheet.title || sheet.fileName || "Uploaded PDF",
-              url: sheet.publicUrl
+              url: sheet.publicUrl,
+              downloadName: sheet.fileName || `${sheet.title || "sheet"}.pdf`
             });
             return;
           }
@@ -333,6 +380,7 @@ function renderUploadedSheets(fragment) {
             id: sheet.id,
             title: sheet.title || sheet.fileName || "Uploaded PDF",
             url: activeObjectUrl,
+            downloadName: sheet.fileName || `${sheet.title || "sheet"}.pdf`,
             objectUrl: true
           });
         }
@@ -402,7 +450,12 @@ pdfFileInput.addEventListener("change", async () => {
     const saved = await saveUploadedPdf(file);
     await refreshUploadedSheets();
     if (saved.source === "supabase") {
-      displayPdf({ id: saved.id, title: saved.title, url: saved.publicUrl });
+      displayPdf({
+        id: saved.id,
+        title: saved.title,
+        url: saved.publicUrl,
+        downloadName: saved.fileName || `${saved.title || "sheet"}.pdf`
+      });
     } else {
       revokeActiveObjectUrl();
       activeObjectUrl = URL.createObjectURL(saved.blob);
@@ -410,6 +463,7 @@ pdfFileInput.addEventListener("change", async () => {
         id: saved.id,
         title: saved.title,
         url: activeObjectUrl,
+        downloadName: saved.fileName || `${saved.title || "sheet"}.pdf`,
         objectUrl: true
       });
     }
@@ -421,6 +475,7 @@ pdfFileInput.addEventListener("change", async () => {
   }
 });
 
+openPdfLink.addEventListener("click", downloadActivePdf);
 window.addEventListener("beforeunload", revokeActiveObjectUrl);
 
 refreshUploadedSheets().catch((err) => {

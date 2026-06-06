@@ -5,7 +5,6 @@ Teaching web project containing one combined web app:
 - `Web/` - main teaching/member experience
 - `Web/medquiz/` - MedQuiz experience mounted inside the same web app
 - `Web/decks/` - Katzung Pharmacology web slide decks mounted inside the same web app
-- `Web/mini-game/` - Medica Mist Quest mini game prototype mounted inside the same web app
 - `Web/sheets/` - PDF sheets reader with admin upload support
 
 ## Local Configuration

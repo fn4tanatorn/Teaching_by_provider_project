@@ -79,11 +79,6 @@ function getDecksUrl() {
     return resolveAppUrl('decks/');
 }
 
-/** Mini game path inside the combined web app. */
-function getMiniGameUrl() {
-    return resolveAppUrl(metaConfig('clinical-mini-game-url') || 'mini-game/');
-}
-
 const BETA_DAILY_PREFIX = 'clinical_video_beta_used_v1:';
 
 function getLocalTodayYMD() {
@@ -583,7 +578,9 @@ function initClinicalVideoApp() {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = null;
             syncExamCountdown();
-            if (!pageWelcome.classList.contains('active') && !pageLogin.classList.contains('active') && !pageRegister.classList.contains('active')) {
+            if (wantsVideoFeedRoute()) {
+                navigateTo(pageVideos);
+            } else if (!pageWelcome.classList.contains('active') && !pageLogin.classList.contains('active') && !pageRegister.classList.contains('active')) {
                 navigateTo(pageWelcome);
             }
         }
@@ -748,6 +745,11 @@ function initClinicalVideoApp() {
     const btnGoRegister = document.getElementById('btn-go-register');
     const btnsBackWelcome = document.querySelectorAll('.btn-back-welcome');
 
+    function wantsVideoFeedRoute() {
+        const hash = String(window.location.hash || '').toLowerCase();
+        return hash === '#videos' || hash === '#video-feed';
+    }
+
     const registerForm = document.getElementById('register-form');
     const regUsername = document.getElementById('reg-username');
     const regPassword = document.getElementById('reg-password');
@@ -897,7 +899,6 @@ function initClinicalVideoApp() {
     const btnStats = document.getElementById('btn-stats');
     const btnSheets = document.getElementById('btn-sheets');
     const btnDecks = document.getElementById('btn-decks');
-    const btnMiniGame = document.getElementById('btn-mini-game');
     const btnBeta = document.getElementById('btn-beta');
     const btnBack = document.getElementById('btn-back');
     const btnLogout = document.getElementById('btn-logout');
@@ -1855,6 +1856,10 @@ function initClinicalVideoApp() {
     /** After member login from welcome/login/register: daily check-in first if not done today, else video list. */
     async function routeStudentAfterLoginFromGate() {
         if (!currentUser || currentUser.isAdmin) return;
+        if (wantsVideoFeedRoute()) {
+            navigateTo(pageVideos);
+            return;
+        }
         try {
             const today = getTodayYMD();
             const key = nameKey(currentUser.username);
@@ -2281,15 +2286,6 @@ function initClinicalVideoApp() {
                 return;
             }
             window.location.href = getDecksUrl();
-        });
-    }
-    if (btnMiniGame) {
-        btnMiniGame.addEventListener('click', () => {
-            if (!currentUser) {
-                showToast('กรุณาเข้าสู่ระบบก่อนเปิด Mini Game', 'error');
-                return;
-            }
-            window.location.href = getMiniGameUrl();
         });
     }
     if (btnBeta) {
@@ -3018,7 +3014,9 @@ function initClinicalVideoApp() {
         }
     }
 
-    if (pageWelcome && pageWelcome.classList.contains('active')) {
+    if (wantsVideoFeedRoute()) {
+        navigateTo(pageVideos);
+    } else if (pageWelcome && pageWelcome.classList.contains('active')) {
         document.body.classList.add('welcome-hero-active');
         const heartHost = document.getElementById('welcome-heart-host');
         if (heartHost) initWelcomeHeartScene(heartHost).catch(() => {});

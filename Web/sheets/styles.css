@@ -122,6 +122,15 @@ a {
   background: var(--heart-soft);
 }
 
+.download-btn {
+  flex: 0 0 auto;
+}
+
+.download-btn.is-disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
 .upload-btn {
   background: linear-gradient(135deg, #7dd3fc 0%, var(--heart) 50%, #0284c7 100%);
   color: #fff;
@@ -321,10 +330,6 @@ body.pdf-active .hero-panel {
   display: none;
 }
 
-body.pdf-active .top-nav {
-  display: none;
-}
-
 body.pdf-active .shell {
   margin-top: 0.35rem;
   margin-bottom: 0.35rem;
@@ -335,13 +340,13 @@ body.pdf-active .reader-layout {
 }
 
 body.pdf-active .reader-panel {
-  min-height: calc(100vh - 0.7rem);
+  min-height: calc(100vh - 92px);
   overflow: visible;
 }
 
 body.pdf-active #pdfFrame {
-  height: calc(118vh - 74px);
-  min-height: calc(118vh - 74px);
+  height: calc(118vh - 146px);
+  min-height: calc(118vh - 146px);
 }
 
 .reader-toolbar {
@@ -354,9 +359,14 @@ body.pdf-active #pdfFrame {
   border-bottom: 1px solid var(--border-soft);
 }
 
+.reader-toolbar > div {
+  min-width: 0;
+}
+
 .reader-toolbar h2 {
   margin: 0;
   font-size: 1.05rem;
+  overflow-wrap: anywhere;
 }
 
 #pdfFrame {
@@ -408,6 +418,10 @@ body.pdf-active #pdfFrame {
     flex-direction: column;
   }
 
+  .reader-toolbar .download-btn {
+    width: 100%;
+  }
+
   .reader-layout {
     grid-template-columns: 1fr;
     gap: 0.75rem;
@@ -427,12 +441,12 @@ body.pdf-active #pdfFrame {
   }
 
   body.pdf-active .reader-panel {
-    min-height: calc(100vh - 0.7rem);
+    min-height: calc(100vh - 92px);
   }
 
   body.pdf-active #pdfFrame {
-    height: calc(116vh - 74px);
-    min-height: calc(116vh - 74px);
+    height: calc(116vh - 146px);
+    min-height: calc(116vh - 146px);
   }
 
   .sheet-list-panel {
