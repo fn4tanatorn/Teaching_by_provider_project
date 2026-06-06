@@ -87,8 +87,14 @@
         </div>
       </header>
 
+      <p class="start-lead">ฝึกทำโจทย์เวชศาสตร์แบบสุ่มประจำวัน — หนึ่งข้อต่อวัน เพื่อรักษาจังหวะการทบทวนของคุณ</p>
+
       <a href="quiz.html" id="startBtn" class="btn primary start-btn">
-        Random Question to day
+        เริ่มทำโจทย์ประจำวัน
+      </a>
+
+      <a href="../decks/index.html" class="start-secondary-link">
+        หรือทบทวน Pharmacology Decks →
       </a>
     </div>
 
@@ -108,5 +114,35 @@
     <script src="storage.js"></script>
     <script src="admin.js"></script>
     <script src="start.js"></script>
+
+    <style>
+      .start-lead {
+        max-width: 30rem;
+        margin: 0 auto;
+        text-align: center;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      .start-secondary-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        margin-top: 0.25rem;
+        color: var(--heart);
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        padding: 0.4rem 0.75rem;
+        border-radius: 999px;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .start-secondary-link:hover,
+      .start-secondary-link:focus-visible {
+        background: var(--heart-soft);
+        color: #0284c7;
+        outline: none;
+      }
+    </style>
   </body>
 </html>

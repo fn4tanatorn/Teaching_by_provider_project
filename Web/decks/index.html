@@ -3,13 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Slide — TeachingByProvider</title>
+    <title>Pharmacology Decks — TeachingByProvider</title>
+    <meta name="description" content="Katzung Pharmacology web slide decks สำหรับนักศึกษาแพทย์ — เลือกบทเรียนเป็น deck แยก พร้อม keyboard navigation">
     <meta name="theme-color" content="#030000">
     <link rel="stylesheet" href="css/theme.css?v=20260524-figure-contain">
+    <style>
+        /* ============================================================
+           Hub top navigation — consistent with MedQuiz nav.css
+           Self-contained so it works on the dark deck theme.
+        ============================================================ */
+        .hub-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
+            background: rgba(8, 6, 10, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hub-nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .hub-nav-brand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #7dd3fc 0%, #38bdf8 55%, #0284c7 100%);
+            color: #fff;
+            box-shadow: 0 6px 18px rgba(56, 189, 248, 0.35);
+        }
+
+        .hub-nav-brand-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .hub-nav-brand-text {
+            font-size: 1rem;
+        }
+
+        .hub-nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .hub-nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 2px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .hub-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .hub-nav-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            color: rgba(255, 255, 255, 0.82);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .hub-nav-links a:hover,
+        .hub-nav-links a:focus-visible {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            outline: none;
+        }
+
+        .hub-nav-links a[aria-current="page"] {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: #fff;
+        }
+
+        @media (max-width: 640px) {
+            .hub-nav-toggle {
+                display: flex;
+            }
+
+            .hub-nav-links {
+                flex-basis: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.25s ease, opacity 0.2s ease;
+            }
+
+            .hub-nav-links.open {
+                max-height: 320px;
+                opacity: 1;
+                margin-top: 0.5rem;
+            }
+
+            .hub-nav-links a {
+                width: 100%;
+                padding: 0.7rem 0.9rem;
+            }
+        }
+
+        /* Skip link for keyboard / screen-reader users */
+        .hub-skip-link {
+            position: absolute;
+            left: -999px;
+            top: 0;
+            z-index: 100;
+            padding: 0.6rem 1rem;
+            background: #fff;
+            color: #0f172a;
+            border-radius: 0 0 10px 0;
+            font-weight: 700;
+        }
+
+        .hub-skip-link:focus {
+            left: 0;
+        }
+    </style>
 </head>
 <body class="hub-page">
 
+    <a href="#deck-grid" class="hub-skip-link">ข้ามไปยังรายการบทเรียน</a>
+
     <div class="bg-layer" aria-hidden="true"></div>
+
+    <nav class="hub-nav" aria-label="เมนูหลัก">
+        <a href="../index.html" class="hub-nav-brand">
+            <span class="hub-nav-brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </span>
+            <span class="hub-nav-brand-text">Clinical Video</span>
+        </a>
+        <button class="hub-nav-toggle" id="hubNavToggle" type="button" aria-expanded="false" aria-controls="hubNavLinks" aria-label="เปิดเมนู">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="hub-nav-links" id="hubNavLinks">
+            <li><a href="../index.html">หน้าหลัก</a></li>
+            <li><a href="../medquiz/index.html">MedQuiz</a></li>
+            <li><a href="index.html" aria-current="page">Pharmacology Decks</a></li>
+        </ul>
+    </nav>
 
     <main class="hub">
         <header class="hub-header">
@@ -24,6 +200,18 @@
     </main>
 
     <script>
+        (function initHubNav() {
+            var toggle = document.getElementById("hubNavToggle");
+            var links = document.getElementById("hubNavLinks");
+            if (toggle && links) {
+                toggle.addEventListener("click", function () {
+                    var open = links.classList.toggle("open");
+                    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    toggle.setAttribute("aria-label", open ? "ปิดเมนู" : "เปิดเมนู");
+                });
+            }
+        })();
+
         (function initHub() {
             const grid = document.getElementById("deck-grid");
 
