@@ -3,13 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Slide — TeachingByProvider</title>
+    <title>Pharmacology Decks — TeachingByProvider</title>
+    <meta name="description" content="Katzung Pharmacology web slides — เลือกบทเรียนเป็น deck แยก พร้อม keyboard navigation">
     <meta name="theme-color" content="#030000">
     <link rel="stylesheet" href="css/theme.css?v=20260524-figure-contain">
+    <style>
+        /* ============================================================
+           Shared cross-section nav (aligned with MedQuiz nav.css)
+           Scoped here so the decks hub stays self-contained.
+        ============================================================ */
+        .skip-link {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            z-index: 1000;
+            padding: 0.6rem 1rem;
+            background: #0f1a2b;
+            color: #fff;
+            border-radius: 0 0 10px 0;
+            font: 600 0.9rem/1.2 system-ui, "Sarabun", sans-serif;
+        }
+        .skip-link:focus {
+            left: 0;
+            outline: 2px solid #7dd3fc;
+            outline-offset: 2px;
+        }
+
+        .app-nav {
+            position: relative;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0.9rem 1.5rem;
+            font-family: system-ui, "Sarabun", sans-serif;
+        }
+
+        .app-nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: #f4f7fb;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .app-nav-brand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #38bdf8 0%, #0284c7 100%);
+            color: #fff;
+            box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
+        }
+        .app-nav-brand-icon svg { width: 18px; height: 18px; }
+        .app-nav-brand-text { font-size: 1rem; }
+
+        .app-nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+        }
+        .app-nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            margin: 0 auto;
+            background: #f4f7fb;
+            border-radius: 2px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        .app-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .app-nav-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            text-decoration: none;
+            color: #c7d4e2;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: background 0.15s, color 0.15s;
+        }
+        .app-nav-links a:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        .app-nav-links a[aria-current="page"] {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: #fff;
+        }
+
+        @media (max-width: 720px) {
+            .app-nav-toggle { display: flex; }
+            .app-nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+                flex-basis: 100%;
+                width: 100%;
+                padding-top: 0.5rem;
+            }
+            .app-nav-links.open { display: flex; }
+            .app-nav-links a {
+                width: 100%;
+                justify-content: flex-start;
+                border-radius: 12px;
+            }
+        }
+    </style>
 </head>
 <body class="hub-page">
 
+    <a href="#deck-grid" class="skip-link">ข้ามไปยังรายการบทเรียน</a>
+
     <div class="bg-layer" aria-hidden="true"></div>
+
+    <nav class="app-nav" aria-label="เมนูหลัก">
+        <a href="../index.html" class="app-nav-brand">
+            <span class="app-nav-brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </span>
+            <span class="app-nav-brand-text">Clinical Video</span>
+        </a>
+        <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="เปิดเมนู">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="app-nav-links" id="appNavLinks">
+            <li><a href="../index.html">หน้าหลัก</a></li>
+            <li><a href="../medquiz/index.html">MedQuiz</a></li>
+            <li><a href="index.html" aria-current="page">Pharmacology Decks</a></li>
+        </ul>
+    </nav>
 
     <main class="hub">
         <header class="hub-header">
@@ -18,40 +170,64 @@
             <p class="hub-tagline">เลือกบทที่ต้องการเรียน — แต่ละบทเป็น deck แยก พร้อม keyboard navigation</p>
         </header>
 
-        <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน">
+        <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน" aria-busy="true">
             <p class="hub-loading">กำลังโหลด...</p>
         </nav>
     </main>
 
     <script>
+        (function initNav() {
+            var toggle = document.getElementById('appNavToggle');
+            var links = document.getElementById('appNavLinks');
+            if (toggle && links) {
+                toggle.addEventListener('click', function () {
+                    var open = links.classList.toggle('open');
+                    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', open ? 'ปิดเมนู' : 'เปิดเมนู');
+                });
+            }
+        })();
+
         (function initHub() {
-            const grid = document.getElementById("deck-grid");
+            var grid = document.getElementById("deck-grid");
+
+            function escapeHtml(value) {
+                return String(value == null ? "" : value)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
 
             fetch("data/manifest.json")
-                .then((r) => {
+                .then(function (r) {
                     if (!r.ok) throw new Error("manifest");
                     return r.json();
                 })
-                .then((manifest) => {
+                .then(function (manifest) {
                     grid.innerHTML = manifest.decks
-                        .map(
-                            (deck) => `
-                        <a class="deck-card" href="deck.html?deck=${deck.id}">
-                            <span class="deck-card-ch">Chapter ${deck.chapter}</span>
-                            <h2 class="deck-card-title">${deck.title}</h2>
-                            <p class="deck-card-summary">${deck.summary}</p>
-                            <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
-                            <span class="deck-card-cta">เปิดสไลด์ →</span>
-                        </a>`
-                        )
+                        .map(function (deck) {
+                            return (
+                                '<a class="deck-card" href="deck.html?deck=' + encodeURIComponent(deck.id) + '">' +
+                                '<span class="deck-card-ch">Chapter ' + escapeHtml(deck.chapter) + '</span>' +
+                                '<h2 class="deck-card-title">' + escapeHtml(deck.title) + '</h2>' +
+                                '<p class="deck-card-summary">' + escapeHtml(deck.summary) + '</p>' +
+                                '<span class="deck-card-meta">' + escapeHtml(deck.sections) + ' หัวข้อ' + (deck.hasImages ? ' · มีรูประกอบ' : '') + '</span>' +
+                                '<span class="deck-card-cta">เปิดสไลด์ →</span>' +
+                                '</a>'
+                            );
+                        })
                         .join("");
+                    grid.setAttribute("aria-busy", "false");
                 })
-                .catch(() => {
-                    grid.innerHTML = `
-                        <div class="deck-card deck-card--error">
-                            <h2 class="deck-card-title">โหลดไม่สำเร็จ</h2>
-                            <p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>
-                        </div>`;
+                .catch(function () {
+                    grid.innerHTML =
+                        '<div class="deck-card deck-card--error">' +
+                        '<h2 class="deck-card-title">โหลดไม่สำเร็จ</h2>' +
+                        '<p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>' +
+                        '</div>';
+                    grid.setAttribute("aria-busy", "false");
                 });
         })();
     </script>
