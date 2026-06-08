@@ -3,13 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Slide — TeachingByProvider</title>
+    <title>Pharmacology Decks — Clinical Video</title>
+    <meta name="description" content="Katzung Pharmacology web slide decks — เลือกบทเรียนเพื่อเริ่มอ่านสไลด์พร้อม keyboard navigation">
     <meta name="theme-color" content="#030000">
     <link rel="stylesheet" href="css/theme.css?v=20260524-figure-contain">
+    <style>
+        /* ===== Cross-app navigation (matches MedQuiz nav pattern) ===== */
+        .app-nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 1.25rem;
+        }
+        .app-nav-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: #f4f1ee;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+        .app-nav-brand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(145deg, #f97362 0%, #dc2626 60%, #991b1b 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+            flex-shrink: 0;
+        }
+        .app-nav-brand-icon svg { width: 18px; height: 18px; }
+        .app-nav-brand-text { font-size: 1.05rem; }
+        .app-nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .app-nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            margin: 0 auto;
+            background: #f4f1ee;
+            border-radius: 2px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .app-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .app-nav-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 0.95rem;
+            border-radius: 999px;
+            text-decoration: none;
+            color: rgba(244, 241, 238, 0.82);
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .app-nav-links a:hover,
+        .app-nav-links a:focus-visible {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            outline: none;
+        }
+        .app-nav-links a[aria-current="page"] {
+            background: rgba(220, 38, 38, 0.22);
+            color: #fff;
+        }
+        .app-nav-links a:focus-visible {
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.5);
+        }
+
+        @media (max-width: 720px) {
+            .app-nav { padding: 0.85rem 1rem; }
+            .app-nav-toggle { display: flex; }
+            .app-nav-links {
+                flex-basis: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.25s ease, opacity 0.2s ease;
+            }
+            .app-nav-links.open {
+                max-height: 320px;
+                opacity: 1;
+                margin-top: 0.5rem;
+            }
+            .app-nav-links a { padding: 0.7rem 0.95rem; }
+        }
+
+        /* ===== Skeleton loading cards ===== */
+        .deck-skeleton {
+            border-radius: 16px;
+            padding: 1.25rem 1.35rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            min-height: 150px;
+        }
+        .deck-skeleton .sk-line {
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.05) 25%,
+                rgba(255, 255, 255, 0.12) 37%,
+                rgba(255, 255, 255, 0.05) 63%
+            );
+            background-size: 400% 100%;
+            animation: skShimmer 1.4s ease infinite;
+            margin-bottom: 0.85rem;
+        }
+        .deck-skeleton .sk-line.sk-sm { width: 35%; }
+        .deck-skeleton .sk-line.sk-lg { width: 80%; height: 18px; }
+        .deck-skeleton .sk-line.sk-md { width: 95%; }
+        .deck-skeleton .sk-line.sk-xs { width: 50%; margin-bottom: 0; }
+        @keyframes skShimmer {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .deck-skeleton .sk-line { animation: none; }
+            .app-nav-links { transition: none; }
+        }
+    </style>
 </head>
 <body class="hub-page">
 
     <div class="bg-layer" aria-hidden="true"></div>
+
+    <nav class="app-nav" aria-label="เมนูหลัก">
+        <a href="../index.html" class="app-nav-brand">
+            <span class="app-nav-brand-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </span>
+            <span class="app-nav-brand-text">Clinical Video</span>
+        </a>
+        <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="เปิดเมนู">
+            <span></span><span></span><span></span>
+        </button>
+        <ul class="app-nav-links" id="appNavLinks">
+            <li><a href="../index.html">หน้าหลัก</a></li>
+            <li><a href="../medquiz/index.html">MedQuiz</a></li>
+            <li><a href="index.html" aria-current="page">Pharmacology Decks</a></li>
+        </ul>
+    </nav>
 
     <main class="hub">
         <header class="hub-header">
@@ -18,40 +185,99 @@
             <p class="hub-tagline">เลือกบทที่ต้องการเรียน — แต่ละบทเป็น deck แยก พร้อม keyboard navigation</p>
         </header>
 
-        <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน">
-            <p class="hub-loading">กำลังโหลด...</p>
+        <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน" aria-busy="true">
+            <div class="deck-skeleton" aria-hidden="true">
+                <div class="sk-line sk-sm"></div>
+                <div class="sk-line sk-lg"></div>
+                <div class="sk-line sk-md"></div>
+                <div class="sk-line sk-xs"></div>
+            </div>
+            <div class="deck-skeleton" aria-hidden="true">
+                <div class="sk-line sk-sm"></div>
+                <div class="sk-line sk-lg"></div>
+                <div class="sk-line sk-md"></div>
+                <div class="sk-line sk-xs"></div>
+            </div>
+            <div class="deck-skeleton" aria-hidden="true">
+                <div class="sk-line sk-sm"></div>
+                <div class="sk-line sk-lg"></div>
+                <div class="sk-line sk-md"></div>
+                <div class="sk-line sk-xs"></div>
+            </div>
+            <p class="sr-only">กำลังโหลดรายการบทเรียน...</p>
         </nav>
     </main>
 
     <script>
+        // Mobile nav toggle
+        (function initNav() {
+            var toggle = document.getElementById("appNavToggle");
+            var links = document.getElementById("appNavLinks");
+            if (toggle && links) {
+                toggle.addEventListener("click", function () {
+                    var open = links.classList.toggle("open");
+                    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+                    toggle.setAttribute("aria-label", open ? "ปิดเมนู" : "เปิดเมนู");
+                });
+            }
+        })();
+
+        // Deck hub loader
         (function initHub() {
-            const grid = document.getElementById("deck-grid");
+            var grid = document.getElementById("deck-grid");
+
+            function escapeHtml(value) {
+                return String(value == null ? "" : value)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
 
             fetch("data/manifest.json")
-                .then((r) => {
+                .then(function (r) {
                     if (!r.ok) throw new Error("manifest");
                     return r.json();
                 })
-                .then((manifest) => {
-                    grid.innerHTML = manifest.decks
-                        .map(
-                            (deck) => `
-                        <a class="deck-card" href="deck.html?deck=${deck.id}">
-                            <span class="deck-card-ch">Chapter ${deck.chapter}</span>
-                            <h2 class="deck-card-title">${deck.title}</h2>
-                            <p class="deck-card-summary">${deck.summary}</p>
-                            <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
-                            <span class="deck-card-cta">เปิดสไลด์ →</span>
-                        </a>`
-                        )
+                .then(function (manifest) {
+                    grid.setAttribute("aria-busy", "false");
+                    var decks = (manifest && manifest.decks) || [];
+                    if (!decks.length) {
+                        grid.innerHTML =
+                            '<div class="deck-card deck-card--error">' +
+                            '<h2 class="deck-card-title">ยังไม่มีบทเรียน</h2>' +
+                            '<p class="deck-card-summary">ขณะนี้ยังไม่มี deck ให้แสดง โปรดกลับมาใหม่ภายหลัง</p>' +
+                            "</div>";
+                        return;
+                    }
+                    grid.innerHTML = decks
+                        .map(function (deck) {
+                            var id = encodeURIComponent(deck.id);
+                            var chapter = escapeHtml(deck.chapter);
+                            var title = escapeHtml(deck.title);
+                            var summary = escapeHtml(deck.summary);
+                            var sections = escapeHtml(deck.sections);
+                            var images = deck.hasImages ? " · มีรูประกอบ" : "";
+                            return (
+                                '<a class="deck-card" href="deck.html?deck=' + id + '">' +
+                                '<span class="deck-card-ch">Chapter ' + chapter + "</span>" +
+                                '<h2 class="deck-card-title">' + title + "</h2>" +
+                                '<p class="deck-card-summary">' + summary + "</p>" +
+                                '<span class="deck-card-meta">' + sections + " หัวข้อ" + images + "</span>" +
+                                '<span class="deck-card-cta">เปิดสไลด์ →</span>' +
+                                "</a>"
+                            );
+                        })
                         .join("");
                 })
-                .catch(() => {
-                    grid.innerHTML = `
-                        <div class="deck-card deck-card--error">
-                            <h2 class="deck-card-title">โหลดไม่สำเร็จ</h2>
-                            <p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>
-                        </div>`;
+                .catch(function () {
+                    grid.setAttribute("aria-busy", "false");
+                    grid.innerHTML =
+                        '<div class="deck-card deck-card--error">' +
+                        '<h2 class="deck-card-title">โหลดไม่สำเร็จ</h2>' +
+                        '<p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>' +
+                        "</div>";
                 });
         })();
     </script>
