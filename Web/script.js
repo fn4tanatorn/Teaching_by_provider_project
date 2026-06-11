@@ -253,6 +253,7 @@ function initClinicalVideoApp() {
     let globalExamDeadlineMs = null;
     let selectedSubject = '';
     let currentWatchVideo = null;
+    let videoSearchQuery = '';
     let loginStuckTimer = null;
 
     const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
@@ -777,6 +778,8 @@ function initClinicalVideoApp() {
     const subjectPillsContainer = document.getElementById('sidebar-subject-pills');
 
     const userVideoGrid = document.getElementById('user-video-grid');
+    const videoSearchInput = document.getElementById('video-search-input');
+    const videoSearchSummary = document.getElementById('video-search-summary');
     const watchNavTitle = document.getElementById('watch-nav-title');
     const watchVideoTitle = document.getElementById('watch-video-title');
     const watchIframe = document.getElementById('watch-iframe');
@@ -1265,10 +1268,23 @@ function initClinicalVideoApp() {
 
     function renderVideos() {
         userVideoGrid.innerHTML = '';
-        const filtered = videos.filter(v => getVideoSubject(v) === selectedSubject);
+        const inSubject = videos.filter(v => getVideoSubject(v) === selectedSubject);
+        const query = videoSearchQuery.trim().toLowerCase();
+        const filtered = query
+            ? inSubject.filter((v) => String(v.title || '').toLowerCase().includes(query))
+            : inSubject;
         const newestIds = [...videos].sort((a, b) => b.id - a.id).slice(0, 2).map(v => v.id);
+        if (videoSearchSummary) {
+            if (query) {
+                videoSearchSummary.textContent = `Showing ${filtered.length} of ${inSubject.length} lessons in ${subjectLabel(selectedSubject)}.`;
+            } else {
+                videoSearchSummary.textContent = `Showing all ${inSubject.length} lessons in ${subjectLabel(selectedSubject)}.`;
+            }
+        }
         if (filtered.length === 0) {
-            userVideoGrid.innerHTML = `<p class="video-empty-msg">ยังไม่มีคลิปในวิชา ${subjectLabel(selectedSubject)}</p>`;
+            userVideoGrid.innerHTML = query
+                ? `<p class="video-empty-msg">ไม่พบคลิปในวิชา ${subjectLabel(selectedSubject)} ที่ตรงกับ "${escapeHtml(videoSearchQuery.trim())}"</p>`
+                : `<p class="video-empty-msg">ยังไม่มีคลิปในวิชา ${subjectLabel(selectedSubject)}</p>`;
         } else {
             filtered.forEach(vid => {
                 const card = document.createElement('div');
@@ -2319,8 +2335,21 @@ function initClinicalVideoApp() {
             const btn = document.createElement('button');
             btn.className = `subject-pill ${selectedSubject === sub ? 'active' : ''}`;
             btn.textContent = formatSubjectName(sub);
-            btn.onclick = () => { selectedSubject = sub; renderSubjectPills(); renderVideos(); };
+            btn.onclick = () => {
+                selectedSubject = sub;
+                videoSearchQuery = '';
+                if (videoSearchInput) videoSearchInput.value = '';
+                renderSubjectPills();
+                renderVideos();
+            };
             subjectPillsContainer.appendChild(btn);
+        });
+    }
+
+    if (videoSearchInput) {
+        videoSearchInput.addEventListener('input', (event) => {
+            videoSearchQuery = event.target.value || '';
+            renderVideos();
         });
     }
 

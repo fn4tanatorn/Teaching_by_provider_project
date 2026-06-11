@@ -799,6 +799,75 @@ input:focus, select:focus, textarea:focus {
 }
 .subject-pill.active::before { background: var(--teal); }
 
+.videos-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.video-feed-toolbar {
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.video-feed-toolbar-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.video-feed-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--heart);
+  font-weight: 700;
+}
+
+.video-search-summary {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.video-search-field {
+  min-width: min(100%, 320px);
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: var(--shadow-1);
+}
+
+.video-search-field:focus-within {
+  border-color: var(--border-focus);
+  box-shadow: var(--shadow-focus);
+}
+
+.video-search-icon {
+  color: var(--heart);
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.video-search-field input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+
+.video-search-field input::placeholder {
+  color: var(--muted-2);
+}
+
 .video-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -1143,6 +1212,8 @@ hr {
   .videos-layout { grid-template-columns: 1fr; }
   .subject-sidebar { position: static; }
   .subject-pill-group { flex-direction: row; flex-wrap: wrap; }
+  .video-feed-toolbar { flex-direction: column; align-items: stretch; }
+  .video-search-field { min-width: 0; }
   .glass-nav { flex-direction: column; align-items: stretch; }
   .nav-actions { justify-content: flex-end; }
 }
