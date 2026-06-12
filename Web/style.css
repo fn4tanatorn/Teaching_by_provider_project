@@ -805,6 +805,43 @@ input:focus, select:focus, textarea:focus {
   gap: 1rem;
 }
 
+.resume-lesson-card {
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-color: rgba(56, 189, 248, 0.28);
+  background:
+    linear-gradient(135deg, rgba(224, 242, 254, 0.9), rgba(255, 255, 255, 0.82)),
+    var(--surface-solid);
+}
+
+.resume-lesson-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.resume-lesson-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-700);
+  font-weight: 700;
+}
+
+.resume-lesson-title {
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.resume-lesson-meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .video-feed-toolbar {
   padding: 1rem 1.1rem;
   display: flex;
@@ -964,6 +1001,7 @@ input:focus, select:focus, textarea:focus {
 }
 @media (max-width: 900px) {
   .content.watch-layout { grid-template-columns: 1fr; }
+  .resume-lesson-card { flex-direction: column; align-items: stretch; }
 }
 .video-player-container {
   width: 100%;
