@@ -133,6 +133,7 @@ function markBetaUsedToday(user) {
 }
 
 const CLINICAL_DRAFT_PREFIX = 'clinical_video_draft_v1:';
+const CLINICAL_LAST_VIDEO_PREFIX = 'clinical_video_last_video_v1:';
 
 /** เก็บฟอร์มลง localStorage ตอน dev (localhost) หรือเมื่อเปิด meta / flag — ไม่เปิดเองบนโดเมนจริง */
 function persistFormsEnabled() {
@@ -355,6 +356,43 @@ function initClinicalVideoApp() {
             '"': '&quot;',
             "'": '&#39;'
         }[char]));
+    }
+
+    function currentUserStorageKey() {
+        if (!currentUser) return '';
+        return String(currentUser.uid || currentUser.id || currentUser.username || '').trim();
+    }
+
+    function lastVideoStorageKey() {
+        const userKey = currentUserStorageKey();
+        return userKey ? CLINICAL_LAST_VIDEO_PREFIX + encodeURIComponent(userKey) : '';
+    }
+
+    function saveLastOpenedVideo(video) {
+        const storageKey = lastVideoStorageKey();
+        if (!storageKey || !video?.id) return;
+        try {
+            localStorage.setItem(storageKey, JSON.stringify({
+                id: video.id,
+                subject: getVideoSubject(video),
+                openedAt: Date.now()
+            }));
+        } catch (_) {
+            /* private mode */
+        }
+    }
+
+    function loadLastOpenedVideo() {
+        const storageKey = lastVideoStorageKey();
+        if (!storageKey) return null;
+        try {
+            const raw = localStorage.getItem(storageKey);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            return parsed && typeof parsed === 'object' ? parsed : null;
+        } catch {
+            return null;
+        }
     }
 
     let clinicalToastTimer = null;
@@ -780,6 +818,10 @@ function initClinicalVideoApp() {
     const userVideoGrid = document.getElementById('user-video-grid');
     const videoSearchInput = document.getElementById('video-search-input');
     const videoSearchSummary = document.getElementById('video-search-summary');
+    const resumeLessonCard = document.getElementById('resume-lesson-card');
+    const resumeLessonTitle = document.getElementById('resume-lesson-title');
+    const resumeLessonMeta = document.getElementById('resume-lesson-meta');
+    const btnResumeLesson = document.getElementById('btn-resume-lesson');
     const watchNavTitle = document.getElementById('watch-nav-title');
     const watchVideoTitle = document.getElementById('watch-video-title');
     const watchIframe = document.getElementById('watch-iframe');
@@ -1253,8 +1295,34 @@ function initClinicalVideoApp() {
         });
     }
 
+    function renderResumeLessonCard() {
+        if (!resumeLessonCard || !resumeLessonTitle || !resumeLessonMeta || !btnResumeLesson) return;
+        const saved = loadLastOpenedVideo();
+        const video = saved && saved.id != null ? videos.find((item) => item.id === saved.id) : null;
+        if (!currentUser || !video) {
+            resumeLessonCard.hidden = true;
+            btnResumeLesson.onclick = null;
+            return;
+        }
+        const openedAt = saved?.openedAt ? new Date(saved.openedAt) : null;
+        const openedAtLabel = openedAt && !Number.isNaN(openedAt.getTime())
+            ? openedAt.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })
+            : '';
+        const videoSubject = getVideoSubject(video);
+        resumeLessonTitle.textContent = video.title || 'Last opened lesson';
+        resumeLessonMeta.textContent = openedAtLabel
+            ? `${subjectLabel(videoSubject)} · Last opened ${openedAtLabel}`
+            : subjectLabel(videoSubject);
+        btnResumeLesson.textContent = selectedSubject && videoSubject !== selectedSubject
+            ? `Continue in ${subjectLabel(videoSubject)}`
+            : 'Continue watching';
+        btnResumeLesson.onclick = () => openVideoWatchPage(video);
+        resumeLessonCard.hidden = false;
+    }
+
     function openVideoWatchPage(video) {
         currentWatchVideo = video;
+        saveLastOpenedVideo(video);
         watchNavTitle.textContent = subjectLabel(getVideoSubject(video));
         watchVideoTitle.textContent = video.title;
         watchIframe.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1`;
@@ -1263,10 +1331,12 @@ function initClinicalVideoApp() {
             saveDraft('video_feedback', null);
         }
         renderVideoComments(video);
+        renderResumeLessonCard();
         navigateTo(pageVideoWatch);
     }
 
     function renderVideos() {
+        renderResumeLessonCard();
         userVideoGrid.innerHTML = '';
         const inSubject = videos.filter(v => getVideoSubject(v) === selectedSubject);
         const query = videoSearchQuery.trim().toLowerCase();
