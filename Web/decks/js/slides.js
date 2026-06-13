@@ -2,6 +2,7 @@
  * Web-Slide core
  */
 (function initSlideSystem() {
+    const PROGRESS_KEY_PREFIX = "tbp.deckProgress.";
     let currentIndex = 0;
     let slides = [];
     let slideIds = [];
@@ -10,6 +11,82 @@
     let counterEl = null;
     let sectionObserver = null;
     let slideObserver = null;
+    const deckId = new URLSearchParams(window.location.search).get("deck") || "";
+
+    function getProgressKey() {
+        return deckId ? `${PROGRESS_KEY_PREFIX}${deckId}` : "";
+    }
+
+    function readProgress() {
+        const key = getProgressKey();
+        if (!key) return null;
+
+        try {
+            const raw = localStorage.getItem(key);
+            if (!raw) return null;
+            return JSON.parse(raw);
+        } catch {
+            return null;
+        }
+    }
+
+    function saveProgress(index) {
+        const key = getProgressKey();
+        if (!key || !slides.length) return;
+
+        const safeIndex = Math.max(0, Math.min(index, slides.length - 1));
+        const slide = slides[safeIndex];
+        if (!slide) return;
+
+        try {
+            localStorage.setItem(
+                key,
+                JSON.stringify({
+                    deckId,
+                    slideId: slide.dataset.slideId,
+                    sectionId: getSectionId(slide),
+                    index: safeIndex,
+                    totalSlides: slides.length,
+                    updatedAt: new Date().toISOString(),
+                })
+            );
+        } catch {
+            // Ignore localStorage failures so deck navigation still works.
+        }
+    }
+
+    function resolveInitialIndex() {
+        if (!slides.length) return 0;
+
+        const params = new URLSearchParams(window.location.search);
+        const requestedSlide = params.get("slide");
+        if (requestedSlide) {
+            const requestedIndex = getIndexById(requestedSlide);
+            if (requestedIndex >= 0) return requestedIndex;
+        }
+
+        if (params.get("resume") !== "1") return 0;
+
+        const progress = readProgress();
+        if (!progress) return 0;
+
+        const savedIndex = Number(progress.index);
+        if (Number.isInteger(savedIndex) && savedIndex >= 0 && savedIndex < slides.length) {
+            return savedIndex;
+        }
+
+        if (progress.slideId) {
+            const bySlideId = slideIds.indexOf(progress.slideId);
+            if (bySlideId >= 0) return bySlideId;
+        }
+
+        if (progress.sectionId) {
+            const bySectionId = getIndexById(progress.sectionId);
+            if (bySectionId >= 0) return bySectionId;
+        }
+
+        return 0;
+    }
 
     function getSectionId(slide) {
         return slide.dataset.sectionId || slide.dataset.slideId;
@@ -25,7 +102,8 @@
         return getSectionId(slide);
     }
 
-    function updateUI(index) {
+    function updateUI(index, options = {}) {
+        const { persist = true } = options;
         currentIndex = index;
         const activeSection = navTargetForSlide(slides[index]);
 
@@ -41,6 +119,10 @@
         }
 
         updatePagePhase();
+
+        if (persist) {
+            saveProgress(index);
+        }
     }
 
     function goToSlide(index, behavior) {
@@ -144,8 +226,16 @@
         );
         slides.forEach((slide) => slideObserver.observe(slide));
 
+        const initialIndex = resolveInitialIndex();
+
         updatePagePhase();
-        updateUI(0);
+        updateUI(initialIndex, { persist: false });
+
+        if (initialIndex > 0) {
+            slides[initialIndex].scrollIntoView({ behavior: "auto", block: "start" });
+        }
+
+        saveProgress(initialIndex);
     }
 
     window.addEventListener("scroll", updatePagePhase, { passive: true });

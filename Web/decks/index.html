@@ -215,6 +215,17 @@
 
         (function initHub() {
             const grid = document.getElementById("deck-grid");
+            const PROGRESS_KEY_PREFIX = "tbp.deckProgress.";
+
+            function readDeckProgress(deckId) {
+                try {
+                    const raw = localStorage.getItem(`${PROGRESS_KEY_PREFIX}${deckId}`);
+                    if (!raw) return null;
+                    return JSON.parse(raw);
+                } catch {
+                    return null;
+                }
+            }
 
             fetch("data/manifest.json")
                 .then((r) => {
@@ -223,16 +234,32 @@
                 })
                 .then((manifest) => {
                     grid.innerHTML = manifest.decks
-                        .map(
-                            (deck) => `
-                        <a class="deck-card" href="deck.html?deck=${deck.id}">
+                        .map((deck) => {
+                            const progress = readDeckProgress(deck.id);
+                            const hasProgress =
+                                progress &&
+                                Number.isInteger(progress.index) &&
+                                progress.index > 0 &&
+                                Number.isInteger(progress.totalSlides) &&
+                                progress.totalSlides > 0;
+                            const href = hasProgress
+                                ? `deck.html?deck=${deck.id}&resume=1`
+                                : `deck.html?deck=${deck.id}`;
+                            const progressHtml = hasProgress
+                                ? `<span class="deck-card-progress">เรียนถึงสไลด์ ${progress.index + 1}/${progress.totalSlides}</span>`
+                                : "";
+                            const cta = hasProgress ? "เรียนต่อ →" : "เปิดสไลด์ →";
+
+                            return `
+                        <a class="deck-card${hasProgress ? " deck-card--resume" : ""}" href="${href}">
                             <span class="deck-card-ch">Chapter ${deck.chapter}</span>
                             <h2 class="deck-card-title">${deck.title}</h2>
                             <p class="deck-card-summary">${deck.summary}</p>
                             <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
-                            <span class="deck-card-cta">เปิดสไลด์ →</span>
-                        </a>`
-                        )
+                            ${progressHtml}
+                            <span class="deck-card-cta">${cta}</span>
+                        </a>`;
+                        })
                         .join("");
                 })
                 .catch(() => {
