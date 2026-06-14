@@ -216,7 +216,7 @@ function initClinicalVideoApp() {
         tip.setAttribute('role', 'alert');
         tip.lang = 'th';
         tip.style.cssText =
-            'position:fixed;top:0;left:0;right:0;z-index:99998;padding:12px 16px;background:#075985;color:#fff;font-size:14px;text-align:center;line-height:1.45;font-family:system-ui,sans-serif;';
+            'position:fixed;top:0;left:0;right:0;z-index:99998;padding:12px 16px;background:#064e3b;color:#fff;font-size:14px;text-align:center;line-height:1.45;font-family:system-ui,sans-serif;';
         tip.innerHTML =
             '<strong>ยังไม่ได้ตั้งค่า Supabase</strong> — ใส่ค่าใน <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">js/supabase-config.js</code> ' +
             'หรือใน <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">index.html</code> (meta <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">clinical-supabase-url</code> / ' +
@@ -713,9 +713,11 @@ function initClinicalVideoApp() {
     function renderStreaks() {
         if (!currentUser) return;
         const videoBadge = document.getElementById("badge-video-streak");
-        if (videoBadge) videoBadge.textContent = `📺 Progress: ${currentUser.videoStreak || 0}`;
+        if (videoBadge) videoBadge.textContent = `Progress · ${currentUser.videoStreak || 0}d`;
         const checkinBadge = document.getElementById("badge-checkin-streak");
-        if (checkinBadge) checkinBadge.textContent = `🔥 Continue: ${currentUser.checkinStreak || 0}`;
+        if (checkinBadge) checkinBadge.textContent = `Continue · ${currentUser.checkinStreak || 0}d`;
+        if (homeCheckinStreak) homeCheckinStreak.textContent = `${currentUser.checkinStreak || 0}d`;
+        if (homeVideoStreak) homeVideoStreak.textContent = `${currentUser.videoStreak || 0}d`;
     }
 
     function extractVideoId(raw) {
@@ -775,6 +777,7 @@ function initClinicalVideoApp() {
     const pageWelcome = document.getElementById('page-welcome');
     const pageRegister = document.getElementById('page-register');
     const pageLogin = document.getElementById('page-login');
+    const pageHome = document.getElementById('page-home');
     const pageVideos = document.getElementById('page-videos');
     const pageVideoWatch = document.getElementById('page-video-watch');
     const pageQuiz = document.getElementById('page-quiz');
@@ -816,6 +819,18 @@ function initClinicalVideoApp() {
 
     const subjectPillsContainer = document.getElementById('sidebar-subject-pills');
 
+    const homeGreeting = document.getElementById('home-greeting');
+    const homePrimaryTitle = document.getElementById('home-primary-title');
+    const homePrimaryCopy = document.getElementById('home-primary-copy');
+    const homePrimaryAction = document.getElementById('home-primary-action');
+    const homeCheckinStreak = document.getElementById('home-checkin-streak');
+    const homeVideoStreak = document.getElementById('home-video-streak');
+    const homeLastLessonTitle = document.getElementById('home-last-lesson-title');
+    const homeLastLessonMeta = document.getElementById('home-last-lesson-meta');
+    const homeResumeLesson = document.getElementById('home-resume-lesson');
+    const homeCheckinTitle = document.getElementById('home-checkin-title');
+    const homeCheckinCopy = document.getElementById('home-checkin-copy');
+
     const userVideoGrid = document.getElementById('user-video-grid');
     const videoSearchInput = document.getElementById('video-search-input');
     const videoSearchSummary = document.getElementById('video-search-summary');
@@ -844,6 +859,7 @@ function initClinicalVideoApp() {
     const countdownTimerQuiz = document.getElementById('countdown-timer-quiz');
     const adminVideoList = document.getElementById('admin-video-list');
     const countdownTimer = document.getElementById('countdown-timer');
+    const countdownTimerHome = document.getElementById('countdown-timer-home');
     const examDetailsModal = document.getElementById('exam-details-modal');
     const examDetailsNote = document.getElementById('exam-details-note');
     const btnCloseExamDetails = document.getElementById('btn-close-exam-details');
@@ -1308,13 +1324,81 @@ function initClinicalVideoApp() {
         });
     }
 
-    function renderResumeLessonCard() {
-        if (!resumeLessonCard || !resumeLessonTitle || !resumeLessonMeta || !btnResumeLesson) return;
+    function getSavedLastVideo() {
         const saved = loadLastOpenedVideo();
         const video = saved && saved.id != null ? videos.find((item) => item.id === saved.id) : null;
+        return { saved, video };
+    }
+
+    function renderLearningHome() {
+        if (!homePrimaryTitle || !homePrimaryCopy || !homePrimaryAction) return;
+        const { saved, video } = getSavedLastVideo();
+        const today = getTodayYMD();
+        const checkedInToday = currentUser && currentUser.lastCheckinDate === today;
+        const displayName = currentUser?.username ? String(currentUser.username).trim() : '';
+
+        if (homeGreeting) {
+            homeGreeting.textContent = displayName ? `Welcome back, ${displayName}` : 'Learning home';
+        }
+        if (homeCheckinStreak) homeCheckinStreak.textContent = `${currentUser?.checkinStreak || 0}d`;
+        if (homeVideoStreak) homeVideoStreak.textContent = `${currentUser?.videoStreak || 0}d`;
+
+        if (video) {
+            const openedAt = saved?.openedAt ? new Date(saved.openedAt) : null;
+            const openedAtLabel = openedAt && !Number.isNaN(openedAt.getTime())
+                ? openedAt.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })
+                : '';
+            const meta = openedAtLabel
+                ? `${subjectLabel(getVideoSubject(video))} · Last opened ${openedAtLabel}`
+                : subjectLabel(getVideoSubject(video));
+            if (homeLastLessonTitle) homeLastLessonTitle.textContent = video.title || 'Last opened lesson';
+            if (homeLastLessonMeta) homeLastLessonMeta.textContent = meta;
+            if (homeResumeLesson) {
+                homeResumeLesson.disabled = false;
+                homeResumeLesson.textContent = 'Resume lesson';
+                homeResumeLesson.onclick = () => openVideoWatchPage(video);
+            }
+        } else {
+            if (homeLastLessonTitle) homeLastLessonTitle.textContent = 'No recent lesson yet';
+            if (homeLastLessonMeta) homeLastLessonMeta.textContent = 'Open any video lesson and it will appear here.';
+            if (homeResumeLesson) {
+                homeResumeLesson.disabled = true;
+                homeResumeLesson.onclick = null;
+            }
+        }
+
+        if (homeCheckinTitle && homeCheckinCopy) {
+            homeCheckinTitle.textContent = checkedInToday ? 'Check-in complete' : 'Daily check-in';
+            homeCheckinCopy.textContent = checkedInToday
+                ? 'Your daily answer is recorded. Keep moving into lessons or review practice.'
+                : 'Answer today\'s question to keep your learning cadence visible.';
+        }
+
+        if (video) {
+            homePrimaryTitle.textContent = 'Continue lesson';
+            homePrimaryCopy.textContent = `Resume ${video.title || 'your last lesson'} before switching tools.`;
+            homePrimaryAction.textContent = 'Resume lesson';
+            homePrimaryAction.onclick = () => openVideoWatchPage(video);
+        } else if (!checkedInToday) {
+            homePrimaryTitle.textContent = 'Start today';
+            homePrimaryCopy.textContent = 'Begin with the daily check-in, then move into the lesson feed.';
+            homePrimaryAction.textContent = 'Open check-in';
+            homePrimaryAction.onclick = () => navigateTo(pageQuiz);
+        } else {
+            homePrimaryTitle.textContent = 'Browse lessons';
+            homePrimaryCopy.textContent = 'Your check-in is done. Choose a subject and continue studying.';
+            homePrimaryAction.textContent = 'Open videos';
+            homePrimaryAction.onclick = () => navigateTo(pageVideos);
+        }
+    }
+
+    function renderResumeLessonCard() {
+        if (!resumeLessonCard || !resumeLessonTitle || !resumeLessonMeta || !btnResumeLesson) return;
+        const { saved, video } = getSavedLastVideo();
         if (!currentUser || !video) {
             resumeLessonCard.hidden = true;
             btnResumeLesson.onclick = null;
+            renderLearningHome();
             return;
         }
         const openedAt = saved?.openedAt ? new Date(saved.openedAt) : null;
@@ -1331,6 +1415,7 @@ function initClinicalVideoApp() {
             : 'Continue watching';
         btnResumeLesson.onclick = () => openVideoWatchPage(video);
         resumeLessonCard.hidden = false;
+        renderLearningHome();
     }
 
     function openVideoWatchPage(video) {
@@ -1679,7 +1764,8 @@ function initClinicalVideoApp() {
             document.getElementById('checkin-ok-view').style.display = 'flex';
 
             btn.disabled = false; btn.textContent = 'Submit answer';
-            updateCheckinStreak();
+            await updateCheckinStreak();
+            renderLearningHome();
 
             const cycleStart = checkinTwoWeekStart(today);
             const cycleEnd = checkinAddDays(cycleStart, 13);
@@ -1904,13 +1990,32 @@ function initClinicalVideoApp() {
         });
     }
 
+    function setActiveShellNav(pageElement) {
+        const targetByPage = new Map([
+            [pageHome, 'home'],
+            [pageVideos, 'videos'],
+            [pageQuiz, 'checkin'],
+            [pageStats, 'stats']
+        ]);
+        const activeTarget = targetByPage.get(pageElement) || '';
+        document.querySelectorAll('.shell-nav-link').forEach((link) => {
+            if (link.getAttribute('data-nav-target') === activeTarget) {
+                link.setAttribute('aria-current', 'page');
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    }
+
     function navigateTo(pageElement) {
         if (!pageElement) return;
         if (pageElement !== pageLogin) {
             clearTimeout(loginStuckTimer);
             setLoginLoading(false);
         }
+        if (pageElement === pageHome) renderLearningHome();
         updateAdminButtonVisibility(pageElement);
+        setActiveShellNav(pageElement);
         document.querySelectorAll('.page').forEach(p => {
             const isActive = p === pageElement;
             p.style.display = isActive ? 'block' : 'none';
@@ -1952,7 +2057,7 @@ function initClinicalVideoApp() {
         window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    /** After member login from welcome/login/register: daily check-in first if not done today, else video list. */
+    /** After member login from welcome/login/register: land on Home unless the URL explicitly asks for videos. */
     async function routeStudentAfterLoginFromGate() {
         if (!currentUser || currentUser.isAdmin) return;
         if (wantsVideoFeedRoute()) {
@@ -1964,10 +2069,12 @@ function initClinicalVideoApp() {
             const key = nameKey(currentUser.username);
             const rows = await withTimeout(ds.queryResponsesByNameKey(key), 8000);
             const doneToday = rows.some(r => r.date === today);
-            navigateTo(doneToday ? pageVideos : pageQuiz);
+            if (doneToday) currentUser.lastCheckinDate = today;
+            renderLearningHome();
+            navigateTo(pageHome);
         } catch (e) {
             console.error(e);
-            navigateTo(pageVideos);
+            navigateTo(pageHome);
         }
     }
 
@@ -2241,7 +2348,7 @@ function initClinicalVideoApp() {
     });
 
     function setAllCountdownLabels(html) {
-        [countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach(el => { if (el) el.innerHTML = html; });
+        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach(el => { if (el) el.innerHTML = html; });
     }
 
     function formatDatetimeLocal(ms) {
@@ -2372,7 +2479,7 @@ function initClinicalVideoApp() {
         examDetailsModal.setAttribute('aria-hidden', 'true');
     }
 
-    [countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach((el) => {
+    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach((el) => {
         if (el) el.addEventListener('click', openExamDetailsModal);
     });
     if (btnCloseExamDetails) btnCloseExamDetails.addEventListener('click', closeExamDetailsModal);
@@ -2388,6 +2495,81 @@ function initClinicalVideoApp() {
     });
 
     const btnCheckin = document.getElementById('btn-checkin');
+    function openSheets() {
+        window.location.href = resolveAppUrl('sheets/index.html');
+    }
+
+    function openDecks() {
+        if (!currentUser) {
+            showToast('กรุณาเข้าสู่ระบบก่อนเปิด Pharma Decks', 'error');
+            return;
+        }
+        window.location.href = getDecksUrl();
+    }
+
+    function openMedQuiz() {
+        if (!currentUser) {
+            showToast('กรุณาเข้าสู่ระบบก่อนใช้ Beta function', 'error');
+            return;
+        }
+        if (!isBetaDailyExemptUser(currentUser) && hasUsedBetaToday(currentUser)) {
+            showToast('Beta function ใช้ได้วันละ 1 ครั้ง — พรุ่งนี้ลองใหม่', 'info');
+            return;
+        }
+        const url = getBetaFunctionUrl();
+        if (!url) {
+            showToast(
+                'MedQuiz path is not configured. Set meta clinical-beta-url in index.html.',
+                'error'
+            );
+            return;
+        }
+        if (!isBetaDailyExemptUser(currentUser)) markBetaUsedToday(currentUser);
+        window.location.href = url;
+    }
+
+    function signOutCurrentUser() {
+        if (currentUser && currentUser.localMember) {
+            localMemberClearSession();
+            currentUser = null;
+            showToast('ออกจากระบบแล้ว', 'info');
+            navigateTo(pageWelcome);
+            return;
+        }
+        ds.authSignOut().then(() => {
+            showToast('ออกจากระบบแล้ว', 'info');
+            navigateTo(pageWelcome);
+        });
+    }
+
+    function handleLearningNavigation(target) {
+        if (target === 'home') navigateTo(pageHome);
+        else if (target === 'videos') navigateTo(pageVideos);
+        else if (target === 'checkin') navigateTo(pageQuiz);
+        else if (target === 'stats') { renderStats(); navigateTo(pageStats); }
+        else if (target === 'sheets') openSheets();
+        else if (target === 'decks') openDecks();
+        else if (target === 'medquiz') openMedQuiz();
+    }
+
+    document.querySelectorAll('[data-nav-target]').forEach((el) => {
+        el.addEventListener('click', (event) => {
+            const target = el.getAttribute('data-nav-target');
+            if (!target) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            handleLearningNavigation(target);
+        });
+    });
+
+    document.querySelectorAll('[data-action="logout"]').forEach((el) => {
+        el.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            signOutCurrentUser();
+        });
+    });
+
     if (btnCheckin) btnCheckin.addEventListener('click', () => navigateTo(pageQuiz));
 
     const btnCheckinSubmit = document.getElementById('btn-checkin-submit');
@@ -2414,42 +2596,9 @@ function initClinicalVideoApp() {
     }
 
     btnStats.addEventListener('click', () => { renderStats(); navigateTo(pageStats); });
-    if (btnSheets) {
-        btnSheets.addEventListener('click', () => {
-            window.location.href = resolveAppUrl('sheets/index.html');
-        });
-    }
-    if (btnDecks) {
-        btnDecks.addEventListener('click', () => {
-            if (!currentUser) {
-                showToast('กรุณาเข้าสู่ระบบก่อนเปิด Pharma Decks', 'error');
-                return;
-            }
-            window.location.href = getDecksUrl();
-        });
-    }
-    if (btnBeta) {
-        btnBeta.addEventListener('click', () => {
-            if (!currentUser) {
-                showToast('กรุณาเข้าสู่ระบบก่อนใช้ Beta function', 'error');
-                return;
-            }
-            if (!isBetaDailyExemptUser(currentUser) && hasUsedBetaToday(currentUser)) {
-                showToast('Beta function ใช้ได้วันละ 1 ครั้ง — พรุ่งนี้ลองใหม่', 'info');
-                return;
-            }
-            const url = getBetaFunctionUrl();
-            if (!url) {
-                showToast(
-                    'MedQuiz path is not configured. Set meta clinical-beta-url in index.html.',
-                    'error'
-                );
-                return;
-            }
-            if (!isBetaDailyExemptUser(currentUser)) markBetaUsedToday(currentUser);
-            window.location.href = url;
-        });
-    }
+    if (btnSheets) btnSheets.addEventListener('click', openSheets);
+    if (btnDecks) btnDecks.addEventListener('click', openDecks);
+    if (btnBeta) btnBeta.addEventListener('click', openMedQuiz);
     btnBack.addEventListener('click', () => navigateTo(pageVideos));
 
     function renderSubjectPills() {
@@ -2656,19 +2805,7 @@ function initClinicalVideoApp() {
         }
     });
 
-    btnLogout.addEventListener('click', () => {
-        if (currentUser && currentUser.localMember) {
-            localMemberClearSession();
-            currentUser = null;
-            showToast('ออกจากระบบแล้ว', 'info');
-            navigateTo(pageWelcome);
-            return;
-        }
-        ds.authSignOut().then(() => {
-            showToast('ออกจากระบบแล้ว', 'info');
-            navigateTo(pageWelcome);
-        });
-    });
+    if (btnLogout) btnLogout.addEventListener('click', signOutCurrentUser);
     btnAdminLogout.addEventListener('click', () => {
         try {
             if (typeof sessionStorage !== 'undefined') {

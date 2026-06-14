@@ -147,54 +147,159 @@
             </div>
         </section>
 
-        <!-- Page 2: Videos -->
-        <section id="page-videos" class="page" data-screen-label="Videos">
-            <nav class="glass-nav glass">
-                <div class="nav-brand">
-                    <div class="logo-icon-small brand-icon brand-icon--sm" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <!-- Page 2: Learning Home -->
+        <section id="page-home" class="page page-learning" data-screen-label="Home">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Video</strong>
+                            <span>Learning OS</span>
+                        </div>
                     </div>
-                    <h2>Video feed</h2>
-                </div>
-                <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
-                    <div id="badge-checkin-streak" class="countdown-badge" style="color: var(--ok); border-color: var(--ok-soft); background: var(--ok-soft);" title="Continue: consecutive check-in days (resets when you miss a day)">Continue · 0d</div>
-                    <div id="badge-video-streak" class="countdown-badge" style="color: var(--info); border-color: var(--info-soft); background: var(--info-soft);" title="Progress: consecutive video days">Progress · 0d</div>
-                    <button id="countdown-timer" type="button" class="countdown-badge countdown-badge--button">⏳ EXAM coming in: --:--:--</button>
-                    <button id="btn-checkin" class="btn outline-btn btn-compact">Daily Check-in</button>
-                    <button id="btn-stats" class="btn outline-btn btn-compact">Statistics</button>
-                    <button id="btn-sheets" type="button" class="btn outline-btn btn-compact">Sheets</button>
-                    <button id="btn-decks" type="button" class="btn outline-btn btn-compact">Pharma Decks</button>
-                    <button id="btn-beta" type="button" class="btn btn-beta btn-compact">MedQuiz</button>
-                    <button id="btn-logout" class="btn text-btn btn-compact">Log out</button>
-                </div>
-            </nav>
-            <div class="content videos-layout">
-                <aside class="subject-sidebar glass-card" aria-label="Subjects">
-                    <p class="subject-sidebar-title">Subjects</p>
-                    <div class="subject-pill-group" id="sidebar-subject-pills" role="tablist">
-                        <!-- Populated via JS -->
-                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home" aria-current="page">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats">Statistics</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
                 </aside>
-                <div class="videos-main">
-                    <section id="resume-lesson-card" class="resume-lesson-card glass-card" hidden aria-live="polite">
-                        <div class="resume-lesson-copy">
-                            <p class="resume-lesson-label">Resume lesson</p>
-                            <h3 id="resume-lesson-title" class="resume-lesson-title">Last opened lesson</h3>
-                            <p id="resume-lesson-meta" class="resume-lesson-meta"></p>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Today</p>
+                            <h2 id="home-greeting">Learning home</h2>
                         </div>
-                        <button id="btn-resume-lesson" type="button" class="btn primary-btn">Continue watching</button>
-                    </section>
-                    <div class="video-feed-toolbar glass-card" aria-label="Video tools">
-                        <div class="video-feed-toolbar-copy">
-                            <p class="video-feed-label">Lesson finder</p>
-                            <p id="video-search-summary" class="video-search-summary">Browse all lessons in this subject.</p>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-home" type="button" class="countdown-badge countdown-badge--button">EXAM: --</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
-                        <label class="video-search-field" for="video-search-input">
-                            <span class="video-search-icon" aria-hidden="true">⌕</span>
-                            <input id="video-search-input" type="search" placeholder="Search lesson title in this subject">
-                        </label>
+                    </header>
+
+                    <div class="home-grid">
+                        <section class="home-hero-card">
+                            <p class="learning-kicker">Next action</p>
+                            <h1 id="home-primary-title">Continue learning</h1>
+                            <p id="home-primary-copy">Pick up where you left off, or start today's check-in before moving into lessons.</p>
+                            <div class="home-primary-actions">
+                                <button id="home-primary-action" type="button" class="btn primary-btn">Continue</button>
+                                <button type="button" class="btn outline-btn" data-nav-target="videos">Browse videos</button>
+                            </div>
+                        </section>
+
+                        <section class="home-progress-panel glass-card" aria-label="Progress">
+                            <div class="home-progress-item">
+                                <span>Check-in streak</span>
+                                <strong id="home-checkin-streak">0d</strong>
+                            </div>
+                            <div class="home-progress-item">
+                                <span>Video progress</span>
+                                <strong id="home-video-streak">0d</strong>
+                            </div>
+                        </section>
+
+                        <section id="home-last-lesson-card" class="home-card home-card--wide glass-card" aria-live="polite">
+                            <p class="learning-kicker">Continue lesson</p>
+                            <h3 id="home-last-lesson-title">No recent lesson yet</h3>
+                            <p id="home-last-lesson-meta">Open any video lesson and it will appear here.</p>
+                            <button id="home-resume-lesson" type="button" class="btn outline-btn btn-compact" disabled>Resume lesson</button>
+                        </section>
+
+                        <section class="home-card glass-card">
+                            <p class="learning-kicker">Daily rhythm</p>
+                            <h3 id="home-checkin-title">Daily check-in</h3>
+                            <p id="home-checkin-copy">Answer today's question to keep your learning cadence visible.</p>
+                            <button type="button" class="btn outline-btn btn-compact" data-nav-target="checkin">Open check-in</button>
+                        </section>
+
+                        <section class="home-tools glass-card" aria-label="Learning tools">
+                            <div class="home-tools-head">
+                                <p class="learning-kicker">Tools</p>
+                                <h3>Study workspace</h3>
+                            </div>
+                            <div class="home-tool-grid">
+                                <button type="button" class="home-tool" data-nav-target="videos"><strong>Videos</strong><span>Subject lessons</span></button>
+                                <button type="button" class="home-tool" data-nav-target="medquiz"><strong>MedQuiz</strong><span>Daily practice</span></button>
+                                <button type="button" class="home-tool" data-nav-target="sheets"><strong>Sheets</strong><span>PDF reader</span></button>
+                                <button type="button" class="home-tool" data-nav-target="decks"><strong>Pharma Decks</strong><span>Katzung slides</span></button>
+                            </div>
+                        </section>
                     </div>
-                    <div class="video-grid" id="user-video-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 3: Videos -->
+        <section id="page-videos" class="page page-learning" data-screen-label="Videos">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Video</strong>
+                            <span>Learning OS</span>
+                        </div>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos" aria-current="page">Videos</button>
+                        <button id="btn-checkin" type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button id="btn-stats" type="button" class="shell-nav-link" data-nav-target="stats">Statistics</button>
+                        <button id="btn-sheets" type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button id="btn-decks" type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button id="btn-beta" type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Videos</p>
+                            <h2>Video feed</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <div id="badge-checkin-streak" class="countdown-badge" title="Continue: consecutive check-in days">Continue · 0d</div>
+                            <div id="badge-video-streak" class="countdown-badge" title="Progress: consecutive video days">Progress · 0d</div>
+                            <button id="countdown-timer" type="button" class="countdown-badge countdown-badge--button">EXAM: --</button>
+                            <button id="btn-logout" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content videos-layout">
+                        <aside class="subject-sidebar glass-card" aria-label="Subjects">
+                            <p class="subject-sidebar-title">Subjects</p>
+                            <div class="subject-pill-group" id="sidebar-subject-pills" role="tablist">
+                                <!-- Populated via JS -->
+                            </div>
+                        </aside>
+                        <div class="videos-main">
+                            <section id="resume-lesson-card" class="resume-lesson-card glass-card" hidden aria-live="polite">
+                                <div class="resume-lesson-copy">
+                                    <p class="resume-lesson-label">Resume lesson</p>
+                                    <h3 id="resume-lesson-title" class="resume-lesson-title">Last opened lesson</h3>
+                                    <p id="resume-lesson-meta" class="resume-lesson-meta"></p>
+                                </div>
+                                <button id="btn-resume-lesson" type="button" class="btn primary-btn">Continue watching</button>
+                            </section>
+                            <div class="video-feed-toolbar glass-card" aria-label="Video tools">
+                                <div class="video-feed-toolbar-copy">
+                                    <p class="video-feed-label">Lesson finder</p>
+                                    <p id="video-search-summary" class="video-search-summary">Browse all lessons in this subject.</p>
+                                </div>
+                                <label class="video-search-field" for="video-search-input">
+                                    <span class="video-search-icon" aria-hidden="true">⌕</span>
+                                    <input id="video-search-input" type="search" placeholder="Search lesson title in this subject">
+                                </label>
+                            </div>
+                            <div class="video-grid" id="user-video-grid"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

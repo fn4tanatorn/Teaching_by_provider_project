@@ -1,17 +1,17 @@
 :root {
-  --bg: #eef8ff;
+  --bg: #f3faf6;
   --surface: rgba(255, 255, 255, 0.78);
   --surface-solid: #fff;
   --border: rgba(255, 255, 255, 0.86);
   --border-soft: rgba(16, 32, 51, 0.08);
   --text: #102033;
-  --muted: #6b8394;
-  --heart: #38bdf8;
-  --heart-soft: #e0f2fe;
-  --heart-glow: rgba(56, 189, 248, 0.24);
+  --muted: #71877d;
+  --heart: #10b981;
+  --heart-soft: #dff8ec;
+  --heart-glow: rgba(16, 185, 129, 0.24);
   --radius: 18px;
   --font: "Sarabun", "Segoe UI", system-ui, sans-serif;
-  --shadow: 0 12px 40px rgba(56, 189, 248, 0.14);
+  --shadow: 0 12px 40px rgba(16, 185, 129, 0.14);
 }
 
 *,
@@ -43,9 +43,9 @@ a {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(125, 211, 252, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 45% at 85% 75%, rgba(56, 189, 248, 0.14) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(224, 242, 254, 0.5) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(110, 231, 183, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 85% 75%, rgba(16, 185, 129, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(209, 250, 229, 0.5) 0%, transparent 60%);
 }
 
 .top-nav,
@@ -84,7 +84,7 @@ a {
   align-items: center;
   justify-content: center;
   color: #fff;
-  background: linear-gradient(145deg, #bae6fd 0%, var(--heart) 55%, #0284c7 100%);
+  background: linear-gradient(145deg, #a7f3d0 0%, var(--heart) 55%, #047857 100%);
   border-radius: 11px;
   box-shadow: 0 6px 20px var(--heart-glow);
 }
@@ -132,9 +132,9 @@ a {
 }
 
 .upload-btn {
-  background: linear-gradient(135deg, #7dd3fc 0%, var(--heart) 50%, #0284c7 100%);
+  background: linear-gradient(135deg, #6ee7b7 0%, var(--heart) 50%, #047857 100%);
   color: #fff;
-  border-color: rgba(2, 132, 199, 0.48);
+  border-color: rgba(4, 120, 87, 0.48);
   box-shadow: 0 4px 14px var(--heart-glow);
 }
 
@@ -233,7 +233,7 @@ h1 {
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
   background: var(--heart-soft);
-  color: #0284c7;
+  color: #047857;
   font-weight: 800;
 }
 
@@ -297,7 +297,7 @@ h1 {
 }
 
 .sheet-item.active {
-  border-color: rgba(56, 189, 248, 0.6);
+  border-color: rgba(16, 185, 129, 0.6);
   background: var(--heart-soft);
 }
 
@@ -394,7 +394,7 @@ body.pdf-active #pdfFrame {
   display: grid;
   place-items: center;
   border-radius: 20px;
-  background: linear-gradient(145deg, #bae6fd 0%, var(--heart) 55%, #0284c7 100%);
+  background: linear-gradient(145deg, #a7f3d0 0%, var(--heart) 55%, #047857 100%);
   color: #fff;
   font-weight: 800;
   box-shadow: 0 10px 28px var(--heart-glow);
