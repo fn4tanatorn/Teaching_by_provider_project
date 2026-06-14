@@ -228,16 +228,26 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
 
         /**
          * Subscribe to video_library + admin_settings + profiles changes.
-         * Callback: ({ videos, allowedNames, subjects, examDeadlineMs, profileRows }) => void
+         * Callback: ({ videos, allowedNames, subjects, examDeadlineMs, examNote, profileRows }) => void
          */
         subscribeDataBundle(onChange, { seedVideosIfEmpty }) {
             const push = async () => {
-                const [{ data: vrow, error: ve }, { data: arow, error: ae }, { data: prows, error: pe }] =
+                const [{ data: vrow, error: ve }, adminResult, { data: prows, error: pe }] =
                     await Promise.all([
                         supabase.from('video_library').select('videos').eq('id', 1).single(),
-                        supabase.from('admin_settings').select('allowed_names, subjects, exam_deadline_ms').eq('id', 1).single(),
+                        supabase.from('admin_settings').select('allowed_names, subjects, exam_deadline_ms, exam_note').eq('id', 1).single(),
                         supabase.from('profiles').select('*')
                     ]);
+                let { data: arow, error: ae } = adminResult;
+                if (ae && String(ae.message || '').includes('exam_note')) {
+                    const fallback = await supabase
+                        .from('admin_settings')
+                        .select('allowed_names, subjects, exam_deadline_ms')
+                        .eq('id', 1)
+                        .single();
+                    arow = fallback.data;
+                    ae = fallback.error;
+                }
                 if (ve) console.error(ve);
                 if (ae) console.error(ae);
                 if (pe) console.error(pe);
@@ -259,6 +269,7 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
                     allowedNames,
                     subjects,
                     examDeadlineMs: arow?.exam_deadline_ms != null ? Number(arow.exam_deadline_ms) : null,
+                    examNote: typeof arow?.exam_note === 'string' ? arow.exam_note : '',
                     profileRows: prows || []
                 });
             };

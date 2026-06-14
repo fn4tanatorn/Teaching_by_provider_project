@@ -600,6 +600,14 @@ input:focus, select:focus, textarea:focus {
 .modal-content > p { color: var(--body); margin-bottom: 1.25rem; }
 .modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1rem; }
 
+.exam-details-card { padding: 1.5rem; }
+.exam-details-note {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+.exam-details-note--empty { color: var(--muted); }
+
 /* ============================================================
    Welcome / Hero
 ============================================================ */
@@ -1041,6 +1049,9 @@ input:focus, select:focus, textarea:focus {
    Countdown badge
 ============================================================ */
 .countdown-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.72rem;
   font-weight: 600;
   padding: 0.45rem 0.75rem;
@@ -1053,6 +1064,19 @@ input:focus, select:focus, textarea:focus {
   letter-spacing: 0.02em;
   white-space: nowrap;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+.countdown-badge--button {
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.countdown-badge--button:hover {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(56, 189, 248, 0.42);
+}
+.countdown-badge--button:focus-visible {
+  outline: 2px solid rgba(14, 165, 233, 0.48);
+  outline-offset: 2px;
 }
 
 /* ============================================================

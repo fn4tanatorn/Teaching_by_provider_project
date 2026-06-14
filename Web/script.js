@@ -252,6 +252,7 @@ function initClinicalVideoApp() {
     let countdownInterval = null;
     /** Epoch ms; shared exam shown when user profile has no `expiresAt`. */
     let globalExamDeadlineMs = null;
+    let globalExamNote = '';
     let selectedSubject = '';
     let currentWatchVideo = null;
     let videoSearchQuery = '';
@@ -843,6 +844,9 @@ function initClinicalVideoApp() {
     const countdownTimerQuiz = document.getElementById('countdown-timer-quiz');
     const adminVideoList = document.getElementById('admin-video-list');
     const countdownTimer = document.getElementById('countdown-timer');
+    const examDetailsModal = document.getElementById('exam-details-modal');
+    const examDetailsNote = document.getElementById('exam-details-note');
+    const btnCloseExamDetails = document.getElementById('btn-close-exam-details');
 
     const btnToggleMembers = document.getElementById('btn-toggle-members');
     const btnClearAllMembers = document.getElementById('btn-clear-all-members');
@@ -858,6 +862,7 @@ function initClinicalVideoApp() {
                     payload.examDeadlineMs != null && Number.isFinite(payload.examDeadlineMs) && payload.examDeadlineMs > 0
                         ? payload.examDeadlineMs
                         : null;
+                globalExamNote = typeof payload.examNote === 'string' ? payload.examNote : '';
                 users = (payload.profileRows || []).map((r) => profileRowToUser(r));
 
                 if (!selectedSubject && subjects.length > 0) selectedSubject = subjects[0];
@@ -881,7 +886,7 @@ function initClinicalVideoApp() {
                     }
                 }
 
-                applyAdminPanelDrafts(allowedNames, globalExamDeadlineMs);
+                applyAdminPanelDrafts(allowedNames, globalExamDeadlineMs, globalExamNote);
 
                 renderSubjectPills();
                 renderSubjectOptions();
@@ -922,6 +927,7 @@ function initClinicalVideoApp() {
         videos = defaultSeedVideos();
         subjects = ['anatomy', 'histology'];
         allowedNames = [];
+        globalExamNote = '';
         queueMicrotask(() => {
             renderSubjectPills();
             renderSubjectOptions();
@@ -937,7 +943,7 @@ function initClinicalVideoApp() {
                 }
             }
             renderVideos();
-            applyAdminPanelDrafts(allowedNames, null);
+            applyAdminPanelDrafts(allowedNames, null, globalExamNote);
         });
     }
 
@@ -1032,6 +1038,13 @@ function initClinicalVideoApp() {
             const syncExamDraft = debounce(() => saveDraft('admin_exam_deadline', examDraftEl.value), 400);
             examDraftEl.addEventListener('input', syncExamDraft);
             examDraftEl.addEventListener('change', syncExamDraft);
+        }
+        const examNoteEl = document.getElementById('admin-exam-note');
+        if (examNoteEl) {
+            examNoteEl.addEventListener(
+                'input',
+                debounce(() => saveDraft('admin_exam_note', examNoteEl.value), 400)
+            );
         }
         const allowedEl = document.getElementById('admin-allowed-names');
         if (allowedEl) {
@@ -2016,7 +2029,7 @@ function initClinicalVideoApp() {
         }
         if (allowedNames.length > 0 && !isLineNameOnAllowList(un, allowedNames)) {
             regMsg.textContent =
-                'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ชื่อ Line Open Chat ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
+                'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ User name (ที่ส่งมาใน forms) ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
             return;
         }
         if (registerSubmitBtn) registerSubmitBtn.disabled = true;
@@ -2125,7 +2138,7 @@ function initClinicalVideoApp() {
             try {
                 if (allowedNames.length > 0 && !isLineNameOnAllowList(un, allowedNames)) {
                     loginError.textContent =
-                        'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ชื่อ Line Open Chat ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
+                        'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ User name (ที่ส่งมาใน forms) ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
                     loginError.style.display = 'block';
                     setLoginLoading(false);
                     return;
@@ -2244,7 +2257,7 @@ function initClinicalVideoApp() {
     }
 
     /** โหลดแบบร่างแอดมิน (ถ้ามี) ทับค่าจากเซิร์ฟเวอร์ — ใช้ตอนเทสบน localhost */
-    function applyAdminPanelDrafts(allowedNamesArr, deadlineMs) {
+    function applyAdminPanelDrafts(allowedNamesArr, deadlineMs, examNote) {
         const joined = (allowedNamesArr || []).join('\n');
         const examInput = document.getElementById('admin-exam-deadline');
         const draftExam = loadDraftRaw('admin_exam_deadline');
@@ -2256,6 +2269,11 @@ function initClinicalVideoApp() {
             } else {
                 examInput.value = '';
             }
+        }
+        const examNoteInput = document.getElementById('admin-exam-note');
+        const draftExamNote = loadDraftRaw('admin_exam_note');
+        if (examNoteInput && document.activeElement !== examNoteInput) {
+            examNoteInput.value = draftExamNote !== null ? draftExamNote : (examNote || '');
         }
         const adminAllowedNames = document.getElementById('admin-allowed-names');
         const draftAllowed = loadDraftRaw('admin_allowed_names');
@@ -2332,6 +2350,42 @@ function initClinicalVideoApp() {
         tick();
         countdownInterval = setInterval(tick, 1000);
     }
+
+    function renderExamDetailsModal() {
+        if (!examDetailsNote) return;
+        const note = String(globalExamNote || '').trim();
+        examDetailsNote.textContent = note || 'ยังไม่มีรายละเอียดการสอบ';
+        examDetailsNote.classList.toggle('exam-details-note--empty', !note);
+    }
+
+    function openExamDetailsModal() {
+        if (!examDetailsModal) return;
+        renderExamDetailsModal();
+        examDetailsModal.classList.add('open');
+        examDetailsModal.setAttribute('aria-hidden', 'false');
+        if (btnCloseExamDetails) btnCloseExamDetails.focus();
+    }
+
+    function closeExamDetailsModal() {
+        if (!examDetailsModal) return;
+        examDetailsModal.classList.remove('open');
+        examDetailsModal.setAttribute('aria-hidden', 'true');
+    }
+
+    [countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach((el) => {
+        if (el) el.addEventListener('click', openExamDetailsModal);
+    });
+    if (btnCloseExamDetails) btnCloseExamDetails.addEventListener('click', closeExamDetailsModal);
+    if (examDetailsModal) {
+        examDetailsModal.addEventListener('click', (event) => {
+            if (event.target === examDetailsModal) closeExamDetailsModal();
+        });
+    }
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && examDetailsModal?.classList.contains('open')) {
+            closeExamDetailsModal();
+        }
+    });
 
     const btnCheckin = document.getElementById('btn-checkin');
     if (btnCheckin) btnCheckin.addEventListener('click', () => navigateTo(pageQuiz));
@@ -2852,7 +2906,7 @@ function initClinicalVideoApp() {
     const btnClearAllowedNames = document.getElementById('btn-clear-allowed-names');
     if (btnClearAllowedNames) {
         btnClearAllowedNames.addEventListener('click', () => {
-            if (!confirm('Clear all allowed names?')) return;
+            if (!confirm('Clear all allowed user names?')) return;
             allowedNames = [];
             document.getElementById('admin-allowed-names').value = '';
             saveAllowedNamesDB()
@@ -2867,6 +2921,7 @@ function initClinicalVideoApp() {
     }
 
     const btnSaveExamDeadline = document.getElementById('btn-save-exam-deadline');
+    const btnSaveExamNote = document.getElementById('btn-save-exam-note');
     const btnClearExamDeadline = document.getElementById('btn-clear-exam-deadline');
     if (btnSaveExamDeadline) {
         btnSaveExamDeadline.addEventListener('click', () => {
@@ -2888,15 +2943,44 @@ function initClinicalVideoApp() {
                 });
         });
     }
+    if (btnSaveExamNote) {
+        btnSaveExamNote.addEventListener('click', () => {
+            const input = document.getElementById('admin-exam-note');
+            const note = input ? input.value : '';
+            ds.saveAdminSettingsPatch({ exam_note: note })
+                .then(() => {
+                    globalExamNote = note;
+                    showToast('บันทึกรายละเอียดสอบแล้ว');
+                    saveDraft('admin_exam_note', null);
+                    renderExamDetailsModal();
+                })
+                .catch((err) => {
+                    const base = err && err.message ? err.message : String(err);
+                    let msg = 'Save note failed: ' + base;
+                    if (currentUser && currentUser.localPasswordAdmin) {
+                        msg +=
+                            '\n\nเข้าผ่านรหัสลับอย่างเดียวไม่มีสิทธิ์แก้ไขตาราง — ให้ล็อกอิน Admin ด้วยบัญชีใน public.admin_users';
+                    }
+                    alert(msg);
+                });
+        });
+    }
     if (btnClearExamDeadline) {
         btnClearExamDeadline.addEventListener('click', () => {
-            if (!confirm('Clear shared exam deadline for all students?')) return;
+            if (!confirm('Clear shared exam date and exam details note for all students?')) return;
             const input = document.getElementById('admin-exam-deadline');
+            const noteInput = document.getElementById('admin-exam-note');
             if (input) input.value = '';
-            ds.saveAdminSettingsPatch({ exam_deadline_ms: null })
+            if (noteInput) noteInput.value = '';
+            ds.saveAdminSettingsPatch({ exam_deadline_ms: null, exam_note: '' })
                 .then(() => {
-                    showToast('ล้างวันสอบร่วมแล้ว');
+                    globalExamDeadlineMs = null;
+                    globalExamNote = '';
+                    showToast('ล้างข้อมูลสอบร่วมแล้ว');
                     saveDraft('admin_exam_deadline', null);
+                    saveDraft('admin_exam_note', null);
+                    renderExamDetailsModal();
+                    syncExamCountdown();
                 })
                 .catch((err) => {
                     const base = err && err.message ? err.message : String(err);

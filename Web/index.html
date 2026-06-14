@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <h2>Member access</h2>
-                            <p>ถ้าชื่อ Line Open Chat ของคุณ<strong>ตรงกับรายชื่อที่แอดมินใส่ใน Allowed names</strong> ให้กด <strong>Register</strong> ครั้งแรกเพื่อตั้งรหัสผ่านที่คุณเลือกเอง แล้วครั้งถัดไปใช้ <strong>Log in</strong> ด้วยชื่อและรหัสเดิม</p>
+                            <p>ถ้า User name (ที่ส่งมาใน forms) ของคุณ<strong>ตรงกับรายชื่อที่แอดมินอนุญาต</strong> ให้กด <strong>Register</strong> ครั้งแรกเพื่อตั้งรหัสผ่านที่คุณเลือกเอง แล้วครั้งถัดไปใช้ <strong>Log in</strong> ด้วยชื่อและรหัสเดิม</p>
                             <div class="btn-stack">
                                 <button type="button" id="btn-go-register" class="btn primary-btn">Register</button>
                                 <button type="button" id="btn-go-login" class="btn outline-btn">Log in</button>
@@ -100,11 +100,11 @@
             </header>
             <div class="glass-card login-card glass">
                 <h2>Register</h2>
-                <p>กรอก<strong>ชื่อ Line Open Chat ให้ตรงกับรายชื่อใน Allowed Line Open Chat Names</strong> (ตัวพิมพ์เล็ก–ใหญ่ไม่มีผล) และ<strong>รหัสผ่านที่คุณตั้งเอง</strong> — ไม่ต้องรอแอดมินอนุมัติแยก</p>
+                <p>กรอก<strong>User name (ที่ส่งมาใน forms) ให้ตรงกับรายชื่อที่แอดมินอนุญาต</strong> (ตัวพิมพ์เล็ก–ใหญ่ไม่มีผล) และ<strong>รหัสผ่านที่คุณตั้งเอง</strong> — ไม่ต้องรอแอดมินอนุมัติแยก</p>
                 <form id="register-form">
                     <div class="input-group">
                         <input type="text" id="reg-username" required placeholder=" ">
-                        <label for="reg-username">Line Open Chat name</label>
+                        <label for="reg-username">User name (ที่ส่งมาใน forms)</label>
                     </div>
                     <div class="input-group">
                         <input type="password" id="reg-password" required placeholder=" ">
@@ -134,7 +134,7 @@
                 <form id="login-form">
                     <div class="input-group">
                         <input type="text" id="username" required placeholder=" ">
-                        <label for="username">Line Open Chat name</label>
+                        <label for="username">User name (ที่ส่งมาใน forms)</label>
                     </div>
                     <div class="input-group">
                         <input type="password" id="password" required placeholder=" ">
@@ -159,7 +159,7 @@
                 <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
                     <div id="badge-checkin-streak" class="countdown-badge" style="color: var(--ok); border-color: var(--ok-soft); background: var(--ok-soft);" title="Continue: consecutive check-in days (resets when you miss a day)">Continue · 0d</div>
                     <div id="badge-video-streak" class="countdown-badge" style="color: var(--info); border-color: var(--info-soft); background: var(--info-soft);" title="Progress: consecutive video days">Progress · 0d</div>
-                    <div id="countdown-timer" class="countdown-badge">⏳ EXAM coming in: --:--:--</div>
+                    <button id="countdown-timer" type="button" class="countdown-badge countdown-badge--button">⏳ EXAM coming in: --:--:--</button>
                     <button id="btn-checkin" class="btn outline-btn btn-compact">Daily Check-in</button>
                     <button id="btn-stats" class="btn outline-btn btn-compact">Statistics</button>
                     <button id="btn-sheets" type="button" class="btn outline-btn btn-compact">Sheets</button>
@@ -209,7 +209,7 @@
                     <h2 id="watch-nav-title">Video</h2>
                 </div>
                 <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
-                    <div id="countdown-timer-watch" class="countdown-badge">⏳ EXAM coming in: --:--:--</div>
+                    <button id="countdown-timer-watch" type="button" class="countdown-badge countdown-badge--button">⏳ EXAM coming in: --:--:--</button>
                 </div>
             </nav>
             <div class="content watch-layout">
@@ -275,7 +275,7 @@
                     <h2>Daily check-in</h2>
                 </div>
                 <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
-                    <div id="countdown-timer-quiz" class="countdown-badge">⏳ EXAM coming in: --:--:--</div>
+                    <button id="countdown-timer-quiz" type="button" class="countdown-badge countdown-badge--button">⏳ EXAM coming in: --:--:--</button>
                 </div>
             </nav>
             <div class="content" style="align-items:center; justify-content:center; min-height:70vh;">
@@ -359,7 +359,7 @@
                 <p id="local-admin-banner" lang="th" role="status" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem; background: var(--warn-soft); color: var(--ink); border-radius: var(--r-input); font-size: 14px;">เข้าผ่านรหัสลับอย่างเดียว — การบันทึกลงฐานข้อมูลอาจไม่สำเร็จจนกว่าจะมีบัญชีแอดมินใน Supabase และแถวในตาราง admin_users</p>
                 <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
                     <div class="panel-header-inline">
-                        <h3>Allowed Line Open Chat Names</h3>
+                        <h3>Allowed User names (ที่ส่งมาใน forms)</h3>
                         <div style="display:flex;gap:0.5rem;">
                             <button id="btn-clear-allowed-names" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear</button>
                             <button id="btn-save-allowed-names" type="button" class="btn outline-btn btn-compact">Save List</button>
@@ -371,15 +371,22 @@
 
                 <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
                     <div class="panel-header-inline">
-                        <h3>Exam countdown (all students)</h3>
-                        <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save</button>
+                        <h3>Exam info (all students)</h3>
+                        <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save date</button>
                     </div>
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Shown on the video feed for members who do not have a personal <code style="font-size:12px;">expiresAt</code> on their user record. Time uses this browser’s local timezone.</p>
                     <div class="input-group" style="max-width: 360px;">
                         <input type="datetime-local" id="admin-exam-deadline" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; outline: none; background: var(--surface); color: var(--ink);">
                         <label for="admin-exam-deadline">Exam date &amp; time</label>
                     </div>
-                    <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline" style="margin-top: 0.75rem;">Clear shared deadline</button>
+                    <div style="margin-top: 1rem;">
+                        <label for="admin-exam-note" style="display:block; font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem;">Exam details note</label>
+                        <textarea id="admin-exam-note" rows="5" placeholder="รายละเอียดการสอบ เช่น เนื้อหา ห้องสอบ สิ่งที่ต้องเตรียม" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                    </div>
+                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 0.75rem;">
+                        <button id="btn-save-exam-note" type="button" class="btn outline-btn btn-compact">Save note</button>
+                        <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear exam info</button>
+                    </div>
                 </div>
 
                 <div class="glass-card admin-panel panel-block">
@@ -523,6 +530,16 @@
             </div>
         </section>
     </main>
+
+    <div id="exam-details-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="exam-details-title" aria-hidden="true">
+        <div class="modal-content glass-card exam-details-card">
+            <h3 id="exam-details-title">Exam details</h3>
+            <p id="exam-details-note" class="exam-details-note">ยังไม่มีรายละเอียดการสอบ</p>
+            <div class="modal-actions">
+                <button id="btn-close-exam-details" type="button" class="btn outline-btn">Close</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Admin Login Modal -->
     <div id="admin-login-modal" style="display:none; position:fixed; inset:0; z-index:200; background:rgba(15,42,54,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;">
