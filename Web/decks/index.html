@@ -6,7 +6,7 @@
     <title>Pharmacology Decks — TeachingByProvider</title>
     <meta name="description" content="Katzung Pharmacology web slide decks สำหรับนักศึกษาแพทย์ — เลือกบทเรียนเป็น deck แยก พร้อม keyboard navigation">
     <meta name="theme-color" content="#030000">
-    <link rel="stylesheet" href="css/theme.css?v=20260524-figure-contain">
+    <link rel="stylesheet" href="css/theme.css?v=20260614-hub-search-resume">
     <style>
         /* ============================================================
            Hub top navigation — consistent with MedQuiz nav.css
@@ -195,6 +195,15 @@
             <p class="hub-tagline">เลือกบทที่ต้องการเรียน — แต่ละบทเป็น deck แยก พร้อม keyboard navigation</p>
         </header>
 
+        <section class="hub-tools" aria-label="Deck tools">
+            <div id="hub-resume-spotlight" class="hub-resume-spotlight" hidden></div>
+            <label class="hub-search" for="deckSearchInput">
+                <span class="hub-search-label">ค้นหาบทเรียน</span>
+                <input id="deckSearchInput" type="search" placeholder="พิมพ์ชื่อบท, chapter หรือ keyword">
+            </label>
+            <p id="deckSearchSummary" class="hub-search-summary">แสดงทุกบทเรียนทั้งหมด</p>
+        </section>
+
         <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน">
             <p class="hub-loading">กำลังโหลด...</p>
         </nav>
@@ -215,7 +224,12 @@
 
         (function initHub() {
             const grid = document.getElementById("deck-grid");
+            const searchInput = document.getElementById("deckSearchInput");
+            const searchSummary = document.getElementById("deckSearchSummary");
+            const resumeSpotlight = document.getElementById("hub-resume-spotlight");
             const PROGRESS_KEY_PREFIX = "tbp.deckProgress.";
+            let allDecks = [];
+            let searchQuery = "";
 
             function readDeckProgress(deckId) {
                 try {
@@ -227,40 +241,110 @@
                 }
             }
 
+            function escapeHtml(value) {
+                return String(value ?? "").replace(/[&<>"']/g, function (ch) {
+                    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+                });
+            }
+
+            function getDeckTokens(deck) {
+                return [
+                    deck.id,
+                    `chapter ${deck.chapter}`,
+                    `ch${deck.chapter}`,
+                    deck.title,
+                    deck.summary,
+                ]
+                    .join(" ")
+                    .toLowerCase();
+            }
+
+            function getMostRecentProgressDeck(decks) {
+                return decks
+                    .map((deck) => ({ deck, progress: readDeckProgress(deck.id) }))
+                    .filter(({ progress }) => progress && progress.updatedAt)
+                    .sort((a, b) => new Date(b.progress.updatedAt).getTime() - new Date(a.progress.updatedAt).getTime())[0] || null;
+            }
+
+            function renderResumeSpotlight(record) {
+                if (!record) {
+                    resumeSpotlight.hidden = true;
+                    resumeSpotlight.innerHTML = "";
+                    return;
+                }
+
+                const { deck, progress } = record;
+                const slideIndex = Number.isInteger(progress.index) ? progress.index + 1 : 1;
+                const totalSlides = Number.isInteger(progress.totalSlides) ? progress.totalSlides : deck.sections;
+
+                resumeSpotlight.hidden = false;
+                resumeSpotlight.innerHTML = `
+                    <a class="hub-resume-card" href="deck.html?deck=${encodeURIComponent(deck.id)}&resume=1">
+                        <div class="hub-resume-copy">
+                            <span class="hub-resume-kicker">Continue where you left off</span>
+                            <h2>${escapeHtml(deck.title)}</h2>
+                            <p>Chapter ${escapeHtml(deck.chapter)} · สไลด์ ${escapeHtml(slideIndex)}/${escapeHtml(totalSlides)}</p>
+                        </div>
+                        <span class="hub-resume-cta">เรียนต่อ →</span>
+                    </a>`;
+            }
+
+            function renderDecks() {
+                const query = searchQuery.trim().toLowerCase();
+                const filtered = query
+                    ? allDecks.filter((deck) => getDeckTokens(deck).includes(query))
+                    : allDecks.slice();
+
+                if (searchSummary) {
+                    searchSummary.textContent = query
+                        ? `พบ ${filtered.length} บทเรียนจาก ${allDecks.length} บท`
+                        : `แสดงทุกบทเรียนทั้งหมด ${allDecks.length} บท`;
+                }
+
+                if (!filtered.length) {
+                    grid.innerHTML = '<p class="hub-loading">ไม่พบบทเรียนที่ตรงกับคำค้นนี้</p>';
+                    return;
+                }
+
+                grid.innerHTML = filtered
+                    .map((deck) => {
+                        const progress = readDeckProgress(deck.id);
+                        const hasProgress =
+                            progress &&
+                            Number.isInteger(progress.index) &&
+                            progress.index > 0 &&
+                            Number.isInteger(progress.totalSlides) &&
+                            progress.totalSlides > 0;
+                        const href = hasProgress
+                            ? `deck.html?deck=${deck.id}&resume=1`
+                            : `deck.html?deck=${deck.id}`;
+                        const progressHtml = hasProgress
+                            ? `<span class="deck-card-progress">เรียนถึงสไลด์ ${progress.index + 1}/${progress.totalSlides}</span>`
+                            : "";
+                        const cta = hasProgress ? "เรียนต่อ →" : "เปิดสไลด์ →";
+
+                        return `
+                        <a class="deck-card${hasProgress ? " deck-card--resume" : ""}" href="${href}">
+                            <span class="deck-card-ch">Chapter ${deck.chapter}</span>
+                            <h2 class="deck-card-title">${escapeHtml(deck.title)}</h2>
+                            <p class="deck-card-summary">${escapeHtml(deck.summary)}</p>
+                            <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
+                            ${progressHtml}
+                            <span class="deck-card-cta">${cta}</span>
+                        </a>`;
+                    })
+                    .join("");
+            }
+
             fetch("data/manifest.json")
                 .then((r) => {
                     if (!r.ok) throw new Error("manifest");
                     return r.json();
                 })
                 .then((manifest) => {
-                    grid.innerHTML = manifest.decks
-                        .map((deck) => {
-                            const progress = readDeckProgress(deck.id);
-                            const hasProgress =
-                                progress &&
-                                Number.isInteger(progress.index) &&
-                                progress.index > 0 &&
-                                Number.isInteger(progress.totalSlides) &&
-                                progress.totalSlides > 0;
-                            const href = hasProgress
-                                ? `deck.html?deck=${deck.id}&resume=1`
-                                : `deck.html?deck=${deck.id}`;
-                            const progressHtml = hasProgress
-                                ? `<span class="deck-card-progress">เรียนถึงสไลด์ ${progress.index + 1}/${progress.totalSlides}</span>`
-                                : "";
-                            const cta = hasProgress ? "เรียนต่อ →" : "เปิดสไลด์ →";
-
-                            return `
-                        <a class="deck-card${hasProgress ? " deck-card--resume" : ""}" href="${href}">
-                            <span class="deck-card-ch">Chapter ${deck.chapter}</span>
-                            <h2 class="deck-card-title">${deck.title}</h2>
-                            <p class="deck-card-summary">${deck.summary}</p>
-                            <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
-                            ${progressHtml}
-                            <span class="deck-card-cta">${cta}</span>
-                        </a>`;
-                        })
-                        .join("");
+                    allDecks = Array.isArray(manifest.decks) ? manifest.decks : [];
+                    renderResumeSpotlight(getMostRecentProgressDeck(allDecks));
+                    renderDecks();
                 })
                 .catch(() => {
                     grid.innerHTML = `
@@ -269,6 +353,13 @@
                             <p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>
                         </div>`;
                 });
+
+            if (searchInput) {
+                searchInput.addEventListener("input", function () {
+                    searchQuery = searchInput.value || "";
+                    renderDecks();
+                });
+            }
         })();
     </script>
 </body>
