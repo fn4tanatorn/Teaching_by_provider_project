@@ -201,6 +201,12 @@
                 <span class="hub-search-label">ค้นหาบทเรียน</span>
                 <input id="deckSearchInput" type="search" placeholder="พิมพ์ชื่อบท, chapter หรือ keyword">
             </label>
+            <div class="hub-filter-group" role="group" aria-label="ตัวกรองบทเรียน">
+                <button class="hub-filter-chip is-active" type="button" data-filter="all">ทั้งหมด</button>
+                <button class="hub-filter-chip" type="button" data-filter="resume">กำลังเรียน</button>
+                <button class="hub-filter-chip" type="button" data-filter="short">บทสั้น</button>
+                <button class="hub-filter-chip" type="button" data-filter="long">บทใหญ่</button>
+            </div>
             <p id="deckSearchSummary" class="hub-search-summary">แสดงทุกบทเรียนทั้งหมด</p>
         </section>
 
@@ -227,9 +233,11 @@
             const searchInput = document.getElementById("deckSearchInput");
             const searchSummary = document.getElementById("deckSearchSummary");
             const resumeSpotlight = document.getElementById("hub-resume-spotlight");
+            const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
             const PROGRESS_KEY_PREFIX = "tbp.deckProgress.";
             let allDecks = [];
             let searchQuery = "";
+            let activeFilter = "all";
 
             function readDeckProgress(deckId) {
                 try {
@@ -257,6 +265,31 @@
                 ]
                     .join(" ")
                     .toLowerCase();
+            }
+
+            function hasResumeProgress(deck) {
+                const progress = readDeckProgress(deck.id);
+                return Boolean(
+                    progress &&
+                    Number.isInteger(progress.index) &&
+                    progress.index > 0 &&
+                    Number.isInteger(progress.totalSlides) &&
+                    progress.totalSlides > 0
+                );
+            }
+
+            function matchesFilter(deck) {
+                if (activeFilter === "resume") return hasResumeProgress(deck);
+                if (activeFilter === "short") return deck.sections <= 12;
+                if (activeFilter === "long") return deck.sections >= 25;
+                return true;
+            }
+
+            function filterLabel(filterKey) {
+                if (filterKey === "resume") return "กำลังเรียน";
+                if (filterKey === "short") return "บทสั้น";
+                if (filterKey === "long") return "บทใหญ่";
+                return "ทุกบทเรียน";
             }
 
             function getMostRecentProgressDeck(decks) {
@@ -291,30 +324,27 @@
 
             function renderDecks() {
                 const query = searchQuery.trim().toLowerCase();
-                const filtered = query
-                    ? allDecks.filter((deck) => getDeckTokens(deck).includes(query))
-                    : allDecks.slice();
+                const filtered = allDecks.filter((deck) => {
+                    if (!matchesFilter(deck)) return false;
+                    return query ? getDeckTokens(deck).includes(query) : true;
+                });
 
                 if (searchSummary) {
-                    searchSummary.textContent = query
-                        ? `พบ ${filtered.length} บทเรียนจาก ${allDecks.length} บท`
-                        : `แสดงทุกบทเรียนทั้งหมด ${allDecks.length} บท`;
+                    const baseSummary = query
+                        ? `พบ ${filtered.length} บทจากคำค้นและตัวกรอง`
+                        : `แสดง ${filterLabel(activeFilter)} ${filtered.length} บท`;
+                    searchSummary.textContent = `${baseSummary} จากทั้งหมด ${allDecks.length} บท`;
                 }
 
                 if (!filtered.length) {
-                    grid.innerHTML = '<p class="hub-loading">ไม่พบบทเรียนที่ตรงกับคำค้นนี้</p>';
+                    grid.innerHTML = '<p class="hub-loading">ไม่พบบทเรียนที่ตรงกับคำค้นหาหรือตัวกรองนี้</p>';
                     return;
                 }
 
                 grid.innerHTML = filtered
                     .map((deck) => {
                         const progress = readDeckProgress(deck.id);
-                        const hasProgress =
-                            progress &&
-                            Number.isInteger(progress.index) &&
-                            progress.index > 0 &&
-                            Number.isInteger(progress.totalSlides) &&
-                            progress.totalSlides > 0;
+                        const hasProgress = hasResumeProgress(deck);
                         const href = hasProgress
                             ? `deck.html?deck=${deck.id}&resume=1`
                             : `deck.html?deck=${deck.id}`;
@@ -360,6 +390,16 @@
                     renderDecks();
                 });
             }
+
+            filterButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
+                    activeFilter = button.dataset.filter || "all";
+                    filterButtons.forEach(function (candidate) {
+                        candidate.classList.toggle("is-active", candidate === button);
+                    });
+                    renderDecks();
+                });
+            });
         })();
     </script>
 </body>
