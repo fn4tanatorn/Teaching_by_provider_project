@@ -208,6 +208,7 @@
                 <button class="hub-filter-chip" type="button" data-filter="long">บทใหญ่</button>
             </div>
             <p id="deckSearchSummary" class="hub-search-summary">แสดงทุกบทเรียนทั้งหมด</p>
+            <p id="deckActionStatus" class="hub-action-status" aria-live="polite"></p>
         </section>
 
         <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน">
@@ -232,12 +233,14 @@
             const grid = document.getElementById("deck-grid");
             const searchInput = document.getElementById("deckSearchInput");
             const searchSummary = document.getElementById("deckSearchSummary");
+            const actionStatus = document.getElementById("deckActionStatus");
             const resumeSpotlight = document.getElementById("hub-resume-spotlight");
             const filterButtons = Array.from(document.querySelectorAll("[data-filter]"));
             const PROGRESS_KEY_PREFIX = "tbp.deckProgress.";
             let allDecks = [];
             let searchQuery = "";
             let activeFilter = "all";
+            let statusTimer = null;
 
             function readDeckProgress(deckId) {
                 try {
@@ -265,6 +268,31 @@
                 ]
                     .join(" ")
                     .toLowerCase();
+            }
+
+            function progressKey(deckId) {
+                return `${PROGRESS_KEY_PREFIX}${deckId}`;
+            }
+
+            function clearDeckProgress(deckId) {
+                try {
+                    localStorage.removeItem(progressKey(deckId));
+                } catch {
+                    // Ignore localStorage failures so restart still navigates.
+                }
+            }
+
+            function showActionStatus(message) {
+                if (!actionStatus) return;
+                actionStatus.textContent = message;
+                actionStatus.classList.add("is-visible");
+                if (statusTimer) {
+                    window.clearTimeout(statusTimer);
+                }
+                statusTimer = window.setTimeout(function () {
+                    actionStatus.classList.remove("is-visible");
+                    actionStatus.textContent = "";
+                }, 2600);
             }
 
             function hasResumeProgress(deck) {
@@ -312,14 +340,17 @@
 
                 resumeSpotlight.hidden = false;
                 resumeSpotlight.innerHTML = `
-                    <a class="hub-resume-card" href="deck.html?deck=${encodeURIComponent(deck.id)}&resume=1">
+                    <article class="hub-resume-card">
                         <div class="hub-resume-copy">
                             <span class="hub-resume-kicker">Continue where you left off</span>
                             <h2>${escapeHtml(deck.title)}</h2>
                             <p>Chapter ${escapeHtml(deck.chapter)} · สไลด์ ${escapeHtml(slideIndex)}/${escapeHtml(totalSlides)}</p>
                         </div>
-                        <span class="hub-resume-cta">เรียนต่อ →</span>
-                    </a>`;
+                        <div class="hub-resume-actions">
+                            <a class="hub-resume-cta" href="deck.html?deck=${encodeURIComponent(deck.id)}&resume=1">เรียนต่อ →</a>
+                            <button class="hub-reset-btn" type="button" data-reset-deck="${escapeHtml(deck.id)}" data-deck-title="${escapeHtml(deck.title)}">เริ่มใหม่</button>
+                        </div>
+                    </article>`;
             }
 
             function renderDecks() {
@@ -349,7 +380,10 @@
                             ? `deck.html?deck=${deck.id}&resume=1`
                             : `deck.html?deck=${deck.id}`;
                         const progressHtml = hasProgress
-                            ? `<span class="deck-card-progress">เรียนถึงสไลด์ ${progress.index + 1}/${progress.totalSlides}</span>`
+                            ? `<div class="deck-card-progress-row">
+                                    <span class="deck-card-progress">เรียนถึงสไลด์ ${progress.index + 1}/${progress.totalSlides}</span>
+                                    <button class="deck-card-reset" type="button" data-reset-deck="${escapeHtml(deck.id)}" data-deck-title="${escapeHtml(deck.title)}">เริ่มใหม่</button>
+                               </div>`
                             : "";
                         const cta = hasProgress ? "เรียนต่อ →" : "เปิดสไลด์ →";
 
@@ -399,6 +433,24 @@
                     });
                     renderDecks();
                 });
+            });
+
+            document.addEventListener("click", function (event) {
+                const resetButton = event.target.closest("[data-reset-deck]");
+                if (!resetButton) return;
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                const deckId = resetButton.dataset.resetDeck;
+                if (!deckId) return;
+
+                const deckTitle = resetButton.dataset.deckTitle || deckId;
+                clearDeckProgress(deckId);
+                renderResumeSpotlight(getMostRecentProgressDeck(allDecks));
+                renderDecks();
+                showActionStatus(`ล้างความคืบหน้าแล้ว: ${deckTitle}`);
+                window.location.href = `deck.html?deck=${encodeURIComponent(deckId)}`;
             });
         })();
     </script>

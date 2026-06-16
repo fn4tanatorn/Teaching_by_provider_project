@@ -198,6 +198,14 @@ body.hub-page {
     font-size: 14px;
     font-weight: 700;
     color: #d8f3ff;
+    text-decoration: none;
+}
+
+.hub-resume-actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .hub-search {
@@ -239,6 +247,19 @@ body.hub-page {
     margin: -4px 0 0;
     font-size: 13px;
     color: rgba(245, 245, 247, 0.58);
+}
+
+.hub-action-status {
+    margin: -6px 0 0;
+    min-height: 1.2rem;
+    font-size: 13px;
+    color: rgba(216, 243, 255, 0.86);
+    opacity: 0;
+    transition: opacity 0.18s ease;
+}
+
+.hub-action-status.is-visible {
+    opacity: 1;
 }
 
 .hub-filter-group {
@@ -351,6 +372,39 @@ body.hub-page {
     letter-spacing: 0.01em;
 }
 
+.deck-card-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.hub-reset-btn,
+.deck-card-reset {
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(245, 245, 247, 0.18);
+    background: rgba(7, 23, 36, 0.6);
+    color: rgba(245, 245, 247, 0.82);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+
+.hub-reset-btn:hover,
+.hub-reset-btn:focus-visible,
+.deck-card-reset:hover,
+.deck-card-reset:focus-visible {
+    outline: none;
+    transform: translateY(-1px);
+    border-color: rgba(110, 231, 183, 0.36);
+    background: rgba(7, 23, 36, 0.84);
+    color: #f8fdff;
+}
+
 .deck-card-cta {
     margin-top: 4px;
     font-size: 13px;
@@ -373,6 +427,11 @@ body.hub-page {
         align-items: flex-start;
         flex-direction: column;
     }
+
+    .hub-resume-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
 }
 
 @media (max-width: 640px) {
@@ -383,6 +442,18 @@ body.hub-page {
     .hub-filter-chip {
         flex: 1 1 calc(50% - 0.5rem);
         justify-content: center;
+        text-align: center;
+    }
+
+    .hub-resume-actions,
+    .deck-card-progress-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hub-resume-cta,
+    .hub-reset-btn,
+    .deck-card-reset {
         text-align: center;
     }
 }
