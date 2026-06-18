@@ -36,6 +36,7 @@ const pdfFrame = document.getElementById("pdfFrame");
 const readerTitle = document.getElementById("readerTitle");
 const emptyState = document.getElementById("emptyState");
 const openPdfLink = document.getElementById("openPdfLink");
+const showSheetListBtn = document.getElementById("showSheetListBtn");
 const pdfFileInput = document.getElementById("pdfFileInput");
 const uploadPdfControl = document.getElementById("uploadPdfControl");
 const sheetHintTitle = document.getElementById("sheetHintTitle");
@@ -291,6 +292,17 @@ function displayPdf({ id, title, url, downloadName, objectUrl = false }) {
   });
 }
 
+function showSheetListOverview() {
+  document.body.classList.remove("pdf-active");
+  const listPanel = document.querySelector(".sheet-list-panel");
+  if (!listPanel) return;
+  try {
+    listPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch {
+    listPanel.scrollIntoView();
+  }
+}
+
 async function downloadActivePdf(event) {
   event.preventDefault();
   if (openPdfLink.classList.contains("is-disabled")) return;
@@ -476,6 +488,7 @@ pdfFileInput.addEventListener("change", async () => {
 });
 
 openPdfLink.addEventListener("click", downloadActivePdf);
+showSheetListBtn?.addEventListener("click", showSheetListOverview);
 window.addEventListener("beforeunload", revokeActiveObjectUrl);
 
 refreshUploadedSheets().catch((err) => {

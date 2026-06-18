@@ -363,6 +363,18 @@ body.pdf-active #pdfFrame {
   min-width: 0;
 }
 
+.reader-toolbar-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.reader-list-btn {
+  display: none;
+}
+
 .reader-toolbar h2 {
   margin: 0;
   font-size: 1.05rem;
@@ -418,7 +430,17 @@ body.pdf-active #pdfFrame {
     flex-direction: column;
   }
 
+  .reader-toolbar-actions {
+    width: 100%;
+  }
+
+  body.pdf-active .reader-list-btn {
+    display: inline-flex;
+  }
+
+  body.pdf-active .reader-toolbar .download-btn,
   .reader-toolbar .download-btn {
+    flex: 1 1 0;
     width: 100%;
   }
 
