@@ -32,6 +32,7 @@ const supabase = SUPABASE_READY ? createClient(SB.SUPABASE_URL, SB.SUPABASE_ANON
 
 const sheetList = document.getElementById("sheetList");
 const sheetCount = document.getElementById("sheetCount");
+const sheetSearchInput = document.getElementById("sheetSearchInput");
 const pdfFrame = document.getElementById("pdfFrame");
 const readerTitle = document.getElementById("readerTitle");
 const emptyState = document.getElementById("emptyState");
@@ -252,6 +253,17 @@ function formatBytes(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function normalizeSearchValue(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase();
+}
+
+function matchesSheetQuery(query, ...fields) {
+  if (!query) return true;
+  return fields.some((field) => normalizeSearchValue(field).includes(query));
+}
+
 function revokeActiveObjectUrl() {
   if (activeObjectUrl) {
     URL.revokeObjectURL(activeObjectUrl);
@@ -343,9 +355,12 @@ function createSheetButton({ id, title, meta, onOpen }) {
   return button;
 }
 
-function renderStaticSheets(fragment) {
+function renderStaticSheets(fragment, query) {
+  let count = 0;
   DEFAULT_SHEETS.forEach((sheet, index) => {
     const id = `static-${index}`;
+    if (!matchesSheetQuery(query, sheet.title, sheet.file)) return;
+    count += 1;
     fragment.append(
       createSheetButton({
         id,
@@ -361,13 +376,17 @@ function renderStaticSheets(fragment) {
       })
     );
   });
+  return count;
 }
 
-function renderUploadedSheets(fragment) {
+function renderUploadedSheets(fragment, query) {
+  let count = 0;
   uploadedSheets
     .slice()
     .sort((a, b) => b.createdAt - a.createdAt)
     .forEach((sheet) => {
+      if (!matchesSheetQuery(query, sheet.title, sheet.fileName)) return;
+      count += 1;
       const row = document.createElement("div");
       row.className = "sheet-row";
 
@@ -415,12 +434,13 @@ function renderUploadedSheets(fragment) {
 
       fragment.append(row);
     });
+  return count;
 }
 
 function renderSheetList() {
   const total = DEFAULT_SHEETS.length + uploadedSheets.length;
+  const query = normalizeSearchValue(sheetSearchInput?.value);
   sheetList.innerHTML = "";
-  sheetCount.textContent = String(total);
 
   if (IS_ADMIN) {
     sheetHintText.textContent = sheetsRemoteOk
@@ -439,8 +459,19 @@ function renderSheetList() {
   }
 
   const fragment = document.createDocumentFragment();
-  renderUploadedSheets(fragment);
-  renderStaticSheets(fragment);
+  const uploadedCount = renderUploadedSheets(fragment, query);
+  const staticCount = renderStaticSheets(fragment, query);
+  const visibleCount = uploadedCount + staticCount;
+  sheetCount.textContent = query ? `${visibleCount}/${total}` : String(total);
+
+  if (!visibleCount) {
+    const empty = document.createElement("p");
+    empty.className = "hint-box";
+    empty.textContent = `ไม่พบชีทที่ตรงกับ "${sheetSearchInput.value.trim()}"`;
+    sheetList.append(empty);
+    return;
+  }
+
   sheetList.append(fragment);
 }
 
@@ -489,6 +520,7 @@ pdfFileInput.addEventListener("change", async () => {
 
 openPdfLink.addEventListener("click", downloadActivePdf);
 showSheetListBtn?.addEventListener("click", showSheetListOverview);
+sheetSearchInput?.addEventListener("input", renderSheetList);
 window.addEventListener("beforeunload", revokeActiveObjectUrl);
 
 refreshUploadedSheets().catch((err) => {

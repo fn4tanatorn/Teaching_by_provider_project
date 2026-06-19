@@ -242,6 +242,30 @@ h1 {
   gap: 0.55rem;
 }
 
+.sheet-search {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.sheet-search input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.84);
+  color: var(--text);
+  font: inherit;
+}
+
+.sheet-search input:focus {
+  outline: 2px solid rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.48);
+}
+
 .sheet-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
