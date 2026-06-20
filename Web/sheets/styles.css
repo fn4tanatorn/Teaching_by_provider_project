@@ -229,12 +229,42 @@ h1 {
   font-size: 0.88rem;
 }
 
+.panel-head--subtle h3 {
+  margin: 0;
+  font-size: 0.8rem;
+}
+
 #sheetCount {
   padding: 0.15rem 0.55rem;
   border-radius: 999px;
   background: var(--heart-soft);
   color: #047857;
   font-weight: 800;
+}
+
+.recent-sheets {
+  padding: 0.72rem;
+  display: grid;
+  gap: 0.55rem;
+  border: 1px solid rgba(16, 185, 129, 0.14);
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(209, 250, 229, 0.42) 0%, rgba(255, 255, 255, 0.58) 100%);
+}
+
+#recentSheetsCount {
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  font-weight: 800;
+}
+
+.recent-sheets-list {
+  gap: 0.45rem;
+}
+
+.recent-sheets .sheet-item {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .sheet-list {

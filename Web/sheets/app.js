@@ -19,6 +19,8 @@ const DEFAULT_SHEETS = [
 const DB_NAME = "clinical_sheets_db";
 const DB_VERSION = 1;
 const STORE_NAME = "pdfs";
+const RECENT_SHEETS_KEY = "clinical_sheets_recent_v1";
+const MAX_RECENT_SHEETS = 3;
 const SHEETS_BUCKET = SB.SHEETS_STORAGE_BUCKET || "sheets";
 const SHEETS_TABLE = SB.SHEETS_TABLE || "sheet_files";
 const SUPABASE_READY = Boolean(
@@ -33,6 +35,9 @@ const supabase = SUPABASE_READY ? createClient(SB.SUPABASE_URL, SB.SUPABASE_ANON
 const sheetList = document.getElementById("sheetList");
 const sheetCount = document.getElementById("sheetCount");
 const sheetSearchInput = document.getElementById("sheetSearchInput");
+const recentSheetsSection = document.getElementById("recentSheetsSection");
+const recentSheetsList = document.getElementById("recentSheetsList");
+const recentSheetsCount = document.getElementById("recentSheetsCount");
 const pdfFrame = document.getElementById("pdfFrame");
 const readerTitle = document.getElementById("readerTitle");
 const emptyState = document.getElementById("emptyState");
@@ -259,6 +264,33 @@ function normalizeSearchValue(value) {
     .toLowerCase();
 }
 
+function readRecentSheets() {
+  try {
+    const raw = localStorage.getItem(RECENT_SHEETS_KEY);
+    const parsed = JSON.parse(raw || "[]");
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeRecentSheets(items) {
+  try {
+    localStorage.setItem(RECENT_SHEETS_KEY, JSON.stringify(items.slice(0, MAX_RECENT_SHEETS)));
+  } catch {
+    // Ignore storage failures and keep the reader usable.
+  }
+}
+
+function rememberRecentSheet({ id, title }) {
+  if (!id) return;
+  const nextItems = [
+    { id, title: title || "Sheet", openedAt: Date.now() },
+    ...readRecentSheets().filter((item) => item?.id !== id)
+  ];
+  writeRecentSheets(nextItems);
+}
+
 function matchesSheetQuery(query, ...fields) {
   if (!query) return true;
   return fields.some((field) => normalizeSearchValue(field).includes(query));
@@ -298,6 +330,8 @@ function displayPdf({ id, title, url, downloadName, objectUrl = false }) {
   openPdfLink.download = downloadName || fileNameFromUrl(url);
   openPdfLink.classList.remove("is-disabled");
   openPdfLink.setAttribute("aria-disabled", "false");
+  rememberRecentSheet({ id, title });
+  renderRecentSheets(getAllSheetEntries());
 
   document.querySelectorAll(".sheet-item").forEach((button) => {
     button.classList.toggle("active", button.dataset.sheetId === id);
@@ -355,42 +389,32 @@ function createSheetButton({ id, title, meta, onOpen }) {
   return button;
 }
 
-function renderStaticSheets(fragment, query) {
-  let count = 0;
-  DEFAULT_SHEETS.forEach((sheet, index) => {
+function getStaticSheetEntries(query = "") {
+  return DEFAULT_SHEETS.flatMap((sheet, index) => {
     const id = `static-${index}`;
-    if (!matchesSheetQuery(query, sheet.title, sheet.file)) return;
-    count += 1;
-    fragment.append(
-      createSheetButton({
-        id,
-        title: sheet.title,
-        meta: sheet.file,
-        onOpen: () =>
-          displayPdf({
-            id,
-            title: sheet.title,
-            url: sheet.file,
-            downloadName: fileNameFromUrl(sheet.file)
-          })
-      })
-    );
+    if (!matchesSheetQuery(query, sheet.title, sheet.file)) return [];
+    return [{
+      id,
+      title: sheet.title,
+      meta: sheet.file,
+      onOpen: () =>
+        displayPdf({
+          id,
+          title: sheet.title,
+          url: sheet.file,
+          downloadName: fileNameFromUrl(sheet.file)
+        })
+    }];
   });
-  return count;
 }
 
-function renderUploadedSheets(fragment, query) {
-  let count = 0;
-  uploadedSheets
+function getUploadedSheetEntries(query = "") {
+  return uploadedSheets
     .slice()
     .sort((a, b) => b.createdAt - a.createdAt)
-    .forEach((sheet) => {
-      if (!matchesSheetQuery(query, sheet.title, sheet.fileName)) return;
-      count += 1;
-      const row = document.createElement("div");
-      row.className = "sheet-row";
-
-      const button = createSheetButton({
+    .flatMap((sheet) => {
+      if (!matchesSheetQuery(query, sheet.title, sheet.fileName)) return [];
+      return [{
         id: sheet.id,
         title: sheet.title || sheet.fileName || "Uploaded PDF",
         meta: `${sheet.source === "supabase" ? "Supabase" : "Local"} · ${formatBytes(sheet.size)}`,
@@ -415,26 +439,49 @@ function renderUploadedSheets(fragment, query) {
             objectUrl: true
           });
         }
-      });
-
-      row.append(button);
-
-      if (IS_ADMIN) {
-        const remove = document.createElement("button");
-        remove.type = "button";
-        remove.className = "sheet-delete";
-        remove.textContent = "ลบ";
-        remove.addEventListener("click", async () => {
-          if (!confirm(`ลบ "${sheet.title || sheet.fileName}"?`)) return;
-          await deleteUploadedPdf(sheet);
-          await refreshUploadedSheets();
-        });
-        row.append(remove);
-      }
-
-      fragment.append(row);
+      },
+      sheet
+    }];
     });
-  return count;
+}
+
+function getAllSheetEntries(query = "") {
+  return [...getUploadedSheetEntries(query), ...getStaticSheetEntries(query)];
+}
+
+function renderRecentSheets(entries) {
+  if (!recentSheetsSection || !recentSheetsList || !recentSheetsCount) return;
+  const query = normalizeSearchValue(sheetSearchInput?.value);
+  recentSheetsList.innerHTML = "";
+
+  if (query) {
+    recentSheetsSection.hidden = true;
+    return;
+  }
+
+  const recentIds = readRecentSheets().map((item) => item?.id).filter(Boolean);
+  const entryMap = new Map(entries.map((entry) => [entry.id, entry]));
+  const recentEntries = recentIds
+    .map((id) => entryMap.get(id))
+    .filter(Boolean)
+    .slice(0, MAX_RECENT_SHEETS);
+
+  recentSheetsCount.textContent = String(recentEntries.length);
+  recentSheetsSection.hidden = recentEntries.length === 0;
+  if (!recentEntries.length) return;
+
+  const fragment = document.createDocumentFragment();
+  recentEntries.forEach((entry) => {
+    fragment.append(
+      createSheetButton({
+        id: entry.id,
+        title: entry.title,
+        meta: entry.meta,
+        onOpen: entry.onOpen
+      })
+    );
+  });
+  recentSheetsList.append(fragment);
 }
 
 function renderSheetList() {
@@ -459,9 +506,9 @@ function renderSheetList() {
   }
 
   const fragment = document.createDocumentFragment();
-  const uploadedCount = renderUploadedSheets(fragment, query);
-  const staticCount = renderStaticSheets(fragment, query);
-  const visibleCount = uploadedCount + staticCount;
+  const entries = getAllSheetEntries(query);
+  renderRecentSheets(getAllSheetEntries());
+  const visibleCount = entries.length;
   sheetCount.textContent = query ? `${visibleCount}/${total}` : String(total);
 
   if (!visibleCount) {
@@ -471,6 +518,34 @@ function renderSheetList() {
     sheetList.append(empty);
     return;
   }
+
+  entries.forEach((entry) => {
+    const row = document.createElement("div");
+    row.className = "sheet-row";
+    row.append(
+      createSheetButton({
+        id: entry.id,
+        title: entry.title,
+        meta: entry.meta,
+        onOpen: entry.onOpen
+      })
+    );
+
+    if (IS_ADMIN && entry.sheet) {
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "sheet-delete";
+      remove.textContent = "ลบ";
+      remove.addEventListener("click", async () => {
+        if (!confirm(`ลบ "${entry.title}"?`)) return;
+        await deleteUploadedPdf(entry.sheet);
+        await refreshUploadedSheets();
+      });
+      row.append(remove);
+    }
+
+    fragment.append(row);
+  });
 
   sheetList.append(fragment);
 }
