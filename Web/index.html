@@ -436,6 +436,7 @@
                     </div>
                     <h3 style="font-family:var(--font-display); font-size:1.2rem; color:var(--ink);">Check-in complete</h3>
                     <p id="checkin-ok-msg" style="color:var(--text-muted); font-size:14px;"></p>
+                    <div id="checkin-feedback-box" style="display:none; margin: 1rem 0; padding: 1.25rem; border-radius: var(--r-input); text-align: left; font-size: 14px;"></div>
                     <p id="checkin-ok-stats" style="display:none; font-size:13px; color:var(--ok); background:var(--ok-soft); padding:0.75rem 1rem; border-radius:var(--r-input); text-align:left;"></p>
                     <button id="btn-checkin-continue" class="btn primary-btn" style="width:100%;">Continue to lesson</button>
                 </div>
@@ -601,6 +602,24 @@
                             <input type="text" id="cq-c3" placeholder="Choice C (optional)" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
                             <input type="text" id="cq-c4" placeholder="Choice D (optional)" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
                             <input type="text" id="cq-c5" placeholder="Choice E (optional)" style="border-radius:var(--r-input);border:1px solid var(--border);padding:0.6rem 0.8rem;font-size:14px;font-family:inherit;outline:none;background:var(--surface);color:var(--ink);">
+                        </div>
+                        <!-- Correct Answer fields -->
+                        <div id="cq-correct-text-wrapper" style="display:none;">
+                            <div class="input-group" style="margin-bottom:0;">
+                                <input type="text" id="cq-correct-text" placeholder=" ">
+                                <label for="cq-correct-text">Correct answer (Optional)</label>
+                            </div>
+                        </div>
+                        <div id="cq-correct-choice-wrapper" style="display:none;">
+                            <label style="font-size:13px; font-weight:600; color:var(--ink-2); display:block; margin-bottom:0.4rem;">Correct choice (Optional)</label>
+                            <select id="cq-correct-choice" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border-strong); padding:0.6rem 0.8rem; font-size:14px; font-family:inherit; outline:none; background:var(--surface); color:var(--ink);">
+                                <option value="">No correct answer defined</option>
+                                <option value="c1">Choice A</option>
+                                <option value="c2">Choice B</option>
+                                <option value="c3">Choice C (optional)</option>
+                                <option value="c4">Choice D (optional)</option>
+                                <option value="c5">Choice E (optional)</option>
+                            </select>
                         </div>
                         <div>
                             <label style="font-size:13px; font-weight:600; color:var(--ink-2); display:block; margin-bottom:0.4rem;">Image (optional)</label>

@@ -1693,17 +1693,20 @@ function initClinicalVideoApp() {
         const key = nameKey(currentUser.username);
 
         try {
+            checkinCurrentQ = await ds.fetchCheckinQuestionForDate(today);
+
             const prev = await ds.queryResponsesByNameKey(key);
-            if (prev.some((r) => r.date === today)) {
+            const userTodayResp = prev.find((r) => r.date === today);
+            if (userTodayResp) {
                 loading.style.display = 'none';
                 taskView.style.display = 'none';
                 okView.style.display = 'flex';
                 document.getElementById('checkin-ok-msg').textContent = `Check-in already recorded for "${currentUser.username}".`;
-                document.getElementById('checkin-ok-stats').style.display = 'none';
+                
+                showCheckinFeedback(userTodayResp.answer);
+                await showCheckinCycleStats(today, key);
                 return;
             }
-
-            checkinCurrentQ = await ds.fetchCheckinQuestionForDate(today);
 
             document.getElementById('checkin-date').textContent = checkinFmtDate(today);
             document.getElementById('checkin-question-text').textContent = checkinCurrentQ?.question || '(No question scheduled for today)';
@@ -1748,6 +1751,91 @@ function initClinicalVideoApp() {
         }
     }
 
+    function showCheckinFeedback(userAns) {
+        const feedbackBox = document.getElementById('checkin-feedback-box');
+        if (!feedbackBox) return;
+
+        if (!checkinCurrentQ) {
+            feedbackBox.style.display = 'none';
+            return;
+        }
+
+        feedbackBox.style.display = 'block';
+        feedbackBox.innerHTML = '';
+
+        let isCorrect = null;
+        let correctAnswerLabel = '';
+
+        if (checkinCurrentQ.type === 'choice') {
+            const correctKey = checkinCurrentQ.correctChoice; // 'c1', 'c2', etc.
+            if (correctKey && checkinCurrentQ[correctKey]) {
+                const correctVal = checkinCurrentQ[correctKey].trim();
+                correctAnswerLabel = correctVal;
+                isCorrect = (userAns.trim().toLowerCase() === correctVal.toLowerCase());
+            }
+        } else if (checkinCurrentQ.type === 'text') {
+            const correctText = checkinCurrentQ.correctText;
+            if (correctText && correctText.trim()) {
+                correctAnswerLabel = correctText.trim();
+                isCorrect = (userAns.trim().toLowerCase() === correctAnswerLabel.toLowerCase());
+            }
+        }
+
+        if (isCorrect === true) {
+            feedbackBox.style.background = 'var(--ok-soft)';
+            feedbackBox.style.border = '1px solid rgba(21, 128, 61, 0.2)';
+            feedbackBox.style.color = 'var(--ok)';
+            feedbackBox.innerHTML = `
+                <div style="font-weight: 700; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Correct!
+                </div>
+                <div style="color: var(--ink);">Your answer: <strong>${escapeHtml(userAns)}</strong></div>
+            `;
+        } else if (isCorrect === false) {
+            feedbackBox.style.background = 'var(--danger-soft)';
+            feedbackBox.style.border = '1px solid rgba(185, 28, 28, 0.2)';
+            feedbackBox.style.color = 'var(--danger)';
+            feedbackBox.innerHTML = `
+                <div style="font-weight: 700; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.4rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    Incorrect
+                </div>
+                <div style="color: var(--ink); margin-bottom: 0.25rem;">Your answer: <strong>${escapeHtml(userAns)}</strong></div>
+                <div style="color: var(--ink);">Correct answer: <strong style="color: var(--ok);">${escapeHtml(correctAnswerLabel)}</strong></div>
+            `;
+        } else {
+            feedbackBox.style.background = 'var(--surface-soft)';
+            feedbackBox.style.border = '1px solid var(--border)';
+            feedbackBox.style.color = 'var(--muted)';
+            feedbackBox.innerHTML = `
+                <div style="color: var(--ink);">Your response: <strong>${escapeHtml(userAns)}</strong></div>
+            `;
+        }
+    }
+
+    async function showCheckinCycleStats(today, key) {
+        const statsEl = document.getElementById('checkin-ok-stats');
+        if (!statsEl) return;
+        statsEl.style.display = 'none';
+        try {
+            const cycleStart = checkinTwoWeekStart(today);
+            const cycleEnd = checkinAddDays(cycleStart, 13);
+            const rows = await ds.queryResponsesByNameKey(key);
+            if (rows.length) {
+                const daysSet = {};
+                rows.forEach(r => { if (r.date >= cycleStart && r.date <= today) daysSet[r.date] = true; });
+                const count = Object.keys(daysSet).length;
+                const elapsed = Math.floor((parseYMD(today) - parseYMD(cycleStart)) / 86400000) + 1;
+                const pct = elapsed > 0 ? Math.round((count / elapsed) * 100) : 0;
+                statsEl.innerHTML = `Cycle ${cycleStart} to ${cycleEnd}: <strong>${count} day(s)</strong> checked in (${pct}%)`;
+                statsEl.style.display = 'block';
+            }
+        } catch (e) {
+            console.error('showCheckinCycleStats failed', e);
+        }
+    }
+
     window.checkinPickChoice = function(el) {
         document.querySelectorAll('.checkin-choice-item').forEach(c => c.classList.remove('sel'));
         el.classList.add('sel');
@@ -1779,8 +1867,8 @@ function initClinicalVideoApp() {
             saveDraft('checkin_answer', null);
 
             document.getElementById('checkin-ok-msg').textContent = `Recorded for "${currentUser.username}".`;
-            const statsEl = document.getElementById('checkin-ok-stats');
-            statsEl.style.display = 'none';
+            
+            showCheckinFeedback(ans);
 
             document.getElementById('checkin-task-view').style.display = 'none';
             document.getElementById('checkin-ok-view').style.display = 'flex';
@@ -1789,19 +1877,7 @@ function initClinicalVideoApp() {
             await updateCheckinStreak();
             renderLearningHome();
 
-            const cycleStart = checkinTwoWeekStart(today);
-            const cycleEnd = checkinAddDays(cycleStart, 13);
-            const rows = await ds.queryResponsesByNameKey(key);
-            if (rows.length) {
-                const daysSet = {};
-                rows.forEach(r => { if (r.date >= cycleStart && r.date <= today) daysSet[r.date] = true; });
-                daysSet[today] = true;
-                const count = Object.keys(daysSet).length;
-                const elapsed = Math.floor((parseYMD(today) - parseYMD(cycleStart)) / 86400000) + 1;
-                const pct = elapsed > 0 ? Math.round((count / elapsed) * 100) : 0;
-                statsEl.innerHTML = `Cycle ${cycleStart} to ${cycleEnd}: <strong>${count} day(s)</strong> checked in (${pct}%)`;
-                statsEl.style.display = 'block';
-            }
+            await showCheckinCycleStats(today, key);
         } catch (e) {
             btn.disabled = false; btn.textContent = 'Submit answer';
             alert('Something went wrong. Please try again.');
@@ -1824,10 +1900,14 @@ function initClinicalVideoApp() {
                 const badge = r.type === 'choice'
                     ? `<span class="checkin-q-badge choice">Choice</span>`
                     : `<span class="checkin-q-badge">Free text</span>`;
+                const answerBadge = (r.correctChoice || (r.correctText && r.correctText.trim()))
+                    ? `<span class="checkin-q-badge" style="background:var(--ok-soft); color:var(--ok); border:1px solid rgba(21,128,61,0.25);">✓ Answer Key</span>`
+                    : ``;
                 return `<div class="checkin-q-row ${isToday ? 'today' : ''}">
                     <span class="checkin-q-date ${isToday ? 'now' : ''}">${checkinEsc(isToday ? 'Today' : r.date)}</span>
                     <span class="checkin-q-text">${checkinEsc(r.question)}</span>
                     ${badge}
+                    ${answerBadge}
                     <button type="button" class="btn outline-btn btn-compact" onclick="openCheckinQForm(${i})">Edit</button>
                 </div>`;
             }).join('');
@@ -1845,6 +1925,8 @@ function initClinicalVideoApp() {
         document.getElementById('cq-question').value = '';
         if (cqImgZone) cqImgZone.setImageUrl('');
         ['cq-c1','cq-c2','cq-c3','cq-c4','cq-c5'].forEach(id => { document.getElementById(id).value = ''; });
+        document.getElementById('cq-correct-text').value = '';
+        document.getElementById('cq-correct-choice').value = '';
         setCQType('text');
         document.getElementById('btn-cq-delete').style.display = 'none';
 
@@ -1857,6 +1939,12 @@ function initClinicalVideoApp() {
             if (r.type === 'choice') {
                 setCQType('choice');
                 ['c1','c2','c3','c4','c5'].forEach(k => { document.getElementById('cq-' + k).value = r[k] || ''; });
+            }
+            if (r.correctText) {
+                document.getElementById('cq-correct-text').value = r.correctText;
+            }
+            if (r.correctChoice) {
+                document.getElementById('cq-correct-choice').value = r.correctChoice;
             }
             document.getElementById('btn-cq-delete').style.display = 'block';
         }
@@ -1871,6 +1959,11 @@ function initClinicalVideoApp() {
         document.getElementById('cq-type-text').classList.toggle('cq-type-active', t === 'text');
         document.getElementById('cq-type-choice').classList.toggle('cq-type-active', t === 'choice');
         document.getElementById('cq-choice-fields').style.display = t === 'choice' ? 'flex' : 'none';
+
+        const textWrapper = document.getElementById('cq-correct-text-wrapper');
+        const choiceWrapper = document.getElementById('cq-correct-choice-wrapper');
+        if (textWrapper) textWrapper.style.display = t === 'text' ? 'block' : 'none';
+        if (choiceWrapper) choiceWrapper.style.display = t === 'choice' ? 'block' : 'none';
     };
 
     function closeCheckinQForm() {
@@ -1898,6 +1991,8 @@ function initClinicalVideoApp() {
             c4: document.getElementById('cq-c4').value.trim(),
             c5: document.getElementById('cq-c5').value.trim(),
             imageUrl: document.getElementById('cq-img').value.trim(),
+            correctText: document.getElementById('cq-correct-text').value.trim(),
+            correctChoice: document.getElementById('cq-correct-choice').value,
         };
         try {
             if (checkinEditingDate && checkinEditingDate !== date) {
