@@ -1,6 +1,7 @@
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/+esm';
-import * as PUBLIC_SB from '../js/supabase-config.js';
-
+const PUBLIC_SB = await import('../js/supabase-config.js').catch((err) => {
+  console.warn("[Sheets] Supabase config unavailable, using local PDF storage only", err);
+  return {};
+});
 const LOCAL_SB =
   typeof location !== 'undefined' && ['localhost', '127.0.0.1'].includes(location.hostname)
     ? await import('../js/supabase-config.local.js').catch(() => ({}))
@@ -30,7 +31,8 @@ const SUPABASE_READY = Boolean(
     !String(SB.SUPABASE_URL).includes("YOUR_PROJECT") &&
     !String(SB.SUPABASE_ANON_KEY).includes("YOUR_ANON")
 );
-const supabase = SUPABASE_READY ? createClient(SB.SUPABASE_URL, SB.SUPABASE_ANON_KEY) : null;
+let supabase = null;
+let supabaseLoadPromise = null;
 
 const sheetList = document.getElementById("sheetList");
 const sheetCount = document.getElementById("sheetCount");
@@ -53,6 +55,24 @@ let activeObjectUrl = "";
 let activeId = "";
 let uploadedSheets = [];
 let sheetsRemoteOk = false;
+
+async function getSupabaseClient() {
+  if (!SUPABASE_READY) return null;
+  if (supabase) return supabase;
+
+  if (!supabaseLoadPromise) {
+    supabaseLoadPromise = import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.8/+esm')
+      .then(({ createClient }) => createClient(SB.SUPABASE_URL, SB.SUPABASE_ANON_KEY))
+      .catch((err) => {
+        console.warn("[Sheets] Supabase client unavailable, using local PDF storage only", err);
+        sheetsRemoteOk = false;
+        return null;
+      });
+  }
+
+  supabase = await supabaseLoadPromise;
+  return supabase;
+}
 
 const IS_ADMIN = new URLSearchParams(window.location.search).get("admin") === "1";
 
@@ -152,8 +172,9 @@ function remoteRowToSheet(row) {
 }
 
 async function loadRemoteSheets() {
-  if (!supabase) return [];
-  const { data, error } = await supabase
+  const client = await getSupabaseClient();
+  if (!client) return [];
+  const { data, error } = await client
     .from(SHEETS_TABLE)
     .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
     .order("created_at", { ascending: false });
@@ -163,9 +184,10 @@ async function loadRemoteSheets() {
 }
 
 async function saveRemotePdf(file) {
-  if (!supabase) throw new Error("Supabase not configured");
+  const client = await getSupabaseClient();
+  if (!client) throw new Error("Supabase not configured");
   const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safePdfName(file.name)}`;
-  const { error: uploadError } = await supabase.storage
+  const { error: uploadError } = await client.storage
     .from(SHEETS_BUCKET)
     .upload(path, file, {
       contentType: file.type || "application/pdf",
@@ -173,7 +195,7 @@ async function saveRemotePdf(file) {
     });
   if (uploadError) throw uploadError;
 
-  const { data: publicData } = supabase.storage.from(SHEETS_BUCKET).getPublicUrl(path);
+  const { data: publicData } = client.storage.from(SHEETS_BUCKET).getPublicUrl(path);
   const publicUrl = publicData?.publicUrl || "";
   const row = {
     title: file.name.replace(/\.pdf$/i, ""),
@@ -183,13 +205,13 @@ async function saveRemotePdf(file) {
     size_bytes: file.size,
     mime_type: file.type || "application/pdf"
   };
-  const { data, error: insertError } = await supabase
+  const { data, error: insertError } = await client
     .from(SHEETS_TABLE)
     .insert(row)
     .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
     .single();
   if (insertError) {
-    await supabase.storage.from(SHEETS_BUCKET).remove([path]).catch(() => {});
+    await client.storage.from(SHEETS_BUCKET).remove([path]).catch(() => {});
     throw insertError;
   }
   sheetsRemoteOk = true;
@@ -197,12 +219,13 @@ async function saveRemotePdf(file) {
 }
 
 async function deleteRemotePdf(sheet) {
-  if (!supabase) throw new Error("Supabase not configured");
+  const client = await getSupabaseClient();
+  if (!client) throw new Error("Supabase not configured");
   if (sheet.storagePath) {
-    const { error: storageError } = await supabase.storage.from(SHEETS_BUCKET).remove([sheet.storagePath]);
+    const { error: storageError } = await client.storage.from(SHEETS_BUCKET).remove([sheet.storagePath]);
     if (storageError) throw storageError;
   }
-  const { error } = await supabase.from(SHEETS_TABLE).delete().eq("id", sheet.id);
+  const { error } = await client.from(SHEETS_TABLE).delete().eq("id", sheet.id);
   if (error) throw error;
 }
 
@@ -418,6 +441,7 @@ function getUploadedSheetEntries(query = "") {
         id: sheet.id,
         title: sheet.title || sheet.fileName || "Uploaded PDF",
         meta: `${sheet.source === "supabase" ? "Supabase" : "Local"} · ${formatBytes(sheet.size)}`,
+        sheet,
         onOpen: () => {
           if (sheet.source === "supabase") {
             displayPdf({
@@ -439,9 +463,7 @@ function getUploadedSheetEntries(query = "") {
             objectUrl: true
           });
         }
-      },
-      sheet
-    }];
+      }];
     });
 }
 
@@ -488,6 +510,7 @@ function renderSheetList() {
   const total = DEFAULT_SHEETS.length + uploadedSheets.length;
   const query = normalizeSearchValue(sheetSearchInput?.value);
   sheetList.innerHTML = "";
+  sheetCount.textContent = query ? `0/${total}` : String(total);
 
   if (IS_ADMIN) {
     sheetHintText.textContent = sheetsRemoteOk
