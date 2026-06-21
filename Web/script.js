@@ -74,6 +74,11 @@ function getBetaFunctionUrl() {
     return resolveAppUrl(metaConfig('clinical-beta-url') || 'medquiz/');
 }
 
+/** Live classroom quiz path inside the combined web app. */
+function getLiveQuizUrl() {
+    return resolveAppUrl(metaConfig('clinical-livequiz-url') || 'livequiz/');
+}
+
 /** Pharmacology deck hub path inside the combined web app. */
 function getDecksUrl() {
     return resolveAppUrl('decks/');
@@ -966,6 +971,7 @@ function initClinicalVideoApp() {
     const btnStats = document.getElementById('btn-stats');
     const btnSheets = document.getElementById('btn-sheets');
     const btnDecks = document.getElementById('btn-decks');
+    const btnLiveQuiz = document.getElementById('btn-livequiz');
     const btnBeta = document.getElementById('btn-beta');
     const btnBack = document.getElementById('btn-back');
     const btnLogout = document.getElementById('btn-logout');
@@ -2507,6 +2513,10 @@ function initClinicalVideoApp() {
         window.location.href = getDecksUrl();
     }
 
+    function openLiveQuiz() {
+        window.location.href = getLiveQuizUrl();
+    }
+
     function openMedQuiz() {
         if (!currentUser) {
             showToast('กรุณาเข้าสู่ระบบก่อนใช้ Beta function', 'error');
@@ -2549,6 +2559,7 @@ function initClinicalVideoApp() {
         else if (target === 'stats') { renderStats(); navigateTo(pageStats); }
         else if (target === 'sheets') openSheets();
         else if (target === 'decks') openDecks();
+        else if (target === 'livequiz') openLiveQuiz();
         else if (target === 'medquiz') openMedQuiz();
     }
 

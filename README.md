@@ -11,6 +11,23 @@ Teaching web project containing one combined web app:
 
 `Web/js/supabase-config.js` contains only public browser-safe deployment settings. Keep local-only secrets in `Web/js/supabase-config.local.js`, which is intentionally ignored and only loaded on localhost.
 
+## Local Web Server
+
+Run the combined web app, including the LiveQuiz prototype:
+
+```bash
+node Web/server.js
+```
+
+Open `http://localhost:3000`. LiveQuiz is available from the main learning shell and directly at `http://localhost:3000/livequiz/`.
+
+LiveQuiz host flow:
+
+1. Create a room.
+2. Add, import, edit, delete, or reorder questions while the room is in draft.
+3. Click `Open lobby` when participants should be allowed to join.
+4. Click `Start quiz` to begin the host-paced quiz.
+
 ## Supabase Sheets Setup
 
 Run `supabase/sheets.sql` in the Supabase SQL Editor before using PDF upload on Netlify.

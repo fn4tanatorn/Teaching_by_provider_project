@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Host Console | LiveQuiz Classroom</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="host">
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <strong>Host Console</strong>
+          <span>LiveQuiz Classroom</span>
+        </div>
+        <a href="index.html">Create or join another room</a>
+      </header>
+
+      <section class="host-grid">
+        <div class="list">
+          <div class="panel">
+            <div class="split">
+              <div>
+                <h2>Room</h2>
+                <div id="roomCode" class="room-code">------</div>
+              </div>
+              <div>
+                <span id="roomState" class="pill">Loading</span>
+              </div>
+            </div>
+            <p class="hint">Share this code with participants. Keep the host link private.</p>
+            <div class="action-row">
+              <button id="openLobby" type="button" class="button-secondary">Open lobby</button>
+              <button id="copyHostLink" type="button" class="button-secondary">Copy host link</button>
+              <a id="exportCsv" class="button-ghost hidden" href="#">Export CSV</a>
+              <button id="exportXlsx" type="button" class="button-ghost hidden">Export XLSX</button>
+            </div>
+            <p id="hostStatus" class="status"></p>
+          </div>
+
+          <div class="panel">
+            <div class="split">
+              <h2>Participants</h2>
+              <span id="participantCount" class="pill">0 joined</span>
+            </div>
+            <div id="participantList" class="list"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Settings</h2>
+            <form id="settingsForm" class="form">
+              <label>
+                Global default time
+                <input id="globalTime" type="number" min="5" />
+              </label>
+              <button type="submit" class="button-secondary">Save settings</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="list">
+          <div id="builderPanel" class="panel">
+            <div class="split">
+              <h2>Questions</h2>
+              <span id="questionCount" class="pill">0 questions</span>
+            </div>
+            <div id="importDropZone" class="import-zone" tabindex="0" role="button" aria-label="Import CSV or XLSX questions">
+              <input id="importFile" type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden />
+              <div>
+                <strong>Drop CSV/XLSX question file</strong>
+                <p>Columns: prompt, choice_a, choice_b, choice_c, choice_d, choice_e, correct_answer, explanation, image_url, time_limit_seconds</p>
+              </div>
+              <button id="pickImportFile" type="button" class="button-secondary">Choose file</button>
+            </div>
+            <p id="importStatus" class="status"></p>
+            <form id="questionForm" class="form">
+              <label>
+                Prompt
+                <textarea id="prompt" rows="3" placeholder="Thai, English, or mixed Unicode text"></textarea>
+              </label>
+              <label>
+                Optional image URL
+                <input id="imageUrl" type="text" placeholder="https://... or uploaded image data URL" />
+              </label>
+              <div class="file-row">
+                <input id="imageFile" type="file" accept="image/*" hidden />
+                <button id="pickImageFile" type="button" class="button-secondary">Upload image</button>
+                <button id="clearImage" type="button" class="button-ghost">Clear image</button>
+                <span class="hint">Prototype stores uploads as room-local data URLs.</span>
+              </div>
+              <div id="imagePreview" class="image-preview hidden"></div>
+              <div class="form-row">
+                <label>Choice A <input id="choiceA" /></label>
+                <label>Choice B <input id="choiceB" /></label>
+              </div>
+              <div class="form-row">
+                <label>Choice C <input id="choiceC" /></label>
+                <label>Choice D <input id="choiceD" /></label>
+              </div>
+              <div class="form-row">
+                <label>Choice E optional <input id="choiceE" /></label>
+                <label>
+                  Correct answer
+                  <select id="correctChoice">
+                    <option>A</option>
+                    <option>B</option>
+                    <option>C</option>
+                    <option>D</option>
+                    <option>E</option>
+                  </select>
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Per-question time override
+                  <input id="timeLimit" type="number" min="5" placeholder="Use global default" />
+                </label>
+                <label>
+                  Explanation optional
+                  <input id="explanation" />
+                </label>
+              </div>
+              <div class="action-row">
+                <button id="questionSubmit" type="submit">Add question</button>
+                <button id="cancelEditQuestion" type="button" class="button-ghost hidden">Cancel edit</button>
+                <button id="startQuiz" type="button" class="button-secondary">Start quiz</button>
+              </div>
+            </form>
+            <div id="questionList" class="list" style="margin-top: 1rem"></div>
+          </div>
+
+          <div id="livePanel" class="panel hidden">
+            <div class="split">
+              <h2 id="liveTitle">Live question</h2>
+              <span id="timer" class="timer">--</span>
+            </div>
+            <div id="hostQuestion"></div>
+            <div id="hostReveal"></div>
+            <div class="action-row">
+              <button id="voidQuestion" type="button" class="button-danger">Void question</button>
+              <button id="nextQuestion" type="button" class="button-secondary">Next question</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="livequiz.js"></script>
+  </body>
+</html>

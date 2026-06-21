@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participant | LiveQuiz Classroom</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="participant">
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <strong>LiveQuiz Classroom</strong>
+          <span id="participantMeta">Participant</span>
+        </div>
+        <a href="index.html">Leave screen</a>
+      </header>
+
+      <section class="panel">
+        <div class="split">
+          <div>
+            <h2 id="participantTitle">Connecting</h2>
+            <p id="participantStatus" class="status">Restoring your session...</p>
+          </div>
+          <span id="participantTimer" class="timer">--</span>
+        </div>
+
+        <div id="participantQuestion"></div>
+        <div id="participantChoices" class="choices"></div>
+        <div id="participantReveal"></div>
+      </section>
+    </main>
+    <script src="livequiz.js"></script>
+  </body>
+</html>
