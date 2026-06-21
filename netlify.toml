@@ -1,6 +1,16 @@
 # Combined web deploy
 [build]
   publish = "Web"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/livequiz/api/*"
+  to = "/.netlify/functions/livequiz-api?path=:splat"
+  status = 200
+  force = true
 
 [[redirects]]
   from = "/medquiz/quiz"

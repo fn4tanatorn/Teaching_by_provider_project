@@ -21,6 +21,8 @@ node Web/server.js
 
 Open `http://localhost:3000`. LiveQuiz is available from the main learning shell and directly at `http://localhost:3000/livequiz/`.
 
+On Netlify, `/livequiz/api/*` is served by a Netlify Function backed by Netlify Blobs. The local Node server keeps using its ignored local JSON data file for quick development.
+
 LiveQuiz host flow:
 
 1. Create a room.
