@@ -3,27 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinical Video — Medical education hub</title>
-    <meta name="description" content="Calm, trustworthy video learning for clinicians.">
-    <!-- Supabase: วาง URL + anon key จาก Project Settings → API (แทนการแก้ js/supabase-config.js ก็ได้; เว้นว่าง = ใช้ไฟล์ config) -->
+    <title>Clinical Study Hub | Medical learning workspace</title>
+    <meta name="description" content="A minimal study workspace for clinical videos, practice, course PDFs, and pharmacology decks.">
+    <!-- Supabase public config. Leave empty to use js/supabase-config.js. -->
     <meta name="clinical-supabase-url" content="">
     <meta name="clinical-supabase-anon-key" content="">
-    <!-- เก็บแบบร่างฟอร์มใน localStorage: บน localhost เปิดอัตโนมัติ; บนโดเมนจริงใส่ content="true" หรือในเบราว์เซอร์ localStorage clinical_video_persist_forms = 1 -->
+    <!-- Form drafts are enabled on localhost. On production, set content to true or set localStorage clinical_video_persist_forms = 1. -->
     <meta name="clinical-persist-forms" content="">
     <!-- Learning tools: paths inside this combined web app -->
     <meta name="clinical-beta-url" content="medquiz/">
     <meta name="clinical-livequiz-url" content="livequiz/">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=7">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23dc2626'/%3E%3Cpath fill='%23fff' d='M16 24.5l-1.2-1.1C9.5 18.4 7 15.8 7 12.5 7 10 9 8 11.5 8c1.2 0 2.4.6 3.2 1.5.8-.9 2-1.5 3.3-1.5 2.5 0 4.5 2 4.5 4.5 0 3.3-2.5 5.9-7.8 10.9L16 24.5z'/%3E%3C/svg%3E">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232563eb'/%3E%3Cpath fill='%23fff' d='M8 9h7v7H8zM17 9h7v7h-7zM8 18h7v5H8zM17 18h7v5h-7z'/%3E%3C/svg%3E">
 </head>
 <body>
-    <div id="welcome-heart-host" class="welcome-heart-host" aria-hidden="true"></div>
     <div class="clinical-bg heart-bg" aria-hidden="true"></div>
 
-    <button id="btn-admin-login" class="admin-login-btn" type="button">Admin</button>
+    <button id="btn-admin-login" class="admin-login-btn" type="button">Staff</button>
 
     <main class="app-container">
 
@@ -35,8 +31,8 @@
                         <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                     </div>
                     <div class="brand-text">
-                        <span class="brand-name">Clinical Video</span>
-                        <span class="brand-tag">Medical education</span>
+                        <span class="brand-name">Clinical Study Hub</span>
+                        <span class="brand-tag">Study workspace</span>
                     </div>
                 </div>
             </header>
@@ -44,45 +40,55 @@
                 <div class="hero-shell">
                     <div class="hero-layout">
                         <div class="hero-copy">
-                            <span class="hero-eyebrow">Medical education</span>
-                            <h1 class="hero-headline">A calmer way to study clinical video</h1>
-                            <p class="hero-sub">Structured paths in anatomy and histology, with a quiet, spacious interface designed to lower cognitive load between cases.</p>
-                            <ul class="hero-bullets">
-                                <li>Subject-first navigation keeps anatomy and histology distinct.</li>
-                                <li>Daily check-ins keep your study cadence honest.</li>
-                                <li>Admin-approved enrollment for trusted cohorts.</li>
-                            </ul>
+                            <span class="hero-eyebrow">Clinical Study Hub</span>
+                            <h1 class="hero-headline">Study clinical material without the noise.</h1>
+                            <p class="hero-sub">Videos, practice questions, course PDFs, and pharmacology decks in one focused workspace.</p>
+                            <div class="hero-actions">
+                                <button type="button" id="btn-go-login" class="btn primary-btn">Log in</button>
+                                <button type="button" id="btn-go-register" class="btn outline-btn">Register</button>
+                            </div>
+                            <p class="hero-note">Use the name your instructor approved. Choose your own password on first visit.</p>
                         </div>
-                        <div class="glass-card welcome-card-inner glass">
-                            <div class="logo-area">
-                                <div class="logo-icon brand-icon" aria-hidden="true">
-                                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        <div class="glass-card welcome-card-inner study-preview-panel">
+                            <div class="study-preview-main">
+                                <img src="decks/data_6/01-fig-6-1.png" alt="Autonomic nervous system diagram from the pharmacology deck">
+                            </div>
+                            <div class="study-preview-grid" aria-label="Included study tools" hidden>
+                                <div class="study-preview-tool">
+                                    <strong>Videos</strong>
+                                    <span>Course lessons</span>
+                                </div>
+                                <div class="study-preview-tool">
+                                    <strong>MedQuiz</strong>
+                                    <span>Practice questions</span>
+                                </div>
+                                <div class="study-preview-tool">
+                                    <strong>Sheets</strong>
+                                    <span>Course PDFs</span>
+                                </div>
+                                <div class="study-preview-tool">
+                                    <strong>Decks</strong>
+                                    <span>Pharmacology chapters</span>
                                 </div>
                             </div>
-                            <h2>Member access</h2>
-                            <p>ถ้า User name (ที่ส่งมาใน forms) ของคุณ<strong>ตรงกับรายชื่อที่แอดมินอนุญาต</strong> ให้กด <strong>Register</strong> ครั้งแรกเพื่อตั้งรหัสผ่านที่คุณเลือกเอง แล้วครั้งถัดไปใช้ <strong>Log in</strong> ด้วยชื่อและรหัสเดิม</p>
-                            <div class="btn-stack">
-                                <button type="button" id="btn-go-register" class="btn primary-btn">Register</button>
-                                <button type="button" id="btn-go-login" class="btn outline-btn">Log in</button>
-                            </div>
-                            <p class="welcome-staff-row">
-                                <button type="button" id="btn-admin-staff" class="btn text-btn">Staff — Admin login</button>
+                            <p class="welcome-staff-row" hidden>
+                                <button type="button" id="btn-admin-staff" class="btn text-btn">Staff access</button>
                             </p>
                         </div>
                     </div>
                 </div>
-                <div class="trust-strip" aria-label="Highlights">
+                <div class="trust-strip" aria-label="Highlights" hidden>
                     <div class="trust-metric">
-                        <strong>Clinical minimal</strong>
-                        <span>Soft contrast & generous spacing</span>
+                        <strong>Focused study</strong>
+                        <span>Next action first</span>
                     </div>
                     <div class="trust-metric">
-                        <strong>Subject-aware</strong>
-                        <span>Anatomy · Histology paths</span>
+                        <strong>Course material</strong>
+                        <span>Videos, PDFs, and decks</span>
                     </div>
                     <div class="trust-metric">
-                        <strong>Secure flows</strong>
-                        <span>Admin-approved enrollment</span>
+                        <strong>Practice ready</strong>
+                        <span>MedQuiz and check-ins</span>
                     </div>
                 </div>
             </div>
@@ -95,17 +101,17 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </div>
                 <div class="brand-text">
-                    <span class="brand-name">Clinical Video</span>
+                    <span class="brand-name">Clinical Study Hub</span>
                     <span class="brand-tag">Member access</span>
                 </div>
             </header>
             <div class="glass-card login-card glass">
                 <h2>Register</h2>
-                <p>กรอก<strong>User name (ที่ส่งมาใน forms) ให้ตรงกับรายชื่อที่แอดมินอนุญาต</strong> (ตัวพิมพ์เล็ก–ใหญ่ไม่มีผล) และ<strong>รหัสผ่านที่คุณตั้งเอง</strong> — ไม่ต้องรอแอดมินอนุมัติแยก</p>
+                <p>Use the name your instructor approved. Choose a password for future visits.</p>
                 <form id="register-form">
                     <div class="input-group">
                         <input type="text" id="reg-username" required placeholder=" ">
-                        <label for="reg-username">User name (ที่ส่งมาใน forms)</label>
+                        <label for="reg-username">Approved name</label>
                     </div>
                     <div class="input-group">
                         <input type="password" id="reg-password" required placeholder=" ">
@@ -125,8 +131,8 @@
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                 </div>
                 <div class="brand-text">
-                    <span class="brand-name">Clinical Video</span>
-                    <span class="brand-tag">Medical education</span>
+                    <span class="brand-name">Clinical Study Hub</span>
+                    <span class="brand-tag">Study workspace</span>
                 </div>
             </header>
             <div class="glass-card login-card glass">
@@ -135,7 +141,7 @@
                 <form id="login-form">
                     <div class="input-group">
                         <input type="text" id="username" required placeholder=" ">
-                        <label for="username">User name (ที่ส่งมาใน forms)</label>
+                        <label for="username">Approved name</label>
                     </div>
                     <div class="input-group">
                         <input type="password" id="password" required placeholder=" ">
@@ -157,15 +163,15 @@
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         </div>
                         <div>
-                            <strong>Clinical Video</strong>
-                            <span>Learning OS</span>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
                         </div>
                     </div>
                     <nav class="learning-nav">
                         <button type="button" class="shell-nav-link" data-nav-target="home" aria-current="page">Home</button>
                         <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
                         <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
-                        <button type="button" class="shell-nav-link" data-nav-target="stats">Statistics</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
                         <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
                         <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
@@ -175,11 +181,11 @@
                 <div class="learning-workspace">
                     <header class="learning-topbar">
                         <div>
-                            <p class="learning-kicker">Today</p>
+                            <p class="learning-kicker">Workspace</p>
                             <h2 id="home-greeting">Learning home</h2>
                         </div>
                         <div class="learning-topbar-actions">
-                            <button id="countdown-timer-home" type="button" class="countdown-badge countdown-badge--button">EXAM: --</button>
+                            <button id="countdown-timer-home" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
                             <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
@@ -207,30 +213,46 @@
                         </section>
 
                         <section id="home-last-lesson-card" class="home-card home-card--wide glass-card" aria-live="polite">
-                            <p class="learning-kicker">Continue lesson</p>
+                            <p class="learning-kicker">Resume</p>
                             <h3 id="home-last-lesson-title">No recent lesson yet</h3>
                             <p id="home-last-lesson-meta">Open any video lesson and it will appear here.</p>
                             <button id="home-resume-lesson" type="button" class="btn outline-btn btn-compact" disabled>Resume lesson</button>
                         </section>
 
                         <section class="home-card glass-card">
-                            <p class="learning-kicker">Daily rhythm</p>
+                            <p class="learning-kicker">Practice</p>
                             <h3 id="home-checkin-title">Daily check-in</h3>
                             <p id="home-checkin-copy">Answer today's question to keep your learning cadence visible.</p>
                             <button type="button" class="btn outline-btn btn-compact" data-nav-target="checkin">Open check-in</button>
                         </section>
 
                         <section class="home-tools glass-card" aria-label="Learning tools">
-                            <div class="home-tools-head">
+                            <div class="home-tools-head" hidden>
                                 <p class="learning-kicker">Tools</p>
-                                <h3>Study workspace</h3>
+                                <h3>Choose a study mode</h3>
                             </div>
-                            <div class="home-tool-grid">
-                                <button type="button" class="home-tool" data-nav-target="videos"><strong>Videos</strong><span>Subject lessons</span></button>
-                                <button type="button" class="home-tool" data-nav-target="livequiz"><strong>LiveQuiz</strong><span>Classroom rooms</span></button>
-                                <button type="button" class="home-tool" data-nav-target="medquiz"><strong>MedQuiz</strong><span>Daily practice</span></button>
-                                <button type="button" class="home-tool" data-nav-target="sheets"><strong>Sheets</strong><span>PDF reader</span></button>
-                                <button type="button" class="home-tool" data-nav-target="decks"><strong>Pharma Decks</strong><span>Katzung slides</span></button>
+                            <div class="home-tool-groups">
+                                <div class="home-tool-group">
+                                    <span class="home-tool-group-label">Learn</span>
+                                    <div class="home-tool-grid">
+                                        <button type="button" class="home-tool" data-nav-target="videos"><strong>Videos</strong><span>Subject lessons</span></button>
+                                        <button type="button" class="home-tool" data-nav-target="decks"><strong>Pharma Decks</strong><span>Katzung-based chapters</span></button>
+                                        <button type="button" class="home-tool" data-nav-target="sheets"><strong>Sheets</strong><span>Course PDFs and handouts</span></button>
+                                    </div>
+                                </div>
+                                <div class="home-tool-group">
+                                    <span class="home-tool-group-label">Practice</span>
+                                    <div class="home-tool-grid">
+                                        <button type="button" class="home-tool" data-nav-target="medquiz"><strong>MedQuiz</strong><span>Practice questions</span></button>
+                                        <button type="button" class="home-tool" data-nav-target="checkin"><strong>Check-in</strong><span>Daily response</span></button>
+                                    </div>
+                                </div>
+                                <div class="home-tool-group">
+                                    <span class="home-tool-group-label">Classroom</span>
+                                    <div class="home-tool-grid">
+                                        <button type="button" class="home-tool" data-nav-target="livequiz"><strong>LiveQuiz</strong><span>Join a host-paced quiz room</span></button>
+                                    </div>
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -247,15 +269,15 @@
                             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                         </div>
                         <div>
-                            <strong>Clinical Video</strong>
-                            <span>Learning OS</span>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
                         </div>
                     </div>
                     <nav class="learning-nav">
                         <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
                         <button type="button" class="shell-nav-link" data-nav-target="videos" aria-current="page">Videos</button>
                         <button id="btn-checkin" type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
-                        <button id="btn-stats" type="button" class="shell-nav-link" data-nav-target="stats">Statistics</button>
+                        <button id="btn-stats" type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button id="btn-sheets" type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
                         <button id="btn-decks" type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
                         <button id="btn-livequiz" type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
@@ -266,12 +288,12 @@
                     <header class="learning-topbar">
                         <div>
                             <p class="learning-kicker">Videos</p>
-                            <h2>Video feed</h2>
+                            <h2>Course path</h2>
                         </div>
                         <div class="learning-topbar-actions">
-                            <div id="badge-checkin-streak" class="countdown-badge" title="Continue: consecutive check-in days">Continue · 0d</div>
-                            <div id="badge-video-streak" class="countdown-badge" title="Progress: consecutive video days">Progress · 0d</div>
-                            <button id="countdown-timer" type="button" class="countdown-badge countdown-badge--button">EXAM: --</button>
+                            <div id="badge-checkin-streak" class="countdown-badge" title="Consecutive check-in days">Check-in 0d</div>
+                            <div id="badge-video-streak" class="countdown-badge" title="Consecutive video days">Video 0d</div>
+                            <button id="countdown-timer" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
                             <button id="btn-logout" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
@@ -294,7 +316,7 @@
                             <div class="video-feed-toolbar glass-card" aria-label="Video tools">
                                 <div class="video-feed-toolbar-copy">
                                     <p class="video-feed-label">Lesson finder</p>
-                                    <p id="video-search-summary" class="video-search-summary">Browse all lessons in this subject.</p>
+                                    <p id="video-search-summary" class="video-search-summary">Browse lessons in this subject.</p>
                                 </div>
                                 <label class="video-search-field" for="video-search-input">
                                     <span class="video-search-icon" aria-hidden="true">⌕</span>
@@ -308,7 +330,7 @@
             </div>
         </section>
 
-        <!-- Page: single video — link + Finished -->
+        <!-- Page: single video link plus Finished -->
         <section id="page-video-watch" class="page" data-screen-label="Watch">
             <nav class="glass-nav">
                 <div class="nav-brand">
@@ -318,7 +340,7 @@
                     <h2 id="watch-nav-title">Video</h2>
                 </div>
                 <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
-                    <button id="countdown-timer-watch" type="button" class="countdown-badge countdown-badge--button">⏳ EXAM coming in: --:--:--</button>
+                    <button id="countdown-timer-watch" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
                 </div>
             </nav>
             <div class="content watch-layout">
@@ -327,12 +349,12 @@
                 </div>
                 <div class="watch-sidebar" style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <div class="glass-card watch-card">
-                        <h3 id="watch-video-title" class="watch-title">—</h3>
+                        <h3 id="watch-video-title" class="watch-title">Lesson</h3>
                         <p class="watch-hint">Watch the video carefully and mark as finished when done.</p>
                         
                         <div style="margin: 1.5rem 0;">
-                            <label for="video-feedback" style="font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem; display: block;">Leave a comment or positive feedback ✨</label>
-                            <textarea id="video-feedback" rows="3" placeholder="What did you learn? What did you like?" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                            <label for="video-feedback" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; display: block;">Lesson note</label>
+                            <textarea id="video-feedback" rows="3" placeholder="Save a point to review later." style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
                         </div>
 
                         <div class="watch-actions">
@@ -341,7 +363,7 @@
                     </div>
 
                     <div class="glass-card watch-card" style="margin-top: 1.5rem;">
-                        <h4 style="font-size: 14px; margin-bottom: 1rem; color: var(--ink-2); font-family: var(--font-display);">Community Comments</h4>
+                        <h4 style="font-size: 14px; margin-bottom: 1rem; color: var(--ink-2); font-family: var(--font-display);">Lesson notes</h4>
                         <div id="video-comments-list" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 400px; overflow-y: auto; padding-right: 0.5rem;">
                             <!-- Comments rendered here -->
                         </div>
@@ -384,7 +406,7 @@
                     <h2>Daily check-in</h2>
                 </div>
                 <div class="nav-actions" style="display:flex; gap:0.5rem; align-items:center;">
-                    <button id="countdown-timer-quiz" type="button" class="countdown-badge countdown-badge--button">⏳ EXAM coming in: --:--:--</button>
+                    <button id="countdown-timer-quiz" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
                 </div>
             </nav>
             <div class="content" style="align-items:center; justify-content:center; min-height:70vh;">
@@ -428,18 +450,18 @@
                     <button id="btn-back" class="btn icon-btn" title="Back to videos">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
                     </button>
-                    <h2>Channel analytics</h2>
+                    <h2>Cohort analytics</h2>
                 </div>
             </nav>
             <div class="content">
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
                     <div class="glass-card admin-panel panel-block" style="margin: 0;">
-                        <h3 style="font-size: 15px; margin-bottom: 1rem;">🔥 Top 10 Daily Quiz Streaks</h3>
+                        <h3 style="font-size: 15px; margin-bottom: 1rem;">Top 10 check-in streaks</h3>
                         <div class="top-videos-list compact-list" id="top-quiz-streak-list"></div>
                     </div>
 
                     <div class="glass-card admin-panel panel-block" style="margin: 0;">
-                        <h3 style="font-size: 15px; margin-bottom: 1rem;">📺 Top 10 Video Streaks</h3>
+                        <h3 style="font-size: 15px; margin-bottom: 1rem;">Top 10 video streaks</h3>
                         <div class="top-videos-list compact-list" id="top-video-streak-list"></div>
                     </div>
                 </div>
@@ -465,16 +487,16 @@
                 </div>
             </nav>
             <div class="content">
-                <p id="local-admin-banner" lang="th" role="status" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem; background: var(--warn-soft); color: var(--ink); border-radius: var(--r-input); font-size: 14px;">เข้าผ่านรหัสลับอย่างเดียว — การบันทึกลงฐานข้อมูลอาจไม่สำเร็จจนกว่าจะมีบัญชีแอดมินใน Supabase และแถวในตาราง admin_users</p>
+                <p id="local-admin-banner" role="status" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem; background: var(--warn-soft); color: var(--ink); border-radius: var(--r-input); font-size: 14px;">Password-only admin access is active. Database writes may fail until a Supabase admin account exists in public.admin_users.</p>
                 <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
                     <div class="panel-header-inline">
-                        <h3>Allowed User names (ที่ส่งมาใน forms)</h3>
+                        <h3>Approved names</h3>
                         <div style="display:flex;gap:0.5rem;">
                             <button id="btn-clear-allowed-names" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear</button>
                             <button id="btn-save-allowed-names" type="button" class="btn outline-btn btn-compact">Save List</button>
                         </div>
                     </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Enter names separated by commas or new lines. Only users with these names can register or stay signed in — removing a name immediately revokes their access on next action.</p>
+                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Enter names separated by commas or new lines. Only users with these names can register or stay signed in. Removing a name revokes access on the next action.</p>
                     <textarea id="admin-allowed-names" rows="4" placeholder="e.g. John Doe, Doctor Strange, Pathologist101" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
                 </div>
 
@@ -490,7 +512,7 @@
                     </div>
                     <div style="margin-top: 1rem;">
                         <label for="admin-exam-note" style="display:block; font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem;">Exam details note</label>
-                        <textarea id="admin-exam-note" rows="5" placeholder="รายละเอียดการสอบ เช่น เนื้อหา ห้องสอบ สิ่งที่ต้องเตรียม" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                        <textarea id="admin-exam-note" rows="5" placeholder="Exam topics, room, preparation notes, or instructions" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
                     </div>
                     <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 0.75rem;">
                         <button id="btn-save-exam-note" type="button" class="btn outline-btn btn-compact">Save note</button>
@@ -504,6 +526,20 @@
                         <a href="sheets/index.html?admin=1" class="btn outline-btn btn-compact">Manage Sheets</a>
                     </div>
                     <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Upload PDF sheets and remove uploaded files from the Sheets reader.</p>
+                </div>
+
+                <div class="glass-card admin-panel panel-block livequiz-admin-panel">
+                    <div class="panel-header-inline">
+                        <div>
+                            <h3>LiveQuiz</h3>
+                            <p class="admin-panel-kicker">Live session control</p>
+                        </div>
+                        <div class="panel-header-actions">
+                            <a href="livequiz/host.html" class="btn primary-btn btn-compact">Create room</a>
+                            <a href="livequiz/" class="btn outline-btn btn-compact">Participant view</a>
+                        </div>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Create host-paced classroom quiz rooms, import questions, open the lobby, and share the room code with students.</p>
                 </div>
 
                 <div class="glass-card admin-panel panel-block">
@@ -524,13 +560,13 @@
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Reset user analytics across all videos.</p>
                     <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <button id="btn-clear-views" type="button" class="btn outline-btn btn-delete-outline">Clear All Video Views</button>
-                        <button id="btn-clear-feedbacks" type="button" class="btn outline-btn btn-delete-outline">Clear All Positive Feedbacks</button>
+                        <button id="btn-clear-feedbacks" type="button" class="btn outline-btn btn-delete-outline">Clear all lesson notes</button>
                     </div>
                 </div>
 
                 <div class="glass-card admin-panel panel-block">
                     <div class="panel-header-inline">
-                        <h3>Positive Feedback & Comments</h3>
+                        <h3>Lesson notes</h3>
                         <button id="btn-refresh-feedbacks" type="button" class="btn outline-btn btn-compact">Refresh</button>
                     </div>
                     <div class="admin-feedback-list" id="admin-feedback-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
@@ -572,11 +608,11 @@
                                 <input type="file" class="q-img-file" accept="image/*" style="display:none;">
                                 <input type="hidden" id="cq-img" class="q-img" value="">
                                 <div class="upload-placeholder">
-                                    <p style="font-size: 13px; color: var(--text-muted); margin: 0; pointer-events: none;">📸 Drag &amp; Drop image here or Click to upload</p>
+                                    <p style="font-size: 13px; color: var(--text-muted); margin: 0; pointer-events: none;">Drag and drop an image here, or click to upload.</p>
                                 </div>
                                 <div class="upload-preview" style="display:none;">
                                     <img src="" style="max-height: 120px; max-width: 100%; border-radius: var(--r-input); object-fit: contain;">
-                                    <button type="button" class="btn icon-btn remove-img-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(255,255,255,0.9); color: var(--danger); padding: 4px; height: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">🗑️</button>
+                                    <button type="button" class="btn icon-btn remove-img-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(255,255,255,0.9); color: var(--danger); padding: 4px; height: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">Remove</button>
                                 </div>
                                 <div class="upload-loading" style="display:none; pointer-events: none;">
                                     <p style="font-size: 13px; color: var(--teal); margin: 0; font-weight: 500;">Uploading…</p>
@@ -643,7 +679,7 @@
     <div id="exam-details-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="exam-details-title" aria-hidden="true">
         <div class="modal-content glass-card exam-details-card">
             <h3 id="exam-details-title">Exam details</h3>
-            <p id="exam-details-note" class="exam-details-note">ยังไม่มีรายละเอียดการสอบ</p>
+            <p id="exam-details-note" class="exam-details-note">No exam details yet.</p>
             <div class="modal-actions">
                 <button id="btn-close-exam-details" type="button" class="btn outline-btn">Close</button>
             </div>
@@ -654,10 +690,10 @@
     <div id="admin-login-modal" style="display:none; position:fixed; inset:0; z-index:200; background:rgba(15,42,54,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;">
         <div class="glass-card" style="width:100%; max-width:360px; padding:2rem; display:flex; flex-direction:column; gap:1.25rem;">
             <h2 style="font-size:1.2rem;">Admin</h2>
-            <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.45;">กรอกรหัสผู้ดูแลอย่างเดียว (ตั้งค่าได้ที่ js/supabase-config.js)</p>
+            <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.45;">Enter the admin password configured in js/supabase-config.js.</p>
             <div class="input-group">
                 <input type="password" id="admin-password" placeholder=" " autocomplete="current-password">
-                <label for="admin-password">รหัสแอดมิน</label>
+                <label for="admin-password">Admin password</label>
             </div>
             <p id="admin-login-error" class="error-msg"></p>
             <div style="display:flex; gap:0.5rem;">
@@ -667,7 +703,7 @@
         </div>
     </div>
 
-    <!-- เพิ่มวิชา (ใช้แทน window.prompt — รองรับ Safari / มือถือ) -->
+    <!-- Add subject modal. Replaces window.prompt for Safari and mobile support. -->
     <div
         id="subject-add-modal"
         style="display:none; position:fixed; inset:0; z-index:201; background:rgba(15,42,54,0.45); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:1rem;"
@@ -676,20 +712,52 @@
         aria-labelledby="subject-add-title"
     >
         <div class="glass-card" style="width:100%; max-width:380px; padding:2rem; display:flex; flex-direction:column; gap:1rem;">
-            <h2 id="subject-add-title" style="font-size:1.15rem;">เพิ่มวิชาใหม่</h2>
-            <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.45;">พิมพ์ชื่อสั้นๆ (เช่น cardiology) — จะแปลงเป็นตัวพิมพ์เล็กให้อัตโนมัติ</p>
+            <h2 id="subject-add-title" style="font-size:1.15rem;">Add subject</h2>
+            <p style="font-size:13px; color:var(--muted); margin:0; line-height:1.45;">Use a short subject name, such as cardiology. It will be saved in lowercase.</p>
             <div class="input-group">
                 <input type="text" id="subject-add-input" placeholder=" " autocomplete="off">
-                <label for="subject-add-input">ชื่อวิชา</label>
+                <label for="subject-add-input">Subject name</label>
             </div>
             <p id="subject-add-error" class="error-msg" style="display:none; margin:0;"></p>
             <div style="display:flex; gap:0.5rem;">
-                <button type="button" id="btn-subject-add-cancel" class="btn outline-btn" style="flex:1;">ยกเลิก</button>
-                <button type="button" id="btn-subject-add-confirm" class="btn primary-btn" style="flex:1;">เพิ่มวิชา</button>
+                <button type="button" id="btn-subject-add-cancel" class="btn outline-btn" style="flex:1;">Cancel</button>
+                <button type="button" id="btn-subject-add-confirm" class="btn primary-btn" style="flex:1;">Add subject</button>
             </div>
         </div>
     </div>
 
+    <script>
+        (function () {
+            if (window.location.protocol !== 'file:') return;
+
+            var localServerUrl = 'http://localhost:3001/';
+            var routeByButtonId = {
+                'btn-go-login': '#login',
+                'btn-go-register': '#register',
+                'btn-admin-login': '#admin',
+                'btn-admin-staff': '#admin'
+            };
+            function openLocalServer(event) {
+                if (event) event.preventDefault();
+                var route = event && event.currentTarget
+                    ? routeByButtonId[event.currentTarget.id] || ''
+                    : '';
+                window.location.href = localServerUrl + route;
+            }
+
+            window.addEventListener('DOMContentLoaded', function () {
+                ['btn-go-login', 'btn-go-register', 'btn-admin-login', 'btn-admin-staff'].forEach(function (id) {
+                    var el = document.getElementById(id);
+                    if (el) el.addEventListener('click', openLocalServer);
+                });
+
+                var notice = document.createElement('div');
+                notice.className = 'local-file-notice';
+                notice.innerHTML = '<strong>Open with the local server.</strong><span>This app cannot run from a file URL because browser module scripts are blocked. Use <a href="' + localServerUrl + '">' + localServerUrl + '</a>.</span>';
+                document.body.appendChild(notice);
+            });
+        })();
+    </script>
     <script type="module" src="script.js?v=41"></script>
 </body>
 </html>

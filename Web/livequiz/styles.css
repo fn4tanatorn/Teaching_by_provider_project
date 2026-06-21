@@ -25,7 +25,9 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg);
+  background:
+    linear-gradient(180deg, #f2f7f4 0, #f7f9fb 280px),
+    var(--bg);
   color: var(--text);
   font-family: var(--font);
   line-height: 1.5;
@@ -33,6 +35,7 @@ body {
 
 a {
   color: var(--accent-2);
+  text-underline-offset: 0.16em;
 }
 
 button,
@@ -112,7 +115,7 @@ button:disabled {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
 .brand {
@@ -138,8 +141,13 @@ button:disabled {
 }
 
 .participant-entry {
-  grid-template-columns: minmax(0, 640px);
+  grid-template-columns: minmax(0, 560px);
   justify-content: center;
+}
+
+.entry-hero {
+  align-items: start;
+  min-height: calc(100vh - 168px);
 }
 
 .host-grid {
@@ -155,6 +163,10 @@ button:disabled {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 18px;
+}
+
+.entry-card {
+  padding: clamp(22px, 4vw, 36px);
 }
 
 .panel h1,
@@ -175,6 +187,21 @@ button:disabled {
 
 .panel h3 {
   font-size: 0.98rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.45rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.entry-title {
+  max-width: 12ch;
+  margin-bottom: 0.75rem !important;
+  font-size: clamp(2rem, 9vw, 3.8rem) !important;
 }
 
 .lede {
@@ -212,6 +239,13 @@ select {
   background: #ffffff;
   min-height: 42px;
   padding: 0.65rem 0.75rem;
+}
+
+.room-code-input {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 textarea {

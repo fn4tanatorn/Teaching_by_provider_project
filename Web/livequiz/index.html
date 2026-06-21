@@ -10,20 +10,21 @@
     <main class="shell">
       <header class="topbar">
         <div class="brand">
-          <strong>LiveQuiz Classroom</strong>
-          <span>Ad-hoc host-paced MCQ rooms</span>
+          <strong>LiveQuiz</strong>
+          <span>Participant entry</span>
         </div>
         <a href="../index.html">Teaching home</a>
       </header>
 
-      <section class="grid participant-entry">
-        <div class="panel">
-          <h2>Join as participant</h2>
-          <p class="lede">Enter the room code and a unique username. Refreshes from the same browser will restore your session.</p>
+      <section class="grid participant-entry entry-hero">
+        <div class="panel entry-card">
+          <p class="eyebrow">Student access</p>
+          <h1 class="entry-title">Join a live classroom quiz</h1>
+          <p class="lede">Use the room code from your instructor. Keep the same username if you refresh or reconnect.</p>
           <form id="joinRoomForm" class="form">
             <label>
               Room code
-              <input id="joinCode" autocomplete="one-time-code" inputmode="numeric" />
+              <input id="joinCode" class="room-code-input" autocomplete="one-time-code" inputmode="numeric" maxlength="6" />
             </label>
             <label>
               Username

@@ -402,6 +402,7 @@ function createSheetButton({ id, title, meta, onOpen }) {
   button.type = "button";
   button.className = "sheet-item";
   button.dataset.sheetId = id;
+  button.title = title;
 
   const strong = document.createElement("strong");
   strong.textContent = title;

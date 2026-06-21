@@ -103,7 +103,7 @@ function embeddedTestUsername() {
         : 'admin061';
 }
 
-/** บัญชี admin061 — กด Beta ได้ไม่จำกัด */
+/** admin061 bypass account can open MedQuiz without the daily limit. */
 function isBetaDailyExemptUser(user) {
     if (!user) return false;
     if (user.uid === EMBEDDED_TEST_UID || user.embeddedTestLogin) return true;
@@ -140,7 +140,7 @@ function markBetaUsedToday(user) {
 const CLINICAL_DRAFT_PREFIX = 'clinical_video_draft_v1:';
 const CLINICAL_LAST_VIDEO_PREFIX = 'clinical_video_last_video_v1:';
 
-/** เก็บฟอร์มลง localStorage ตอน dev (localhost) หรือเมื่อเปิด meta / flag — ไม่เปิดเองบนโดเมนจริง */
+/** Store form drafts on localhost, or when explicitly enabled by meta or localStorage flag. */
 function persistFormsEnabled() {
     try {
         const v = metaConfig('clinical-persist-forms');
@@ -200,7 +200,7 @@ function initClinicalVideoApp() {
 
     if (typeof location !== 'undefined' && location.protocol === 'file:') {
         console.warn(
-            '[Clinical Video] กำลังเปิดจาก file:// — ควรใช้เซิร์ฟเวอร์จริง เช่น: npx serve . แล้วเปิด http://localhost:3000 หรือใช้งานบน Netlify'
+            '[Clinical Study Hub] Running from file://. Use a local server such as node Web/server.js, then open http://localhost:3000.'
         );
     }
 
@@ -219,13 +219,12 @@ function initClinicalVideoApp() {
     if (!supabaseConfigReady) {
         const tip = document.createElement('div');
         tip.setAttribute('role', 'alert');
-        tip.lang = 'th';
         tip.style.cssText =
-            'position:fixed;top:0;left:0;right:0;z-index:99998;padding:12px 16px;background:#064e3b;color:#fff;font-size:14px;text-align:center;line-height:1.45;font-family:system-ui,sans-serif;';
+            'position:fixed;top:0;left:0;right:0;z-index:99998;padding:12px 16px;background:#111827;color:#fff;font-size:14px;text-align:center;line-height:1.45;font-family:system-ui,sans-serif;';
         tip.innerHTML =
-            '<strong>ยังไม่ได้ตั้งค่า Supabase</strong> — ใส่ค่าใน <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">js/supabase-config.js</code> ' +
-            'หรือใน <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">index.html</code> (meta <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">clinical-supabase-url</code> / ' +
-            '<code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">clinical-supabase-anon-key</code>) จาก Dashboard → API';
+            '<strong>Supabase is not configured.</strong> Add values in <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">js/supabase-config.js</code> ' +
+            'or in <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">index.html</code> using the <code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">clinical-supabase-url</code> and ' +
+            '<code style="background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;">clinical-supabase-anon-key</code> meta tags from Project Settings, API.';
         document.body.prepend(tip);
     }
 
@@ -304,14 +303,14 @@ function initClinicalVideoApp() {
         const code = err && err.code;
         if (code === 'email_exists' || msg.includes('already registered')) {
             return context === 'register'
-                ? 'ชื่อนี้ลงทะเบียนแล้ว — กลับไปหน้า Log in และใช้รหัสเดิม'
-                : 'ชื่อนี้มีบัญชีแล้ว ให้ใช้ Log in';
+                ? 'This name is already registered. Go back to Log in and use the same password.'
+                : 'This name already has an account. Use Log in.';
         }
         if (code === 'invalid_credentials' || msg.includes('Invalid login') || msg.includes('invalid')) {
-            return 'ชื่อหรือรหัสไม่ถูกต้อง หรือยังไม่เคยสมัคร';
+            return 'The name or password is incorrect, or this account has not been registered.';
         }
-        if (msg.includes('Email') && msg.includes('valid')) return 'รูปแบบชื่อไม่ถูกต้อง (ใช้ตัวอักษร ตัวเลข และวรรคได้)';
-        if (code === 'weak_password' || msg.includes('Password')) return 'รหัสสั้นเกินไป — ใช้อย่างน้อย 6 ตัวอักษร';
+        if (msg.includes('Email') && msg.includes('valid')) return 'The name format is not valid. Use letters, numbers, and spaces.';
+        if (code === 'weak_password' || msg.includes('Password')) return 'Password is too short. Use at least 6 characters.';
         const status = err && err.status;
         if (
             msg.includes('rate limit') ||
@@ -321,15 +320,14 @@ function initClinicalVideoApp() {
             status === 429
         ) {
             return (
-                'Supabase จำกัดความถี่การสมัคร/ล็อกอิน (ไม่ใช่ดีเลย์จากแอป) — รอสักครู่หรือไปที่ ' +
-                'Dashboard → Authentication → Rate limits เพื่อปรับโควต้าเมื่อทดสอบบ่อย · ' +
-                'ถ้าทดสอบซ้ำด้วยชื่อเดิม ลองลบ user ใน Authentication → Users หรือใช้ชื่อคนละตัว'
+                'Supabase is rate limiting sign-ins. Wait a moment, or adjust Dashboard > Authentication > Rate limits while testing. ' +
+                'If you are testing the same name repeatedly, remove that user in Authentication > Users or use another name.'
             );
         }
         if (err && (err.code === 'TIMEOUT' || err.message === 'TIMEOUT')) {
-            return 'เซิร์ฟเวอร์ไม่ตอบในเวลาที่กำหนด — ตรวจเน็ตหรือ Supabase';
+            return 'The server did not respond in time. Check your connection or Supabase project status.';
         }
-        return msg || 'เกิดข้อผิดพลาด ลองอีกครั้ง';
+        return msg || 'Something went wrong. Please try again.';
     }
 
     function getVideoSubject(v) {
@@ -346,7 +344,7 @@ function initClinicalVideoApp() {
         return String(name ?? '').trim().toLowerCase();
     }
 
-    /** เทียบชื่อที่พิมพ์กับรายชื่อใน allow-list (ไม่สนตัวพิมพ์เล็ก–ใหญ่ / trim ช่องว่าง) */
+    /** Compare typed names with the allow-list using case-insensitive trimmed values. */
     function isLineNameOnAllowList(typedName, list) {
         const key = normalizeLineAllowName(typedName);
         if (!key) return false;
@@ -684,7 +682,7 @@ function initClinicalVideoApp() {
                 let msg = 'Save failed: ' + base;
                 if (currentUser && currentUser.localPasswordAdmin) {
                     msg +=
-                        '\n\nเข้าผ่านรหัสลับอย่างเดียวไม่มีสิทธิ์แก้ไขตารางใน Supabase — ให้ใช้ Staff → Admin login ด้วยบัญชีที่มีแถวใน public.admin_users';
+                        '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account that exists in public.admin_users.';
                 }
                 alert(msg);
                 throw err;
@@ -718,9 +716,9 @@ function initClinicalVideoApp() {
     function renderStreaks() {
         if (!currentUser) return;
         const videoBadge = document.getElementById("badge-video-streak");
-        if (videoBadge) videoBadge.textContent = `Progress · ${currentUser.videoStreak || 0}d`;
+        if (videoBadge) videoBadge.textContent = `Video ${currentUser.videoStreak || 0}d`;
         const checkinBadge = document.getElementById("badge-checkin-streak");
-        if (checkinBadge) checkinBadge.textContent = `Continue · ${currentUser.checkinStreak || 0}d`;
+        if (checkinBadge) checkinBadge.textContent = `Check-in ${currentUser.checkinStreak || 0}d`;
         if (homeCheckinStreak) homeCheckinStreak.textContent = `${currentUser.checkinStreak || 0}d`;
         if (homeVideoStreak) homeVideoStreak.textContent = `${currentUser.videoStreak || 0}d`;
     }
@@ -798,6 +796,24 @@ function initClinicalVideoApp() {
         return hash === '#videos' || hash === '#video-feed';
     }
 
+    function applyInitialGateRoute() {
+        const hash = String(window.location.hash || '').toLowerCase();
+        if (hash === '#login') {
+            navigateTo(pageLogin);
+            return true;
+        }
+        if (hash === '#register') {
+            navigateTo(pageRegister);
+            return true;
+        }
+        if (hash === '#admin') {
+            navigateTo(pageWelcome);
+            openAdminModal();
+            return true;
+        }
+        return false;
+    }
+
     const registerForm = document.getElementById('register-form');
     const regUsername = document.getElementById('reg-username');
     const regPassword = document.getElementById('reg-password');
@@ -809,7 +825,7 @@ function initClinicalVideoApp() {
     const loginError = document.getElementById('login-error');
     const loginSubmitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
 
-    /** @param {'auth'|'profile'} [phase] — after sign-in we show profile phase while Supabase loads profile data */
+    /** @param {'auth'|'profile'} [phase] after sign-in we show profile phase while Supabase loads profile data */
     function setLoginLoading(loading, phase) {
         if (!loginSubmitBtn) return;
         loginSubmitBtn.disabled = !!loading;
@@ -1097,7 +1113,7 @@ function initClinicalVideoApp() {
 
     async function imgbbUpload(file) {
         if (!IMGBB_API_KEY) {
-            throw new Error('ยังไม่ได้ตั้ง IMGBB_API_KEY ใน js/supabase-config.js');
+            throw new Error('IMGBB_API_KEY is not set in js/supabase-config.js');
         }
         const formData = new FormData();
         formData.append('image', file);
@@ -1151,7 +1167,7 @@ function initClinicalVideoApp() {
             try {
                 const url = await imgbbUpload(file);
                 setImageUrl(url);
-                showToast('อัปโหลดรูปแล้ว');
+                showToast('Image uploaded.');
             } catch (err) {
                 alert('Upload error: ' + err.message);
                 showState(hiddenImg.value ? 'preview' : 'placeholder');
@@ -1213,7 +1229,7 @@ function initClinicalVideoApp() {
         const hasImg = !!(qData && qData.img);
 
         div.innerHTML = `
-            <button type="button" class="btn icon-btn remove-question-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; color: var(--danger);">🗑️</button>
+                <button type="button" class="btn icon-btn remove-question-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; color: var(--danger);">Remove</button>
             <div class="input-group">
                 <input type="text" class="q-text" placeholder=" " value="${qVal}">
                 <label>Question</label>
@@ -1223,11 +1239,11 @@ function initClinicalVideoApp() {
                 <input type="file" class="q-img-file" accept="image/*" style="display:none;">
                 <input type="hidden" class="q-img" value="${imgVal}">
                 <div class="upload-placeholder" style="${hasImg ? 'display:none;' : ''}">
-                    <p style="font-size: 13px; color: var(--text-muted); margin: 0; pointer-events: none;">📸 Drag & Drop image here or Click to upload</p>
+                    <p style="font-size: 13px; color: var(--text-muted); margin: 0; pointer-events: none;">Drag and drop an image here, or click to upload.</p>
                 </div>
                 <div class="upload-preview" style="${hasImg ? '' : 'display:none;'}">
                     <img src="${imgVal}" style="max-height: 120px; max-width: 100%; border-radius: var(--r-input); object-fit: contain;">
-                    <button type="button" class="btn icon-btn remove-img-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(255,255,255,0.9); color: var(--danger); padding: 4px; height: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">🗑️</button>
+                    <button type="button" class="btn icon-btn remove-img-btn" style="position: absolute; top: 0.5rem; right: 0.5rem; background: rgba(255,255,255,0.9); color: var(--danger); padding: 4px; height: auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">Remove</button>
                 </div>
                 <div class="upload-loading" style="display:none; pointer-events: none;">
                     <p style="font-size: 13px; color: var(--teal); margin: 0; font-weight: 500;">Uploading...</p>
@@ -1238,7 +1254,7 @@ function initClinicalVideoApp() {
                 <label class="admin-field-label">Question Type</label>
                 <select class="admin-select q-type">
                     <option value="mcq" ${(!qData || qData.type === 'mcq') ? 'selected' : ''}>Multiple Choice</option>
-                    <option value="text" ${(qData && qData.type === 'text') ? 'selected' : ''}>Free Text (เขียน)</option>
+                    <option value="text" ${(qData && qData.type === 'text') ? 'selected' : ''}>Free text</option>
                 </select>
             </div>
 
@@ -1300,7 +1316,7 @@ function initClinicalVideoApp() {
             newVideoUrl.value = '';
             newVideoTitle.value = '';
             if (quizQuestionsList) quizQuestionsList.innerHTML = '';
-            showToast('ยกเลิกการแก้ไข', 'info');
+            showToast('Edit cancelled.', 'info');
         });
     }
 
@@ -1309,7 +1325,7 @@ function initClinicalVideoApp() {
         if (!commentsList) return;
         commentsList.innerHTML = '';
         if (!video.feedbacks || video.feedbacks.length === 0) {
-            commentsList.innerHTML = '<p class="muted-empty" style="font-size: 13px;">No positive feedbacks yet.</p>';
+            commentsList.innerHTML = '<p class="muted-empty" style="font-size: 13px;">No lesson notes yet.</p>';
             return;
         }
         const feedbacks = [...video.feedbacks].reverse();
@@ -1355,7 +1371,7 @@ function initClinicalVideoApp() {
                 ? openedAt.toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })
                 : '';
             const meta = openedAtLabel
-                ? `${subjectLabel(getVideoSubject(video))} · Last opened ${openedAtLabel}`
+                ? `${subjectLabel(getVideoSubject(video))}. Last opened ${openedAtLabel}`
                 : subjectLabel(getVideoSubject(video));
             if (homeLastLessonTitle) homeLastLessonTitle.textContent = video.title || 'Last opened lesson';
             if (homeLastLessonMeta) homeLastLessonMeta.textContent = meta;
@@ -1414,7 +1430,7 @@ function initClinicalVideoApp() {
         const videoSubject = getVideoSubject(video);
         resumeLessonTitle.textContent = video.title || 'Last opened lesson';
         resumeLessonMeta.textContent = openedAtLabel
-            ? `${subjectLabel(videoSubject)} · Last opened ${openedAtLabel}`
+            ? `${subjectLabel(videoSubject)}. Last opened ${openedAtLabel}`
             : subjectLabel(videoSubject);
         btnResumeLesson.textContent = selectedSubject && videoSubject !== selectedSubject
             ? `Continue in ${subjectLabel(videoSubject)}`
@@ -1457,8 +1473,8 @@ function initClinicalVideoApp() {
         }
         if (filtered.length === 0) {
             userVideoGrid.innerHTML = query
-                ? `<p class="video-empty-msg">ไม่พบคลิปในวิชา ${subjectLabel(selectedSubject)} ที่ตรงกับ "${escapeHtml(videoSearchQuery.trim())}"</p>`
-                : `<p class="video-empty-msg">ยังไม่มีคลิปในวิชา ${subjectLabel(selectedSubject)}</p>`;
+                ? `<p class="video-empty-msg">No lessons in ${subjectLabel(selectedSubject)} match "${escapeHtml(videoSearchQuery.trim())}".</p>`
+                : `<p class="video-empty-msg">No lessons in ${subjectLabel(selectedSubject)} yet.</p>`;
         } else {
             filtered.forEach(vid => {
                 const card = document.createElement('div');
@@ -1467,13 +1483,13 @@ function initClinicalVideoApp() {
                 card.innerHTML = `
                     <div class="video-thumb">
                         <img src="https://img.youtube.com/vi/${vid.videoId}/hqdefault.jpg" alt="${escapeHtml(vid.title)}" onerror="this.src='https://placehold.co/640x360?text=No+Thumbnail'">
-                        <div class="video-play">▶</div>
+                        <div class="video-play">Play</div>
                     </div>
                     <div class="video-meta">
                         ${newestIds.includes(vid.id) ? `<span class="video-badge">New</span>` : ''}
                         <h3 class="video-title">${escapeHtml(vid.title)}</h3>
                         <span class="video-subtitle">${subjectLabel(getVideoSubject(vid))}</span>
-                        <p class="video-views">👁️ ${vid.views || 0} views</p>
+                        <p class="video-views">${vid.views || 0} views</p>
                     </div>
                 `;
                 userVideoGrid.appendChild(card);
@@ -1521,7 +1537,7 @@ function initClinicalVideoApp() {
             item.style.position = 'relative';
             const qCount = vid.quiz && Array.isArray(vid.quiz) ? vid.quiz.length : (vid.quiz ? 1 : 0);
             item.innerHTML = `
-                <button type="button" class="btn icon-btn delete-video-btn" data-id="${vid.id}" style="position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; color: var(--danger); z-index: 10;">🗑️</button>
+                <button type="button" class="btn icon-btn delete-video-btn" data-id="${vid.id}" style="position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; color: var(--danger); z-index: 10;">Remove</button>
                 <img src="https://img.youtube.com/vi/${vid.videoId}/hqdefault.jpg" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-btn);">
                 <div style="flex:1;">
                     <h4 style="font-size:13px; line-height:1.4; margin-bottom:4px;">${escapeHtml(vid.title)}</h4>
@@ -1553,9 +1569,9 @@ function initClinicalVideoApp() {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const idToRemove = parseInt(e.currentTarget.getAttribute('data-id'));
-                if (confirm('ลบวิดีโอนี้?')) {
+                if (confirm('Delete this video?')) {
                     videos = videos.filter(v => v.id !== idToRemove);
-                    saveVideosDB({ successToast: 'ลบวิดีโอแล้ว' });
+                    saveVideosDB({ successToast: 'Video deleted.' });
                     renderVideos();
                 }
             });
@@ -1571,7 +1587,7 @@ function initClinicalVideoApp() {
             div.innerHTML = `
                 <img src="https://img.youtube.com/vi/${vid.videoId}/hqdefault.jpg" style="width: 100%; border-radius: var(--r-btn);">
                 <h4 style="font-size:13px;">#${index+1} ${escapeHtml(vid.title)}</h4>
-                <span style="font-size:12px; color:var(--muted);">👁️ ${vid.views || 0} views</span>
+                <span style="font-size:12px; color:var(--muted);">${vid.views || 0} views</span>
             `;
             topVideosList.appendChild(div);
         });
@@ -1586,7 +1602,7 @@ function initClinicalVideoApp() {
                 sorted.forEach((u, i) => {
                     const div = document.createElement('div');
                     div.style.cssText = 'display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:13px;';
-                    div.innerHTML = `<span>#${i+1} ${escapeHtml(u.username)}</span><span style="color:var(--ok);font-weight:600;">🔥 ${u.checkinStreak || 0}</span>`;
+                    div.innerHTML = `<span>#${i+1} ${escapeHtml(u.username)}</span><span style="color:var(--ok);font-weight:600;">${u.checkinStreak || 0}d</span>`;
                     quizStreakList.appendChild(div);
                 });
             }
@@ -1602,7 +1618,7 @@ function initClinicalVideoApp() {
                 sorted.forEach((u, i) => {
                     const div = document.createElement('div');
                     div.style.cssText = 'display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:13px;';
-                    div.innerHTML = `<span>#${i+1} ${escapeHtml(u.username)}</span><span style="color:var(--info);font-weight:600;">📺 ${u.videoStreak || 0}</span>`;
+                    div.innerHTML = `<span>#${i+1} ${escapeHtml(u.username)}</span><span style="color:var(--info);font-weight:600;">${u.videoStreak || 0}d</span>`;
                     videoStreakList.appendChild(div);
                 });
             }
@@ -1682,7 +1698,7 @@ function initClinicalVideoApp() {
                 loading.style.display = 'none';
                 taskView.style.display = 'none';
                 okView.style.display = 'flex';
-                document.getElementById('checkin-ok-msg').textContent = `วันนี้ check-in แล้ว ("${currentUser.username}")`;
+                document.getElementById('checkin-ok-msg').textContent = `Check-in already recorded for "${currentUser.username}".`;
                 document.getElementById('checkin-ok-stats').style.display = 'none';
                 return;
             }
@@ -1783,7 +1799,7 @@ function initClinicalVideoApp() {
                 const count = Object.keys(daysSet).length;
                 const elapsed = Math.floor((parseYMD(today) - parseYMD(cycleStart)) / 86400000) + 1;
                 const pct = elapsed > 0 ? Math.round((count / elapsed) * 100) : 0;
-                statsEl.innerHTML = `Cycle ${cycleStart} – ${cycleEnd}: <strong>${count} day(s)</strong> checked-in (${pct}%)`;
+                statsEl.innerHTML = `Cycle ${cycleStart} to ${cycleEnd}: <strong>${count} day(s)</strong> checked in (${pct}%)`;
                 statsEl.style.display = 'block';
             }
         } catch (e) {
@@ -1891,7 +1907,7 @@ function initClinicalVideoApp() {
             btn.disabled = false; btn.textContent = 'Save';
             closeCheckinQForm();
             renderCheckinQuestions();
-            showToast('บันทึกคำถาม check-in แล้ว');
+            showToast('Check-in question saved.');
         } catch (e) {
             btn.disabled = false; btn.textContent = 'Save';
             console.error('saveCheckinQ failed:', e, 'data:', data);
@@ -1906,7 +1922,7 @@ function initClinicalVideoApp() {
             await ds.removeCheckinQuestion(checkinEditingDate);
             closeCheckinQForm();
             renderCheckinQuestions();
-            showToast('ลบคำถามแล้ว');
+            showToast('Question deleted.');
         } catch (e) { alert('Failed to delete.'); }
     }
 
@@ -1929,7 +1945,7 @@ function initClinicalVideoApp() {
             statsEl.innerHTML = `
                 <div class="checkin-dash-stat"><div class="checkin-dash-stat-num">${all.length}</div><div class="checkin-dash-stat-lbl">Total check-ins</div></div>
                 <div class="checkin-dash-stat"><div class="checkin-dash-stat-num">${todayRows.length}</div><div class="checkin-dash-stat-lbl">Today</div></div>
-                <div class="checkin-dash-stat"><div class="checkin-dash-stat-num" style="font-size:14px;">${cycleStart} – ${cycleEnd}</div><div class="checkin-dash-stat-lbl">Current cycle</div></div>
+                <div class="checkin-dash-stat"><div class="checkin-dash-stat-num" style="font-size:14px;">${cycleStart} to ${cycleEnd}</div><div class="checkin-dash-stat-lbl">Current cycle</div></div>
                 <div class="checkin-dash-stat"><div class="checkin-dash-stat-num">${elapsed}</div><div class="checkin-dash-stat-lbl">Days elapsed</div></div>
             `;
 
@@ -1966,7 +1982,7 @@ function initClinicalVideoApp() {
                     <div class="checkin-resp-ans">${checkinEsc(r.answer)}</div>
                 </div>`
             ).join('') : '<p style="font-size:13px;color:var(--text-muted);">No check-ins today.</p>';
-            if (options.notifySuccess) showToast('อัปเดตแดชบอร์ด check-in แล้ว');
+            if (options.notifySuccess) showToast('Check-in dashboard updated.');
         } catch (e) {
             statsEl.innerHTML = '<p style="font-size:13px;color:var(--danger);">Failed to load.</p>';
             console.error('loadCheckinDashboard failed', e);
@@ -1987,9 +2003,9 @@ function initClinicalVideoApp() {
         document.querySelectorAll('.btn-delete-member').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.target.getAttribute('data-id');
-                if (confirm("ลบ Member?")) {
+                if (confirm("Delete this member?")) {
                     users = users.filter(u => u.id !== id);
-                    saveUsersDB({ successToast: 'ลบสมาชิกแล้ว' });
+                    saveUsersDB({ successToast: 'Member deleted.' });
                     renderAdminMembers();
                 }
             });
@@ -2033,8 +2049,8 @@ function initClinicalVideoApp() {
                 if (currentUser.localPasswordAdmin) {
                     lb.style.display = 'block';
                     lb.textContent = currentUser.systemAdmin
-                        ? 'เข้าผ่านรหัส system_admin (AI agent) อย่างเดียว — การบันทึกลงฐานข้อมูลอาจไม่สำเร็จจนกว่าจะมีบัญชีใน Supabase และแถวใน admin_users'
-                        : 'เข้าผ่านรหัสลับอย่างเดียว — การบันทึกลงฐานข้อมูลอาจไม่สำเร็จจนกว่าจะมีบัญชีแอดมินใน Supabase และแถวในตาราง admin_users';
+                        ? 'System admin password access is active. Database writes may fail until the Supabase account exists in admin_users.'
+                        : 'Password-only admin access is active. Database writes may fail until a Supabase admin account exists in public.admin_users.';
                 } else {
                     lb.style.display = 'none';
                 }
@@ -2137,12 +2153,12 @@ function initClinicalVideoApp() {
         if (!un || !pw) return;
         if (registerSubmitBtn?.disabled) return;
         if (isEmbeddedTestLogin(un, pw)) {
-            regMsg.textContent = 'ชื่อนี้เป็นบัญชีทดสอบของระบบ — ใช้ Log in แทนการสมัคร';
+            regMsg.textContent = 'This is a system test account. Use Log in instead of registering.';
             return;
         }
         if (allowedNames.length > 0 && !isLineNameOnAllowList(un, allowedNames)) {
             regMsg.textContent =
-                'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ User name (ที่ส่งมาใน forms) ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
+                'This name is not on the approved list. Check the spelling or contact your instructor.';
             return;
         }
         if (registerSubmitBtn) registerSubmitBtn.disabled = true;
@@ -2153,8 +2169,8 @@ function initClinicalVideoApp() {
                     if (!rec.ok) {
                         regMsg.textContent =
                             rec.code === 'taken'
-                                ? 'ชื่อนี้ถูกใช้ในเบราว์เซอร์นี้แล้ว — ลอง Log in หรือเปลี่ยนชื่อ'
-                                : 'รหัสสั้นเกินไป — อย่างน้อย 6 ตัวอักษร';
+                                ? 'This name is already used in this browser. Try Log in or use another approved name.'
+                                : 'Password is too short. Use at least 6 characters.';
                         return;
                     }
                     const uid = rec.uid;
@@ -2178,7 +2194,7 @@ function initClinicalVideoApp() {
                     if (passwordInput) passwordInput.value = '';
                     regMsg.textContent = '';
                     saveDraft('register', null);
-                    showToast('สมัครแล้ว — เก็บในเบราว์เซอร์เครื่องนี้เท่านั้น (ไม่ใช้ Supabase Auth)');
+                    showToast('Account created for this browser. Supabase Auth is not enabled.');
                     navigateTo(pageLogin);
                     return;
                 }
@@ -2188,7 +2204,7 @@ function initClinicalVideoApp() {
                 const u = data.user;
                 if (!u) {
                     regMsg.textContent =
-                        'สมัครไม่จบในครั้งเดียว — ให้ผู้ดูแลระบบตั้งค่า Supabase ให้สมัครแล้วเข้าได้ทันที (ไม่ต้องรอขั้นตอนอื่น)';
+                        'Registration could not finish in one step. Ask an admin to configure Supabase so members can sign in immediately.';
                     return;
                 }
                 const userData = {
@@ -2205,7 +2221,7 @@ function initClinicalVideoApp() {
                 if (passwordInput) passwordInput.value = '';
                 regMsg.textContent = '';
                 saveDraft('register', null);
-                showToast('สมัครสำเร็จ — เข้าสู่ระบบด้วยชื่อและรหัสเดิม');
+                showToast('Account created. Log in with the same name and password.');
                 navigateTo(pageLogin);
             } catch (err) {
                 regMsg.textContent = formatAuthError(err, 'register');
@@ -2251,14 +2267,14 @@ function initClinicalVideoApp() {
             try {
                 if (allowedNames.length > 0 && !isLineNameOnAllowList(un, allowedNames)) {
                     loginError.textContent =
-                        'ชื่อนี้ไม่ตรงกับรายชื่อที่แอดมินอนุญาต — พิมพ์ User name (ที่ส่งมาใน forms) ให้ตรงกับในรายการ (หรือติดต่อแอดมิน)';
+                        'This name is not on the approved list. Check the spelling or contact your instructor.';
                     loginError.style.display = 'block';
                     setLoginLoading(false);
                     return;
                 }
                 const v = await localMemberVerify(un, pw);
                 if (!v.ok) {
-                    loginError.textContent = 'ชื่อหรือรหัสไม่ถูกต้อง หรือยังไม่เคยสมัคร (บนเบราว์เซอร์นี้)';
+                    loginError.textContent = 'The name or password is incorrect, or this browser has not registered the account.';
                     loginError.style.display = 'block';
                     setLoginLoading(false);
                     return;
@@ -2266,7 +2282,7 @@ function initClinicalVideoApp() {
                 localMemberSetSessionUid(v.uid);
                 const raw = localMemberLoadProfile(v.uid);
                 if (!raw || !raw.username) {
-                    loginError.textContent = 'ไม่พบข้อมูลโปรไฟล์ — สมัครใหม่';
+                    loginError.textContent = 'No member profile was found. Register again.';
                     loginError.style.display = 'block';
                     localMemberClearSession();
                     setLoginLoading(false);
@@ -2334,7 +2350,7 @@ function initClinicalVideoApp() {
         loginStuckTimer = setTimeout(() => {
             if (pageLogin.classList.contains('active') && loginSubmitBtn?.disabled) {
                 setLoginLoading(false);
-                loginError.textContent = 'Still waiting — slow network or Supabase blocked. Check browser console.';
+                loginError.textContent = 'Still waiting. Slow network or Supabase may be blocked. Check browser console.';
                 loginError.style.display = 'block';
             }
         }, 26000);
@@ -2369,7 +2385,7 @@ function initClinicalVideoApp() {
         return Number.isFinite(t) ? t : null;
     }
 
-    /** โหลดแบบร่างแอดมิน (ถ้ามี) ทับค่าจากเซิร์ฟเวอร์ — ใช้ตอนเทสบน localhost */
+    /** Apply local admin drafts over server values while testing on localhost. */
     function applyAdminPanelDrafts(allowedNamesArr, deadlineMs, examNote) {
         const joined = (allowedNamesArr || []).join('\n');
         const examInput = document.getElementById('admin-exam-deadline');
@@ -2422,20 +2438,20 @@ function initClinicalVideoApp() {
         if (!currentUser || currentUser.isAdmin) {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = null;
-            setAllCountdownLabels('⏳ EXAM: —');
+            setAllCountdownLabels('Exam date');
             return;
         }
         const resolved = resolveExamDeadline(currentUser);
         if (!resolved) {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = null;
-            setAllCountdownLabels('⏳ EXAM: no date scheduled');
+            setAllCountdownLabels('No exam date');
             return;
         }
         if (Date.now() >= resolved.deadlineMs) {
             if (countdownInterval) clearInterval(countdownInterval);
             countdownInterval = null;
-            setAllCountdownLabels(resolved.revokeSessionOnZero ? 'Expired' : '⏳ EXAM: ended');
+            setAllCountdownLabels(resolved.revokeSessionOnZero ? 'Expired' : 'Exam ended');
             if (resolved.revokeSessionOnZero) forceSignOutStudent();
             return;
         }
@@ -2450,7 +2466,7 @@ function initClinicalVideoApp() {
             if (diff <= 0) {
                 if (countdownInterval) clearInterval(countdownInterval);
                 countdownInterval = null;
-                setAllCountdownLabels(revokeSessionOnZero ? 'Expired' : '⏳ EXAM: ended');
+                setAllCountdownLabels(revokeSessionOnZero ? 'Expired' : 'Exam ended');
                 if (revokeSessionOnZero) forceSignOutStudent();
                 return;
             }
@@ -2458,7 +2474,7 @@ function initClinicalVideoApp() {
             const h = Math.floor((diff / 3600000) % 24).toString().padStart(2, '0');
             const m = Math.floor((diff / 60000) % 60).toString().padStart(2, '0');
             const s = Math.floor((diff / 1000) % 60).toString().padStart(2, '0');
-            setAllCountdownLabels(`⏳ EXAM in: ${d}d ${h}:${m}:${s}`);
+            setAllCountdownLabels(`Exam in ${d}d ${h}:${m}:${s}`);
         };
         tick();
         countdownInterval = setInterval(tick, 1000);
@@ -2467,7 +2483,7 @@ function initClinicalVideoApp() {
     function renderExamDetailsModal() {
         if (!examDetailsNote) return;
         const note = String(globalExamNote || '').trim();
-        examDetailsNote.textContent = note || 'ยังไม่มีรายละเอียดการสอบ';
+        examDetailsNote.textContent = note || 'No exam details yet.';
         examDetailsNote.classList.toggle('exam-details-note--empty', !note);
     }
 
@@ -2507,7 +2523,7 @@ function initClinicalVideoApp() {
 
     function openDecks() {
         if (!currentUser) {
-            showToast('กรุณาเข้าสู่ระบบก่อนเปิด Pharma Decks', 'error');
+            showToast('Log in before opening Pharma Decks.', 'error');
             return;
         }
         window.location.href = getDecksUrl();
@@ -2519,11 +2535,11 @@ function initClinicalVideoApp() {
 
     function openMedQuiz() {
         if (!currentUser) {
-            showToast('กรุณาเข้าสู่ระบบก่อนใช้ Beta function', 'error');
+            showToast('Log in before opening MedQuiz.', 'error');
             return;
         }
         if (!isBetaDailyExemptUser(currentUser) && hasUsedBetaToday(currentUser)) {
-            showToast('Beta function ใช้ได้วันละ 1 ครั้ง — พรุ่งนี้ลองใหม่', 'info');
+            showToast('MedQuiz is available once per day. Try again tomorrow.', 'info');
             return;
         }
         const url = getBetaFunctionUrl();
@@ -2542,12 +2558,12 @@ function initClinicalVideoApp() {
         if (currentUser && currentUser.localMember) {
             localMemberClearSession();
             currentUser = null;
-            showToast('ออกจากระบบแล้ว', 'info');
+            showToast('Signed out.', 'info');
             navigateTo(pageWelcome);
             return;
         }
         ds.authSignOut().then(() => {
-            showToast('ออกจากระบบแล้ว', 'info');
+            showToast('Signed out.', 'info');
             navigateTo(pageWelcome);
         });
     }
@@ -2716,17 +2732,17 @@ function initClinicalVideoApp() {
                 const expected = currentQuizData.expected || '';
                 if (expected && userAnswer.toLowerCase().includes(expected.toLowerCase())) {
                     correct = true;
-                    pqFeedback.textContent = '✅ Great answer!';
+                    pqFeedback.textContent = 'Great answer.';
                     pqFeedback.style.background = 'var(--ok-soft)';
                     pqFeedback.style.color = 'var(--ok)';
                 } else if (expected) {
                     correct = false;
-                    pqFeedback.textContent = `💡 Model answer includes: ${expected}`;
+                    pqFeedback.textContent = `Model answer includes: ${expected}`;
                     pqFeedback.style.background = 'var(--info-soft)';
                     pqFeedback.style.color = 'var(--info)';
                 } else {
                     correct = null;
-                    pqFeedback.textContent = '✅ Answer recorded.';
+                    pqFeedback.textContent = 'Answer recorded.';
                     pqFeedback.style.background = 'var(--info-soft)';
                     pqFeedback.style.color = 'var(--info)';
                 }
@@ -2734,11 +2750,11 @@ function initClinicalVideoApp() {
                 userAnswer = selectedChoice;
                 correct = selectedChoice === currentQuizData.ans;
                 if (correct) {
-                    pqFeedback.textContent = '✅ Correct!';
+                    pqFeedback.textContent = 'Correct.';
                     pqFeedback.style.background = 'var(--ok-soft)';
                     pqFeedback.style.color = 'var(--ok)';
                 } else {
-                    pqFeedback.textContent = `❌ Incorrect. Correct answer: ${currentQuizData.ans}`;
+                    pqFeedback.textContent = `Incorrect. Correct answer: ${currentQuizData.ans}`;
                     pqFeedback.style.background = '#fff0f0';
                     pqFeedback.style.color = 'var(--danger)';
                 }
@@ -2788,8 +2804,8 @@ function initClinicalVideoApp() {
                     const timedOut = e && (e.code === 'TIMEOUT' || e.message === 'TIMEOUT');
                     showToast(
                         timedOut
-                            ? 'บันทึกความคิดเห็นไม่ทัน — ดำเนินการต่อ (ลองเช็คเน็ตหรือ Supabase)'
-                            : 'บันทึกความคิดเห็นลงเซิร์ฟเวอร์ไม่สำเร็จ — ดำเนินการต่อ',
+                            ? 'Lesson note did not finish saving. Continuing anyway. Check your connection or Supabase status.'
+                            : 'Lesson note could not be saved on the server. Continuing anyway.',
                         'error'
                     );
                 }
@@ -2803,12 +2819,12 @@ function initClinicalVideoApp() {
             const qList = (Array.isArray(raw) ? raw : raw ? [raw] : []).filter((q) => q && typeof q === 'object' && q.q);
             if (qList.length > 0) {
                 showPostQuiz(currentWatchVideo);
-                if (feedback) showToast('บันทึกความคิดเห็นแล้ว');
-                else showToast('ไปทำแบบทดสอบหลังดู');
+                if (feedback) showToast('Lesson note saved.');
+                else showToast('Opening the post-lesson quiz.');
             } else {
                 navigateTo(pageVideos);
-                if (feedback) showToast('บันทึกความคิดเห็นแล้ว');
-                else showToast('บันทึกความคืบหน้าแล้ว');
+                if (feedback) showToast('Lesson note saved.');
+                else showToast('Progress saved.');
             }
         } finally {
             btnVideoFinished.disabled = false;
@@ -2826,7 +2842,7 @@ function initClinicalVideoApp() {
         currentUser = null;
         const signOut = supabaseConfigReady ? ds.authSignOut().catch(() => {}) : Promise.resolve();
         signOut.finally(() => {
-            showToast('ออกจากแอดมินแล้ว', 'info');
+            showToast('Admin signed out.', 'info');
             navigateTo(pageWelcome);
         });
     });
@@ -2841,7 +2857,7 @@ function initClinicalVideoApp() {
         adminPasswordInput.value = '';
         adminLoginError.style.display = 'none';
         btnAdminModalSubmit.disabled = false;
-        btnAdminModalSubmit.textContent = 'เข้าสู่ระบบ';
+        btnAdminModalSubmit.textContent = 'Sign in';
         adminModal.style.display = 'flex';
         setTimeout(() => adminPasswordInput.focus(), 50);
     }
@@ -2865,14 +2881,14 @@ function initClinicalVideoApp() {
 
     function resetAdminModalSubmitButton() {
         btnAdminModalSubmit.disabled = false;
-        btnAdminModalSubmit.textContent = 'เข้าสู่ระบบ';
+        btnAdminModalSubmit.textContent = 'Sign in';
     }
 
     function formatAdminSignInError(err) {
         const code = err && err.code;
         const msg = String((err && err.message) || '');
         if (code === 'invalid_credentials' || msg.includes('Invalid login credentials')) {
-            return 'รหัสไม่ถูกต้อง หรือยังไม่มีบัญชีแอดมินในระบบ — ตรวจที่ Supabase ว่าสร้างบัญชีแอดมินและรหัสตรงกัน';
+            return 'Password is incorrect, or the admin account does not exist. Check the configured Supabase admin account.';
         }
         const adminStatus = err && err.status;
         if (
@@ -2883,25 +2899,25 @@ function initClinicalVideoApp() {
             adminStatus === 429
         ) {
             return (
-                'Supabase จำกัดความถี่ (429) — รอสักครู่หรือปรับที่ Dashboard → Authentication → Rate limits'
+                'Supabase is rate limiting this request. Wait a moment, or adjust Dashboard > Authentication > Rate limits while testing.'
             );
         }
         if (code === 'email_not_confirmed' || msg.toLowerCase().includes('confirm')) {
-            return 'ระบบยังไม่ให้เข้า — ให้ผู้ดูแล Supabase ปิดขั้นตอน “ยืนยันก่อนเข้า” ใน Authentication (จะได้ไม่ต้องรอขั้นตอนใดๆ)';
+            return 'This admin account still requires confirmation. Disable email confirmation for this internal tool or confirm the account in Supabase.';
         }
         if (msg.includes('JWT') || msg.includes('apikey') || msg.includes('API key')) {
-            return 'คีย์ API ไม่ตรง — ใน Project Settings → API ลองใช้คีย์ anon (JWT ยาว) ใน supabase-config.js';
+            return 'The API key does not match this project. Use the anon key from Project Settings > API.';
         }
         if (code === 'NO_USER') {
-            return 'เข้าไม่ได้ชั่วคราว — ลองอีกครั้ง';
+            return 'Could not sign in right now. Try again.';
         }
         if (code === 'NOT_ADMIN') {
-            return 'เข้าได้แล้วแต่ยังไม่ถูกใส่ใน admin_users — รัน insert into public.admin_users (user_id) values (\'<uuid จาก Auth>\'); สำหรับบัญชี ADMIN_AUTH_EMAIL หรือ SYSTEM_ADMIN_AUTH_EMAIL';
+            return 'This account can sign in, but it is not listed in public.admin_users.';
         }
         if (code === 'NO_ADMIN_EMAIL') {
-            return 'ไม่มีอีเมลแอดมินใน config — ตั้ง ADMIN_AUTH_EMAIL (และถ้าต้องการ SYSTEM_ADMIN_AUTH_EMAIL) ใน js/supabase-config.js';
+            return 'No admin email is configured. Set ADMIN_AUTH_EMAIL in js/supabase-config.js.';
         }
-        return msg || 'เข้าไม่สำเร็จ';
+        return msg || 'Sign-in failed.';
     }
 
     /** @param {'admin'|'system_admin'} kind @param {string} [password] */
@@ -2983,7 +2999,7 @@ function initClinicalVideoApp() {
 
         adminLoginError.style.display = 'none';
         btnAdminModalSubmit.disabled = true;
-        btnAdminModalSubmit.textContent = 'กำลังเข้า…';
+        btnAdminModalSubmit.textContent = 'Signing in...';
 
         if (ADMIN_GATE_PASSWORD && password === ADMIN_GATE_PASSWORD) {
             openAdminWithGatePasswordOnly('admin', password);
@@ -2996,7 +3012,7 @@ function initClinicalVideoApp() {
 
         if (!supabaseConfigReady) {
             adminLoginError.textContent =
-                'ยังไม่ได้ตั้งค่า Supabase — หรือตั้ง ADMIN_GATE_PASSWORD / SYSTEM_ADMIN_GATE_PASSWORD ใน js/supabase-config.js ให้ตรงรหัสที่กรอก';
+                'Supabase is not configured. Set ADMIN_GATE_PASSWORD or SYSTEM_ADMIN_GATE_PASSWORD in js/supabase-config.js to match this password.';
             adminLoginError.style.display = 'block';
             resetAdminModalSubmitButton();
             return;
@@ -3020,7 +3036,7 @@ function initClinicalVideoApp() {
                 } catch (_) { /* noop */ }
             }
             if (timedOut) {
-                adminLoginError.textContent = 'เซิร์ฟเวอร์ไม่ตอบทัน — ลองใหม่';
+                adminLoginError.textContent = 'The server did not respond in time. Try again.';
             } else {
                 console.error('[Admin login]', err);
                 adminLoginError.textContent = formatAdminSignInError(err);
@@ -3042,7 +3058,7 @@ function initClinicalVideoApp() {
             allowedNames = val.split(/[\n,]/).map((s) => s.trim()).filter(Boolean);
             saveAllowedNamesDB()
                 .then(() => {
-                    showToast('บันทึกรายชื่อที่อนุญาตแล้ว');
+                    showToast('Approved names saved.');
                     saveDraft('admin_allowed_names', null);
                 })
                 .catch(() => {
@@ -3059,7 +3075,7 @@ function initClinicalVideoApp() {
             document.getElementById('admin-allowed-names').value = '';
             saveAllowedNamesDB()
                 .then(() => {
-                    showToast('ล้างรายชื่อที่อนุญาตแล้ว');
+                    showToast('Approved names cleared.');
                     saveDraft('admin_allowed_names', null);
                 })
                 .catch(() => {
@@ -3077,7 +3093,7 @@ function initClinicalVideoApp() {
             const ms = parseDatetimeLocalInput(input && input.value);
             ds.saveAdminSettingsPatch({ exam_deadline_ms: ms != null ? ms : null })
                 .then(() => {
-                    showToast('บันทึกวันสอบแล้ว');
+                    showToast('Exam date saved.');
                     saveDraft('admin_exam_deadline', null);
                 })
                 .catch((err) => {
@@ -3085,7 +3101,7 @@ function initClinicalVideoApp() {
                     let msg = 'Save failed: ' + base;
                     if (currentUser && currentUser.localPasswordAdmin) {
                         msg +=
-                            '\n\nเข้าผ่านรหัสลับอย่างเดียวไม่มีสิทธิ์แก้ไขตาราง — ให้ล็อกอิน Admin ด้วยบัญชีใน public.admin_users';
+                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account in public.admin_users.';
                     }
                     alert(msg);
                 });
@@ -3098,7 +3114,7 @@ function initClinicalVideoApp() {
             ds.saveAdminSettingsPatch({ exam_note: note })
                 .then(() => {
                     globalExamNote = note;
-                    showToast('บันทึกรายละเอียดสอบแล้ว');
+                    showToast('Exam details saved.');
                     saveDraft('admin_exam_note', null);
                     renderExamDetailsModal();
                 })
@@ -3107,7 +3123,7 @@ function initClinicalVideoApp() {
                     let msg = 'Save note failed: ' + base;
                     if (currentUser && currentUser.localPasswordAdmin) {
                         msg +=
-                            '\n\nเข้าผ่านรหัสลับอย่างเดียวไม่มีสิทธิ์แก้ไขตาราง — ให้ล็อกอิน Admin ด้วยบัญชีใน public.admin_users';
+                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account in public.admin_users.';
                     }
                     alert(msg);
                 });
@@ -3124,7 +3140,7 @@ function initClinicalVideoApp() {
                 .then(() => {
                     globalExamDeadlineMs = null;
                     globalExamNote = '';
-                    showToast('ล้างข้อมูลสอบร่วมแล้ว');
+                    showToast('Shared exam info cleared.');
                     saveDraft('admin_exam_deadline', null);
                     saveDraft('admin_exam_note', null);
                     renderExamDetailsModal();
@@ -3135,7 +3151,7 @@ function initClinicalVideoApp() {
                     let msg = 'Clear failed: ' + base;
                     if (currentUser && currentUser.localPasswordAdmin) {
                         msg +=
-                            '\n\nเข้าผ่านรหัสลับอย่างเดียวไม่มีสิทธิ์แก้ไขตาราง — ให้ล็อกอิน Admin ด้วยบัญชีใน public.admin_users';
+                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account in public.admin_users.';
                     }
                     alert(msg);
                 });
@@ -3170,7 +3186,7 @@ function initClinicalVideoApp() {
         }
         if (!raw || !String(raw).trim()) {
             if (subjectAddError) {
-                subjectAddError.textContent = 'กรุณากรอกชื่อวิชา';
+                subjectAddError.textContent = 'Enter a subject name.';
                 subjectAddError.style.display = 'block';
             }
             return;
@@ -3178,7 +3194,7 @@ function initClinicalVideoApp() {
         const key = String(raw).trim().toLowerCase();
         if (subjects.includes(key)) {
             if (subjectAddError) {
-                subjectAddError.textContent = 'มีวิชานี้อยู่แล้ว';
+                subjectAddError.textContent = 'This subject already exists.';
                 subjectAddError.style.display = 'block';
             }
             return;
@@ -3192,14 +3208,14 @@ function initClinicalVideoApp() {
 
         if (!supabaseConfigReady) {
             showToast(
-                'เพิ่มวิชา "' + key + '" ในเซสชันนี้ — ตั้งค่า Supabase เพื่อบันทึกถาวร',
+                'Subject "' + key + '" was added for this session. Configure Supabase to save it permanently.',
                 'info'
             );
             return;
         }
 
         saveSubjectsDB()
-            .then(() => showToast('เพิ่มวิชา "' + key + '" แล้ว'))
+            .then(() => showToast('Subject "' + key + '" added.'))
             .catch(() => {
                 subjects = subjects.filter((s) => s !== key);
                 renderSubjectOptions();
@@ -3209,7 +3225,7 @@ function initClinicalVideoApp() {
                         ? selectedSubject
                         : subjects[0];
                 }
-                showToast('บันทึกวิชาไม่สำเร็จ — ตรวจสิทธิ์ Supabase หรือล็อกอินแอดมินแบบเต็ม', 'error');
+                showToast('Could not save subject. Check Supabase permissions or sign in with a full admin account.', 'error');
             });
     }
 
@@ -3248,7 +3264,7 @@ function initClinicalVideoApp() {
         btnClearAllMembers.addEventListener('click', () => {
             if (!confirm('Clear ALL members? This cannot be undone.')) return;
             users = [];
-            saveUsersDB({ successToast: 'ล้างรายชื่อสมาชิกทั้งหมดแล้ว' });
+            saveUsersDB({ successToast: 'All members cleared.' });
             renderAdminMembers();
         });
     }
@@ -3258,7 +3274,7 @@ function initClinicalVideoApp() {
         btnClearViews.addEventListener('click', () => {
             if (!confirm('Reset all video views to 0?')) return;
             videos.forEach(v => { v.views = 0; });
-            saveVideosDB({ successToast: 'รีเซ็ตยอดดูวิดีโอแล้ว' });
+            saveVideosDB({ successToast: 'Video views reset.' });
             renderVideos();
         });
     }
@@ -3266,9 +3282,9 @@ function initClinicalVideoApp() {
     const btnClearFeedbacks = document.getElementById('btn-clear-feedbacks');
     if (btnClearFeedbacks) {
         btnClearFeedbacks.addEventListener('click', () => {
-            if (!confirm('Clear all positive feedbacks?')) return;
+            if (!confirm('Clear all lesson notes?')) return;
             videos.forEach(v => { v.feedbacks = []; });
-            saveVideosDB({ successToast: 'ล้างความคิดเห็นแล้ว' });
+            saveVideosDB({ successToast: 'Lesson notes cleared.' });
             renderAdminFeedbacks();
         });
     }
@@ -3277,7 +3293,7 @@ function initClinicalVideoApp() {
     if (btnRefreshFeedbacks) {
         btnRefreshFeedbacks.addEventListener('click', () => {
             renderAdminFeedbacks();
-            showToast('รีเฟรชรายการความคิดเห็นแล้ว', 'info');
+            showToast('Lesson notes refreshed.', 'info');
         });
     }
 
@@ -3326,7 +3342,7 @@ function initClinicalVideoApp() {
         newVideoTitle.value = '';
         if (quizQuestionsList) quizQuestionsList.innerHTML = '';
         saveVideosDB({
-            successToast: wasEditing ? 'บันทึกการแก้ไขวิดีโอแล้ว' : 'เพิ่มวิดีโอแล้ว'
+            successToast: wasEditing ? 'Video changes saved.' : 'Video attached.'
         });
         saveDraft('admin_new_video', null);
         renderVideos();
@@ -3347,6 +3363,8 @@ function initClinicalVideoApp() {
 
     if (wantsVideoFeedRoute()) {
         navigateTo(pageVideos);
+    } else if (applyInitialGateRoute()) {
+        document.body.classList.toggle('welcome-hero-active', pageWelcome && pageWelcome.classList.contains('active'));
     } else if (pageWelcome && pageWelcome.classList.contains('active')) {
         document.body.classList.add('welcome-hero-active');
         const heartHost = document.getElementById('welcome-heart-host');
