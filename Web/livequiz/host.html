@@ -13,10 +13,25 @@
           <strong>Host Console</strong>
           <span>LiveQuiz Classroom</span>
         </div>
-        <a href="index.html">Create or join another room</a>
+        <a href="index.html">Participant screen</a>
       </header>
 
-      <section class="host-grid">
+      <section id="hostCreatePanel" class="grid participant-entry hidden">
+        <div class="panel">
+          <h2>Create a host room</h2>
+          <p class="lede">Start a temporary classroom quiz room, then add questions manually or import CSV/XLSX from the host console.</p>
+          <form id="createRoomForm" class="form">
+            <label>
+              Default time per question
+              <input id="defaultTime" type="number" min="5" value="30" />
+            </label>
+            <button type="submit">Create room</button>
+            <p id="createStatus" class="status"></p>
+          </form>
+        </div>
+      </section>
+
+      <section id="hostConsole" class="host-grid">
         <div class="list">
           <div class="panel">
             <div class="split">

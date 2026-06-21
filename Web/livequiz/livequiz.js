@@ -81,21 +81,6 @@
     const roomParam = params.get("room");
     if (roomParam && $("joinCode")) $("joinCode").value = roomParam;
 
-    $("createRoomForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      setStatus($("createStatus"), "Creating room...");
-      try {
-        const data = await api("/api/rooms", {
-          method: "POST",
-          body: JSON.stringify({ globalTimeLimitSeconds: $("defaultTime").value }),
-        });
-        localStorage.setItem(storageKey("host", data.roomCode), data.hostToken);
-        window.location.href = data.hostUrl;
-      } catch (err) {
-        setStatus($("createStatus"), err.message, "error");
-      }
-    });
-
     $("joinRoomForm").addEventListener("submit", async (event) => {
       event.preventDefault();
       const code = $("joinCode").value.trim().toUpperCase();
@@ -115,6 +100,25 @@
     });
   }
 
+  function setupCreateRoomForm() {
+    const form = $("createRoomForm");
+    if (!form) return;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setStatus($("createStatus"), "Creating room...");
+      try {
+        const data = await api("/api/rooms", {
+          method: "POST",
+          body: JSON.stringify({ globalTimeLimitSeconds: $("defaultTime").value }),
+        });
+        localStorage.setItem(storageKey("host", data.roomCode), data.hostToken);
+        window.location.href = data.hostUrl;
+      } catch (err) {
+        setStatus($("createStatus"), err.message, "error");
+      }
+    });
+  }
+
   function initHost() {
     const code = (params.get("room") || "").trim().toUpperCase();
     const queryToken = params.get("token");
@@ -124,6 +128,17 @@
     let editQuestionId = null;
 
     if (code && queryToken) localStorage.setItem(storageKey("host", code), queryToken);
+
+    if (!code || !hostToken) {
+      $("hostCreatePanel")?.classList.remove("hidden");
+      $("hostConsole")?.classList.add("hidden");
+      setupCreateRoomForm();
+      return;
+    }
+
+    $("hostCreatePanel")?.classList.add("hidden");
+    $("hostConsole")?.classList.remove("hidden");
+
     $("roomCode").textContent = code || "------";
     $("exportCsv").href = `${apiBase}/rooms/${code}/export.csv?token=${encodeURIComponent(hostToken || "")}`;
 

@@ -137,6 +137,11 @@ button:disabled {
   gap: 18px;
 }
 
+.participant-entry {
+  grid-template-columns: minmax(0, 640px);
+  justify-content: center;
+}
+
 .host-grid {
   display: grid;
   grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.35fr);
