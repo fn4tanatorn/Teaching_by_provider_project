@@ -139,6 +139,7 @@ function markBetaUsedToday(user) {
 
 const CLINICAL_DRAFT_PREFIX = 'clinical_video_draft_v1:';
 const CLINICAL_LAST_VIDEO_PREFIX = 'clinical_video_last_video_v1:';
+const CLINICAL_SIDEBAR_COLLAPSED_KEY = 'clinical_video_sidebar_collapsed_v1';
 
 /** Store form drafts on localhost, or when explicitly enabled by meta or localStorage flag. */
 function persistFormsEnabled() {
@@ -637,7 +638,7 @@ function initClinicalVideoApp() {
         const pageId = pageElement.id;
         const isAdmin = currentUser && currentUser.isAdmin;
 
-        if (pageId === 'page-admin') {
+        if (pageId === 'page-admin' || pageId === 'page-checkin-bank-admin') {
             btnAdminLogin.style.display = 'none';
         } else if (pageId === 'page-welcome' || isAdmin) {
             btnAdminLogin.style.display = 'block';
@@ -786,6 +787,7 @@ function initClinicalVideoApp() {
     const pageQuiz = document.getElementById('page-quiz');
     const pageStats = document.getElementById('page-stats');
     const pageAdmin = document.getElementById('page-admin');
+    const pageCheckinBankAdmin = document.getElementById('page-checkin-bank-admin');
 
     const btnGoLogin = document.getElementById('btn-go-login');
     const btnGoRegister = document.getElementById('btn-go-register');
@@ -874,6 +876,8 @@ function initClinicalVideoApp() {
     const btnPqContinue = document.getElementById('btn-pq-continue');
     const pqFeedback = document.getElementById('pq-feedback');
     const videoFeedback = document.getElementById('video-feedback');
+    const adminFeedbackSearch = document.getElementById('admin-feedback-search');
+    const adminFeedbackSummary = document.getElementById('admin-feedback-summary');
     let currentQuizData = null;
     let selectedChoice = null;
     const countdownTimerWatch = document.getElementById('countdown-timer-watch');
@@ -1676,6 +1680,13 @@ function initClinicalVideoApp() {
         return checkinAddDays(anchor, Math.floor(delta / 14) * 14);
     }
 
+    function createCheckinPoolKey() {
+        if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return `pool:${window.crypto.randomUUID()}`;
+        }
+        return `pool:${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+    }
+
     async function initCheckin() {
         const taskView = document.getElementById('checkin-task-view');
         const okView = document.getElementById('checkin-ok-view');
@@ -1698,6 +1709,7 @@ function initClinicalVideoApp() {
             const prev = await ds.queryResponsesByNameKey(key);
             const userTodayResp = prev.find((r) => r.date === today);
             if (userTodayResp) {
+                if (userTodayResp.questionSnapshot) checkinCurrentQ = userTodayResp.questionSnapshot;
                 loading.style.display = 'none';
                 taskView.style.display = 'none';
                 okView.style.display = 'flex';
@@ -1859,7 +1871,16 @@ function initClinicalVideoApp() {
         const today = checkinTodayStr();
         const key = nameKey(currentUser.username);
         const ts = new Date().toLocaleString('th-TH', { timeZone: 'Asia/Bangkok' });
-        const payload = { timestamp: ts, date: today, name: currentUser.username, name_key: key, answer: ans };
+        const payload = {
+            timestamp: ts,
+            date: today,
+            name: currentUser.username,
+            name_key: key,
+            answer: ans,
+            questionId: checkinCurrentQ?.id || checkinCurrentQ?.poolId || checkinCurrentQ?.storageKey || null,
+            question: checkinCurrentQ?.question || '',
+            questionSnapshot: checkinCurrentQ ? { ...checkinCurrentQ } : null
+        };
 
         try {
             await ds.pushCheckinResponse(payload);
@@ -1893,10 +1914,16 @@ function initClinicalVideoApp() {
         list.innerHTML = '<p style="font-size:13px;color:var(--text-muted);">Loading…</p>';
         const today = checkinTodayStr();
         try {
-            const rows = (await ds.fetchAllCheckinQuestions()).sort((a, b) => a.date < b.date ? -1 : 1);
-            if (!rows.length) { list.innerHTML = '<p style="font-size:13px;color:var(--text-muted);">No questions scheduled.</p>'; return; }
+            const [rowsRaw, todayPick] = await Promise.all([
+                ds.fetchAllCheckinQuestions(),
+                ds.fetchCheckinQuestionForDate(today)
+            ]);
+            const rows = rowsRaw.sort((a, b) =>
+                String(b.updatedAt || b.createdAt || b.date || '').localeCompare(String(a.updatedAt || a.createdAt || a.date || ''))
+            );
+            if (!rows.length) { list.innerHTML = '<p style="font-size:13px;color:var(--text-muted);">No questions in the bank yet.</p>'; return; }
             list.innerHTML = rows.map((r, i) => {
-                const isToday = r.date === today;
+                const isToday = todayPick && (r.storageKey === todayPick.storageKey || r.id === todayPick.id);
                 const badge = r.type === 'choice'
                     ? `<span class="checkin-q-badge choice">Choice</span>`
                     : `<span class="checkin-q-badge">Free text</span>`;
@@ -1904,7 +1931,7 @@ function initClinicalVideoApp() {
                     ? `<span class="checkin-q-badge" style="background:var(--ok-soft); color:var(--ok); border:1px solid rgba(21,128,61,0.25);">✓ Answer Key</span>`
                     : ``;
                 return `<div class="checkin-q-row ${isToday ? 'today' : ''}">
-                    <span class="checkin-q-date ${isToday ? 'now' : ''}">${checkinEsc(isToday ? 'Today' : r.date)}</span>
+                    <span class="checkin-q-date ${isToday ? 'now' : ''}">${checkinEsc(isToday ? 'Today pick' : `Bank #${i + 1}`)}</span>
                     <span class="checkin-q-text">${checkinEsc(r.question)}</span>
                     ${badge}
                     ${answerBadge}
@@ -1921,7 +1948,7 @@ function initClinicalVideoApp() {
         checkinEditingDate = null;
         checkinCurrentType = 'text';
         const cqImgZone = setupImgDropZone(document.getElementById('cq-img-zone'));
-        document.getElementById('cq-date').value = checkinTodayStr();
+        document.getElementById('cq-date').value = '';
         document.getElementById('cq-question').value = '';
         if (cqImgZone) cqImgZone.setImageUrl('');
         ['cq-c1','cq-c2','cq-c3','cq-c4','cq-c5'].forEach(id => { document.getElementById(id).value = ''; });
@@ -1932,8 +1959,8 @@ function initClinicalVideoApp() {
 
         if (idx !== null && window._checkinQCache) {
             const r = window._checkinQCache[idx];
-            checkinEditingDate = r.date;
-            document.getElementById('cq-date').value = r.date || '';
+            checkinEditingDate = r.storageKey || r.date;
+            document.getElementById('cq-date').value = checkinEditingDate || '';
             document.getElementById('cq-question').value = r.question || '';
             if (cqImgZone) cqImgZone.setImageUrl(r.imageUrl || '');
             if (r.type === 'choice') {
@@ -1973,9 +2000,12 @@ function initClinicalVideoApp() {
     }
 
     async function saveCheckinQ() {
-        const date = document.getElementById('cq-date').value;
+        const existing = checkinEditingDate && window._checkinQCache
+            ? window._checkinQCache.find((q) => (q.storageKey || q.date) === checkinEditingDate)
+            : null;
+        const storageKey = checkinEditingDate || createCheckinPoolKey();
         const question = document.getElementById('cq-question').value.trim();
-        if (!date || !question) { alert('Please fill in date and question.'); return; }
+        if (!question) { alert('Please fill in the question.'); return; }
         if (checkinCurrentType === 'choice') {
             if (!document.getElementById('cq-c1').value.trim() || !document.getElementById('cq-c2').value.trim()) {
                 alert('Need at least 2 choices.'); return;
@@ -1983,8 +2013,14 @@ function initClinicalVideoApp() {
         }
         const btn = document.getElementById('btn-cq-save');
         btn.disabled = true; btn.textContent = 'Saving…';
+        const poolId = String(storageKey).startsWith('pool:') ? String(storageKey).slice(5) : String(storageKey);
         const data = {
-            date, question, type: checkinCurrentType,
+            id: existing?.id || poolId,
+            poolId: existing?.poolId || poolId,
+            storageKey,
+            date: existing?.date || '',
+            question,
+            type: checkinCurrentType,
             c1: document.getElementById('cq-c1').value.trim(),
             c2: document.getElementById('cq-c2').value.trim(),
             c3: document.getElementById('cq-c3').value.trim(),
@@ -1993,16 +2029,16 @@ function initClinicalVideoApp() {
             imageUrl: document.getElementById('cq-img').value.trim(),
             correctText: document.getElementById('cq-correct-text').value.trim(),
             correctChoice: document.getElementById('cq-correct-choice').value,
+            createdAt: existing?.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            active: true
         };
         try {
-            if (checkinEditingDate && checkinEditingDate !== date) {
-                await ds.removeCheckinQuestion(checkinEditingDate);
-            }
-            await ds.saveCheckinQuestion(date, data);
+            await ds.saveCheckinQuestion(storageKey, data);
             btn.disabled = false; btn.textContent = 'Save';
             closeCheckinQForm();
             renderCheckinQuestions();
-            showToast('Check-in question saved.');
+            showToast('Question bank updated.');
         } catch (e) {
             btn.disabled = false; btn.textContent = 'Save';
             console.error('saveCheckinQ failed:', e, 'data:', data);
@@ -2012,7 +2048,7 @@ function initClinicalVideoApp() {
 
     async function deleteCheckinQ() {
         if (!checkinEditingDate) return;
-        if (!confirm(`Delete question for ${checkinEditingDate}?`)) return;
+        if (!confirm('Delete this question from the bank?')) return;
         try {
             await ds.removeCheckinQuestion(checkinEditingDate);
             closeCheckinQForm();
@@ -2036,6 +2072,10 @@ function initClinicalVideoApp() {
             const all = await ds.fetchAllCheckinResponses();
             const todayRows = all.filter(r => r.date === today);
             const cycleRows = all.filter(r => r.date >= cycleStart && r.date <= today);
+            const summaryEl = document.getElementById('checkin-dash-summary');
+            if (summaryEl) {
+                summaryEl.textContent = `${all.length} total check-ins, ${todayRows.length} today.`;
+            }
 
             statsEl.innerHTML = `
                 <div class="checkin-dash-stat"><div class="checkin-dash-stat-num">${all.length}</div><div class="checkin-dash-stat-lbl">Total check-ins</div></div>
@@ -2153,9 +2193,9 @@ function initClinicalVideoApp() {
             renderAdminUsers();
             renderAdminVideos();
             renderAdminFeedbacks();
-            renderCheckinQuestions();
-            loadCheckinDashboard();
             if (!adminMemberList.hidden) renderAdminMembers();
+        } else if (pageElement === pageCheckinBankAdmin && currentUser?.isAdmin) {
+            renderCheckinQuestions();
         } else {
             const lb = document.getElementById('local-admin-banner');
             if (lb) lb.style.display = 'none';
@@ -2199,32 +2239,51 @@ function initClinicalVideoApp() {
         const list = document.getElementById('admin-feedback-list');
         if (!list) return;
         list.innerHTML = '';
-        let hasFeedback = false;
-        videos.forEach(v => {
-            if (v.feedbacks && v.feedbacks.length > 0) {
-                hasFeedback = true;
-                v.feedbacks.forEach(f => {
-                    const div = document.createElement('div');
-                    div.className = 'admin-list-item';
-                    div.style.alignItems = 'flex-start';
-                    div.innerHTML = `
-                        <div style="flex:1;">
-                            <div style="display:flex; justify-content:space-between; margin-bottom: 0.25rem;">
-                                <strong style="color:var(--teal-700); font-size: 14px;">"${escapeHtml(f.text)}"</strong>
-                            </div>
-                            <div style="font-size:12px; color:var(--muted); line-height: 1.4;">
-                                By <span style="font-weight: 600; color: var(--ink-2);">${escapeHtml(f.user)}</span> on video: ${escapeHtml(v.title)}
-                            </div>
-                            <div style="font-size:10px; color:var(--muted-2); margin-top: 0.25rem; font-family: var(--font-mono);">
-                                ${new Date(f.date).toLocaleString()}
-                            </div>
-                        </div>
-                    `;
-                    list.appendChild(div);
-                });
-            }
+        const query = (adminFeedbackSearch?.value || '').trim().toLowerCase();
+        const notes = videos.flatMap((v) => {
+            const feedbacks = Array.isArray(v.feedbacks) ? v.feedbacks : [];
+            return feedbacks
+                .filter((f) => f && String(f.text || '').trim())
+                .map((f) => ({
+                    ...f,
+                    videoTitle: v.title || 'Untitled lesson',
+                    subject: getVideoSubject(v),
+                    videoId: v.id
+                }));
+        }).sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+        const filtered = query
+            ? notes.filter((n) => [n.text, n.user, n.videoTitle, subjectLabel(n.subject)].some((v) => String(v || '').toLowerCase().includes(query)))
+            : notes;
+
+        if (adminFeedbackSummary) {
+            adminFeedbackSummary.textContent = notes.length
+                ? `${filtered.length} of ${notes.length} lesson note${notes.length === 1 ? '' : 's'} shown.`
+                : 'Review student notes from all lessons.';
+        }
+        if (!notes.length) {
+            list.innerHTML = '<p class="muted-empty">No lesson notes yet. Notes appear here after students type a note and mark a lesson as finished.</p>';
+            return;
+        }
+        if (!filtered.length) {
+            list.innerHTML = '<p class="muted-empty">No lesson notes match this search.</p>';
+            return;
+        }
+        filtered.forEach((f) => {
+            const div = document.createElement('div');
+            div.className = 'admin-list-item admin-note-item';
+            div.innerHTML = `
+                <div class="admin-note-body">
+                    <div class="admin-note-meta">
+                        <span class="admin-note-user">${escapeHtml(f.user || 'Anon')}</span>
+                        <span>${escapeHtml(subjectLabel(f.subject))}</span>
+                        <span>${escapeHtml(new Date(f.date || Date.now()).toLocaleString())}</span>
+                    </div>
+                    <p class="admin-note-text">${escapeHtml(f.text)}</p>
+                    <p class="admin-note-lesson">${escapeHtml(f.videoTitle)}</p>
+                </div>
+            `;
+            list.appendChild(div);
         });
-        if (!hasFeedback) list.innerHTML = '<p class="muted-empty">No positive feedbacks yet.</p>';
     }
 
     btnGoLogin.addEventListener('click', () => {
@@ -2504,6 +2563,7 @@ function initClinicalVideoApp() {
         if (adminAllowedNames && document.activeElement !== adminAllowedNames) {
             adminAllowedNames.value = draftAllowed !== null ? draftAllowed : joined;
         }
+        updateAllowedNamesSummary();
     }
 
     function resolveExamDeadline(profile) {
@@ -2612,6 +2672,16 @@ function initClinicalVideoApp() {
     });
 
     const btnCheckin = document.getElementById('btn-checkin');
+    const btnOpenCheckinBankPage = document.getElementById('btn-open-checkin-bank-page');
+    const btnBackToAdminFromBank = document.getElementById('btn-back-to-admin-from-bank');
+
+    if (btnOpenCheckinBankPage) {
+        btnOpenCheckinBankPage.addEventListener('click', () => navigateTo(pageCheckinBankAdmin));
+    }
+    if (btnBackToAdminFromBank) {
+        btnBackToAdminFromBank.addEventListener('click', () => navigateTo(pageAdmin));
+    }
+
     function openSheets() {
         window.location.href = resolveAppUrl('sheets/index.html');
     }
@@ -2674,6 +2744,41 @@ function initClinicalVideoApp() {
         else if (target === 'medquiz') openMedQuiz();
     }
 
+    function setLearningSidebarCollapsed(collapsed) {
+        document.body.classList.toggle('learning-sidebar-collapsed', collapsed);
+        document.querySelectorAll('.learning-sidebar-toggle').forEach((btn) => {
+            btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+            btn.setAttribute('aria-label', collapsed ? 'Expand sidebar' : 'Collapse sidebar');
+            btn.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+        });
+        try {
+            localStorage.setItem(CLINICAL_SIDEBAR_COLLAPSED_KEY, collapsed ? '1' : '0');
+        } catch (_) {
+            /* private mode */
+        }
+    }
+
+    function initLearningSidebarToggle() {
+        let collapsed = false;
+        try {
+            collapsed = localStorage.getItem(CLINICAL_SIDEBAR_COLLAPSED_KEY) === '1';
+        } catch (_) {
+            collapsed = false;
+        }
+        document.querySelectorAll('.shell-nav-link').forEach((link) => {
+            const label = link.textContent.trim();
+            if (label) link.title = label;
+        });
+        setLearningSidebarCollapsed(collapsed);
+        document.querySelectorAll('.learning-sidebar-toggle').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                setLearningSidebarCollapsed(!document.body.classList.contains('learning-sidebar-collapsed'));
+            });
+        });
+    }
+
+    initLearningSidebarToggle();
+
     document.querySelectorAll('[data-nav-target]').forEach((el) => {
         el.addEventListener('click', (event) => {
             const target = el.getAttribute('data-nav-target');
@@ -2715,6 +2820,20 @@ function initClinicalVideoApp() {
     const btnCheckinDashRefresh = document.getElementById('btn-checkin-dash-refresh');
     if (btnCheckinDashRefresh) {
         btnCheckinDashRefresh.addEventListener('click', () => loadCheckinDashboard({ notifySuccess: true }));
+    }
+    const btnToggleCheckinDashboard = document.getElementById('btn-toggle-checkin-dashboard');
+    const checkinDashboardPanel = document.getElementById('checkin-dashboard-panel');
+    if (btnToggleCheckinDashboard && checkinDashboardPanel) {
+        btnToggleCheckinDashboard.addEventListener('click', async () => {
+            const opening = checkinDashboardPanel.hidden;
+            checkinDashboardPanel.hidden = !opening;
+            btnToggleCheckinDashboard.setAttribute('aria-expanded', opening ? 'true' : 'false');
+            btnToggleCheckinDashboard.textContent = opening ? 'Hide dashboard' : 'Show dashboard';
+            if (opening && !checkinDashboardPanel.dataset.loaded) {
+                await loadCheckinDashboard();
+                checkinDashboardPanel.dataset.loaded = '1';
+            }
+        });
     }
 
     btnStats.addEventListener('click', () => { renderStats(); navigateTo(pageStats); });
@@ -3147,6 +3266,45 @@ function initClinicalVideoApp() {
     });
 
     const btnSaveAllowedNames = document.getElementById('btn-save-allowed-names');
+    const btnToggleAllowedNames = document.getElementById('btn-toggle-allowed-names');
+
+    function allowedNamesFromTextarea() {
+        const el = document.getElementById('admin-allowed-names');
+        return String(el?.value || '').split(/[\n,]/).map((s) => s.trim()).filter(Boolean);
+    }
+
+    function updateAllowedNamesSummary() {
+        const allowedNamesSummary = document.getElementById('allowed-names-summary');
+        if (!allowedNamesSummary) return;
+        const count = allowedNamesFromTextarea().length || allowedNames.length;
+        const suffix = count === 1 ? 'name' : 'names';
+        allowedNamesSummary.textContent = count
+            ? `${count} approved ${suffix} hidden.`
+            : 'No approved names yet.';
+    }
+
+    function setAllowedNamesEditorOpen(open) {
+        const allowedNamesEditor = document.getElementById('allowed-names-editor');
+        const btnToggleAllowedNames = document.getElementById('btn-toggle-allowed-names');
+        if (!allowedNamesEditor || !btnToggleAllowedNames) return;
+        allowedNamesEditor.hidden = !open;
+        btnToggleAllowedNames.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btnToggleAllowedNames.textContent = open ? 'Hide names' : 'Show names';
+        if (open) {
+            const input = document.getElementById('admin-allowed-names');
+            setTimeout(() => input && input.focus(), 50);
+        }
+    }
+
+    updateAllowedNamesSummary();
+
+    if (btnToggleAllowedNames) {
+        btnToggleAllowedNames.addEventListener('click', () => {
+            const allowedNamesEditor = document.getElementById('allowed-names-editor');
+            setAllowedNamesEditorOpen(allowedNamesEditor?.hidden !== false);
+        });
+    }
+
     if (btnSaveAllowedNames) {
         btnSaveAllowedNames.addEventListener('click', () => {
             const val = document.getElementById('admin-allowed-names').value;
@@ -3155,6 +3313,8 @@ function initClinicalVideoApp() {
                 .then(() => {
                     showToast('Approved names saved.');
                     saveDraft('admin_allowed_names', null);
+                    updateAllowedNamesSummary();
+                    setAllowedNamesEditorOpen(false);
                 })
                 .catch(() => {
                     /* saveAllowedNamesDB already alerted */
@@ -3172,6 +3332,8 @@ function initClinicalVideoApp() {
                 .then(() => {
                     showToast('Approved names cleared.');
                     saveDraft('admin_allowed_names', null);
+                    updateAllowedNamesSummary();
+                    setAllowedNamesEditorOpen(false);
                 })
                 .catch(() => {
                     /* saveAllowedNamesDB already alerted */
@@ -3390,6 +3552,9 @@ function initClinicalVideoApp() {
             renderAdminFeedbacks();
             showToast('Lesson notes refreshed.', 'info');
         });
+    }
+    if (adminFeedbackSearch) {
+        adminFeedbackSearch.addEventListener('input', debounce(renderAdminFeedbacks, 150));
     }
 
     btnAddVideo.addEventListener('click', () => {
