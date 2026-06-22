@@ -65,6 +65,37 @@ function userToUpsert(user) {
     return row;
 }
 
+function normalizeCheckinQuestionRow(row) {
+    const body = row && row.body && typeof row.body === 'object' ? row.body : {};
+    const storageKey = row.q_date;
+    const isPoolKey = String(storageKey || '').startsWith('pool:');
+    const id = body.id || body.poolId || (isPoolKey ? String(storageKey).slice(5) : storageKey);
+    return {
+        ...body,
+        id,
+        poolId: body.poolId || id,
+        storageKey,
+        date: body.date || (isPoolKey ? '' : storageKey)
+    };
+}
+
+function checkinDateHash(value) {
+    let hash = 2166136261;
+    for (let i = 0; i < String(value).length; i += 1) {
+        hash ^= String(value).charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+    return hash >>> 0;
+}
+
+function pickDailyCheckinQuestion(rows, dateStr) {
+    const eligible = rows
+        .filter((q) => q && q.active !== false && typeof q.question === 'string' && q.question.trim())
+        .sort((a, b) => String(a.storageKey || a.id).localeCompare(String(b.storageKey || b.id)));
+    if (!eligible.length) return null;
+    return eligible[checkinDateHash(dateStr) % eligible.length];
+}
+
 export function createDataService(supabaseUrl, supabaseAnonKey) {
     const supabase = createClient(supabaseUrl, supabaseAnonKey, {
         auth: {
@@ -181,28 +212,28 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
         async fetchCheckinQuestionForDate(dateStr) {
             const { data, error } = await supabase
                 .from('checkin_questions')
-                .select('body')
-                .eq('q_date', dateStr)
-                .maybeSingle();
+                .select('q_date, body');
             if (error) throw error;
-            return data && data.body ? data.body : null;
+            return pickDailyCheckinQuestion((data || []).map(normalizeCheckinQuestionRow), dateStr);
         },
 
         async fetchAllCheckinQuestions() {
             const { data, error } = await supabase.from('checkin_questions').select('q_date, body');
             if (error) throw error;
-            return (data || []).map((r) => ({ ...(r.body || {}), date: r.q_date }));
+            return (data || []).map(normalizeCheckinQuestionRow);
         },
 
-        async saveCheckinQuestion(dateStr, body) {
+        async saveCheckinQuestion(storageKey, body) {
+            const key = String(storageKey || body.storageKey || body.poolId || body.id || '').trim();
+            if (!key) throw new Error('Missing check-in question id');
             const { error } = await supabase
                 .from('checkin_questions')
-                .upsert({ q_date: dateStr, body }, { onConflict: 'q_date' });
+                .upsert({ q_date: key, body }, { onConflict: 'q_date' });
             if (error) throw error;
         },
 
-        async removeCheckinQuestion(dateStr) {
-            const { error } = await supabase.from('checkin_questions').delete().eq('q_date', dateStr);
+        async removeCheckinQuestion(storageKey) {
+            const { error } = await supabase.from('checkin_questions').delete().eq('q_date', storageKey);
             if (error) throw error;
         },
 
