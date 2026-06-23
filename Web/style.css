@@ -3184,3 +3184,131 @@ textarea:focus,
     flex-wrap: nowrap;
   }
 }
+
+/* Brain Map Styles */
+.brainmap-layout {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.brainmap-card {
+  position: absolute;
+  bottom: 84px;
+  right: 24px;
+  width: 320px;
+  z-index: 10;
+  padding: 1.25rem;
+  border-radius: var(--r-card);
+  animation: slideInUp 0.3s ease-out;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.brainmap-controls {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 6px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.control-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.control-btn:active {
+  transform: scale(0.92);
+}
+
+.control-btn--active {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.control-btn--active:hover {
+  background: rgba(16, 185, 129, 0.25);
+  color: #34d399;
+}
+
+.brainmap-card-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.brainmap-card-close:hover {
+  color: var(--ink);
+}
+
+.brainmap-subject-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 99px;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  margin-bottom: 0.5rem;
+}
+
+.brainmap-card-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.brainmap-card-meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .brainmap-card {
+    width: calc(100% - 32px);
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}

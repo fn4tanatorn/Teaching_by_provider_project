@@ -40,6 +40,7 @@ function loadThree() {
                 return;
             }
             const script = document.createElement('script');
+            script.crossOrigin = 'anonymous';
             script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
             script.async = true;
             script.dataset.clinicalThree = '1';

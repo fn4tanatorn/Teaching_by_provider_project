@@ -262,6 +262,7 @@ function initClinicalVideoApp() {
     let currentWatchVideo = null;
     let videoSearchQuery = '';
     let loginStuckTimer = null;
+    let brainGraph = null;
 
     const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
     if (useLocalMemberStorage) {
@@ -727,6 +728,10 @@ function initClinicalVideoApp() {
         if (videoBadge) videoBadge.textContent = `Video ${currentUser.videoStreak || 0}d`;
         const checkinBadge = document.getElementById("badge-checkin-streak");
         if (checkinBadge) checkinBadge.textContent = `Check-in ${currentUser.checkinStreak || 0}d`;
+        const bmVideoBadge = document.getElementById("badge-video-streak-bm");
+        if (bmVideoBadge) bmVideoBadge.textContent = `Video ${currentUser.videoStreak || 0}d`;
+        const bmCheckinBadge = document.getElementById("badge-checkin-streak-bm");
+        if (bmCheckinBadge) bmCheckinBadge.textContent = `Check-in ${currentUser.checkinStreak || 0}d`;
         if (homeCheckinStreak) homeCheckinStreak.textContent = `${currentUser.checkinStreak || 0}d`;
         if (homeVideoStreak) homeVideoStreak.textContent = `${currentUser.videoStreak || 0}d`;
     }
@@ -795,6 +800,7 @@ function initClinicalVideoApp() {
     const pageStats = document.getElementById('page-stats');
     const pageAdmin = document.getElementById('page-admin');
     const pageCheckinBankAdmin = document.getElementById('page-checkin-bank-admin');
+    const pageBrainmap = document.getElementById('page-brainmap');
 
     const btnGoLogin = document.getElementById('btn-go-login');
     const btnGoRegister = document.getElementById('btn-go-register');
@@ -893,6 +899,7 @@ function initClinicalVideoApp() {
     const adminVideoList = document.getElementById('admin-video-list');
     const countdownTimer = document.getElementById('countdown-timer');
     const countdownTimerHome = document.getElementById('countdown-timer-home');
+    const countdownTimerBm = document.getElementById('countdown-timer-bm');
     const examDetailsModal = document.getElementById('exam-details-modal');
     const examDetailsNote = document.getElementById('exam-details-note');
     const btnCloseExamDetails = document.getElementById('btn-close-exam-details');
@@ -1432,6 +1439,7 @@ function initClinicalVideoApp() {
             if (newVideoSlideUrl) newVideoSlideUrl.value = '';
             if (newVideoSlideTitle) newVideoSlideTitle.value = '';
             if (quizQuestionsList) quizQuestionsList.innerHTML = '';
+            renderVideoConnectionsCheckboxes(null, []);
             showToast('Edit cancelled.', 'info');
         });
     }
@@ -1444,7 +1452,22 @@ function initClinicalVideoApp() {
             commentsList.innerHTML = '<p class="muted-empty" style="font-size: 13px;">No lesson notes yet.</p>';
             return;
         }
-        const feedbacks = [...video.feedbacks].reverse();
+
+        const currentUsername = currentUser ? String(currentUser.username).trim().toLowerCase() : '';
+        const isAdmin = currentUser && currentUser.isAdmin;
+
+        let feedbacks = [...video.feedbacks];
+        if (!isAdmin) {
+            feedbacks = feedbacks.filter(f => f.user && String(f.user).trim().toLowerCase() === currentUsername);
+        }
+
+        feedbacks.reverse();
+
+        if (feedbacks.length === 0) {
+            commentsList.innerHTML = '<p class="muted-empty" style="font-size: 13px;">No lesson notes yet.</p>';
+            return;
+        }
+
         feedbacks.forEach(f => {
             const div = document.createElement('div');
             div.style.padding = '0.75rem';
@@ -1566,7 +1589,7 @@ function initClinicalVideoApp() {
             const slide = getVideoSlide(video);
             if (slide) {
                 watchSlideLink.href = slide.url;
-                watchSlideLink.textContent = slide.title;
+                watchSlideLink.textContent = 'Slide❗️';
                 watchSlideLink.hidden = false;
             } else {
                 watchSlideLink.href = '#';
@@ -1638,6 +1661,282 @@ function initClinicalVideoApp() {
         renderAdminVideos();
     }
 
+    function createTextSprite(text, color = '#ffffff') {
+        if (!window.THREE) return null;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        const fontSize = 24;
+        ctx.font = `${fontSize}px system-ui, -apple-system, sans-serif`;
+        const textWidth = ctx.measureText(text).width;
+        
+        canvas.width = textWidth + 24;
+        canvas.height = fontSize + 16;
+        
+        // Background bubble
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
+        if (ctx.roundRect) {
+            ctx.roundRect(0, 0, canvas.width, canvas.height, 8);
+        } else {
+            ctx.rect(0, 0, canvas.width, canvas.height);
+        }
+        ctx.fill();
+        
+        // Border
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 1.5;
+        if (ctx.roundRect) {
+            ctx.roundRect(0, 0, canvas.width, canvas.height, 8);
+        } else {
+            ctx.rect(0, 0, canvas.width, canvas.height);
+        }
+        ctx.stroke();
+        
+        // Text
+        ctx.font = `600 ${fontSize}px system-ui, -apple-system, sans-serif`;
+        ctx.fillStyle = color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        
+        const texture = new window.THREE.CanvasTexture(canvas);
+        texture.minFilter = window.THREE.LinearFilter;
+        
+        const spriteMaterial = new window.THREE.SpriteMaterial({
+            map: texture,
+            transparent: true
+        });
+        
+        const sprite = new window.THREE.Sprite(spriteMaterial);
+        const aspect = canvas.width / canvas.height;
+        const spriteHeight = 4.5;
+        sprite.scale.set(spriteHeight * aspect, spriteHeight, 1);
+        
+        return sprite;
+    }
+
+    function renderBrainMap() {
+        const graphContainer = document.getElementById('3d-graph');
+        const detailCard = document.getElementById('brainmap-detail-card');
+        const cardSubject = document.getElementById('brainmap-card-subject');
+        const cardTitle = document.getElementById('brainmap-card-title');
+        const cardViews = document.getElementById('brainmap-card-views');
+        const cardStatus = document.getElementById('brainmap-card-status');
+        const btnPlay = document.getElementById('btn-brainmap-play');
+        const btnCloseCard = document.getElementById('btn-close-brainmap-card');
+
+        if (!graphContainer) return;
+
+        if (btnCloseCard) {
+            btnCloseCard.onclick = () => {
+                detailCard.hidden = true;
+            };
+        }
+
+        // 1. Prepare Nodes and Links
+        const graphData = { nodes: [], links: [] };
+
+        // Add Subject Hub Nodes
+        subjects.forEach(subject => {
+            graphData.nodes.push({
+                id: `subject_${subject}`,
+                name: subjectLabel(subject) + ' (Hub)',
+                val: 28,
+                color: '#10b981', // Emerald green for hubs
+                type: 'hub',
+                subject: subject
+            });
+        });
+
+        const watchedList = (currentUser && currentUser.watchedVideos) || [];
+
+        // 1a. Build the complete list of video-to-video directed edges
+        const videoEdges = []; // Array of { sourceId, targetId }
+        const hasCustomConnections = videos.some(v => v.connectedIds && v.connectedIds.length > 0);
+
+        if (hasCustomConnections) {
+            videos.forEach(video => {
+                if (video.connectedIds && Array.isArray(video.connectedIds)) {
+                    video.connectedIds.forEach(targetId => {
+                        const targetVideo = videos.find(v => v.id === targetId);
+                        if (targetVideo) {
+                            videoEdges.push({ sourceId: video.id, targetId: targetVideo.id });
+                        }
+                    });
+                }
+            });
+        } else {
+            // Fallback: Sequential learning path links within each subject
+            subjects.forEach(subject => {
+                const subjectVideos = videos
+                    .filter(v => getVideoSubject(v) === subject)
+                    .sort((a, b) => a.id - b.id); // Sort chronologically
+
+                for (let i = 0; i < subjectVideos.length - 1; i++) {
+                    videoEdges.push({
+                        sourceId: subjectVideos[i].id,
+                        targetId: subjectVideos[i+1].id
+                    });
+                }
+            });
+        }
+
+        // 1b. Determine which video IDs have incoming edges
+        const hasIncomingEdge = new Set();
+        videoEdges.forEach(edge => {
+            hasIncomingEdge.add(edge.targetId);
+        });
+
+        // 1c. Determine visibility of each video
+        // Visible if: Completed, OR is a root (no incoming edges), OR directly connected from any completed video
+        const visibleVideoIds = new Set();
+        videos.forEach(video => {
+            const isCompleted = watchedList.includes(video.id);
+            const isRoot = !hasIncomingEdge.has(video.id);
+            const isLinkedFromCompleted = videoEdges.some(edge => 
+                edge.targetId === video.id && watchedList.includes(edge.sourceId)
+            );
+
+            if (isCompleted || isRoot || isLinkedFromCompleted) {
+                visibleVideoIds.add(video.id);
+            }
+        });
+
+        // 1d. Add Visible Video Nodes
+        videos.forEach(video => {
+            if (!visibleVideoIds.has(video.id)) return;
+
+            const videoSubject = getVideoSubject(video);
+            const isCompleted = watchedList.includes(video.id);
+
+            graphData.nodes.push({
+                id: `video_${video.id}`,
+                name: video.title,
+                val: 12,
+                color: isCompleted ? '#06b6d4' : '#6b7280', // Cyan for completed, Gray for not started
+                type: 'video',
+                video: video,
+                subject: videoSubject
+            });
+
+            // Link to Subject Hub
+            graphData.links.push({
+                source: `video_${video.id}`,
+                target: `subject_${videoSubject}`,
+                color: isCompleted ? 'rgba(16, 185, 129, 0.65)' : 'rgba(16, 185, 129, 0.12)',
+                width: isCompleted ? 1.5 : 0
+            });
+        });
+
+        // 1e. Add Video-to-Video Links (only if both endpoints are visible)
+        videoEdges.forEach(edge => {
+            if (visibleVideoIds.has(edge.sourceId) && visibleVideoIds.has(edge.targetId)) {
+                const isSrcCompleted = watchedList.includes(edge.sourceId);
+                const isTgtCompleted = watchedList.includes(edge.targetId);
+                const isPathCompleted = isSrcCompleted && isTgtCompleted;
+
+                graphData.links.push({
+                    source: `video_${edge.sourceId}`,
+                    target: `video_${edge.targetId}`,
+                    color: isPathCompleted ? 'rgba(6, 182, 212, 0.75)' : 'rgba(255, 255, 255, 0.08)',
+                    width: isPathCompleted ? 2 : 0,
+                    curvature: 0.1
+                });
+            }
+        });
+
+        // 2. Initialize or Update ForceGraph3D
+        if (!brainGraph) {
+            const tempThree = window.THREE;
+            if (tempThree) {
+                try {
+                    delete window.THREE;
+                } catch (_) {
+                    window.THREE = undefined;
+                }
+            }
+
+            try {
+                brainGraph = ForceGraph3D()(graphContainer)
+                    .graphData(graphData)
+                    .nodeLabel('name')
+                    .nodeColor('color')
+                    .nodeVal('val')
+                    .nodeThreeObject(node => {
+                        const currentWatched = (currentUser && currentUser.watchedVideos) || [];
+                        const isCompleted = node.type === 'video' && currentWatched.includes(node.video?.id);
+                        const labelColor = node.type === 'hub' ? '#34d399' : (isCompleted ? '#a5f3fc' : '#9ca3af');
+                        const displayName = node.type === 'hub' ? subjectLabel(node.subject) : node.name;
+                        const sprite = createTextSprite(displayName, labelColor);
+                        if (sprite) {
+                            const offset = node.type === 'hub' ? 10 : 7;
+                            sprite.position.set(0, offset, 0);
+                        }
+                        return sprite;
+                    })
+                    .nodeThreeObjectExtend(true)
+                    .linkColor('color')
+                    .linkWidth('width')
+                    .linkCurvature('curvature')
+                    .linkOpacity(1.0)
+                    .onNodeClick(node => {
+                        // Smooth zoom/camera focus
+                        const distance = 80;
+                        const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+                        brainGraph.cameraPosition(
+                            { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // position
+                            node, // lookAt
+                            1500  // duration ms
+                        );
+
+                        // Show info card for videos
+                        if (node.type === 'video') {
+                            const vid = node.video;
+                            cardSubject.textContent = subjectLabel(node.subject);
+                            cardTitle.textContent = vid.title;
+                            cardViews.textContent = vid.views || 0;
+                            
+                            const isCompleted = watchedList.includes(vid.id);
+                            cardStatus.textContent = isCompleted ? 'Completed' : 'Not started';
+                            cardStatus.style.color = isCompleted ? '#10b981' : '#ef4444';
+                            
+                            btnPlay.onclick = () => {
+                                vid.views = (vid.views || 0) + 1;
+                                saveVideosDB();
+                                openVideoWatchPage(vid);
+                            };
+
+                            detailCard.hidden = false;
+                        } else {
+                            detailCard.hidden = true;
+                        }
+                    });
+
+                const controls = brainGraph.controls();
+                if (controls) {
+                    controls.autoRotate = true;
+                    controls.autoRotateSpeed = 0.5;
+                }
+            } finally {
+                if (tempThree) {
+                    window.THREE = tempThree;
+                }
+            }
+            
+            // Adjust size to fit container
+            const resizeObserver = new ResizeObserver(() => {
+                if (brainGraph && graphContainer) {
+                    brainGraph.width(graphContainer.clientWidth);
+                    brainGraph.height(graphContainer.clientHeight);
+                }
+            });
+            resizeObserver.observe(graphContainer);
+        } else {
+            brainGraph.graphData(graphData);
+            brainGraph.refresh();
+        }
+    }
+
     function incrementVideoStreak() {
         if (!currentUser) return;
         const todayStr = getTodayYMD();
@@ -1651,6 +1950,38 @@ function initClinicalVideoApp() {
             ds.saveProfileFull(currentUser).catch((e) => console.error(e));
             renderStreaks();
         }
+    }
+
+    function renderVideoConnectionsCheckboxes(excludeId = null, selectedIds = []) {
+        const container = document.getElementById('video-connections-list');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        const availableVideos = videos.filter(v => v.id !== excludeId);
+        
+        if (availableVideos.length === 0) {
+            container.innerHTML = '<span style="font-size: 13px; color: var(--muted);">No other videos available to link.</span>';
+            return;
+        }
+        
+        availableVideos.forEach(vid => {
+            const row = document.createElement('label');
+            row.style.cssText = 'display: flex; align-items: center; gap: 0.5rem; font-size: 13px; cursor: pointer; color: var(--ink); padding: 2px 0;';
+            
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.value = vid.id;
+            checkbox.className = 'video-conn-checkbox';
+            checkbox.checked = selectedIds.includes(vid.id);
+            checkbox.style.cssText = 'cursor: pointer; accent-color: var(--teal);';
+            
+            const labelText = document.createElement('span');
+            labelText.textContent = `[${subjectLabel(getVideoSubject(vid))}] ${vid.title}`;
+            
+            row.appendChild(checkbox);
+            row.appendChild(labelText);
+            container.appendChild(row);
+        });
     }
 
     function renderAdminVideos() {
@@ -1698,6 +2029,7 @@ function initClinicalVideoApp() {
                         qList.forEach(q => addQuizQuestionUI(q));
                     }
                 }
+                renderVideoConnectionsCheckboxes(vid.id, vid.connectedIds || []);
             });
             adminVideoList.appendChild(item);
         });
@@ -1712,6 +2044,18 @@ function initClinicalVideoApp() {
                 }
             });
         });
+
+        if (editVideoId !== null) {
+            const vid = videos.find(v => v.id === editVideoId);
+            if (vid) {
+                renderVideoConnectionsCheckboxes(editVideoId, vid.connectedIds || []);
+            } else {
+                editVideoId = null;
+                renderVideoConnectionsCheckboxes(null, []);
+            }
+        } else {
+            renderVideoConnectionsCheckboxes(null, []);
+        }
     }
 
     function renderStats() {
@@ -2283,6 +2627,7 @@ function initClinicalVideoApp() {
         const targetByPage = new Map([
             [pageHome, 'home'],
             [pageVideos, 'videos'],
+            [pageBrainmap, 'brainmap'],
             [pageQuiz, 'checkin'],
             [pageStats, 'stats']
         ]);
@@ -2303,6 +2648,7 @@ function initClinicalVideoApp() {
             setLoginLoading(false);
         }
         if (pageElement === pageHome) renderLearningHome();
+        if (pageElement === pageBrainmap) renderBrainMap();
         updateAdminButtonVisibility(pageElement);
         setActiveShellNav(pageElement);
         document.querySelectorAll('.page').forEach(p => {
@@ -2656,7 +3002,7 @@ function initClinicalVideoApp() {
     });
 
     function setAllCountdownLabels(html) {
-        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach(el => { if (el) el.innerHTML = html; });
+        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm].forEach(el => { if (el) el.innerHTML = html; });
     }
 
     function formatDatetimeLocal(ms) {
@@ -2804,6 +3150,108 @@ function initClinicalVideoApp() {
         }
     });
 
+    function rotateCamera(deltaTheta, deltaPhi) {
+        if (!brainGraph) return;
+        const camera = brainGraph.camera();
+        const controls = brainGraph.controls();
+        if (!camera || !controls) return;
+
+        const target = controls.target || { x: 0, y: 0, z: 0 };
+        const dx = camera.position.x - target.x;
+        const dy = camera.position.y - target.y;
+        const dz = camera.position.z - target.z;
+
+        const radius = Math.hypot(dx, dy, dz);
+        if (radius === 0) return;
+
+        let phi = Math.acos(dy / radius);
+        let theta = Math.atan2(dz, dx);
+
+        theta += deltaTheta;
+        phi = Math.max(0.01, Math.min(Math.PI - 0.01, phi + deltaPhi));
+
+        const newX = target.x + radius * Math.sin(phi) * Math.cos(theta);
+        const newY = target.y + radius * Math.cos(phi);
+        const newZ = target.z + radius * Math.sin(phi) * Math.sin(theta);
+
+        brainGraph.cameraPosition(
+            { x: newX, y: newY, z: newZ },
+            target,
+            200
+        );
+    }
+
+    function zoomCamera(scaleFactor) {
+        if (!brainGraph) return;
+        const camera = brainGraph.camera();
+        const controls = brainGraph.controls();
+        if (!camera || !controls) return;
+
+        const target = controls.target || { x: 0, y: 0, z: 0 };
+        const dx = camera.position.x - target.x;
+        const dy = camera.position.y - target.y;
+        const dz = camera.position.z - target.z;
+
+        const newX = target.x + dx * scaleFactor;
+        const newY = target.y + dy * scaleFactor;
+        const newZ = target.z + dz * scaleFactor;
+
+        const newDist = Math.hypot(newX - target.x, newY - target.y, newZ - target.z);
+        if (newDist < 15 || newDist > 400) return;
+
+        brainGraph.cameraPosition(
+            { x: newX, y: newY, z: newZ },
+            target,
+            200
+        );
+    }
+
+    document.addEventListener('click', (e) => {
+        const resetBtn = e.target.closest('#btn-control-reset');
+        if (resetBtn && brainGraph) {
+            brainGraph.zoomToFit(800);
+        }
+
+        const rotateToggleBtn = e.target.closest('#btn-control-rotate');
+        if (rotateToggleBtn && brainGraph) {
+            const controls = brainGraph.controls();
+            if (controls) {
+                controls.autoRotate = !controls.autoRotate;
+                rotateToggleBtn.classList.toggle('control-btn--active', controls.autoRotate);
+            }
+        }
+
+        const zoomInBtn = e.target.closest('#btn-control-zoomin');
+        if (zoomInBtn) {
+            zoomCamera(0.85);
+        }
+
+        const zoomOutBtn = e.target.closest('#btn-control-zoomout');
+        if (zoomOutBtn) {
+            zoomCamera(1.15);
+        }
+
+        const rotLeftBtn = e.target.closest('#btn-control-left');
+        if (rotLeftBtn) {
+            rotateCamera(-Math.PI / 18, 0);
+        }
+
+        const rotRightBtn = e.target.closest('#btn-control-right');
+        if (rotRightBtn) {
+            rotateCamera(Math.PI / 18, 0);
+        }
+
+        const rotUpBtn = e.target.closest('#btn-control-up');
+        if (rotUpBtn) {
+            rotateCamera(0, -Math.PI / 18);
+        }
+
+        const rotDownBtn = e.target.closest('#btn-control-down');
+        if (rotDownBtn) {
+            rotateCamera(0, Math.PI / 18);
+        }
+    });
+
     const btnCheckin = document.getElementById('btn-checkin');
     const btnOpenCheckinBankPage = document.getElementById('btn-open-checkin-bank-page');
     const btnBackToAdminFromBank = document.getElementById('btn-back-to-admin-from-bank');
@@ -2869,6 +3317,7 @@ function initClinicalVideoApp() {
     function handleLearningNavigation(target) {
         if (target === 'home') navigateTo(pageHome);
         else if (target === 'videos') navigateTo(pageVideos);
+        else if (target === 'brainmap') navigateTo(pageBrainmap);
         else if (target === 'checkin') navigateTo(pageQuiz);
         else if (target === 'stats') { renderStats(); navigateTo(pageStats); }
         else if (target === 'sheets') openSheets();
@@ -3161,6 +3610,18 @@ function initClinicalVideoApp() {
             videoFeedback.value = '';
             watchIframe.src = '';
             incrementVideoStreak();
+
+            if (currentUser && currentWatchVideo) {
+                currentUser.watchedVideos = currentUser.watchedVideos || [];
+                if (!currentUser.watchedVideos.includes(currentWatchVideo.id)) {
+                    currentUser.watchedVideos.push(currentWatchVideo.id);
+                    try {
+                        await withTimeout(ds.saveProfileFull(currentUser), 15000);
+                    } catch (e) {
+                        console.error('saveProfileFull (watchedVideos)', e);
+                    }
+                }
+            }
 
             const raw = currentWatchVideo && currentWatchVideo.quiz;
             const qList = (Array.isArray(raw) ? raw : raw ? [raw] : []).filter((q) => q && typeof q === 'object' && q.q);
@@ -3781,6 +4242,14 @@ function initClinicalVideoApp() {
             });
         }
 
+        const connectedIds = [];
+        const connContainer = document.getElementById('video-connections-list');
+        if (connContainer) {
+            connContainer.querySelectorAll('.video-conn-checkbox:checked').forEach(cb => {
+                connectedIds.push(parseInt(cb.value, 10));
+            });
+        }
+
         if (editVideoId !== null) {
             const idx = videos.findIndex(v => v.id === editVideoId);
             if (idx !== -1) {
@@ -3792,7 +4261,8 @@ function initClinicalVideoApp() {
                     subject: newVideoSubject.value,
                     slideUrl,
                     slideTitle,
-                    quiz: quiz.length > 0 ? quiz : null
+                    quiz: quiz.length > 0 ? quiz : null,
+                    connectedIds: connectedIds.length > 0 ? connectedIds : null
                 };
             }
             editVideoId = null;
@@ -3808,7 +4278,8 @@ function initClinicalVideoApp() {
                 slideUrl,
                 slideTitle,
                 views: 0,
-                quiz: quiz.length > 0 ? quiz : null
+                quiz: quiz.length > 0 ? quiz : null,
+                connectedIds: connectedIds.length > 0 ? connectedIds : null
             };
             videos.push(vidData);
         }

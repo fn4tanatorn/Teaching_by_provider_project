@@ -17,6 +17,30 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg?v=20260622">
     <link rel="alternate icon" type="image/png" href="favicon.png?v=20260622">
     <link rel="apple-touch-icon" href="apple-touch-icon.png?v=20260622">
+    <script>
+        window.addEventListener('error', function (e) {
+            var banner = document.getElementById('debug-error-banner');
+            if (!banner) {
+                banner = document.createElement('div');
+                banner.id = 'debug-error-banner';
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#ef4444;color:#fff;padding:12px;font-family:monospace;font-size:12px;white-space:pre-wrap;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+                document.body.prepend(banner);
+            }
+            banner.textContent = (banner.textContent ? banner.textContent + '\n' : '') + 'Error: ' + e.message + ' (' + (e.filename ? e.filename.split('/').pop() : 'unknown') + ':' + e.lineno + ')';
+        });
+        window.addEventListener('unhandledrejection', function (e) {
+            var banner = document.getElementById('debug-error-banner');
+            if (!banner) {
+                banner = document.createElement('div');
+                banner.id = 'debug-error-banner';
+                banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#ef4444;color:#fff;padding:12px;font-family:monospace;font-size:12px;white-space:pre-wrap;box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+                document.body.prepend(banner);
+            }
+            var reason = e.reason && e.reason.message ? e.reason.message : String(e.reason);
+            banner.textContent = (banner.textContent ? banner.textContent + '\n' : '') + 'Unhandled Rejection: ' + reason;
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/3d-force-graph@1.73.3/dist/3d-force-graph.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <div class="clinical-bg heart-bg" aria-hidden="true"></div>
@@ -44,12 +68,13 @@
                         <div class="hero-copy">
                             <span class="hero-eyebrow">Clinical Study Hub</span>
                             <h1 class="hero-headline">Study clinical material without the noise.</h1>
-                            <p class="hero-sub">Videos, practice questions, course PDFs, and pharmacology decks in one focused workspace.</p>
+                            <p class="hero-sub" style="font-style: italic; font-size: 15px; border-left: 2px solid #10b981; padding-left: 0.75rem; margin: 1rem 0 1.5rem 0;">
+                                “Wherever the art of Medicine is loved, there is also a love of Humanity.” — Hippocrates
+                            </p>
                             <div class="hero-actions">
                                 <button type="button" id="btn-go-login" class="btn primary-btn">Log in</button>
                                 <button type="button" id="btn-go-register" class="btn outline-btn">Register</button>
                             </div>
-                            <p class="hero-note">Use the name your instructor approved. Choose your own password on first visit.</p>
                         </div>
                         <div class="glass-card welcome-card-inner study-preview-panel">
                             <div class="study-preview-main">
@@ -173,6 +198,7 @@
                     <nav class="learning-nav">
                         <button type="button" class="shell-nav-link" data-nav-target="home" aria-current="page">Home</button>
                         <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
                         <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
                         <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
@@ -280,6 +306,7 @@
                     <nav class="learning-nav">
                         <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
                         <button type="button" class="shell-nav-link" data-nav-target="videos" aria-current="page">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
                         <button id="btn-checkin" type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
                         <button id="btn-stats" type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button id="btn-sheets" type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
@@ -328,6 +355,97 @@
                                 </label>
                             </div>
                             <div class="video-grid" id="user-video-grid"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Brain Map -->
+        <section id="page-brainmap" class="page page-learning" data-screen-label="Brain Map">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap" aria-current="page">Brain Map</button>
+                        <button id="btn-checkin-bm" type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button id="btn-stats-bm" type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button id="btn-sheets-bm" type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button id="btn-decks-bm" type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button id="btn-livequiz-bm" type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button id="btn-beta-bm" type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Brain Map</p>
+                            <h2>Linked Knowledge</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <div id="badge-checkin-streak-bm" class="countdown-badge" title="Consecutive check-in days">Check-in 0d</div>
+                            <div id="badge-video-streak-bm" class="countdown-badge" title="Consecutive video days">Video 0d</div>
+                            <button id="countdown-timer-bm" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button id="btn-logout-bm" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content brainmap-layout" style="position: relative; overflow: hidden; height: calc(100vh - 120px);">
+                        <div id="3d-graph" style="width: 100%; height: 100%; border-radius: var(--r-card); overflow: hidden; background: #090f0c;"></div>
+                        <div id="brainmap-detail-card" class="glass-card brainmap-card" hidden>
+                            <button type="button" class="brainmap-card-close" id="btn-close-brainmap-card">&times;</button>
+                            <div class="brainmap-card-content">
+                                <span class="brainmap-subject-badge" id="brainmap-card-subject"></span>
+                                <h3 id="brainmap-card-title"></h3>
+                                <p class="brainmap-card-meta"><span id="brainmap-card-views">0</span> views • <span id="brainmap-card-status">Not started</span></p>
+                                <button type="button" id="btn-brainmap-play" class="btn primary-btn btn-compact" style="width:100%; margin-top:1rem;">Watch Lesson</button>
+                            </div>
+                        </div>
+                        <div class="brainmap-controls">
+                            <!-- Reset -->
+                            <button type="button" id="btn-control-reset" class="control-btn" title="Reset view">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+                            </button>
+                            <!-- Auto Rotate -->
+                            <button type="button" id="btn-control-rotate" class="control-btn control-btn--active" title="Toggle rotation">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            </button>
+                            <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15); align-self: center; margin: 0 2px;"></div>
+                            <!-- Zoom In -->
+                            <button type="button" id="btn-control-zoomin" class="control-btn" title="Zoom in">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            </button>
+                            <!-- Zoom Out -->
+                            <button type="button" id="btn-control-zoomout" class="control-btn" title="Zoom out">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            </button>
+                            <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.15); align-self: center; margin: 0 2px;"></div>
+                            <!-- Rotate Left -->
+                            <button type="button" id="btn-control-left" class="control-btn" title="Rotate left">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                            </button>
+                            <!-- Rotate Right -->
+                            <button type="button" id="btn-control-right" class="control-btn" title="Rotate right">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </button>
+                            <!-- Rotate Up -->
+                            <button type="button" id="btn-control-up" class="control-btn" title="Rotate up">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                            </button>
+                            <!-- Rotate Down -->
+                            <button type="button" id="btn-control-down" class="control-btn" title="Rotate down">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -671,6 +789,14 @@
                             </div>
                             <button type="button" id="btn-add-subject" class="btn outline-btn" style="height: 44px; padding: 0 1rem; flex-shrink: 0;">+ New</button>
                         </div>
+                        
+                        <div id="video-connections-group" style="margin-top: 1rem;">
+                            <label class="admin-field-label">Connected Videos (Link to)</label>
+                            <div id="video-connections-list" style="max-height: 160px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; background: var(--surface-soft);">
+                                <!-- Populated dynamically by script.js -->
+                            </div>
+                        </div>
+                        
                         
                         <h4 style="margin-top: 1.25rem; margin-bottom: 0.75rem; font-size: 14px; color: var(--teal-700);">Post-quiz Builder (Optional)</h4>
                         <div id="quiz-questions-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
