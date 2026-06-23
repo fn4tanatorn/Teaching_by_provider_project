@@ -355,6 +355,7 @@
                     <div class="glass-card watch-card">
                         <h3 id="watch-video-title" class="watch-title">Lesson</h3>
                         <p class="watch-hint">Watch the video carefully and mark as finished when done.</p>
+                        <a id="watch-slide-link" class="btn outline-btn watch-slide-link" href="#" target="_blank" rel="noopener" hidden>Open slide</a>
                         
                         <div style="margin: 1.5rem 0;">
                             <label for="video-feedback" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; display: block;">Lesson note</label>
@@ -515,21 +516,29 @@
 
                 <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
                     <div class="panel-header-inline">
-                        <h3>Exam info (all students)</h3>
-                        <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save date</button>
+                        <div>
+                            <h3>Exam info (all students)</h3>
+                            <p id="exam-info-summary" class="admin-panel-kicker">Exam info is hidden.</p>
+                        </div>
+                        <div class="panel-header-actions">
+                            <button id="btn-toggle-exam-info" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="exam-info-editor">Show info</button>
+                        </div>
                     </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Shown on the video feed for members who do not have a personal <code style="font-size:12px;">expiresAt</code> on their user record. Time uses this browser’s local timezone.</p>
-                    <div class="input-group" style="max-width: 360px;">
-                        <input type="datetime-local" id="admin-exam-deadline" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; outline: none; background: var(--surface); color: var(--ink);">
-                        <label for="admin-exam-deadline">Exam date &amp; time</label>
-                    </div>
-                    <div style="margin-top: 1rem;">
-                        <label for="admin-exam-note" style="display:block; font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem;">Exam details note</label>
-                        <textarea id="admin-exam-note" rows="5" placeholder="Exam topics, room, preparation notes, or instructions" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
-                    </div>
-                    <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 0.75rem;">
-                        <button id="btn-save-exam-note" type="button" class="btn outline-btn btn-compact">Save note</button>
-                        <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear exam info</button>
+                    <div id="exam-info-editor" class="admin-collapsible-panel" hidden>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Shown on the video feed for members who do not have a personal <code style="font-size:12px;">expiresAt</code> on their user record. Time uses this browser’s local timezone.</p>
+                        <div class="input-group" style="max-width: 360px;">
+                            <input type="datetime-local" id="admin-exam-deadline" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; outline: none; background: var(--surface); color: var(--ink);">
+                            <label for="admin-exam-deadline">Exam date &amp; time</label>
+                        </div>
+                        <div style="margin-top: 1rem;">
+                            <label for="admin-exam-note" style="display:block; font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem;">Exam details note</label>
+                            <textarea id="admin-exam-note" rows="5" placeholder="Exam topics, room, preparation notes, or instructions" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                        </div>
+                        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 0.75rem;">
+                            <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save date</button>
+                            <button id="btn-save-exam-note" type="button" class="btn outline-btn btn-compact">Save note</button>
+                            <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear exam info</button>
+                        </div>
                     </div>
                 </div>
 
@@ -598,7 +607,7 @@
                     <div class="panel-header-inline">
                         <div>
                             <h3>Check-in Question Bank</h3>
-                            <p class="admin-panel-kicker">คลังระบบหลังบ้านย้ายไปหน้าออกแบบข้อสอบแบบเต็มจอแล้ว</p>
+                            <p class="admin-panel-kicker">The question bank now opens in a full-screen designer.</p>
                         </div>
                         <button id="btn-open-checkin-bank-page" type="button" class="btn primary-btn btn-compact">Open question designer</button>
                     </div>
@@ -636,6 +645,22 @@
                         <div class="input-group">
                             <input type="text" id="new-video-title" placeholder=" ">
                             <label for="new-video-title">Video title</label>
+                        </div>
+                        <div class="video-slide-upload">
+                            <input type="hidden" id="new-video-slide-url">
+                            <input type="file" id="new-video-slide-file" accept="application/pdf,.pdf" hidden>
+                            <div>
+                                <label class="admin-field-label">Slide PDF (optional)</label>
+                                <p id="new-video-slide-status" class="video-slide-upload-status">No PDF attached.</p>
+                            </div>
+                            <div class="video-slide-upload-actions">
+                                <button type="button" id="btn-upload-video-slide" class="btn outline-btn btn-compact">Upload PDF</button>
+                                <button type="button" id="btn-remove-video-slide" class="btn outline-btn btn-compact btn-delete-outline" hidden>Remove</button>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" id="new-video-slide-title" placeholder=" ">
+                            <label for="new-video-slide-title">PDF title (optional)</label>
                         </div>
                         <div class="admin-field-row" style="display:flex; gap: 0.5rem; align-items: flex-end;">
                             <div style="flex: 1;">
@@ -684,8 +709,8 @@
                 <section class="glass-card admin-panel panel-block question-bank-hero">
                     <div>
                         <p class="learning-kicker">Daily random bank</p>
-                        <h3>จัดชุดคำถาม check-in ได้เต็มพื้นที่</h3>
-                        <p>เพิ่มคำถาม ตัวเลือก เฉลย และรูปภาพ ระบบจะสุ่มข้อจากคลังให้น้องทำวันละข้อโดยอัตโนมัติ</p>
+                        <h3>Build check-in questions with room to work</h3>
+                        <p>Add questions, choices, answer keys, and images. The system automatically picks one daily question from the bank.</p>
                     </div>
                 </section>
 
@@ -693,7 +718,7 @@
                     <div class="panel-header-inline">
                         <div>
                             <h3>Question list</h3>
-                            <p class="admin-panel-kicker">Today pick จะถูกไฮไลต์ในรายการ</p>
+                            <p class="admin-panel-kicker">Today's pick is highlighted in the list.</p>
                         </div>
                     </div>
                     <div id="checkin-q-list" style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem;"></div>

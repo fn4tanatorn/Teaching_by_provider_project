@@ -21,7 +21,7 @@
     if (!loadPromise) {
       loadPromise = fetch("problems.json")
         .then((r) => {
-          if (!r.ok) throw new Error("โหลด problems.json ไม่สำเร็จ");
+          if (!r.ok) throw new Error("Could not load problems.json");
           return r.json();
         })
         .then((data) => {
@@ -105,7 +105,7 @@
     if (byId && method === "GET") {
       const id = Number(byId[1]);
       const problem = problems.find((p) => p.id === id);
-      if (!problem) return jsonResponse(404, { error: "ไม่พบโจทย์" });
+      if (!problem) return jsonResponse(404, { error: "Question not found" });
       return jsonResponse(200, { problem: toPublicProblem(problem) });
     }
 
@@ -124,13 +124,13 @@
         filtered = filtered.filter((p) => !excludeIds.has(p.id));
         if (!filtered.length) {
           return jsonResponse(404, {
-            error: "ไม่มีโจทย์เหลือแล้ว",
+            error: "No questions remain",
             code: "NO_MORE_QUESTIONS",
           });
         }
       }
       if (!filtered.length) {
-        return jsonResponse(404, { error: "ไม่พบโจทย์ตามเงื่อนไขที่เลือก" });
+        return jsonResponse(404, { error: "No question matched the selected filters" });
       }
       return jsonResponse(200, { problem: toPublicProblem(pickRandom(filtered)) });
     }
@@ -141,7 +141,7 @@
       if (excludeIds.size) ids = ids.filter((id) => !excludeIds.has(id));
       if (!ids.length) {
         return jsonResponse(404, {
-          error: "ไม่มีโจทย์เหลือแล้ว",
+          error: "No questions remain",
           code: "NO_MORE_QUESTIONS",
         });
       }
@@ -156,14 +156,14 @@
         return jsonResponse(400, { error: "Invalid JSON" });
       }
       const problem = problems.find((p) => p.id === body.id);
-      if (!problem) return jsonResponse(404, { error: "ไม่พบโจทย์" });
+      if (!problem) return jsonResponse(404, { error: "Question not found" });
       if (problem.type !== "mcq") {
-        return jsonResponse(400, { error: "โจทย์นี้ไม่ใช่แบบ MCQ" });
+        return jsonResponse(400, { error: "This question is not an MCQ" });
       }
       const choice = body.choice;
       const validIds = problem.choices.map((c) => c.id);
       if (!choice || !validIds.includes(choice)) {
-        return jsonResponse(400, { error: "ตัวเลือกไม่ถูกต้อง" });
+        return jsonResponse(400, { error: "Invalid choice" });
       }
       const correct = choice === problem.answer;
       const correctChoice = problem.choices.find((c) => c.id === problem.answer);
@@ -190,7 +190,7 @@
       if (url.pathname.startsWith("/api/")) {
         return handleApi(url, init).catch((err) => {
           console.error("[static-api]", err);
-          return jsonResponse(500, { error: err.message || "เกิดข้อผิดพลาด" });
+          return jsonResponse(500, { error: err.message || "An error occurred" });
         });
       }
     } catch {

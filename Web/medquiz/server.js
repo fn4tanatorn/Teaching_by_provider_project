@@ -140,7 +140,7 @@ const server = http.createServer(async (req, res) => {
         const problem = problems.find((p) => p.id === id);
 
         if (!problem) {
-          sendJson(res, 404, { error: "ไม่พบโจทย์" });
+          sendJson(res, 404, { error: "Question not found" });
           return;
         }
 
@@ -169,7 +169,7 @@ const server = http.createServer(async (req, res) => {
 
           if (withoutExcluded.length === 0) {
             sendJson(res, 404, {
-              error: "ไม่มีโจทย์เหลือแล้ว",
+              error: "No questions remain",
               code: "NO_MORE_QUESTIONS",
             });
             return;
@@ -179,7 +179,7 @@ const server = http.createServer(async (req, res) => {
         }
 
         if (filtered.length === 0) {
-          sendJson(res, 404, { error: "ไม่พบโจทย์ตามเงื่อนไขที่เลือก" });
+          sendJson(res, 404, { error: "No question matched the selected filters" });
           return;
         }
 
@@ -201,7 +201,7 @@ const server = http.createServer(async (req, res) => {
 
         if (ids.length === 0) {
           sendJson(res, 404, {
-            error: "ไม่มีโจทย์เหลือแล้ว",
+            error: "No questions remain",
             code: "NO_MORE_QUESTIONS",
           });
           return;
@@ -216,12 +216,12 @@ const server = http.createServer(async (req, res) => {
         const problem = problems.find((p) => p.id === body.id);
 
         if (!problem) {
-          sendJson(res, 404, { error: "ไม่พบโจทย์" });
+          sendJson(res, 404, { error: "Question not found" });
           return;
         }
 
         if (problem.type !== "mcq") {
-          sendJson(res, 400, { error: "โจทย์นี้ไม่ใช่แบบ MCQ" });
+          sendJson(res, 400, { error: "This question is not an MCQ" });
           return;
         }
 
@@ -229,7 +229,7 @@ const server = http.createServer(async (req, res) => {
         const validIds = problem.choices.map((c) => c.id);
 
         if (!choice || !validIds.includes(choice)) {
-          sendJson(res, 400, { error: "ตัวเลือกไม่ถูกต้อง" });
+          sendJson(res, 400, { error: "Invalid choice" });
           return;
         }
 
@@ -247,7 +247,7 @@ const server = http.createServer(async (req, res) => {
       sendJson(res, 404, { error: "Not found" });
     } catch (err) {
       console.error(err);
-      sendJson(res, 500, { error: "เกิดข้อผิดพลาดบนเซิร์ฟเวอร์" });
+      sendJson(res, 500, { error: "Server error" });
     }
     return;
   }

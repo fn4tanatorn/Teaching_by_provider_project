@@ -335,6 +335,13 @@ function initClinicalVideoApp() {
         return v.subject || (subjects.length > 0 ? subjects[0] : 'anatomy');
     }
 
+    function getVideoSlide(video) {
+        const url = String(video?.slideUrl || video?.slidesUrl || '').trim();
+        if (!url) return null;
+        const title = String(video?.slideTitle || '').trim() || 'Open slide';
+        return { url, title };
+    }
+
     function nameKey(name) {
         return encodeURIComponent(String(name || '').trim())
             .replace(/%/g, '_')
@@ -864,6 +871,7 @@ function initClinicalVideoApp() {
     const watchNavTitle = document.getElementById('watch-nav-title');
     const watchVideoTitle = document.getElementById('watch-video-title');
     const watchIframe = document.getElementById('watch-iframe');
+    const watchSlideLink = document.getElementById('watch-slide-link');
     const btnBackFromWatch = document.getElementById('btn-back-from-watch');
     const btnVideoFinished = document.getElementById('btn-video-finished');
     const btnBackFromQuiz = document.getElementById('btn-back-from-quiz');
@@ -1009,6 +1017,12 @@ function initClinicalVideoApp() {
     let editVideoId = null;
     const newVideoUrl = document.getElementById('new-video-url');
     const newVideoTitle = document.getElementById('new-video-title');
+    const newVideoSlideUrl = document.getElementById('new-video-slide-url');
+    const newVideoSlideFile = document.getElementById('new-video-slide-file');
+    const newVideoSlideTitle = document.getElementById('new-video-slide-title');
+    const newVideoSlideStatus = document.getElementById('new-video-slide-status');
+    const btnUploadVideoSlide = document.getElementById('btn-upload-video-slide');
+    const btnRemoveVideoSlide = document.getElementById('btn-remove-video-slide');
     const newVideoSubject = document.getElementById('new-video-subject');
     const btnAddSubject = document.getElementById('btn-add-subject');
 
@@ -1042,6 +1056,8 @@ function initClinicalVideoApp() {
             if (vidDraft && typeof vidDraft === 'object') {
                 if (vidDraft.url != null) newVideoUrl.value = vidDraft.url;
                 if (vidDraft.title != null) newVideoTitle.value = vidDraft.title;
+                if (newVideoSlideUrl && vidDraft.slideUrl != null) newVideoSlideUrl.value = vidDraft.slideUrl;
+                if (newVideoSlideTitle && vidDraft.slideTitle != null) newVideoSlideTitle.value = vidDraft.slideTitle;
                 if (
                     vidDraft.subject != null &&
                     [...newVideoSubject.options].some((o) => o.value === vidDraft.subject)
@@ -1055,12 +1071,16 @@ function initClinicalVideoApp() {
                     JSON.stringify({
                         url: newVideoUrl.value,
                         title: newVideoTitle.value,
+                        slideUrl: newVideoSlideUrl ? newVideoSlideUrl.value : '',
+                        slideTitle: newVideoSlideTitle ? newVideoSlideTitle.value : '',
                         subject: newVideoSubject.value
                     })
                 );
             }, 400);
             newVideoUrl.addEventListener('input', persistVid);
             newVideoTitle.addEventListener('input', persistVid);
+            if (newVideoSlideUrl) newVideoSlideUrl.addEventListener('input', persistVid);
+            if (newVideoSlideTitle) newVideoSlideTitle.addEventListener('input', persistVid);
             newVideoSubject.addEventListener('change', persistVid);
         }
         const vfEl = document.getElementById('video-feedback');
@@ -1077,7 +1097,10 @@ function initClinicalVideoApp() {
         }
         const examDraftEl = document.getElementById('admin-exam-deadline');
         if (examDraftEl) {
-            const syncExamDraft = debounce(() => saveDraft('admin_exam_deadline', examDraftEl.value), 400);
+            const syncExamDraft = debounce(() => {
+                saveDraft('admin_exam_deadline', examDraftEl.value);
+                updateExamInfoSummary();
+            }, 400);
             examDraftEl.addEventListener('input', syncExamDraft);
             examDraftEl.addEventListener('change', syncExamDraft);
         }
@@ -1085,7 +1108,10 @@ function initClinicalVideoApp() {
         if (examNoteEl) {
             examNoteEl.addEventListener(
                 'input',
-                debounce(() => saveDraft('admin_exam_note', examNoteEl.value), 400)
+                debounce(() => {
+                    saveDraft('admin_exam_note', examNoteEl.value);
+                    updateExamInfoSummary();
+                }, 400)
             );
         }
         const allowedEl = document.getElementById('admin-allowed-names');
@@ -1113,6 +1139,38 @@ function initClinicalVideoApp() {
 
     function subjectLabel(key) {
         return formatSubjectName(key);
+    }
+
+    function safeStorageFileName(name) {
+        return String(name || 'slide.pdf')
+            .normalize('NFKD')
+            .replace(/[^\w.\-]+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+            .toLowerCase() || 'slide.pdf';
+    }
+
+    async function uploadVideoSlidePdf(file) {
+        if (!supabaseConfigReady || !ds.supabase) {
+            throw new Error('Supabase is not configured.');
+        }
+        const looksPdf = file && (file.type === 'application/pdf' || /\.pdf$/i.test(file.name));
+        if (!looksPdf) {
+            throw new Error('Please upload a PDF file.');
+        }
+        const bucket = SB.SHEETS_STORAGE_BUCKET || 'sheets';
+        const path = `video-slides/${Date.now()}-${Math.random().toString(36).slice(2, 8)}-${safeStorageFileName(file.name)}`;
+        const { error: uploadError } = await ds.supabase.storage
+            .from(bucket)
+            .upload(path, file, {
+                contentType: file.type || 'application/pdf',
+                upsert: false
+            });
+        if (uploadError) throw uploadError;
+        const { data } = ds.supabase.storage.from(bucket).getPublicUrl(path);
+        const publicUrl = data?.publicUrl || '';
+        if (!publicUrl) throw new Error('Could not create a public URL for the uploaded PDF.');
+        return { publicUrl, path, fileName: file.name };
     }
 
     async function imgbbUpload(file) {
@@ -1308,8 +1366,60 @@ function initClinicalVideoApp() {
         quizQuestionsList.appendChild(div);
     }
 
+    function updateVideoSlideUploadState() {
+        if (!newVideoSlideStatus || !btnRemoveVideoSlide) return;
+        const slideUrl = String(newVideoSlideUrl?.value || '').trim();
+        const slideTitle = String(newVideoSlideTitle?.value || '').trim();
+        if (slideUrl) {
+            newVideoSlideStatus.textContent = `${slideTitle || 'Slide PDF'} attached.`;
+            btnRemoveVideoSlide.hidden = false;
+        } else {
+            newVideoSlideStatus.textContent = 'No PDF attached.';
+            btnRemoveVideoSlide.hidden = true;
+        }
+    }
+
     if (btnAddQuestion) {
         btnAddQuestion.addEventListener('click', () => addQuizQuestionUI());
+    }
+
+    if (btnUploadVideoSlide && newVideoSlideFile) {
+        btnUploadVideoSlide.addEventListener('click', () => newVideoSlideFile.click());
+        newVideoSlideFile.addEventListener('change', async () => {
+            const file = newVideoSlideFile.files && newVideoSlideFile.files[0];
+            if (!file) return;
+            btnUploadVideoSlide.disabled = true;
+            btnUploadVideoSlide.textContent = 'Uploading...';
+            if (newVideoSlideStatus) newVideoSlideStatus.textContent = `Uploading ${file.name}...`;
+            try {
+                const uploaded = await uploadVideoSlidePdf(file);
+                if (newVideoSlideUrl) newVideoSlideUrl.value = uploaded.publicUrl;
+                if (newVideoSlideTitle && !newVideoSlideTitle.value.trim()) {
+                    newVideoSlideTitle.value = file.name.replace(/\.pdf$/i, '');
+                }
+                updateVideoSlideUploadState();
+                showToast('Slide PDF uploaded.');
+            } catch (err) {
+                alert('PDF upload failed: ' + (err.message || err));
+                updateVideoSlideUploadState();
+            } finally {
+                newVideoSlideFile.value = '';
+                btnUploadVideoSlide.disabled = false;
+                btnUploadVideoSlide.textContent = 'Upload PDF';
+            }
+        });
+    }
+
+    if (btnRemoveVideoSlide) {
+        btnRemoveVideoSlide.addEventListener('click', () => {
+            if (newVideoSlideUrl) newVideoSlideUrl.value = '';
+            if (newVideoSlideFile) newVideoSlideFile.value = '';
+            updateVideoSlideUploadState();
+        });
+    }
+
+    if (newVideoSlideTitle) {
+        newVideoSlideTitle.addEventListener('input', updateVideoSlideUploadState);
     }
 
     if (btnCancelEditVideo) {
@@ -1319,6 +1429,8 @@ function initClinicalVideoApp() {
             btnCancelEditVideo.style.display = 'none';
             newVideoUrl.value = '';
             newVideoTitle.value = '';
+            if (newVideoSlideUrl) newVideoSlideUrl.value = '';
+            if (newVideoSlideTitle) newVideoSlideTitle.value = '';
             if (quizQuestionsList) quizQuestionsList.innerHTML = '';
             showToast('Edit cancelled.', 'info');
         });
@@ -1450,6 +1562,17 @@ function initClinicalVideoApp() {
         watchNavTitle.textContent = subjectLabel(getVideoSubject(video));
         watchVideoTitle.textContent = video.title;
         watchIframe.src = `https://www.youtube.com/embed/${video.videoId}?autoplay=1`;
+        if (watchSlideLink) {
+            const slide = getVideoSlide(video);
+            if (slide) {
+                watchSlideLink.href = slide.url;
+                watchSlideLink.textContent = slide.title;
+                watchSlideLink.hidden = false;
+            } else {
+                watchSlideLink.href = '#';
+                watchSlideLink.hidden = true;
+            }
+        }
         if (videoFeedback) {
             videoFeedback.value = '';
             saveDraft('video_feedback', null);
@@ -1481,6 +1604,7 @@ function initClinicalVideoApp() {
                 : `<p class="video-empty-msg">No lessons in ${subjectLabel(selectedSubject)} yet.</p>`;
         } else {
             filtered.forEach(vid => {
+                const slide = getVideoSlide(vid);
                 const card = document.createElement('div');
                 card.className = 'video-card video-clickable';
                 card.setAttribute('data-id', vid.id);
@@ -1493,6 +1617,7 @@ function initClinicalVideoApp() {
                         ${newestIds.includes(vid.id) ? `<span class="video-badge">New</span>` : ''}
                         <h3 class="video-title">${escapeHtml(vid.title)}</h3>
                         <span class="video-subtitle">${subjectLabel(getVideoSubject(vid))}</span>
+                        ${slide ? '<span class="video-slide-badge">Slide attached</span>' : ''}
                         <p class="video-views">${vid.views || 0} views</p>
                     </div>
                 `;
@@ -1540,6 +1665,7 @@ function initClinicalVideoApp() {
             item.style.padding = '0.75rem';
             item.style.position = 'relative';
             const qCount = vid.quiz && Array.isArray(vid.quiz) ? vid.quiz.length : (vid.quiz ? 1 : 0);
+            const slide = getVideoSlide(vid);
             item.innerHTML = `
                 <button type="button" class="btn icon-btn delete-video-btn" data-id="${vid.id}" style="position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; color: var(--danger); z-index: 10;">Remove</button>
                 <img src="https://img.youtube.com/vi/${vid.videoId}/hqdefault.jpg" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-btn);">
@@ -1547,15 +1673,21 @@ function initClinicalVideoApp() {
                     <h4 style="font-size:13px; line-height:1.4; margin-bottom:4px;">${escapeHtml(vid.title)}</h4>
                     <div style="display:flex; justify-content:space-between; align-items:center;">
                         <span class="subject-tag" style="font-size:10px;">${subjectLabel(getVideoSubject(vid))}</span>
-                        ${qCount > 0 ? `<span style="font-size:10px; color:var(--teal-700); font-weight:600;">${qCount} Qs</span>` : ''}
+                        <span style="display:inline-flex; gap:0.35rem; align-items:center;">
+                            ${slide ? '<span class="video-slide-badge video-slide-badge--compact">Slide</span>' : ''}
+                            ${qCount > 0 ? `<span style="font-size:10px; color:var(--teal-700); font-weight:600;">${qCount} Qs</span>` : ''}
+                        </span>
                     </div>
+                    ${slide ? `<a class="admin-video-slide-link" href="${escapeHtml(slide.url)}" target="_blank" rel="noopener">${escapeHtml(slide.title)}</a>` : ''}
                 </div>
             `;
             item.addEventListener('click', (e) => {
-                if (e.target.closest('.delete-video-btn')) return;
+                if (e.target.closest('.delete-video-btn') || e.target.closest('.admin-video-slide-link')) return;
                 editVideoId = vid.id;
                 newVideoUrl.value = `https://www.youtube.com/watch?v=${vid.videoId}`;
                 newVideoTitle.value = vid.title;
+                if (newVideoSlideUrl) newVideoSlideUrl.value = slide ? slide.url : '';
+                if (newVideoSlideTitle) newVideoSlideTitle.value = vid.slideTitle || '';
                 newVideoSubject.value = getVideoSubject(vid);
                 btnAddVideo.textContent = 'Save changes';
                 if(btnCancelEditVideo) btnCancelEditVideo.style.display = 'block';
@@ -2564,6 +2696,7 @@ function initClinicalVideoApp() {
             adminAllowedNames.value = draftAllowed !== null ? draftAllowed : joined;
         }
         updateAllowedNamesSummary();
+        updateExamInfoSummary();
     }
 
     function resolveExamDeadline(profile) {
@@ -3296,12 +3429,69 @@ function initClinicalVideoApp() {
         }
     }
 
+    function updateExamInfoSummary() {
+        const summary = document.getElementById('exam-info-summary');
+        if (!summary) return;
+        const input = document.getElementById('admin-exam-deadline');
+        const noteInput = document.getElementById('admin-exam-note');
+        const ms = parseDatetimeLocalInput(input && input.value);
+        const hasNote = Boolean(String(noteInput?.value || '').trim());
+        if (ms) {
+            const dateText = new Date(ms).toLocaleString([], {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            summary.textContent = hasNote ? `Exam date set: ${dateText}. Note hidden.` : `Exam date set: ${dateText}.`;
+        } else {
+            summary.textContent = hasNote ? 'No exam date. Note hidden.' : 'No shared exam info yet.';
+        }
+    }
+
+    function setExamInfoEditorOpen(open, persist = true) {
+        const editor = document.getElementById('exam-info-editor');
+        const button = document.getElementById('btn-toggle-exam-info');
+        if (!editor || !button) return;
+        editor.hidden = !open;
+        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        button.textContent = open ? 'Hide info' : 'Show info';
+        if (persist) {
+            try {
+                localStorage.setItem('admin_exam_info_open', open ? '1' : '0');
+            } catch {
+                /* Non-critical UI preference. */
+            }
+        }
+        if (open) {
+            const input = document.getElementById('admin-exam-deadline');
+            setTimeout(() => input && input.focus(), 50);
+        }
+    }
+
     updateAllowedNamesSummary();
+    updateExamInfoSummary();
 
     if (btnToggleAllowedNames) {
         btnToggleAllowedNames.addEventListener('click', () => {
             const allowedNamesEditor = document.getElementById('allowed-names-editor');
             setAllowedNamesEditorOpen(allowedNamesEditor?.hidden !== false);
+        });
+    }
+
+    const btnToggleExamInfo = document.getElementById('btn-toggle-exam-info');
+    if (btnToggleExamInfo) {
+        let open = false;
+        try {
+            open = localStorage.getItem('admin_exam_info_open') === '1';
+        } catch {
+            open = false;
+        }
+        setExamInfoEditorOpen(open, false);
+        btnToggleExamInfo.addEventListener('click', () => {
+            const editor = document.getElementById('exam-info-editor');
+            setExamInfoEditorOpen(editor?.hidden !== false);
         });
     }
 
@@ -3352,6 +3542,7 @@ function initClinicalVideoApp() {
                 .then(() => {
                     showToast('Exam date saved.');
                     saveDraft('admin_exam_deadline', null);
+                    updateExamInfoSummary();
                 })
                 .catch((err) => {
                     const base = err && err.message ? err.message : String(err);
@@ -3373,6 +3564,7 @@ function initClinicalVideoApp() {
                     globalExamNote = note;
                     showToast('Exam details saved.');
                     saveDraft('admin_exam_note', null);
+                    updateExamInfoSummary();
                     renderExamDetailsModal();
                 })
                 .catch((err) => {
@@ -3400,6 +3592,8 @@ function initClinicalVideoApp() {
                     showToast('Shared exam info cleared.');
                     saveDraft('admin_exam_deadline', null);
                     saveDraft('admin_exam_note', null);
+                    updateExamInfoSummary();
+                    setExamInfoEditorOpen(false);
                     renderExamDetailsModal();
                     syncExamCountdown();
                 })
@@ -3562,6 +3756,8 @@ function initClinicalVideoApp() {
         const url = newVideoUrl.value.trim();
         const vId = extractVideoId(url);
         if (!vId) return alert('Invalid URL');
+        const slideUrl = newVideoSlideUrl ? newVideoSlideUrl.value.trim() : '';
+        const slideTitle = newVideoSlideTitle ? newVideoSlideTitle.value.trim() : '';
 
         const quiz = [];
         if (quizQuestionsList) {
@@ -3588,18 +3784,39 @@ function initClinicalVideoApp() {
         if (editVideoId !== null) {
             const idx = videos.findIndex(v => v.id === editVideoId);
             if (idx !== -1) {
-                videos[idx] = { ...videos[idx], videoId: vId, url: `https://www.youtube.com/embed/${vId}`, title: newVideoTitle.value.trim(), subject: newVideoSubject.value, quiz: quiz.length > 0 ? quiz : null };
+                videos[idx] = {
+                    ...videos[idx],
+                    videoId: vId,
+                    url: `https://www.youtube.com/embed/${vId}`,
+                    title: newVideoTitle.value.trim(),
+                    subject: newVideoSubject.value,
+                    slideUrl,
+                    slideTitle,
+                    quiz: quiz.length > 0 ? quiz : null
+                };
             }
             editVideoId = null;
             btnAddVideo.textContent = 'Attach video';
             if (btnCancelEditVideo) btnCancelEditVideo.style.display = 'none';
         } else {
-            const vidData = { id: Date.now(), subject: newVideoSubject.value, url: `https://www.youtube.com/embed/${vId}`, videoId: vId, title: newVideoTitle.value.trim(), views: 0, quiz: quiz.length > 0 ? quiz : null };
+            const vidData = {
+                id: Date.now(),
+                subject: newVideoSubject.value,
+                url: `https://www.youtube.com/embed/${vId}`,
+                videoId: vId,
+                title: newVideoTitle.value.trim(),
+                slideUrl,
+                slideTitle,
+                views: 0,
+                quiz: quiz.length > 0 ? quiz : null
+            };
             videos.push(vidData);
         }
 
         newVideoUrl.value = '';
         newVideoTitle.value = '';
+        if (newVideoSlideUrl) newVideoSlideUrl.value = '';
+        if (newVideoSlideTitle) newVideoSlideTitle.value = '';
         if (quizQuestionsList) quizQuestionsList.innerHTML = '';
         saveVideosDB({
             successToast: wasEditing ? 'Video changes saved.' : 'Video attached.'

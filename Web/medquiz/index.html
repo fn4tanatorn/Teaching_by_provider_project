@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="nav.css" />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหา</a>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="heart-bg" aria-hidden="true"></div>
 
-    <nav class="app-nav" aria-label="เมนูหลัก">
+    <nav class="app-nav" aria-label="Main menu">
       <a href="../index.html" class="app-nav-brand">
         <span class="app-nav-brand-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -29,11 +29,11 @@
         </span>
         <span class="app-nav-brand-text">Clinical Video</span>
       </a>
-      <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="เปิดเมนู">
+      <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
       <ul class="app-nav-links" id="appNavLinks">
-        <li><a href="../index.html">หน้าหลัก</a></li>
+        <li><a href="../index.html">Home</a></li>
         <li><a href="index.html" aria-current="page">MedQuiz</a></li>
         <li><a href="../decks/index.html">Pharmacology Decks</a></li>
         <li><a href="../sheets/index.html">Sheets</a></li>
@@ -58,21 +58,21 @@
     >
       <div class="reset-modal-backdrop" data-admin-close></div>
       <div class="reset-modal-card">
-        <h2 id="adminModalTitle" class="reset-modal-title">เปิด Admin mode</h2>
-        <p class="reset-modal-desc">พิมพ์รหัสผ่านเพื่อเปิดใช้งาน</p>
+        <h2 id="adminModalTitle" class="reset-modal-title">Open Admin mode</h2>
+        <p class="reset-modal-desc">Enter the password to continue.</p>
         <input
           type="password"
           id="adminCodeInput"
           class="reset-input"
-          placeholder="รหัสผ่าน"
+          placeholder="Password"
           autocomplete="off"
           spellcheck="false"
         />
         <p id="adminCodeError" class="admin-code-error hidden"></p>
         <div class="reset-modal-actions">
-          <button type="button" id="adminCancel" class="btn btn-ghost">ยกเลิก</button>
+          <button type="button" id="adminCancel" class="btn btn-ghost">Cancel</button>
           <button type="button" id="adminConfirm" class="btn primary" disabled>
-            ยืนยัน
+            Confirm
           </button>
         </div>
       </div>
@@ -91,18 +91,18 @@
         </div>
       </header>
 
-      <p class="start-lead">ฝึกทำโจทย์เวชศาสตร์แบบสุ่มประจำวัน — หนึ่งข้อต่อวัน เพื่อรักษาจังหวะการทบทวนของคุณ</p>
+      <p class="start-lead">Practice with one randomized medical question each day to keep a steady review rhythm.</p>
 
       <a href="quiz.html" id="startBtn" class="btn primary start-btn">
-        เริ่มทำโจทย์ประจำวัน
+        Start daily question
       </a>
 
       <a href="../decks/index.html" class="start-secondary-link">
-        หรือทบทวน Pharmacology Decks →
+        Or review Pharmacology Decks
       </a>
 
       <a href="../sheets/index.html" class="start-secondary-link">
-        เปิดชีท PDF ประกอบการเรียน →
+        Open course PDF sheets
       </a>
     </div>
 
@@ -114,7 +114,7 @@
           toggle.addEventListener('click', function () {
             var open = links.classList.toggle('open');
             toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            toggle.setAttribute('aria-label', open ? 'ปิดเมนู' : 'เปิดเมนู');
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
           });
         }
       })();

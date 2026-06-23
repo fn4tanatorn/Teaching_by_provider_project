@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MedQuiz — Quiz</title>
+    <title>MedQuiz - Quiz</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260622">
     <link rel="alternate icon" type="image/png" href="../favicon.png?v=20260622">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260622">
@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="nav.css" />
   </head>
   <body>
-    <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหา</a>
+    <a href="#main-content" class="skip-link">Skip to content</a>
     <div class="heart-bg" aria-hidden="true"></div>
 
-    <nav class="app-nav" aria-label="เมนูหลัก">
+    <nav class="app-nav" aria-label="Main menu">
       <a href="../index.html" class="app-nav-brand">
         <span class="app-nav-brand-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -29,11 +29,11 @@
         </span>
         <span class="app-nav-brand-text">Clinical Video</span>
       </a>
-      <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="เปิดเมนู">
+      <button class="app-nav-toggle" id="appNavToggle" type="button" aria-expanded="false" aria-controls="appNavLinks" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
       <ul class="app-nav-links" id="appNavLinks">
-        <li><a href="../index.html">หน้าหลัก</a></li>
+        <li><a href="../index.html">Home</a></li>
         <li><a href="index.html" aria-current="page">MedQuiz</a></li>
         <li><a href="../decks/index.html">Pharmacology Decks</a></li>
       </ul>
@@ -117,7 +117,7 @@
           toggle.addEventListener('click', function () {
             var open = links.classList.toggle('open');
             toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-            toggle.setAttribute('aria-label', open ? 'ปิดเมนู' : 'เปิดเมนู');
+            toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
           });
         }
       })();

@@ -85,7 +85,7 @@ adminCodeInput?.addEventListener("keydown", (e) => {
 
 adminConfirm?.addEventListener("click", () => {
   if (!isCodeValid()) {
-    setAdminCodeError("รหัสไม่ถูกต้อง");
+    setAdminCodeError("Incorrect code");
     return;
   }
   enableAdminMode();

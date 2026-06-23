@@ -3,16 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sheets — Clinical Video</title>
+    <title>Sheets - Clinical Study Hub</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260622">
     <link rel="alternate icon" type="image/png" href="../favicon.png?v=20260622">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260622">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -25,7 +19,10 @@
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
         </span>
-        <span>Clinical Video</span>
+        <span class="brand-text">
+          <span class="brand-name">Clinical Study Hub</span>
+          <span class="brand-tag">Course PDFs</span>
+        </span>
       </a>
       <div class="nav-actions">
         <a href="../index.html#videos" class="nav-btn">Video feed</a>
@@ -37,9 +34,9 @@
     <main class="shell">
       <section class="hero-panel">
         <div>
-          <p class="eyebrow">PDF reader</p>
+          <p class="eyebrow">Study workspace</p>
           <h1>Sheets</h1>
-          <p class="lead">วางชีท PDF ไว้ในเว็บ แล้วให้นักศึกษาเปิดอ่านแบบเลื่อนขึ้นลงเหมือนไฟล์จริงได้ทันที</p>
+          <p class="lead">Course PDFs and handouts in one focused reader.</p>
         </div>
         <label id="uploadPdfControl" class="upload-btn" hidden>
           <input id="pdfFileInput" type="file" accept="application/pdf,.pdf" />
@@ -58,7 +55,7 @@
             <input
               id="sheetSearchInput"
               type="search"
-              placeholder="พิมพ์ชื่อชีทหรือชื่อไฟล์"
+              placeholder="Search by sheet or file name"
               autocomplete="off"
             />
           </label>
@@ -72,7 +69,7 @@
           <div id="sheetList" class="sheet-list"></div>
           <div class="hint-box">
             <strong id="sheetHintTitle">Sheets</strong>
-            <span id="sheetHintText">เลือกชีทในรายการเพื่ออ่าน PDF ในเว็บ</span>
+            <span id="sheetHintText">Choose a sheet from the list to read the PDF in this page.</span>
           </div>
         </aside>
 
@@ -80,17 +77,18 @@
           <div class="reader-toolbar">
             <div>
               <p class="reader-kicker">Now reading</p>
-              <h2 id="readerTitle">ยังไม่ได้เลือกชีท</h2>
+              <h2 id="readerTitle">No sheet selected</h2>
             </div>
             <div class="reader-toolbar-actions">
+              <button id="toggleSheetListBtn" class="nav-btn reader-toggle-btn" type="button" aria-pressed="false">Hide list</button>
               <button id="showSheetListBtn" class="nav-btn reader-list-btn" type="button">All sheets</button>
               <a id="openPdfLink" class="nav-btn download-btn is-disabled" href="#" aria-disabled="true">Download</a>
             </div>
           </div>
           <div id="emptyState" class="empty-state">
             <div class="empty-icon" aria-hidden="true">PDF</div>
-            <h3>เลือก PDF เพื่อเริ่มอ่าน</h3>
-            <p id="emptyStateText">ยังไม่มีชีทให้เลือก</p>
+            <h3>Select a PDF to start reading</h3>
+            <p id="emptyStateText">No sheets are available yet.</p>
           </div>
           <iframe id="pdfFrame" title="PDF reader" hidden></iframe>
         </section>

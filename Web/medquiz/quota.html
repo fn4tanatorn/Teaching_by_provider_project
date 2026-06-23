@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MedQuiz — จบโควต้าวันนี้</title>
+    <title>MedQuiz - Daily limit reached</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260622">
     <link rel="alternate icon" type="image/png" href="../favicon.png?v=20260622">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260622">
@@ -29,21 +29,21 @@
     <div id="resetModal" class="reset-modal hidden" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
       <div class="reset-modal-backdrop" data-reset-close></div>
       <div class="reset-modal-card">
-        <h2 id="resetModalTitle" class="reset-modal-title">ยืนยัน Reset</h2>
+        <h2 id="resetModalTitle" class="reset-modal-title">Confirm reset</h2>
         <p class="reset-modal-desc">
-          พิมพ์ <strong>reset</strong> เพื่อล้างคะแนนและเริ่มใหม่
+          Type <strong>reset</strong> to clear your score and start again.
         </p>
         <input
           type="text"
           id="resetInput"
           class="reset-input"
-          placeholder='พิมพ์คำว่า "reset"'
+          placeholder='Type "reset"'
           autocomplete="off"
           spellcheck="false"
         />
         <div class="reset-modal-actions">
-          <button type="button" id="resetCancel" class="btn btn-ghost">ยกเลิก</button>
-          <button type="button" id="resetConfirm" class="btn primary" disabled>ยืนยัน</button>
+          <button type="button" id="resetCancel" class="btn btn-ghost">Cancel</button>
+          <button type="button" id="resetConfirm" class="btn primary" disabled>Confirm</button>
         </div>
       </div>
     </div>
@@ -68,29 +68,29 @@
             <path d="M40 22v22l14 8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h1 class="quota-title">จบโควต้าวันนี้แล้ว</h1>
+        <h1 class="quota-title">Daily limit reached</h1>
 
         <div class="quota-stats">
           <div class="quota-score">
-            <span class="quota-score-label">ตอบถูกสะสม</span>
+            <span class="quota-score-label">Correct answers</span>
             <p class="quota-score-value">
               <span id="correctCount">0</span>
-              <span class="quota-score-unit">ข้อ</span>
+              <span class="quota-score-unit">items</span>
             </p>
           </div>
           <div class="quota-bank">
-            <span class="quota-score-label">คลังข้อสอบ</span>
+            <span class="quota-score-label">Question bank</span>
             <p class="quota-score-value quota-score-value--sm">
               <span id="bankTotal">—</span>
-              <span class="quota-score-unit">ข้อ</span>
+              <span class="quota-score-unit">items</span>
             </p>
           </div>
         </div>
 
         <p class="quota-message">
-          คุณตอบผิดในข้อนี้ — หมดสิทธิ์ทำโจทย์เพิ่มสำหรับวันนี้แล้ว
+          This answer was incorrect. No more questions are available for today.
         </p>
-        <p class="quota-sub">กลับมาใหม่พรุ่งนี้นะครับ</p>
+        <p class="quota-sub">Please come back tomorrow.</p>
       </section>
     </div>
 

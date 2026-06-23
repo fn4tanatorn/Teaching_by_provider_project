@@ -21,6 +21,7 @@ const DB_NAME = "clinical_sheets_db";
 const DB_VERSION = 1;
 const STORE_NAME = "pdfs";
 const RECENT_SHEETS_KEY = "clinical_sheets_recent_v1";
+const SIDEBAR_COLLAPSED_KEY = "clinical_sheets_sidebar_collapsed_v1";
 const MAX_RECENT_SHEETS = 3;
 const SHEETS_BUCKET = SB.SHEETS_STORAGE_BUCKET || "sheets";
 const SHEETS_TABLE = SB.SHEETS_TABLE || "sheet_files";
@@ -45,6 +46,7 @@ const readerTitle = document.getElementById("readerTitle");
 const emptyState = document.getElementById("emptyState");
 const openPdfLink = document.getElementById("openPdfLink");
 const showSheetListBtn = document.getElementById("showSheetListBtn");
+const toggleSheetListBtn = document.getElementById("toggleSheetListBtn");
 const pdfFileInput = document.getElementById("pdfFileInput");
 const uploadPdfControl = document.getElementById("uploadPdfControl");
 const sheetHintTitle = document.getElementById("sheetHintTitle");
@@ -81,11 +83,38 @@ if (IS_ADMIN) {
   uploadPdfControl.hidden = false;
   sheetHintTitle.textContent = "Admin upload mode";
   sheetHintText.textContent =
-    "Upload จะส่งเข้า Supabase Storage เมื่อ bucket/table พร้อม; ถ้ายังไม่พร้อมจะ fallback เก็บใน browser นี้ก่อน";
-  emptyStateText.textContent = "กด Upload PDF เพื่อเพิ่มชีทลงรายการ แล้วเปิดอ่านในหน้านี้แบบเลื่อนขึ้นลงได้";
+    "Uploads go to Supabase Storage when the bucket and table are ready. Otherwise, PDFs are stored in this browser first.";
+  emptyStateText.textContent = "Upload a PDF to add it to the list, then open it here for scrolling review.";
 } else {
   document.body.classList.add("sheets-student");
 }
+
+function setSheetListCollapsed(collapsed, persist = true) {
+  document.body.classList.toggle("sheets-sidebar-collapsed", collapsed);
+  if (toggleSheetListBtn) {
+    toggleSheetListBtn.textContent = collapsed ? "Show list" : "Hide list";
+    toggleSheetListBtn.setAttribute("aria-pressed", String(collapsed));
+  }
+  if (persist) {
+    try {
+      localStorage.setItem(SIDEBAR_COLLAPSED_KEY, collapsed ? "1" : "0");
+    } catch {
+      // Non-critical preference storage.
+    }
+  }
+}
+
+function initSheetListPreference() {
+  let collapsed = false;
+  try {
+    collapsed = localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1";
+  } catch {
+    collapsed = false;
+  }
+  setSheetListCollapsed(collapsed, false);
+}
+
+initSheetListPreference();
 
 function openDb() {
   return new Promise((resolve, reject) => {
@@ -248,7 +277,7 @@ async function saveUploadedPdf(file) {
       return await saveRemotePdf(file);
     } catch (err) {
       console.warn("[Sheets] Supabase upload failed, saving local draft", err);
-      alert("Supabase upload ยังไม่สำเร็จ ระบบจะเก็บ PDF ใน browser นี้ก่อน");
+      alert("Supabase upload did not complete. The PDF will be stored in this browser first.");
     }
   }
   return saveLocalPdf(file);
@@ -269,7 +298,7 @@ async function deleteUploadedPdf(sheet) {
     openPdfLink.removeAttribute("download");
     openPdfLink.classList.add("is-disabled");
     openPdfLink.setAttribute("aria-disabled", "true");
-    readerTitle.textContent = "ยังไม่ได้เลือกชีท";
+    readerTitle.textContent = "No sheet selected";
     document.body.classList.remove("pdf-active");
     activeId = "";
   }
@@ -363,6 +392,7 @@ function displayPdf({ id, title, url, downloadName, objectUrl = false }) {
 
 function showSheetListOverview() {
   document.body.classList.remove("pdf-active");
+  setSheetListCollapsed(false);
   const listPanel = document.querySelector(".sheet-list-panel");
   if (!listPanel) return;
   try {
@@ -516,15 +546,15 @@ function renderSheetList() {
   if (IS_ADMIN) {
     sheetHintText.textContent = sheetsRemoteOk
       ? `Supabase connected: bucket "${SHEETS_BUCKET}", table "${SHEETS_TABLE}"`
-      : "Supabase ยังไม่พร้อมหรือ policy ยังไม่ผ่าน; upload จะ fallback เก็บใน browser นี้ก่อน";
+      : "Supabase is not ready or the policy check failed. Uploads will fall back to this browser first.";
   }
 
   if (!total) {
     const empty = document.createElement("p");
     empty.className = "hint-box";
     empty.textContent = IS_ADMIN
-      ? "ยังไม่มี PDF ในระบบ กด Upload PDF เพื่อเพิ่มชีทแรก"
-      : "ยังไม่มี PDF ในระบบ";
+      ? "No PDFs yet. Click Upload PDF to add the first sheet."
+      : "No PDFs are available yet.";
     sheetList.append(empty);
     return;
   }
@@ -538,7 +568,7 @@ function renderSheetList() {
   if (!visibleCount) {
     const empty = document.createElement("p");
     empty.className = "hint-box";
-    empty.textContent = `ไม่พบชีทที่ตรงกับ "${sheetSearchInput.value.trim()}"`;
+    empty.textContent = `No sheets match "${sheetSearchInput.value.trim()}"`;
     sheetList.append(empty);
     return;
   }
@@ -559,9 +589,9 @@ function renderSheetList() {
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "sheet-delete";
-      remove.textContent = "ลบ";
+      remove.textContent = "Del";
       remove.addEventListener("click", async () => {
-        if (!confirm(`ลบ "${entry.title}"?`)) return;
+        if (!confirm(`Delete "${entry.title}"?`)) return;
         await deleteUploadedPdf(entry.sheet);
         await refreshUploadedSheets();
       });
@@ -583,7 +613,7 @@ pdfFileInput.addEventListener("change", async () => {
   const file = pdfFileInput.files && pdfFileInput.files[0];
   if (!file) return;
   if ((file.type && file.type !== "application/pdf") || !/\.pdf$/i.test(file.name)) {
-    alert("กรุณาเลือกไฟล์ PDF");
+    alert("Please choose a PDF file.");
     pdfFileInput.value = "";
     return;
   }
@@ -611,7 +641,7 @@ pdfFileInput.addEventListener("change", async () => {
     }
   } catch (err) {
     console.error(err);
-    alert("บันทึก PDF ไม่สำเร็จ");
+    alert("Could not save the PDF.");
   } finally {
     pdfFileInput.value = "";
   }
@@ -619,6 +649,9 @@ pdfFileInput.addEventListener("change", async () => {
 
 openPdfLink.addEventListener("click", downloadActivePdf);
 showSheetListBtn?.addEventListener("click", showSheetListOverview);
+toggleSheetListBtn?.addEventListener("click", () => {
+  setSheetListCollapsed(!document.body.classList.contains("sheets-sidebar-collapsed"));
+});
 sheetSearchInput?.addEventListener("input", renderSheetList);
 window.addEventListener("beforeunload", revokeActiveObjectUrl);
 

@@ -86,12 +86,12 @@ if (typeof MedQuizConfig !== "undefined" && MedQuizConfig.TEST_MODE) {
   if (section) {
     const note = document.createElement("p");
     note.className = "quota-test-note";
-    note.textContent = "โหมดทดสอบ — ทำต่อได้เรื่อยๆ (รีเฟรชหรือกดปุ่มด้านล่าง)";
+    note.textContent = "Test mode: you can keep practicing. Refresh or use the button below.";
 
     const link = document.createElement("a");
     link.href = "quiz.html";
     link.className = "btn primary quota-btn";
-    link.textContent = "ทำต่อ";
+    link.textContent = "Continue";
 
     section.appendChild(note);
     section.appendChild(link);

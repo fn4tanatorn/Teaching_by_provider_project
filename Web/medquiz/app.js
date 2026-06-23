@@ -28,17 +28,17 @@ const questionEl = document.getElementById("question");
 const hintEl = document.getElementById("hint");
 
 const CATEGORY_LABELS = {
-  math: "คณิตศาสตร์",
-  english: "ภาษาอังกฤษ",
-  logic: "ตรรกะ",
-  coding: "โค้ด",
-  pharmacology: "เภสัชวิทยา",
+  math: "Mathematics",
+  english: "English",
+  logic: "Logic",
+  coding: "Coding",
+  pharmacology: "Pharmacology",
 };
 
 const DIFFICULTY_LABELS = {
-  easy: "ง่าย",
-  medium: "ปานกลาง",
-  hard: "ยาก",
+  easy: "Easy",
+  medium: "Medium",
+  hard: "Hard",
 };
 
 let currentProblem = null;
@@ -116,7 +116,7 @@ function scheduleTestRetry(reasonText) {
 
   const updateMessage = () => {
     setFeedback(
-      `${reasonText} (โหมดทดสอบ)\nไปข้อถัดไปใน ${secLeft} วินาที...`,
+      `${reasonText} (test mode)\nNext question in ${secLeft} seconds...`,
       "error"
     );
   };
@@ -146,12 +146,12 @@ function scheduleQuotaRedirect(reasonText) {
 
   let secLeft = QUOTA_REDIRECT_SEC;
   const adminNote = isAdminMode()
-    ? "\n(Admin mode) กด Skip limit ที่หน้าถัดไปได้"
+    ? "\n(Admin mode) You can use Skip limit on the next page."
     : "";
 
   const updateMessage = () => {
     setFeedback(
-      `${reasonText}\nไปหน้าจบโควต้าใน ${secLeft} วินาที...${adminNote}`,
+      `${reasonText}\nGoing to the limit page in ${secLeft} seconds...${adminNote}`,
       "error"
     );
   };
@@ -174,7 +174,7 @@ function renderChoices(problem) {
   if (problem.type !== "mcq" || !problem.choices?.length) {
     const li = document.createElement("li");
     li.className = "choices-empty";
-    li.textContent = "โจทย์นี้ยังไม่มีตัวเลือก";
+    li.textContent = "This question does not have choices yet.";
     choicesEl.appendChild(li);
     return;
   }
@@ -222,7 +222,7 @@ function handleTimeUp() {
 
   answered = true;
   disableChoices();
-  scheduleQuotaRedirect("หมดเวลา 60 วินาที");
+  scheduleQuotaRedirect("Time limit reached");
 }
 
 async function submitChoice(choiceId, btn) {
@@ -242,12 +242,12 @@ async function submitChoice(choiceId, btn) {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.error || "ตรวจคำตอบไม่สำเร็จ");
+      throw new Error(data.error || "Could not check the answer");
     }
 
     if (data.correct) {
       markChoices(choiceId, choiceId);
-      setFeedback("ถูกต้อง! ไปข้อถัดไป...", "ok");
+      setFeedback("Correct. Moving to the next question...", "ok");
 
       MedQuizStorage.incrementCorrectTotal();
 
@@ -263,7 +263,7 @@ async function submitChoice(choiceId, btn) {
     }
 
     markChoices(choiceId, data.correctChoice?.id);
-    scheduleQuotaRedirect("ตอบผิด");
+    scheduleQuotaRedirect("Incorrect answer");
   } catch (err) {
     answered = false;
     choicesEl.querySelectorAll(".choice").forEach((b) => {
@@ -329,7 +329,7 @@ async function buildShuffledDeck() {
   const idsData = await idsRes.json();
 
   if (!idsRes.ok || !Array.isArray(idsData.ids)) {
-    throw new Error(data.error || idsData.error || "สร้างชุดสุ่มไม่สำเร็จ");
+    throw new Error(data.error || idsData.error || "Could not create a random set");
   }
 
   const excludeSet = new Set(completedIds);
@@ -361,7 +361,7 @@ async function fetchProblemById(id) {
   const fallbackData = await fallback.json();
 
   if (!fallback.ok) {
-    throw new Error(fallbackData.error || "โหลดโจทย์ไม่สำเร็จ");
+    throw new Error(fallbackData.error || "Could not load the question");
   }
 
   return fallbackData.problem;
@@ -375,7 +375,7 @@ async function ensureDeck() {
 
 async function fetchNextQuestion() {
   stopQuestionTimer();
-  setStatus("กำลังโหลดข้อถัดไป...");
+  setStatus("Loading the next question...");
 
   try {
     const deck = await ensureDeck();
@@ -385,7 +385,7 @@ async function fetchNextQuestion() {
         completedIds = [];
         MedQuizStorage.saveCompletedIds(completedIds);
         MedQuizStorage.clearDeck();
-        setStatus("โหมดทดสอบ — เริ่มชุดโจทย์ใหม่...");
+        setStatus("Test mode: starting a new question set...");
         fetchNextQuestion();
         return;
       }
