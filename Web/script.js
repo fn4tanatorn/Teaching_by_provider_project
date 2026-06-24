@@ -1822,8 +1822,8 @@ function initClinicalVideoApp() {
                 graphData.links.push({
                     source: `video_${edge.sourceId}`,
                     target: `video_${edge.targetId}`,
-                    color: isPathCompleted ? 'rgba(6, 182, 212, 0.75)' : 'rgba(255, 255, 255, 0.08)',
-                    width: isPathCompleted ? 2 : 0,
+                    color: isPathCompleted ? 'rgba(6, 182, 212, 0.75)' : 'rgba(255, 255, 255, 0.15)',
+                    width: isPathCompleted ? 2 : 0.8,
                     curvature: 0.1
                 });
             }
