@@ -198,6 +198,8 @@ export const saveState = (state: FlashcardState) => {
 export const isValidImageUrl = (value: string) => {
   if (!value.trim()) return true
 
+  if (value.startsWith('/')) return true
+
   try {
     const url = new URL(value)
     return url.protocol === 'http:' || url.protocol === 'https:'
