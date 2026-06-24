@@ -1957,7 +1957,9 @@ body.learning-sidebar-collapsed .page-learning .learning-shell {
 
 .shell-nav-link[data-nav-target="home"]::before { content: "⌂"; }
 .shell-nav-link[data-nav-target="videos"]::before { content: "▶"; }
+.shell-nav-link[data-nav-target="brainmap"]::before { content: "◈"; }
 .shell-nav-link[data-nav-target="checkin"]::before { content: "✓"; }
+.shell-nav-link[data-nav-target="request"]::before { content: "✎"; }
 .shell-nav-link[data-nav-target="stats"]::before { content: "↗"; }
 .shell-nav-link[data-nav-target="sheets"]::before { content: "□"; }
 .shell-nav-link[data-nav-target="decks"]::before { content: "▤"; }
