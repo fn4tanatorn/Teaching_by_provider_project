@@ -3315,16 +3315,13 @@ textarea:focus,
 
 /* Content Request Styles */
 .request-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 1.5rem;
+  display: flex;
+  justify-content: center;
   margin-top: 1.5rem;
 }
-
-@media (max-width: 992px) {
-  .request-grid {
-    grid-template-columns: 1fr;
-  }
+.request-form-card {
+  width: 100%;
+  max-width: 600px;
 }
 
 .request-item-card {

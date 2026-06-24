@@ -1737,17 +1737,7 @@ function initClinicalVideoApp() {
         // 1. Prepare Nodes and Links
         const graphData = { nodes: [], links: [] };
 
-        // Add Subject Hub Nodes
-        subjects.forEach(subject => {
-            graphData.nodes.push({
-                id: `subject_${subject}`,
-                name: subjectLabel(subject) + ' (Hub)',
-                val: 28,
-                color: '#10b981', // Emerald green for hubs
-                type: 'hub',
-                subject: subject
-            });
-        });
+        // Subject Hub Nodes removed as requested
 
         const watchedList = (currentUser && currentUser.watchedVideos) || [];
 
@@ -1820,13 +1810,6 @@ function initClinicalVideoApp() {
                 subject: videoSubject
             });
 
-            // Link to Subject Hub
-            graphData.links.push({
-                source: `video_${video.id}`,
-                target: `subject_${videoSubject}`,
-                color: isCompleted ? 'rgba(16, 185, 129, 0.65)' : 'rgba(16, 185, 129, 0.12)',
-                width: isCompleted ? 1.5 : 0
-            });
         });
 
         // 1e. Add Video-to-Video Links (only if both endpoints are visible)
@@ -4340,7 +4323,7 @@ function initClinicalVideoApp() {
             cachedContentRequests = await ds.fetchContentRequests();
         } catch (err) {
             console.error('Error fetching content requests:', err);
-            container.innerHTML = `<p style="color:var(--danger); font-size:14px; text-align:center;">ไม่สามารถโหลดข้อมูลได้: ${escapeHtml(err.message || err)}</p>`;
+            container.innerHTML = `<p style="color:var(--danger); font-size:14px; text-align:center;">Failed to load data: ${escapeHtml(err.message || err)}</p>`;
             return;
         }
 
@@ -4360,13 +4343,13 @@ function initClinicalVideoApp() {
         });
 
         if (filtered.length === 0) {
-            container.innerHTML = `<p style="color:var(--text-muted); font-size:14px; text-align:center; padding: 1.5rem 0;">ยังไม่มีข้อเสนอในหมวดนี้...</p>`;
+            container.innerHTML = `<p style="color:var(--text-muted); font-size:14px; text-align:center; padding: 1.5rem 0;">No suggestions in this category yet...</p>`;
             return;
         }
 
         container.innerHTML = '';
         filtered.forEach(r => {
-            const dateStr = new Date(r.created_at).toLocaleDateString('th-TH', {
+            const dateStr = new Date(r.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'short',
                 day: 'numeric',
@@ -4378,14 +4361,14 @@ function initClinicalVideoApp() {
             card.className = 'request-item-card';
             
             const isMyRequest = r.username && r.username.trim().toLowerCase() === currentUsername;
-            const authorText = isMyRequest ? 'ฉันเสนอ' : `โดย: ${r.username}`;
+            const authorText = isMyRequest ? 'Suggested by me' : `By: ${r.username}`;
             const badgeClass = `status-badge--${r.status || 'pending'}`;
             const statusLabel = {
-                'pending': 'รอรับเรื่อง',
-                'approved': 'อนุมัติแล้ว',
-                'rejected': 'ปฏิเสธ',
-                'in-progress': 'กำลังทำเนื้อหา',
-                'completed': 'เสร็จสิ้น/มีวิดีโอแล้ว'
+                'pending': 'Pending',
+                'approved': 'Approved',
+                'rejected': 'Rejected',
+                'in-progress': 'In Progress',
+                'completed': 'Completed'
             }[r.status] || r.status;
 
             card.innerHTML = `
@@ -4394,7 +4377,7 @@ function initClinicalVideoApp() {
                     <span class="status-badge ${badgeClass}">${statusLabel}</span>
                 </div>
                 <div class="request-item-meta">
-                    <span>หมวดหมู่: <strong>${escapeHtml(r.subject || 'ทั่วไป')}</strong></span>
+                    <span>Category: <strong>${escapeHtml(r.subject || 'General')}</strong></span>
                     <span>${escapeHtml(authorText)}</span>
                     <span>${escapeHtml(dateStr)}</span>
                 </div>
@@ -4449,18 +4432,18 @@ function initClinicalVideoApp() {
                     <span style="font-size:12px; color:var(--text-muted);">${escapeHtml(dateStr)}</span>
                 </div>
                 <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">
-                    หมวดหมู่: <strong>${escapeHtml(r.subject || 'ทั่วไป')}</strong> • เสนอโดย: <strong>${escapeHtml(r.username)}</strong>
+                    Category: <strong>${escapeHtml(r.subject || 'General')}</strong> • Suggested by: <strong>${escapeHtml(r.username)}</strong>
                 </div>
                 ${r.details ? `<p style="margin: 0.5rem 0 0; font-size:13px; color:var(--ink); white-space:pre-wrap; line-height:1.4;">${escapeHtml(r.details)}</p>` : ''}
                 <div class="admin-request-actions">
                     <div>
-                        <label style="font-size:12px; font-weight:600; margin-right:4px;">สถานะ:</label>
+                        <label style="font-size:12px; font-weight:600; margin-right:4px;">Status:</label>
                         <select class="admin-request-status-select" data-request-id="${r.id}">
-                            <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>รอรับเรื่อง (Pending)</option>
-                            <option value="approved" ${r.status === 'approved' ? 'selected' : ''}>อนุมัติ (Approved)</option>
-                            <option value="rejected" ${r.status === 'rejected' ? 'selected' : ''}>ปฏิเสธ (Rejected)</option>
-                            <option value="in-progress" ${r.status === 'in-progress' ? 'selected' : ''}>กำลังทำเนื้อหา (In Progress)</option>
-                            <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>เสร็จสิ้น/มีวิดีโอแล้ว (Completed)</option>
+                            <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>Pending</option>
+                            <option value="approved" ${r.status === 'approved' ? 'selected' : ''}>Approved</option>
+                            <option value="rejected" ${r.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+                            <option value="in-progress" ${r.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>Completed</option>
                         </select>
                     </div>
                     <button class="btn outline-btn btn-compact btn-delete-outline btn-delete-request" data-request-id="${r.id}" type="button">Delete</button>
@@ -4472,30 +4455,30 @@ function initClinicalVideoApp() {
                 const newStatus = e.target.value;
                 try {
                     await ds.updateContentRequestStatus(r.id, newStatus);
-                    showToast('อัปเดตสถานะสำเร็จ');
+                    showToast('Status updated successfully');
                     renderAdminContentRequests();
                     if (pageRequest && pageRequest.classList.contains('active')) {
                         renderContentRequests();
                     }
                 } catch (err) {
                     console.error('Error updating status:', err);
-                    showToast('เกิดข้อผิดพลาดในการอัปเดตสถานะ: ' + err.message, 'error');
+                    showToast('Error updating status: ' + err.message, 'error');
                 }
             });
 
             const deleteBtn = item.querySelector('.btn-delete-request');
             deleteBtn.addEventListener('click', async () => {
-                if (!confirm(`ต้องการลบคำขอ "${r.title}" หรือไม่?`)) return;
+                if (!confirm(`Are you sure you want to delete the request "${r.title}"?`)) return;
                 try {
                     await ds.deleteContentRequest(r.id);
-                    showToast('ลบคำขอสำเร็จ');
+                    showToast('Request deleted successfully');
                     renderAdminContentRequests();
                     if (pageRequest && pageRequest.classList.contains('active')) {
                         renderContentRequests();
                     }
                 } catch (err) {
                     console.error('Error deleting request:', err);
-                    showToast('เกิดข้อผิดพลาดในการลบคำขอ: ' + err.message, 'error');
+                    showToast('Error deleting request: ' + err.message, 'error');
                 }
             });
 
@@ -4530,14 +4513,14 @@ function initClinicalVideoApp() {
 
             try {
                 await ds.createContentRequest(username, title, subject, details);
-                showToast('เสนอหัวข้อเรียนเรียบร้อยแล้วครับ!');
+                showToast('Topic suggestion submitted successfully!');
                 titleInput.value = '';
                 detailsInput.value = '';
                 
                 await renderContentRequests();
             } catch (err) {
                 console.error('Error submitting content request:', err);
-                showToast('เกิดข้อผิดพลาด: ' + (err.message || err), 'error');
+                showToast('Error: ' + (err.message || err), 'error');
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
             }

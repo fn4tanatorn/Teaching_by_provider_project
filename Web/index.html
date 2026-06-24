@@ -486,7 +486,7 @@
                     <header class="learning-topbar">
                         <div>
                             <p class="learning-kicker">Request Topic</p>
-                            <h2>เสนอไอเดีย / หัวข้อเรียน</h2>
+                            <h2>Suggest a Topic</h2>
                         </div>
                         <div class="learning-topbar-actions">
                             <button id="countdown-timer-request" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
@@ -497,44 +497,44 @@
                     <div class="request-grid">
                         <section class="request-form-card glass-card">
                             <p class="learning-kicker">New Suggestion</p>
-                            <h3>ส่งคำเสนอแนะ</h3>
+                            <h3>Submit Suggestion</h3>
                             <form id="request-content-form" style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
                                 <div class="input-group">
-                                    <input type="text" id="request-title" required placeholder="เช่น อธิบายกลไก ECG ของหัวใจเต้นผิดจังหวะ" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
-                                    <label for="request-title">หัวข้อที่อยากเรียน (Topic Title) *</label>
+                                    <input type="text" id="request-title" required placeholder=" " style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
+                                    <label for="request-title">Topic Title *</label>
                                 </div>
                                 
                                 <div style="display:flex; flex-direction:column; gap:0.25rem;">
-                                    <label for="request-subject" style="font-size:12px; font-weight:600; color:var(--teal-700);">หมวดหมู่ / วิชา (Subject/Category)</label>
+                                    <label for="request-subject" style="font-size:12px; font-weight:600; color:var(--teal-700);">Subject / Category</label>
                                     <select id="request-subject" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
-                                        <option value="General">ทั่วไป / ทบทวน</option>
+                                        <option value="General">General / Review</option>
                                         <option value="Anatomy">Anatomy</option>
                                         <option value="Histology">Histology</option>
                                         <option value="Pathology">Pathology</option>
                                         <option value="Pharmacology">Pharmacology</option>
                                         <option value="Physiology">Physiology</option>
-                                        <option value="Other">อื่นๆ</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
 
                                 <div style="display:flex; flex-direction:column; gap:0.25rem;">
-                                    <label for="request-details" style="font-size:12px; font-weight:600; color:var(--teal-700);">รายละเอียดเพิ่มเติม (Details / Reason)</label>
-                                    <textarea id="request-details" rows="4" placeholder="เช่น แหล่งอ้างอิง วัตถุประสงค์ หรือประเด็นเจาะจงที่สงสัย" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; resize:vertical; outline:none; background:var(--surface); color:var(--ink);"></textarea>
+                                    <label for="request-details" style="font-size:12px; font-weight:600; color:var(--teal-700);">Additional Details (Reason / Context)</label>
+                                    <textarea id="request-details" rows="4" placeholder="e.g., References, learning objectives, or specific questions you have" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; resize:vertical; outline:none; background:var(--surface); color:var(--ink);"></textarea>
                                 </div>
 
-                                <button type="submit" id="btn-request-submit" class="btn primary-btn" style="width:100%;">ส่งคำขอหัวข้อเรียน</button>
+                                <button type="submit" id="btn-request-submit" class="btn primary-btn" style="width:100%;">Submit Topic Request</button>
                             </form>
                         </section>
 
-                        <section class="requests-list-card glass-card">
+                        <section class="requests-list-card glass-card" style="display: none;">
                             <p class="learning-kicker">Proposed Topics</p>
-                            <h3>หัวข้อที่มีการเสนอเข้ามา</h3>
+                            <h3>Proposed Topics</h3>
                             <div class="request-filter-bar" style="display:flex; gap:0.5rem; margin-top:1rem; margin-bottom:1rem;">
-                                <button type="button" id="btn-request-filter-all" class="btn outline-btn btn-compact btn-active">ทั้งหมด</button>
-                                <button type="button" id="btn-request-filter-my" class="btn outline-btn btn-compact">ของฉัน</button>
+                                <button type="button" id="btn-request-filter-all" class="btn outline-btn btn-compact btn-active">All</button>
+                                <button type="button" id="btn-request-filter-my" class="btn outline-btn btn-compact">My Suggestions</button>
                             </div>
                             <div id="requests-list-container" style="display:flex; flex-direction:column; gap:0.75rem; max-height:450px; overflow-y:auto; padding-right:0.25rem;">
-                                <p style="color:var(--text-muted); font-size:14px; text-align:center;">ยังไม่มีข้อเสนอหัวข้อในขณะนี้...</p>
+                                <p style="color:var(--text-muted); font-size:14px; text-align:center;">No topics proposed yet...</p>
                             </div>
                         </section>
                     </div>
