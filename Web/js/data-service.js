@@ -337,6 +337,41 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
             return () => {
                 supabase.removeChannel(ch);
             };
+        },
+
+        async fetchContentRequests() {
+            const { data, error } = await supabase
+                .from('content_requests')
+                .select('*')
+                .order('created_at', { ascending: false });
+            if (error) throw error;
+            return data || [];
+        },
+
+        async createContentRequest(username, title, subject, details) {
+            const { data, error } = await supabase
+                .from('content_requests')
+                .insert({ username, title, subject, details })
+                .select()
+                .single();
+            if (error) throw error;
+            return data;
+        },
+
+        async updateContentRequestStatus(id, status) {
+            const { error } = await supabase
+                .from('content_requests')
+                .update({ status })
+                .eq('id', id);
+            if (error) throw error;
+        },
+
+        async deleteContentRequest(id) {
+            const { error } = await supabase
+                .from('content_requests')
+                .delete()
+                .eq('id', id);
+            if (error) throw error;
         }
     };
 }

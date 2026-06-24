@@ -200,6 +200,7 @@
                         <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
                         <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
                         <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
                         <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
                         <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
@@ -308,6 +309,7 @@
                         <button type="button" class="shell-nav-link" data-nav-target="videos" aria-current="page">Videos</button>
                         <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
                         <button id="btn-checkin" type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
                         <button id="btn-stats" type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button id="btn-sheets" type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
                         <button id="btn-decks" type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
@@ -380,6 +382,7 @@
                         <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
                         <button type="button" class="shell-nav-link" data-nav-target="brainmap" aria-current="page">Brain Map</button>
                         <button id="btn-checkin-bm" type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
                         <button id="btn-stats-bm" type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
                         <button id="btn-sheets-bm" type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
                         <button id="btn-decks-bm" type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
@@ -447,6 +450,93 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Content Request -->
+        <section id="page-request" class="page page-learning" data-screen-label="Request">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request" aria-current="page">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Request Topic</p>
+                            <h2>เสนอไอเดีย / หัวข้อเรียน</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-request" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+
+                    <div class="request-grid">
+                        <section class="request-form-card glass-card">
+                            <p class="learning-kicker">New Suggestion</p>
+                            <h3>ส่งคำเสนอแนะ</h3>
+                            <form id="request-content-form" style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
+                                <div class="input-group">
+                                    <input type="text" id="request-title" required placeholder="เช่น อธิบายกลไก ECG ของหัวใจเต้นผิดจังหวะ" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
+                                    <label for="request-title">หัวข้อที่อยากเรียน (Topic Title) *</label>
+                                </div>
+                                
+                                <div style="display:flex; flex-direction:column; gap:0.25rem;">
+                                    <label for="request-subject" style="font-size:12px; font-weight:600; color:var(--teal-700);">หมวดหมู่ / วิชา (Subject/Category)</label>
+                                    <select id="request-subject" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
+                                        <option value="General">ทั่วไป / ทบทวน</option>
+                                        <option value="Anatomy">Anatomy</option>
+                                        <option value="Histology">Histology</option>
+                                        <option value="Pathology">Pathology</option>
+                                        <option value="Pharmacology">Pharmacology</option>
+                                        <option value="Physiology">Physiology</option>
+                                        <option value="Other">อื่นๆ</option>
+                                    </select>
+                                </div>
+
+                                <div style="display:flex; flex-direction:column; gap:0.25rem;">
+                                    <label for="request-details" style="font-size:12px; font-weight:600; color:var(--teal-700);">รายละเอียดเพิ่มเติม (Details / Reason)</label>
+                                    <textarea id="request-details" rows="4" placeholder="เช่น แหล่งอ้างอิง วัตถุประสงค์ หรือประเด็นเจาะจงที่สงสัย" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; resize:vertical; outline:none; background:var(--surface); color:var(--ink);"></textarea>
+                                </div>
+
+                                <button type="submit" id="btn-request-submit" class="btn primary-btn" style="width:100%;">ส่งคำขอหัวข้อเรียน</button>
+                            </form>
+                        </section>
+
+                        <section class="requests-list-card glass-card">
+                            <p class="learning-kicker">Proposed Topics</p>
+                            <h3>หัวข้อที่มีการเสนอเข้ามา</h3>
+                            <div class="request-filter-bar" style="display:flex; gap:0.5rem; margin-top:1rem; margin-bottom:1rem;">
+                                <button type="button" id="btn-request-filter-all" class="btn outline-btn btn-compact btn-active">ทั้งหมด</button>
+                                <button type="button" id="btn-request-filter-my" class="btn outline-btn btn-compact">ของฉัน</button>
+                            </div>
+                            <div id="requests-list-container" style="display:flex; flex-direction:column; gap:0.75rem; max-height:450px; overflow-y:auto; padding-right:0.25rem;">
+                                <p style="color:var(--text-muted); font-size:14px; text-align:center;">ยังไม่มีข้อเสนอหัวข้อในขณะนี้...</p>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
@@ -691,6 +781,26 @@
                         </div>
                     </div>
                     <div class="admin-member-list" id="admin-member-list" hidden></div>
+                </div>
+
+                <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
+                    <div class="panel-header-inline">
+                        <div>
+                            <h3>Content requests</h3>
+                            <p id="admin-requests-summary" class="admin-panel-kicker">Review student topic ideas and suggestions.</p>
+                        </div>
+                        <div class="panel-header-actions">
+                            <button id="btn-toggle-requests" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="admin-requests-panel">Show requests</button>
+                        </div>
+                    </div>
+                    <div id="admin-requests-panel" class="admin-collapsible-panel" hidden>
+                        <div class="video-search-field" style="width:100%; margin:0.75rem 0 1rem;">
+                            <input id="admin-requests-search" type="search" placeholder="Search requests by title, details or username..." style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
+                        </div>
+                        <div id="admin-requests-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <p style="color:var(--text-muted); font-size:14px; text-align:center;">No requests submitted yet.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="glass-card admin-panel panel-block">

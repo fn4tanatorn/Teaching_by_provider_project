@@ -801,6 +801,7 @@ function initClinicalVideoApp() {
     const pageAdmin = document.getElementById('page-admin');
     const pageCheckinBankAdmin = document.getElementById('page-checkin-bank-admin');
     const pageBrainmap = document.getElementById('page-brainmap');
+    const pageRequest = document.getElementById('page-request');
 
     const btnGoLogin = document.getElementById('btn-go-login');
     const btnGoRegister = document.getElementById('btn-go-register');
@@ -2629,7 +2630,8 @@ function initClinicalVideoApp() {
             [pageVideos, 'videos'],
             [pageBrainmap, 'brainmap'],
             [pageQuiz, 'checkin'],
-            [pageStats, 'stats']
+            [pageStats, 'stats'],
+            [pageRequest, 'request']
         ]);
         const activeTarget = targetByPage.get(pageElement) || '';
         document.querySelectorAll('.shell-nav-link').forEach((link) => {
@@ -3001,8 +3003,10 @@ function initClinicalVideoApp() {
         }
     });
 
+    const countdownTimerRequest = document.getElementById('countdown-timer-request');
+
     function setAllCountdownLabels(html) {
-        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm].forEach(el => { if (el) el.innerHTML = html; });
+        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest].forEach(el => { if (el) el.innerHTML = html; });
     }
 
     function formatDatetimeLocal(ms) {
@@ -3135,7 +3139,7 @@ function initClinicalVideoApp() {
         examDetailsModal.setAttribute('aria-hidden', 'true');
     }
 
-    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz].forEach((el) => {
+    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerRequest].forEach((el) => {
         if (el) el.addEventListener('click', openExamDetailsModal);
     });
     if (btnCloseExamDetails) btnCloseExamDetails.addEventListener('click', closeExamDetailsModal);
@@ -3324,6 +3328,8 @@ function initClinicalVideoApp() {
         else if (target === 'decks') openDecks();
         else if (target === 'livequiz') openLiveQuiz();
         else if (target === 'medquiz') openMedQuiz();
+        else if (target === 'request') { renderContentRequests(); navigateTo(pageRequest); }
+    }
     }
 
     function setLearningSidebarCollapsed(collapsed) {
@@ -4295,6 +4301,256 @@ function initClinicalVideoApp() {
         saveDraft('admin_new_video', null);
         renderVideos();
     });
+
+    // --- Content Request Page Feature ---
+    let cachedContentRequests = [];
+    let currentRequestFilter = 'all'; // 'all' or 'my'
+
+    async function renderContentRequests() {
+        if (!supabaseConfigReady) return;
+        const container = document.getElementById('requests-list-container');
+        if (!container) return;
+
+        try {
+            cachedContentRequests = await ds.fetchContentRequests();
+        } catch (err) {
+            console.error('Error fetching content requests:', err);
+            container.innerHTML = `<p style="color:var(--danger); font-size:14px; text-align:center;">ไม่สามารถโหลดข้อมูลได้: ${escapeHtml(err.message || err)}</p>`;
+            return;
+        }
+
+        renderFilteredRequests();
+    }
+
+    function renderFilteredRequests() {
+        const container = document.getElementById('requests-list-container');
+        if (!container) return;
+
+        const currentUsername = currentUser ? String(currentUser.username).trim().toLowerCase() : '';
+        const filtered = cachedContentRequests.filter(r => {
+            if (currentRequestFilter === 'my') {
+                return r.username && r.username.trim().toLowerCase() === currentUsername;
+            }
+            return true;
+        });
+
+        if (filtered.length === 0) {
+            container.innerHTML = `<p style="color:var(--text-muted); font-size:14px; text-align:center; padding: 1.5rem 0;">ยังไม่มีข้อเสนอในหมวดนี้...</p>`;
+            return;
+        }
+
+        container.innerHTML = '';
+        filtered.forEach(r => {
+            const dateStr = new Date(r.created_at).toLocaleDateString('th-TH', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const card = document.createElement('div');
+            card.className = 'request-item-card';
+            
+            const isMyRequest = r.username && r.username.trim().toLowerCase() === currentUsername;
+            const authorText = isMyRequest ? 'ฉันเสนอ' : `โดย: ${r.username}`;
+            const badgeClass = `status-badge--${r.status || 'pending'}`;
+            const statusLabel = {
+                'pending': 'รอรับเรื่อง',
+                'approved': 'อนุมัติแล้ว',
+                'rejected': 'ปฏิเสธ',
+                'in-progress': 'กำลังทำเนื้อหา',
+                'completed': 'เสร็จสิ้น/มีวิดีโอแล้ว'
+            }[r.status] || r.status;
+
+            card.innerHTML = `
+                <div class="request-item-header">
+                    <h4 class="request-item-title">${escapeHtml(r.title)}</h4>
+                    <span class="status-badge ${badgeClass}">${statusLabel}</span>
+                </div>
+                <div class="request-item-meta">
+                    <span>หมวดหมู่: <strong>${escapeHtml(r.subject || 'ทั่วไป')}</strong></span>
+                    <span>${escapeHtml(authorText)}</span>
+                    <span>${escapeHtml(dateStr)}</span>
+                </div>
+                ${r.details ? `<p class="request-item-details">${escapeHtml(r.details)}</p>` : ''}
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    async function renderAdminContentRequests() {
+        if (!supabaseConfigReady) return;
+        const listContainer = document.getElementById('admin-requests-list');
+        const summaryText = document.getElementById('admin-requests-summary');
+        if (!listContainer) return;
+
+        let requests = [];
+        try {
+            requests = await ds.fetchContentRequests();
+        } catch (err) {
+            console.error('Error fetching admin content requests:', err);
+            listContainer.innerHTML = `<p style="color:var(--danger); font-size:14px; text-align:center;">Error loading requests: ${escapeHtml(err.message || err)}</p>`;
+            return;
+        }
+
+        const query = document.getElementById('admin-requests-search')?.value.trim().toLowerCase() || '';
+        const filtered = requests.filter(r => {
+            if (!query) return true;
+            return (r.title && r.title.toLowerCase().includes(query)) ||
+                   (r.details && r.details.toLowerCase().includes(query)) ||
+                   (r.username && r.username.toLowerCase().includes(query)) ||
+                   (r.subject && r.subject.toLowerCase().includes(query));
+        });
+
+        if (summaryText) {
+            summaryText.textContent = `Review student topic ideas and suggestions. Total: ${requests.length} (${filtered.length} shown)`;
+        }
+
+        if (filtered.length === 0) {
+            listContainer.innerHTML = `<p style="color:var(--text-muted); font-size:14px; text-align:center; padding:1.5rem 0;">No matching requests found.</p>`;
+            return;
+        }
+
+        listContainer.innerHTML = '';
+        filtered.forEach(r => {
+            const item = document.createElement('div');
+            item.className = 'admin-request-item';
+            const dateStr = new Date(r.created_at).toLocaleString();
+
+            item.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                    <strong style="color:var(--ink); font-size:15px;">${escapeHtml(r.title)}</strong>
+                    <span style="font-size:12px; color:var(--text-muted);">${escapeHtml(dateStr)}</span>
+                </div>
+                <div style="font-size:13px; color:var(--text-muted); margin-top:2px;">
+                    หมวดหมู่: <strong>${escapeHtml(r.subject || 'ทั่วไป')}</strong> • เสนอโดย: <strong>${escapeHtml(r.username)}</strong>
+                </div>
+                ${r.details ? `<p style="margin: 0.5rem 0 0; font-size:13px; color:var(--ink); white-space:pre-wrap; line-height:1.4;">${escapeHtml(r.details)}</p>` : ''}
+                <div class="admin-request-actions">
+                    <div>
+                        <label style="font-size:12px; font-weight:600; margin-right:4px;">สถานะ:</label>
+                        <select class="admin-request-status-select" data-request-id="${r.id}">
+                            <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>รอรับเรื่อง (Pending)</option>
+                            <option value="approved" ${r.status === 'approved' ? 'selected' : ''}>อนุมัติ (Approved)</option>
+                            <option value="rejected" ${r.status === 'rejected' ? 'selected' : ''}>ปฏิเสธ (Rejected)</option>
+                            <option value="in-progress" ${r.status === 'in-progress' ? 'selected' : ''}>กำลังทำเนื้อหา (In Progress)</option>
+                            <option value="completed" ${r.status === 'completed' ? 'selected' : ''}>เสร็จสิ้น/มีวิดีโอแล้ว (Completed)</option>
+                        </select>
+                    </div>
+                    <button class="btn outline-btn btn-compact btn-delete-outline btn-delete-request" data-request-id="${r.id}" type="button">Delete</button>
+                </div>
+            `;
+
+            const selectEl = item.querySelector('.admin-request-status-select');
+            selectEl.addEventListener('change', async (e) => {
+                const newStatus = e.target.value;
+                try {
+                    await ds.updateContentRequestStatus(r.id, newStatus);
+                    showToast('อัปเดตสถานะสำเร็จ');
+                    renderAdminContentRequests();
+                    if (pageRequest && pageRequest.classList.contains('active')) {
+                        renderContentRequests();
+                    }
+                } catch (err) {
+                    console.error('Error updating status:', err);
+                    showToast('เกิดข้อผิดพลาดในการอัปเดตสถานะ: ' + err.message, 'error');
+                }
+            });
+
+            const deleteBtn = item.querySelector('.btn-delete-request');
+            deleteBtn.addEventListener('click', async () => {
+                if (!confirm(`ต้องการลบคำขอ "${r.title}" หรือไม่?`)) return;
+                try {
+                    await ds.deleteContentRequest(r.id);
+                    showToast('ลบคำขอสำเร็จ');
+                    renderAdminContentRequests();
+                    if (pageRequest && pageRequest.classList.contains('active')) {
+                        renderContentRequests();
+                    }
+                } catch (err) {
+                    console.error('Error deleting request:', err);
+                    showToast('เกิดข้อผิดพลาดในการลบคำขอ: ' + err.message, 'error');
+                }
+            });
+
+            listContainer.appendChild(item);
+        });
+    }
+
+    const requestContentForm = document.getElementById('request-content-form');
+    const btnRequestFilterAll = document.getElementById('btn-request-filter-all');
+    const btnRequestFilterMy = document.getElementById('btn-request-filter-my');
+    const btnToggleRequests = document.getElementById('btn-toggle-requests');
+    const adminRequestsPanel = document.getElementById('admin-requests-panel');
+    const adminRequestsSearch = document.getElementById('admin-requests-search');
+
+    if (requestContentForm) {
+        requestContentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const titleInput = document.getElementById('request-title');
+            const subjectInput = document.getElementById('request-subject');
+            const detailsInput = document.getElementById('request-details');
+
+            const title = titleInput.value.trim();
+            const subject = subjectInput.value;
+            const details = detailsInput.value.trim();
+
+            if (!title) return;
+
+            const submitBtn = document.getElementById('btn-request-submit');
+            if (submitBtn) submitBtn.disabled = true;
+
+            const username = currentUser?.username ? String(currentUser.username).trim() : 'Anonymous';
+
+            try {
+                await ds.createContentRequest(username, title, subject, details);
+                showToast('เสนอหัวข้อเรียนเรียบร้อยแล้วครับ!');
+                titleInput.value = '';
+                detailsInput.value = '';
+                
+                await renderContentRequests();
+            } catch (err) {
+                console.error('Error submitting content request:', err);
+                showToast('เกิดข้อผิดพลาด: ' + (err.message || err), 'error');
+            } finally {
+                if (submitBtn) submitBtn.disabled = false;
+            }
+        });
+    }
+
+    if (btnRequestFilterAll) {
+        btnRequestFilterAll.addEventListener('click', () => {
+            btnRequestFilterAll.classList.add('btn-active');
+            btnRequestFilterMy.classList.remove('btn-active');
+            currentRequestFilter = 'all';
+            renderFilteredRequests();
+        });
+    }
+
+    if (btnRequestFilterMy) {
+        btnRequestFilterMy.addEventListener('click', () => {
+            btnRequestFilterMy.classList.add('btn-active');
+            btnRequestFilterAll.classList.remove('btn-active');
+            currentRequestFilter = 'my';
+            renderFilteredRequests();
+        });
+    }
+
+    if (btnToggleRequests) {
+        btnToggleRequests.addEventListener('click', () => {
+            adminRequestsPanel.hidden = !adminRequestsPanel.hidden;
+            btnToggleRequests.setAttribute('aria-expanded', !adminRequestsPanel.hidden ? 'true' : 'false');
+            btnToggleRequests.textContent = !adminRequestsPanel.hidden ? 'Hide requests' : 'Show requests';
+            if (!adminRequestsPanel.hidden) renderAdminContentRequests();
+        });
+    }
+
+    if (adminRequestsSearch) {
+        adminRequestsSearch.addEventListener('input', debounce(() => {
+            renderAdminContentRequests();
+        }, 300));
+    }
 
     if (useLocalMemberStorage) {
         const loc = localMemberTryRestore();
