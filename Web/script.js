@@ -3330,7 +3330,6 @@ function initClinicalVideoApp() {
         else if (target === 'medquiz') openMedQuiz();
         else if (target === 'request') { renderContentRequests(); navigateTo(pageRequest); }
     }
-    }
 
     function setLearningSidebarCollapsed(collapsed) {
         document.body.classList.toggle('learning-sidebar-collapsed', collapsed);
