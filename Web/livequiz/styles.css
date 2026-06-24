@@ -191,10 +191,10 @@ a.button-ghost:hover {
   color: var(--text);
 }
 
-body[data-page="home"] .topbar > a,
+/* body[data-page="home"] .topbar > a,
 body[data-page="participant"] .topbar > a {
   display: none;
-}
+} */
 
 .brand {
   position: relative;
@@ -678,4 +678,18 @@ textarea {
   .import-zone {
     grid-template-columns: 1fr;
   }
+}
+
+/* Embedded panel styles */
+body.is-embedded {
+  background: transparent !important;
+}
+body.is-embedded .shell {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0.5rem !important;
+}
+body.is-embedded .topbar {
+  display: none !important;
 }

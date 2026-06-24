@@ -84,6 +84,11 @@ function getDecksUrl() {
     return resolveAppUrl('decks/');
 }
 
+/** Image-supported spaced repetition app inside the combined web app. */
+function getFlashcardsUrl() {
+    return resolveAppUrl('flashcards/');
+}
+
 const BETA_DAILY_PREFIX = 'clinical_video_beta_used_v1:';
 
 function getLocalTodayYMD() {
@@ -642,17 +647,18 @@ function initClinicalVideoApp() {
 
     function updateAdminButtonVisibility(pageElement) {
         if (!btnAdminLogin || !pageElement) return;
-        
+
         const pageId = pageElement.id;
         const isAdmin = currentUser && currentUser.isAdmin;
 
-        if (pageId === 'page-admin' || pageId === 'page-checkin-bank-admin') {
+        if (pageId === 'page-admin' || pageId === 'page-checkin-bank-admin' || pageId === 'page-video-linker') {
             btnAdminLogin.style.display = 'none';
         } else if (pageId === 'page-welcome' || isAdmin) {
             btnAdminLogin.style.display = 'block';
         } else {
             btnAdminLogin.style.display = 'none';
         }
+
     }
 
     function defaultSeedVideos() {
@@ -721,7 +727,7 @@ function initClinicalVideoApp() {
         if (!da || !db) return 0;
         return Math.floor((db - da) / 86400000);
     }
-    
+
     function renderStreaks() {
         if (!currentUser) return;
         const videoBadge = document.getElementById("badge-video-streak");
@@ -802,6 +808,12 @@ function initClinicalVideoApp() {
     const pageCheckinBankAdmin = document.getElementById('page-checkin-bank-admin');
     const pageBrainmap = document.getElementById('page-brainmap');
     const pageRequest = document.getElementById('page-request');
+    const pageSheets = document.getElementById('page-sheets');
+    const pageDecks = document.getElementById('page-decks');
+    const pageFlashcards = document.getElementById('page-flashcards');
+    const pageLivequiz = document.getElementById('page-livequiz');
+    const pageMedquiz = document.getElementById('page-medquiz');
+    const pageVideoLinker = document.getElementById('page-video-linker');
 
     const btnGoLogin = document.getElementById('btn-go-login');
     const btnGoRegister = document.getElementById('btn-go-register');
@@ -882,7 +894,7 @@ function initClinicalVideoApp() {
     const btnBackFromWatch = document.getElementById('btn-back-from-watch');
     const btnVideoFinished = document.getElementById('btn-video-finished');
     const btnBackFromQuiz = document.getElementById('btn-back-from-quiz');
-    
+
     // Post Quiz
     const pagePostQuiz = document.getElementById('page-post-quiz');
     const pqQuestion = document.getElementById('pq-question');
@@ -1304,7 +1316,7 @@ function initClinicalVideoApp() {
                 <input type="text" class="q-text" placeholder=" " value="${qVal}">
                 <label>Question</label>
             </div>
-            
+
             <div class="img-upload-zone" style="border: 2px dashed var(--border); padding: 1.5rem 1rem; border-radius: var(--r-card); text-align: center; cursor: pointer; margin-bottom: 1.25rem; background: var(--surface); position: relative; transition: border-color 0.2s;">
                 <input type="file" class="q-img-file" accept="image/*" style="display:none;">
                 <input type="hidden" class="q-img" value="${imgVal}">
@@ -1353,11 +1365,11 @@ function initClinicalVideoApp() {
                 </div>
             </div>
         `;
-        
+
         const typeSelect = div.querySelector('.q-type');
         const mcqFields = div.querySelector('.mcq-fields');
         const textFields = div.querySelector('.text-fields');
-        
+
         typeSelect.addEventListener('change', (e) => {
             if (e.target.value === 'mcq') {
                 mcqFields.style.display = 'block';
@@ -1367,9 +1379,9 @@ function initClinicalVideoApp() {
                 textFields.style.display = 'block';
             }
         });
-        
+
         div.querySelector('.remove-question-btn').addEventListener('click', () => div.remove());
-        
+
         setupImgDropZone(div.querySelector('.img-upload-zone'));
         quizQuestionsList.appendChild(div);
     }
@@ -1433,7 +1445,9 @@ function initClinicalVideoApp() {
     if (btnCancelEditVideo) {
         btnCancelEditVideo.addEventListener('click', () => {
             editVideoId = null;
+            if (typeof window._invalidateLinkerSession === 'function') window._invalidateLinkerSession();
             btnAddVideo.textContent = 'Attach video';
+
             btnCancelEditVideo.style.display = 'none';
             newVideoUrl.value = '';
             newVideoTitle.value = '';
@@ -1666,14 +1680,14 @@ function initClinicalVideoApp() {
         if (!window.THREE) return null;
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        
+
         const fontSize = 24;
         ctx.font = `${fontSize}px system-ui, -apple-system, sans-serif`;
         const textWidth = ctx.measureText(text).width;
-        
+
         canvas.width = textWidth + 24;
         canvas.height = fontSize + 16;
-        
+
         // Background bubble
         ctx.fillStyle = 'rgba(15, 23, 42, 0.7)';
         if (ctx.roundRect) {
@@ -1682,7 +1696,7 @@ function initClinicalVideoApp() {
             ctx.rect(0, 0, canvas.width, canvas.height);
         }
         ctx.fill();
-        
+
         // Border
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
         ctx.lineWidth = 1.5;
@@ -1692,27 +1706,27 @@ function initClinicalVideoApp() {
             ctx.rect(0, 0, canvas.width, canvas.height);
         }
         ctx.stroke();
-        
+
         // Text
         ctx.font = `600 ${fontSize}px system-ui, -apple-system, sans-serif`;
         ctx.fillStyle = color;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-        
+
         const texture = new window.THREE.CanvasTexture(canvas);
         texture.minFilter = window.THREE.LinearFilter;
-        
+
         const spriteMaterial = new window.THREE.SpriteMaterial({
             map: texture,
             transparent: true
         });
-        
+
         const sprite = new window.THREE.Sprite(spriteMaterial);
         const aspect = canvas.width / canvas.height;
         const spriteHeight = 4.5;
         sprite.scale.set(spriteHeight * aspect, spriteHeight, 1);
-        
+
         return sprite;
     }
 
@@ -1773,14 +1787,16 @@ function initClinicalVideoApp() {
         }
 
         // 1c. Determine visibility of each video
-        // Visible if: Completed, OR is part of a learning sequence (so the entire path is shown connected by thin grey lines)
+        // Visible if: Completed, OR is a direct target (next step) of any completed video
         const visibleVideoIds = new Set();
         videos.forEach(video => {
-            const isCompleted = watchedList.includes(video.id);
-            const isPartOfSequence = videoEdges.some(edge => edge.sourceId === video.id || edge.targetId === video.id);
-
-            if (isCompleted || isPartOfSequence) {
+            if (watchedList.includes(video.id)) {
                 visibleVideoIds.add(video.id);
+            }
+        });
+        videoEdges.forEach(edge => {
+            if (watchedList.includes(edge.sourceId)) {
+                visibleVideoIds.add(edge.targetId);
             }
         });
 
@@ -1870,11 +1886,11 @@ function initClinicalVideoApp() {
                             cardSubject.textContent = subjectLabel(node.subject);
                             cardTitle.textContent = vid.title;
                             cardViews.textContent = vid.views || 0;
-                            
+
                             const isCompleted = watchedList.includes(vid.id);
                             cardStatus.textContent = isCompleted ? 'Completed' : 'Not started';
                             cardStatus.style.color = isCompleted ? '#10b981' : '#ef4444';
-                            
+
                             btnPlay.onclick = () => {
                                 vid.views = (vid.views || 0) + 1;
                                 saveVideosDB();
@@ -1897,7 +1913,7 @@ function initClinicalVideoApp() {
                     window.THREE = tempThree;
                 }
             }
-            
+
             // Adjust size to fit container
             const resizeObserver = new ResizeObserver(() => {
                 if (brainGraph && graphContainer) {
@@ -1931,33 +1947,39 @@ function initClinicalVideoApp() {
         const container = document.getElementById('video-connections-list');
         if (!container) return;
         container.innerHTML = '';
-        
+
         const availableVideos = videos.filter(v => v.id !== excludeId);
-        
+
         if (availableVideos.length === 0) {
             container.innerHTML = '<span style="font-size: 13px; color: var(--muted);">No other videos available to link.</span>';
             return;
         }
-        
+
         availableVideos.forEach(vid => {
             const row = document.createElement('label');
             row.style.cssText = 'display: flex; align-items: center; gap: 0.5rem; font-size: 13px; cursor: pointer; color: var(--ink); padding: 2px 0;';
-            
+
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
             checkbox.value = vid.id;
             checkbox.className = 'video-conn-checkbox';
             checkbox.checked = selectedIds.includes(vid.id);
             checkbox.style.cssText = 'cursor: pointer; accent-color: var(--teal);';
-            
+
             const labelText = document.createElement('span');
             labelText.textContent = `[${subjectLabel(getVideoSubject(vid))}] ${vid.title}`;
-            
+
             row.appendChild(checkbox);
             row.appendChild(labelText);
             container.appendChild(row);
         });
+
+        // Sync the visible summary chips
+        if (typeof window._refreshLinkerSummary === 'function') {
+            window._refreshLinkerSummary(selectedIds);
+        }
     }
+
 
     function renderAdminVideos() {
         if (!adminVideoList) return;
@@ -1990,7 +2012,9 @@ function initClinicalVideoApp() {
             item.addEventListener('click', (e) => {
                 if (e.target.closest('.delete-video-btn') || e.target.closest('.admin-video-slide-link')) return;
                 editVideoId = vid.id;
+                if (typeof window._invalidateLinkerSession === 'function') window._invalidateLinkerSession();
                 newVideoUrl.value = `https://www.youtube.com/watch?v=${vid.videoId}`;
+
                 newVideoTitle.value = vid.title;
                 if (newVideoSlideUrl) newVideoSlideUrl.value = slide ? slide.url : '';
                 if (newVideoSlideTitle) newVideoSlideTitle.value = vid.slideTitle || '';
@@ -2165,7 +2189,7 @@ function initClinicalVideoApp() {
                 taskView.style.display = 'none';
                 okView.style.display = 'flex';
                 document.getElementById('checkin-ok-msg').textContent = `Check-in already recorded for "${currentUser.username}".`;
-                
+
                 showCheckinFeedback(userTodayResp.answer);
                 await showCheckinCycleStats(today, key);
                 return;
@@ -2339,7 +2363,7 @@ function initClinicalVideoApp() {
             saveDraft('checkin_answer', null);
 
             document.getElementById('checkin-ok-msg').textContent = `Recorded for "${currentUser.username}".`;
-            
+
             showCheckinFeedback(ans);
 
             document.getElementById('checkin-task-view').style.display = 'none';
@@ -2605,7 +2629,12 @@ function initClinicalVideoApp() {
             [pageBrainmap, 'brainmap'],
             [pageQuiz, 'checkin'],
             [pageStats, 'stats'],
-            [pageRequest, 'request']
+            [pageRequest, 'request'],
+            [pageSheets, 'sheets'],
+            [pageDecks, 'decks'],
+            [pageFlashcards, 'flashcards'],
+            [pageLivequiz, 'livequiz'],
+            [pageMedquiz, 'medquiz']
         ]);
         const activeTarget = targetByPage.get(pageElement) || '';
         document.querySelectorAll('.shell-nav-link').forEach((link) => {
@@ -2648,6 +2677,12 @@ function initClinicalVideoApp() {
             renderAdminVideos();
             renderAdminFeedbacks();
             if (!adminMemberList.hidden) renderAdminMembers();
+            // Restore whichever tab was active before leaving (call twice: immediately + rAF safety net)
+            if (typeof window._restoreAdminTab === 'function') window._restoreAdminTab();
+            requestAnimationFrame(() => {
+                if (typeof window._restoreAdminTab === 'function') window._restoreAdminTab();
+            });
+
         } else if (pageElement === pageCheckinBankAdmin && currentUser?.isAdmin) {
             renderCheckinQuestions();
         } else {
@@ -2722,23 +2757,60 @@ function initClinicalVideoApp() {
             list.innerHTML = '<p class="muted-empty">No lesson notes match this search.</p>';
             return;
         }
+
+        // ── Expand / Collapse all bar ────────────────────────────
+        let allExpanded = false;
+        const bar = document.createElement('div');
+        bar.style.cssText = 'display:flex; justify-content:flex-end; margin-bottom:0.5rem;';
+        const toggleAllBtn = document.createElement('button');
+        toggleAllBtn.type = 'button';
+        toggleAllBtn.className = 'btn outline-btn btn-compact';
+        toggleAllBtn.style.fontSize = '12px';
+        toggleAllBtn.textContent = 'Expand all';
+        toggleAllBtn.addEventListener('click', () => {
+            allExpanded = !allExpanded;
+            list.querySelectorAll('.admin-note-item').forEach(card => {
+                card.classList.toggle('is-open', allExpanded);
+            });
+            toggleAllBtn.textContent = allExpanded ? 'Collapse all' : 'Expand all';
+        });
+        bar.appendChild(toggleAllBtn);
+        list.appendChild(bar);
+
+        // ── Note cards ───────────────────────────────────────────
         filtered.forEach((f) => {
-            const div = document.createElement('div');
-            div.className = 'admin-list-item admin-note-item';
-            div.innerHTML = `
-                <div class="admin-note-body">
+            const card = document.createElement('div');
+            card.className = 'admin-list-item admin-note-item'; // collapsed by default
+            card.innerHTML = `
+                <div class="admin-note-header">
                     <div class="admin-note-meta">
                         <span class="admin-note-user">${escapeHtml(f.user || 'Anon')}</span>
-                        <span>${escapeHtml(subjectLabel(f.subject))}</span>
-                        <span>${escapeHtml(new Date(f.date || Date.now()).toLocaleString())}</span>
+                        <span class="admin-note-subject-pill">${escapeHtml(subjectLabel(f.subject))}</span>
+                        <span class="admin-note-date">${escapeHtml(new Date(f.date || Date.now()).toLocaleString())}</span>
                     </div>
+                    <div style="display:flex; align-items:center; gap:0.5rem; flex-shrink:0;">
+                        <span class="admin-note-lesson-tag">${escapeHtml(f.videoTitle)}</span>
+                        <span class="admin-note-chevron">›</span>
+                    </div>
+                </div>
+                <div class="admin-note-body">
                     <p class="admin-note-text">${escapeHtml(f.text)}</p>
-                    <p class="admin-note-lesson">${escapeHtml(f.videoTitle)}</p>
                 </div>
             `;
-            list.appendChild(div);
+
+            // Toggle on header click
+            card.querySelector('.admin-note-header').addEventListener('click', () => {
+                card.classList.toggle('is-open');
+                // Sync expand-all button label
+                const allOpen = list.querySelectorAll('.admin-note-item:not(.is-open)').length === 0;
+                toggleAllBtn.textContent = allOpen ? 'Collapse all' : 'Expand all';
+                allExpanded = allOpen;
+            });
+
+            list.appendChild(card);
         });
     }
+
 
     btnGoLogin.addEventListener('click', () => {
         loginError.style.display = 'none';
@@ -2978,9 +3050,14 @@ function initClinicalVideoApp() {
     });
 
     const countdownTimerRequest = document.getElementById('countdown-timer-request');
+    const countdownTimerSheets = document.getElementById('countdown-timer-sheets');
+    const countdownTimerDecks = document.getElementById('countdown-timer-decks');
+    const countdownTimerFlashcards = document.getElementById('countdown-timer-flashcards');
+    const countdownTimerLivequiz = document.getElementById('countdown-timer-livequiz');
+    const countdownTimerMedquiz = document.getElementById('countdown-timer-medquiz');
 
     function setAllCountdownLabels(html) {
-        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest].forEach(el => { if (el) el.innerHTML = html; });
+        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest, countdownTimerSheets, countdownTimerDecks, countdownTimerFlashcards, countdownTimerLivequiz, countdownTimerMedquiz].forEach(el => { if (el) el.innerHTML = html; });
     }
 
     function formatDatetimeLocal(ms) {
@@ -3113,7 +3190,7 @@ function initClinicalVideoApp() {
         examDetailsModal.setAttribute('aria-hidden', 'true');
     }
 
-    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerRequest].forEach((el) => {
+    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest, countdownTimerSheets, countdownTimerDecks, countdownTimerFlashcards, countdownTimerLivequiz, countdownTimerMedquiz].forEach((el) => {
         if (el) el.addEventListener('click', openExamDetailsModal);
     });
     if (btnCloseExamDetails) btnCloseExamDetails.addEventListener('click', closeExamDetailsModal);
@@ -3267,7 +3344,564 @@ function initClinicalVideoApp() {
         btnBackToAdminFromBank.addEventListener('click', () => navigateTo(pageAdmin));
     }
 
+    // ─── Video Link Designer ──────────────────────────────────────────
+    (function initVideoLinker() {
+        // ── DOM refs ─────────────────────────────────────────────
+        const btnOpen        = document.getElementById('btn-open-video-linker');
+        const btnBack        = document.getElementById('btn-back-from-linker');
+        const btnSave        = document.getElementById('btn-linker-save');
+        const btnClear       = document.getElementById('btn-linker-clear');
+        const btnZoomIn      = document.getElementById('btn-canvas-zoom-in');
+        const btnZoomOut     = document.getElementById('btn-canvas-zoom-out');
+        const btnZoomFit     = document.getElementById('btn-canvas-zoom-fit');
+        const zoomLabel      = document.getElementById('canvas-zoom-label');
+        const saveStatus     = document.getElementById('linker-save-status');
+        const viewport       = document.getElementById('canvas-viewport');
+        const world          = document.getElementById('canvas-world');
+        const edgeSvg        = document.getElementById('canvas-edge-svg');
+        const tempEdge       = document.getElementById('canvas-temp-edge');
+        const sidebarList    = document.getElementById('canvas-sidebar-list');
+        const searchEl       = document.getElementById('canvas-search');
+        const pillsEl        = document.getElementById('canvas-subject-pills');
+        const emptyState     = document.getElementById('canvas-empty');
+
+        // ── Canvas state ─────────────────────────────────────────
+        let pan   = { x: 60, y: 60 };  // world offset
+        let scale = 1;
+        const MIN_SCALE = 0.2, MAX_SCALE = 3;
+
+        // nodes: Map<videoId, { x, y, el }>
+        const nodes = new Map();
+        // edges: Set of "id1:id2" (always sorted so id1 < id2)
+        const edges = new Set();
+        // edge DOM elements: Map<"id1:id2", svgPathEl>
+        const edgeEls = new Map();
+
+        // drag-from-sidebar state
+        let sidebarDrag = null;   // { videoId, ghost }
+        // node drag state
+        let nodeDrag = null;      // { videoId, startNodeX, startNodeY, startMouseX, startMouseY }
+        // edge drawing state
+        let portDrag = null;      // { fromId, tempLine, startX, startY }
+        // pan state
+        let isPanning = false, panStart = null;
+        // space held for pan mode
+        let spaceDown = false;
+
+        let linkerSourceId  = null;
+        let sbSubjectFilter = 'all';
+
+        // ── Ghost element ─────────────────────────────────────────
+        const ghost = document.createElement('div');
+        ghost.className = 'canvas-drag-ghost';
+        ghost.innerHTML = '<img>';
+        document.body.appendChild(ghost);
+
+        // ── Transform helpers ─────────────────────────────────────
+        function applyTransform() {
+            world.style.transform = `translate(${pan.x}px,${pan.y}px) scale(${scale})`;
+            if (zoomLabel) zoomLabel.textContent = Math.round(scale * 100) + '%';
+        }
+
+        function screenToWorld(sx, sy) {
+            const r = viewport.getBoundingClientRect();
+            return {
+                x: (sx - r.left - pan.x) / scale,
+                y: (sy - r.top  - pan.y) / scale,
+            };
+        }
+
+        function clampScale(s) {
+            return Math.min(MAX_SCALE, Math.max(MIN_SCALE, s));
+        }
+
+        function zoomAt(clientX, clientY, delta) {
+            const factor = delta > 0 ? 0.9 : 1.1;
+            const newScale = clampScale(scale * factor);
+            const r = viewport.getBoundingClientRect();
+            const wx = clientX - r.left, wy = clientY - r.top;
+            pan.x = wx - (wx - pan.x) * (newScale / scale);
+            pan.y = wy - (wy - pan.y) * (newScale / scale);
+            scale = newScale;
+            applyTransform();
+        }
+
+        // ── Edge helpers ──────────────────────────────────────────
+        function edgeKey(a, b) { return a < b ? `${a}:${b}` : `${b}:${a}`; }
+
+        function nodeCenter(videoId) {
+            const n = nodes.get(videoId);
+            if (!n) return { x: 0, y: 0 };
+            const NODE_W = 168;
+            const NODE_H = n.el.offsetHeight || 120;
+            return { x: n.x + NODE_W / 2, y: n.y + NODE_H / 2 };
+        }
+
+        function bezierPath(x1, y1, x2, y2) {
+            const cy = (y1 + y2) / 2;
+            return `M ${x1} ${y1} C ${x1} ${cy}, ${x2} ${cy}, ${x2} ${y2}`;
+        }
+
+        function portPos(videoId, which) {
+            const n = nodes.get(videoId);
+            if (!n) return { x: 0, y: 0 };
+            const NODE_W = 168;
+            const NODE_H = n.el.offsetHeight || 120;
+            if (which === 'top')    return { x: n.x + NODE_W / 2, y: n.y };
+            return { x: n.x + NODE_W / 2, y: n.y + NODE_H };
+        }
+
+        function redrawEdge(key) {
+            const [a, b] = key.split(':').map(Number);
+            const pA = portPos(a, 'bottom');
+            const pB = portPos(b, 'top');
+            let el = edgeEls.get(key);
+            if (!el) {
+                el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                el.setAttribute('class', 'c-edge');
+                el.setAttribute('stroke', 'var(--teal)');
+                el.setAttribute('stroke-width', '2.5');
+                el.setAttribute('fill', 'none');
+                el.setAttribute('opacity', '0.75');
+                el.setAttribute('stroke-linecap', 'round');
+                edgeSvg.appendChild(el);
+                edgeEls.set(key, el);
+                // click to delete edge
+                el.addEventListener('click', () => {
+                    edges.delete(key);
+                    edgeEls.get(key)?.remove();
+                    edgeEls.delete(key);
+                    updateEmpty();
+                });
+            }
+            el.setAttribute('d', bezierPath(pA.x, pA.y, pB.x, pB.y));
+        }
+
+        function redrawAllEdges() {
+            edges.forEach(k => redrawEdge(k));
+        }
+
+        // ── Sidebar ───────────────────────────────────────────────
+        function getAllVideos() { return videos || []; }
+
+        function renderSidebar() {
+            if (!sidebarList) return;
+            sidebarList.innerHTML = '';
+            const q = (searchEl?.value || '').trim().toLowerCase();
+            getAllVideos()
+                .filter(v => v.id !== linkerSourceId)
+                .filter(v => sbSubjectFilter === 'all' || getVideoSubject(v) === sbSubjectFilter)
+                .filter(v => !q || v.title.toLowerCase().includes(q) || subjectLabel(getVideoSubject(v)).toLowerCase().includes(q))
+                .forEach(v => {
+                    const item = document.createElement('div');
+                    item.className = 'csb-item' + (nodes.has(v.id) ? ' on-canvas' : '');
+                    item.dataset.vid = v.id;
+                    item.innerHTML = `
+                        <img class="csb-item-thumb" src="https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg" loading="lazy" alt="">
+                        <div class="csb-item-info">
+                            <div class="csb-item-title">${escapeHtml(v.title)}</div>
+                            <div class="csb-item-subj">${escapeHtml(subjectLabel(getVideoSubject(v)))}</div>
+                        </div>
+                    `;
+                    // start drag
+                    item.addEventListener('mousedown', (e) => {
+                        if (nodes.has(v.id)) return;
+                        e.preventDefault();
+                        ghost.querySelector('img').src = `https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg`;
+                        ghost.style.display = 'block';
+                        ghost.style.left = e.clientX + 'px';
+                        ghost.style.top  = e.clientY + 'px';
+                        sidebarDrag = { videoId: v.id };
+                    });
+                    sidebarList.appendChild(item);
+                });
+        }
+
+        function renderPills() {
+            if (!pillsEl) return;
+            pillsEl.innerHTML = '';
+            const subjects = ['all', ...new Set(getAllVideos().filter(v => v.id !== linkerSourceId).map(v => getVideoSubject(v)).filter(Boolean))];
+            subjects.forEach(s => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'csb-pill' + (s === sbSubjectFilter ? ' is-active' : '');
+                btn.textContent = s === 'all' ? 'All' : subjectLabel(s);
+                btn.addEventListener('click', () => { sbSubjectFilter = s; renderPills(); renderSidebar(); });
+                pillsEl.appendChild(btn);
+            });
+        }
+
+        // ── Node placement ────────────────────────────────────────
+        function updateEmpty() {
+            if (emptyState) emptyState.classList.toggle('hidden', nodes.size > 0);
+        }
+
+        function placeNode(videoId, x, y) {
+            if (nodes.has(videoId)) return;
+            const v = getAllVideos().find(v => v.id === videoId);
+            if (!v) return;
+
+            const el = document.createElement('div');
+            el.className = 'canvas-node' + (videoId === linkerSourceId ? ' is-source-node' : '');
+            el.style.left = x + 'px';
+            el.style.top  = y + 'px';
+            el.dataset.vid = videoId;
+
+            el.innerHTML = `
+                <img class="canvas-node-thumb" src="https://img.youtube.com/vi/${v.videoId}/hqdefault.jpg" loading="lazy" alt="">
+                <div class="canvas-node-body">
+                    <p class="canvas-node-title">${escapeHtml(v.title)}</p>
+                    <span class="canvas-node-subj">${escapeHtml(subjectLabel(getVideoSubject(v)))}</span>
+                </div>
+                <button class="canvas-node-del" title="Remove" type="button">✕</button>
+                <div class="canvas-port top-port" data-port="top" data-vid="${videoId}"></div>
+                <div class="canvas-port" data-port="bottom" data-vid="${videoId}"></div>
+            `;
+
+            world.appendChild(el);
+            nodes.set(videoId, { x, y, el });
+
+            // Remove node
+            el.querySelector('.canvas-node-del').addEventListener('click', (e) => {
+                e.stopPropagation();
+                removeNode(videoId);
+            });
+
+            // Node drag
+            el.addEventListener('mousedown', (e) => {
+                if (e.target.closest('.canvas-port') || e.target.closest('.canvas-node-del')) return;
+                e.preventDefault();
+                const n = nodes.get(videoId);
+                nodeDrag = { videoId, startNodeX: n.x, startNodeY: n.y, startMouseX: e.clientX, startMouseY: e.clientY };
+                el.classList.add('is-dragging');
+            });
+
+            // Port drag – start edge drawing
+            el.querySelectorAll('.canvas-port').forEach(port => {
+                port.addEventListener('mousedown', (e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    const which = port.dataset.port;
+                    const p = portPos(videoId, which);
+                    portDrag = { fromId: videoId, fromPort: which };
+                    if (tempEdge) {
+                        tempEdge.style.display = '';
+                        tempEdge.setAttribute('d', bezierPath(p.x, p.y, p.x, p.y));
+                    }
+                });
+            });
+
+            updateEmpty();
+            renderSidebar();
+        }
+
+        function removeNode(videoId) {
+            const n = nodes.get(videoId);
+            if (!n) return;
+            n.el.remove();
+            nodes.delete(videoId);
+            // remove all edges involving this node
+            [...edges].forEach(k => {
+                const [a, b] = k.split(':').map(Number);
+                if (a === videoId || b === videoId) {
+                    edges.delete(k);
+                    edgeEls.get(k)?.remove();
+                    edgeEls.delete(k);
+                }
+            });
+            updateEmpty();
+            renderSidebar();
+        }
+
+        // ── Mouse events on viewport ──────────────────────────────
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            // Pinch-to-zoom (trackpad) sends ctrlKey=true; Ctrl/Cmd+scroll = zoom
+            if (e.ctrlKey || e.metaKey) {
+                zoomAt(e.clientX, e.clientY, e.deltaY);
+            } else {
+                // Two-finger scroll = pan in both axes
+                pan.x -= e.deltaX;
+                pan.y -= e.deltaY;
+                applyTransform();
+            }
+        }, { passive: false });
+
+        viewport.addEventListener('mousedown', (e) => {
+            // middle mouse or space+left = pan
+            if (e.button === 1 || (e.button === 0 && spaceDown)) {
+                e.preventDefault();
+                isPanning = true;
+                panStart = { x: e.clientX - pan.x, y: e.clientY - pan.y };
+                viewport.style.cursor = 'grabbing';
+                return;
+            }
+            // drop sidebar drag on canvas background
+            if (sidebarDrag && e.target === viewport) {
+                const w = screenToWorld(e.clientX, e.clientY);
+                placeNode(sidebarDrag.videoId, w.x - 84, w.y - 60);
+                ghost.style.display = 'none';
+                sidebarDrag = null;
+                renderSidebar();
+            }
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            // sidebar ghost
+            if (sidebarDrag) {
+                ghost.style.left = e.clientX + 'px';
+                ghost.style.top  = e.clientY + 'px';
+            }
+            // pan
+            if (isPanning && panStart) {
+                pan.x = e.clientX - panStart.x;
+                pan.y = e.clientY - panStart.y;
+                applyTransform();
+                return;
+            }
+            // node drag
+            if (nodeDrag) {
+                const dx = (e.clientX - nodeDrag.startMouseX) / scale;
+                const dy = (e.clientY - nodeDrag.startMouseY) / scale;
+                const n = nodes.get(nodeDrag.videoId);
+                if (n) {
+                    n.x = nodeDrag.startNodeX + dx;
+                    n.y = nodeDrag.startNodeY + dy;
+                    n.el.style.left = n.x + 'px';
+                    n.el.style.top  = n.y + 'px';
+                    redrawAllEdges();
+                }
+                return;
+            }
+            // edge drawing
+            if (portDrag && tempEdge) {
+                const from = portPos(portDrag.fromId, portDrag.fromPort);
+                const w = screenToWorld(e.clientX, e.clientY);
+                tempEdge.setAttribute('d', bezierPath(from.x, from.y, w.x, w.y));
+            }
+        });
+
+        window.addEventListener('mouseup', (e) => {
+            // end pan
+            if (isPanning) {
+                isPanning = false;
+                panStart = null;
+                viewport.style.cursor = 'default';
+            }
+            // end node drag
+            if (nodeDrag) {
+                nodes.get(nodeDrag.videoId)?.el.classList.remove('is-dragging');
+                nodeDrag = null;
+            }
+            // drop sidebar drag on canvas world
+            if (sidebarDrag) {
+                const r = viewport.getBoundingClientRect();
+                if (e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom) {
+                    const w = screenToWorld(e.clientX, e.clientY);
+                    placeNode(sidebarDrag.videoId, w.x - 84, w.y - 60);
+                }
+                ghost.style.display = 'none';
+                sidebarDrag = null;
+                renderSidebar();
+                return;
+            }
+            // complete edge on a port
+            if (portDrag) {
+                if (tempEdge) { tempEdge.style.display = 'none'; tempEdge.setAttribute('d', ''); }
+                const target = e.target.closest('.canvas-port');
+                if (target) {
+                    const toId = parseInt(target.dataset.vid, 10);
+                    if (toId !== portDrag.fromId) {
+                        const key = edgeKey(portDrag.fromId, toId);
+                        if (!edges.has(key)) {
+                            edges.add(key);
+                            redrawEdge(key);
+                        } else {
+                            // toggle off
+                            edges.delete(key);
+                            edgeEls.get(key)?.remove();
+                            edgeEls.delete(key);
+                        }
+                    }
+                }
+                portDrag = null;
+            }
+        });
+
+        // space bar for pan mode
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') { spaceDown = true; viewport.style.cursor = 'grab'; } });
+        window.addEventListener('keyup',   (e) => { if (e.code === 'Space') { spaceDown = false; viewport.style.cursor = 'default'; } });
+
+        // ── Zoom buttons ──────────────────────────────────────────
+        function zoomCenter(delta) {
+            const r = viewport.getBoundingClientRect();
+            zoomAt(r.left + r.width / 2, r.top + r.height / 2, delta);
+        }
+        if (btnZoomIn)  btnZoomIn.addEventListener('click',  () => zoomCenter(-1));
+        if (btnZoomOut) btnZoomOut.addEventListener('click', () => zoomCenter(1));
+        if (btnZoomFit) btnZoomFit.addEventListener('click', () => fitAll());
+
+        function fitAll() {
+            if (nodes.size === 0) { pan = { x: 60, y: 60 }; scale = 1; applyTransform(); return; }
+            const NODE_W = 168;
+            let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+            nodes.forEach(n => {
+                const h = n.el.offsetHeight || 120;
+                minX = Math.min(minX, n.x); minY = Math.min(minY, n.y);
+                maxX = Math.max(maxX, n.x + NODE_W); maxY = Math.max(maxY, n.y + h);
+            });
+            const r = viewport.getBoundingClientRect();
+            const pw = r.width - 80, ph = r.height - 80;
+            const bw = maxX - minX, bh = maxY - minY;
+            scale = clampScale(Math.min(pw / (bw || 1), ph / (bh || 1)));
+            pan.x = (r.width  - bw * scale) / 2 - minX * scale;
+            pan.y = (r.height - bh * scale) / 2 - minY * scale;
+            applyTransform();
+        }
+
+        // ── Save / Clear ──────────────────────────────────────────
+        function getConnectedIds() {
+            if (!linkerSourceId) return [...nodes.keys()];
+            const connected = new Set();
+            edges.forEach(key => {
+                const [a, b] = key.split(':').map(Number);
+                if (a === linkerSourceId) connected.add(b);
+                if (b === linkerSourceId) connected.add(a);
+            });
+            return [...connected];
+        }
+
+        function syncCheckboxListFromLinker() {
+            const container = document.getElementById('video-connections-list');
+            if (!container) return;
+            container.innerHTML = '';
+            getAllVideos().filter(v => v.id !== linkerSourceId).forEach(vid => {
+                const cb = document.createElement('input');
+                cb.type = 'checkbox'; cb.className = 'video-conn-checkbox'; cb.value = vid.id;
+                cb.checked = getConnectedIds().includes(vid.id);
+                container.appendChild(cb);
+            });
+        }
+
+        function updateConnectionSummaryChips(ids) {
+            const summary = document.getElementById('video-connections-summary');
+            if (!summary) return;
+            summary.innerHTML = '';
+            if (!ids || ids.length === 0) {
+                summary.innerHTML = '<span style="font-size:13px; color:var(--text-muted);">No links yet. Open the designer to connect videos.</span>';
+                return;
+            }
+            ids.forEach(id => {
+                const vid = getAllVideos().find(v => v.id === id);
+                if (!vid) return;
+                const chip = document.createElement('span');
+                chip.className = 'conn-chip';
+                chip.textContent = vid.title.length > 28 ? vid.title.slice(0, 26) + '…' : vid.title;
+                summary.appendChild(chip);
+            });
+        }
+
+        if (btnSave) btnSave.addEventListener('click', () => {
+            syncCheckboxListFromLinker();
+            const ids = getConnectedIds();
+            updateConnectionSummaryChips(ids);
+            if (saveStatus) {
+                saveStatus.textContent = `${ids.length} link${ids.length === 1 ? '' : 's'} saved ✓`;
+                saveStatus.style.display = 'inline';
+                setTimeout(() => { if (saveStatus) saveStatus.style.display = 'none'; }, 2500);
+            }
+            navigateTo(pageAdmin);
+        });
+
+        if (btnClear) btnClear.addEventListener('click', () => {
+            nodes.forEach((_, id) => removeNode(id));
+            edges.clear();
+            edgeEls.forEach(el => el.remove());
+            edgeEls.clear();
+            updateEmpty();
+            renderSidebar();
+        });
+
+        // ── Open / init ───────────────────────────────────────────
+        // Track whether the canvas has been initialised for a given source
+        let _lastOpenSourceId = '__UNINIT__'; // sentinel distinct from null
+
+        function openLinker() {
+            const newSourceId = (typeof editVideoId !== 'undefined' && editVideoId !== null) ? editVideoId : null;
+            const isSameSession = newSourceId === _lastOpenSourceId && nodes.size > 0;
+
+            if (isSameSession) {
+                // Canvas state preserved — just re-render sidebar+pills and navigate back
+                renderPills();
+                renderSidebar();
+                navigateTo(pageVideoLinker);
+                return;
+            }
+
+            // Source video changed (or first open) → full reset
+            _lastOpenSourceId = newSourceId;
+            linkerSourceId = newSourceId;
+
+            // Gather existing connections
+            const existingConnected = [];
+            if (linkerSourceId !== null) {
+                const src = getAllVideos().find(v => v.id === linkerSourceId);
+                if (src && Array.isArray(src.connectedIds)) {
+                    existingConnected.push(...src.connectedIds);
+                }
+                document.querySelectorAll('#video-connections-list .video-conn-checkbox:checked').forEach(cb => {
+                    const id = parseInt(cb.value, 10);
+                    if (!existingConnected.includes(id)) existingConnected.push(id);
+                });
+            }
+
+            // Clear canvas
+            [...nodes.keys()].forEach(id => removeNode(id));
+            edges.clear();
+            edgeEls.forEach(el => el.remove());
+            edgeEls.clear();
+
+            // Reset view
+            pan = { x: 60, y: 60 }; scale = 1; applyTransform();
+            sbSubjectFilter = 'all';
+            if (searchEl) searchEl.value = '';
+
+            // Place source node + pre-existing connections
+            if (linkerSourceId !== null) {
+                placeNode(linkerSourceId, 120, 80);
+                let col = 0;
+                existingConnected.forEach(id => {
+                    placeNode(id, 360 + (col % 3) * 220, 80 + Math.floor(col / 3) * 160);
+                    const key = edgeKey(linkerSourceId, id);
+                    edges.add(key);
+                    col++;
+                });
+                setTimeout(() => { redrawAllEdges(); fitAll(); }, 50);
+            }
+
+            renderPills();
+            renderSidebar();
+            updateEmpty();
+            navigateTo(pageVideoLinker);
+        }
+
+        // When user edits a different video, invalidate saved session
+        function invalidateLinkerSession() { _lastOpenSourceId = '__UNINIT__'; }
+        // Expose so renderAdminVideos (edit click) can reset it
+        window._invalidateLinkerSession = invalidateLinkerSession;
+
+        if (btnOpen) btnOpen.addEventListener('click', openLinker);
+        if (btnBack) btnBack.addEventListener('click', () => navigateTo(pageAdmin));
+        if (searchEl) searchEl.addEventListener('input', renderSidebar);
+
+        window._refreshLinkerSummary = function(selectedIds) {
+            updateConnectionSummaryChips(Array.isArray(selectedIds) ? selectedIds : []);
+        };
+    })();
+
+
     function openSheets() {
+
         window.location.href = resolveAppUrl('sheets/index.html');
     }
 
@@ -3277,6 +3911,14 @@ function initClinicalVideoApp() {
             return;
         }
         window.location.href = getDecksUrl();
+    }
+
+    function openFlashcards() {
+        if (!currentUser) {
+            showToast('Log in before opening Flashcards.', 'error');
+            return;
+        }
+        window.location.href = getFlashcardsUrl();
     }
 
     function openLiveQuiz() {
@@ -3324,11 +3966,295 @@ function initClinicalVideoApp() {
         else if (target === 'brainmap') navigateTo(pageBrainmap);
         else if (target === 'checkin') navigateTo(pageQuiz);
         else if (target === 'stats') { renderStats(); navigateTo(pageStats); }
-        else if (target === 'sheets') openSheets();
-        else if (target === 'decks') openDecks();
-        else if (target === 'livequiz') openLiveQuiz();
-        else if (target === 'medquiz') openMedQuiz();
+        else if (target === 'sheets') navigateTo(pageSheets);
+        else if (target === 'decks') {
+            if (!currentUser) {
+                showToast('Log in before opening Pharma Decks.', 'error');
+                return;
+            }
+            navigateTo(pageDecks);
+        }
+        else if (target === 'flashcards') {
+            if (!currentUser) {
+                showToast('Log in before opening Flashcards.', 'error');
+                return;
+            }
+            navigateTo(pageFlashcards);
+        }
+        else if (target === 'livequiz') navigateTo(pageLivequiz);
+        else if (target === 'medquiz') {
+            if (!currentUser) {
+                showToast('Log in before opening MedQuiz.', 'error');
+                return;
+            }
+            if (!isBetaDailyExemptUser(currentUser) && hasUsedBetaToday(currentUser)) {
+                showToast('MedQuiz is available once per day. Try again tomorrow.', 'info');
+                return;
+            }
+            navigateTo(pageMedquiz);
+        }
         else if (target === 'request') { renderContentRequests(); navigateTo(pageRequest); }
+    }
+
+    // Dynamic Sidebar Menu reordering
+    const DEFAULT_MENU_ORDER = ['home', 'videos', 'brainmap', 'checkin', 'request', 'stats', 'sheets', 'decks', 'flashcards', 'livequiz', 'medquiz'];
+
+    const MENU_METADATA = {
+        home: { label: 'Home', class: 'shell-nav-link' },
+        videos: { label: 'Videos', class: 'shell-nav-link' },
+        brainmap: { label: 'Brain Map', class: 'shell-nav-link' },
+        checkin: { label: 'Check-in', class: 'shell-nav-link' },
+        request: { label: 'Request Topic', class: 'shell-nav-link' },
+        stats: { label: 'Progress', class: 'shell-nav-link', hidden: true },
+        sheets: { label: 'Sheets', class: 'shell-nav-link' },
+        decks: { label: 'Pharma Decks', class: 'shell-nav-link' },
+        flashcards: { label: 'Flashcards', class: 'shell-nav-link' },
+        livequiz: { label: 'LiveQuiz', class: 'shell-nav-link' },
+        medquiz: { label: 'MedQuiz', class: 'shell-nav-link shell-nav-link--accent' }
+    };
+
+    function getMenuOrder() {
+        try {
+            const saved = localStorage.getItem('clinical_menu_order');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    const savedOrder = parsed.filter(item => DEFAULT_MENU_ORDER.includes(item));
+                    const missingDefaults = DEFAULT_MENU_ORDER.filter(item => !savedOrder.includes(item));
+                    return [...savedOrder, ...missingDefaults];
+                }
+            }
+        } catch (e) {
+            console.error(e);
+        }
+        return [...DEFAULT_MENU_ORDER];
+    }
+
+    function saveMenuOrder(order) {
+        try {
+            localStorage.setItem('clinical_menu_order', JSON.stringify(order));
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function renderAllSidebars() {
+        const order = getMenuOrder();
+        const navContainers = document.querySelectorAll('.learning-nav');
+
+        navContainers.forEach(container => {
+            container.innerHTML = '';
+            order.forEach(target => {
+                const meta = MENU_METADATA[target];
+                if (!meta) return;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                meta.class.split(' ').filter(c => c).forEach(c => btn.classList.add(c));
+                btn.setAttribute('data-nav-target', target);
+                btn.textContent = meta.label;
+                btn.title = meta.label;
+                if (meta.hidden) {
+                    btn.setAttribute('hidden', '');
+                }
+
+                btn.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    handleLearningNavigation(target);
+                });
+
+                container.appendChild(btn);
+            });
+        });
+
+        const activePage = document.querySelector('.page.active');
+        if (activePage) {
+            setActiveShellNav(activePage);
+        }
+    }
+
+    let currentEditorOrder = getMenuOrder();
+
+    function renderAdminMenuEditor() {
+        const listContainer = document.getElementById('admin-menu-list');
+        if (!listContainer) return;
+        listContainer.innerHTML = '';
+
+        const icons = {
+            home: '⌂',
+            videos: '▶',
+            brainmap: '◈',
+            checkin: '✓',
+            request: '✎',
+            stats: '↗',
+            sheets: '□',
+            decks: '▤',
+            flashcards: '◫',
+            livequiz: '◉',
+            medquiz: '?'
+        };
+
+        currentEditorOrder.forEach((target, index) => {
+            const meta = MENU_METADATA[target];
+            if (!meta) return;
+
+            const row = document.createElement('div');
+            row.className = 'menu-editor-row';
+            row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:0.6rem 0.8rem; background:var(--surface-soft); border:1px solid var(--border); border-radius:var(--r-input); cursor:grab; transition:all 0.15s ease; user-select:none;';
+            row.setAttribute('draggable', 'true');
+
+            row.addEventListener('dragstart', (e) => {
+                row.style.opacity = '0.5';
+                e.dataTransfer.setData('text/plain', index);
+                row.style.borderStyle = 'dashed';
+            });
+            row.addEventListener('dragend', () => {
+                row.style.opacity = '1';
+                row.style.borderStyle = 'solid';
+            });
+            row.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+            row.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const fromIndex = parseInt(e.dataTransfer.getData('text/plain'), 10);
+                const toIndex = index;
+                if (fromIndex !== toIndex) {
+                    const temp = currentEditorOrder[fromIndex];
+                    currentEditorOrder.splice(fromIndex, 1);
+                    currentEditorOrder.splice(toIndex, 0, temp);
+                    renderAdminMenuEditor();
+                }
+            });
+
+            const info = document.createElement('div');
+            info.style.cssText = 'display:flex; align-items:center; gap:0.6rem; font-weight:600; color:var(--ink-2);';
+
+            const icon = document.createElement('span');
+            icon.textContent = icons[target] || '•';
+            icon.style.cssText = 'font-size:16px; color:var(--muted); width:20px; text-align:center;';
+
+            const label = document.createElement('span');
+            label.textContent = meta.label;
+
+            info.appendChild(icon);
+            info.appendChild(label);
+            row.appendChild(info);
+
+            const actions = document.createElement('div');
+            actions.style.cssText = 'display:flex; gap:0.25rem;';
+
+            const btnUp = document.createElement('button');
+            btnUp.type = 'button';
+            btnUp.className = 'btn outline-btn btn-compact';
+            btnUp.style.cssText = 'padding:2px 8px; font-size:12px; height:26px;';
+            btnUp.innerHTML = '▲';
+            btnUp.disabled = index === 0;
+            btnUp.addEventListener('click', () => {
+                if (index > 0) {
+                    const temp = currentEditorOrder[index];
+                    currentEditorOrder[index] = currentEditorOrder[index - 1];
+                    currentEditorOrder[index - 1] = temp;
+                    renderAdminMenuEditor();
+                }
+            });
+
+            const btnDown = document.createElement('button');
+            btnDown.type = 'button';
+            btnDown.className = 'btn outline-btn btn-compact';
+            btnDown.style.cssText = 'padding:2px 8px; font-size:12px; height:26px;';
+            btnDown.innerHTML = '▼';
+            btnDown.disabled = index === currentEditorOrder.length - 1;
+            btnDown.addEventListener('click', () => {
+                if (index < currentEditorOrder.length - 1) {
+                    const temp = currentEditorOrder[index];
+                    currentEditorOrder[index] = currentEditorOrder[index + 1];
+                    currentEditorOrder[index + 1] = temp;
+                    renderAdminMenuEditor();
+                }
+            });
+
+            actions.appendChild(btnUp);
+            actions.appendChild(btnDown);
+            row.appendChild(actions);
+
+            listContainer.appendChild(row);
+        });
+    }
+
+    function initMenuOrderWiring() {
+        const btnToggleMenuOrder = document.getElementById('btn-toggle-menu-order');
+        const menuOrderEditor = document.getElementById('menu-order-editor');
+        const btnSaveMenuOrder = document.getElementById('btn-save-menu-order');
+        const btnResetMenuOrder = document.getElementById('btn-reset-menu-order');
+
+        if (btnToggleMenuOrder) {
+            btnToggleMenuOrder.addEventListener('click', () => {
+                const open = menuOrderEditor.hidden;
+                menuOrderEditor.hidden = !open;
+                btnToggleMenuOrder.setAttribute('aria-expanded', open ? 'true' : 'false');
+                btnToggleMenuOrder.textContent = open ? 'Hide menu editor' : 'Show menu editor';
+                if (open) {
+                    currentEditorOrder = getMenuOrder();
+                    renderAdminMenuEditor();
+                }
+            });
+        }
+
+        if (btnSaveMenuOrder) {
+            btnSaveMenuOrder.addEventListener('click', () => {
+                saveMenuOrder(currentEditorOrder);
+                renderAllSidebars();
+                showToast('Menu order saved successfully.');
+                if (menuOrderEditor) {
+                    menuOrderEditor.hidden = true;
+                }
+                if (btnToggleMenuOrder) {
+                    btnToggleMenuOrder.setAttribute('aria-expanded', 'false');
+                    btnToggleMenuOrder.textContent = 'Show menu editor';
+                }
+            });
+        }
+
+        if (btnResetMenuOrder) {
+            btnResetMenuOrder.addEventListener('click', () => {
+                if (confirm('Reset sidebar menu order to default?')) {
+                    currentEditorOrder = [...DEFAULT_MENU_ORDER];
+                    renderAdminMenuEditor();
+                    saveMenuOrder(currentEditorOrder);
+                    renderAllSidebars();
+                    showToast('Menu order reset to default.');
+                }
+            });
+        }
+    }
+
+    // Remembers which admin tab was last active so navigating away and back restores it
+    let _lastAdminTab = 'admin-tab-content'; // default to Content & Lessons (where the linker button lives)
+
+    function initAdminTabs() {
+        const tabButtons = document.querySelectorAll('.admin-tab-btn');
+        const tabPanes   = document.querySelectorAll('.admin-tab-pane');
+
+        function activateTab(target) {
+            _lastAdminTab = target;
+            tabButtons.forEach(b => {
+                const isTarget = b.getAttribute('data-tab-target') === target;
+                b.classList.toggle('is-active', isTarget);
+                b.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+            });
+            tabPanes.forEach(pane => {
+                pane.style.display = pane.id === target ? 'flex' : 'none';
+            });
+        }
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab-target')));
+        });
+
+        // Expose for navigateTo to call
+        window._restoreAdminTab = () => activateTab(_lastAdminTab);
     }
 
     function setLearningSidebarCollapsed(collapsed) {
@@ -3352,6 +4278,11 @@ function initClinicalVideoApp() {
         } catch (_) {
             collapsed = false;
         }
+
+        renderAllSidebars();
+        initAdminTabs();
+        initMenuOrderWiring();
+
         document.querySelectorAll('.shell-nav-link').forEach((link) => {
             const label = link.textContent.trim();
             if (label) link.title = label;
@@ -3366,7 +4297,8 @@ function initClinicalVideoApp() {
 
     initLearningSidebarToggle();
 
-    document.querySelectorAll('[data-nav-target]').forEach((el) => {
+    // Bind navigation listeners for static home elements that have data-nav-target
+    document.querySelectorAll('body:not(.learning-sidebar) [data-nav-target]:not(.shell-nav-link)').forEach((el) => {
         el.addEventListener('click', (event) => {
             const target = el.getAttribute('data-nav-target');
             if (!target) return;
@@ -3424,10 +4356,34 @@ function initClinicalVideoApp() {
     }
 
     btnStats.addEventListener('click', () => { renderStats(); navigateTo(pageStats); });
-    if (btnSheets) btnSheets.addEventListener('click', openSheets);
-    if (btnDecks) btnDecks.addEventListener('click', openDecks);
-    if (btnBeta) btnBeta.addEventListener('click', openMedQuiz);
+    // if (btnSheets) btnSheets.addEventListener('click', openSheets);
+    // if (btnDecks) btnDecks.addEventListener('click', openDecks);
+    // if (btnBeta) btnBeta.addEventListener('click', openMedQuiz);
     btnBack.addEventListener('click', () => navigateTo(pageVideos));
+
+    document.querySelectorAll('[data-action="clear-progress"]').forEach((el) => {
+        el.addEventListener('click', async (event) => {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            if (!currentUser) return;
+            if (!confirm('Are you sure you want to clear your learning progress? This will reset all your watched videos and video streak.')) return;
+
+            currentUser.watchedVideos = [];
+            currentUser.videoStreak = 0;
+
+            try {
+                showToast('Clearing progress...', 'info');
+                await withTimeout(ds.saveProfileFull(currentUser), 15000);
+                showToast('Learning progress cleared.', 'success');
+                renderStreaks();
+                renderVideos();
+                if (typeof renderBrainMap === 'function') renderBrainMap();
+            } catch (e) {
+                console.error(e);
+                showToast('Failed to save reset progress on the server.', 'error');
+            }
+        });
+    });
 
     function renderSubjectPills() {
         if (!subjectPillsContainer) return;
@@ -4206,6 +5162,20 @@ function initClinicalVideoApp() {
         });
     }
 
+    const btnToggleFeedbacks = document.getElementById('btn-toggle-feedbacks');
+    const adminFeedbacksPanel = document.getElementById('admin-feedbacks-panel');
+    if (btnToggleFeedbacks && adminFeedbacksPanel) {
+        btnToggleFeedbacks.addEventListener('click', () => {
+            const opening = adminFeedbacksPanel.hidden;
+            adminFeedbacksPanel.hidden = !opening;
+            btnToggleFeedbacks.setAttribute('aria-expanded', opening ? 'true' : 'false');
+            btnToggleFeedbacks.textContent = opening ? 'Hide notes' : 'Show notes';
+            if (opening) {
+                renderAdminFeedbacks();
+            }
+        });
+    }
+
     const btnRefreshFeedbacks = document.getElementById('btn-refresh-feedbacks');
     if (btnRefreshFeedbacks) {
         btnRefreshFeedbacks.addEventListener('click', () => {
@@ -4350,7 +5320,7 @@ function initClinicalVideoApp() {
 
             const card = document.createElement('div');
             card.className = 'request-item-card';
-            
+
             const isMyRequest = r.username && r.username.trim().toLowerCase() === currentUsername;
             const authorText = isMyRequest ? 'Suggested by me' : `By: ${r.username}`;
             const badgeClass = `status-badge--${r.status || 'pending'}`;
@@ -4507,7 +5477,7 @@ function initClinicalVideoApp() {
                 showToast('Topic suggestion submitted successfully!');
                 titleInput.value = '';
                 detailsInput.value = '';
-                
+
                 await renderContentRequests();
             } catch (err) {
                 console.error('Error submitting content request:', err);

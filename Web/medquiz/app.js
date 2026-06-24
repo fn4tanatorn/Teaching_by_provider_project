@@ -208,13 +208,21 @@ function markChoices(selectedId, correctId) {
 function goToQuotaPage() {
   stopQuestionTimer();
   stopQuotaCountdown();
-  window.location.href = QUOTA_PAGE;
+  let url = QUOTA_PAGE;
+  if (window.location.search.includes('embed=1')) {
+    url += '?embed=1';
+  }
+  window.location.href = url;
 }
 
 function goToCompletePage() {
   stopQuestionTimer();
   stopQuotaCountdown();
-  window.location.href = COMPLETE_PAGE;
+  let url = COMPLETE_PAGE;
+  if (window.location.search.includes('embed=1')) {
+    url += '?embed=1';
+  }
+  window.location.href = url;
 }
 
 function handleTimeUp() {

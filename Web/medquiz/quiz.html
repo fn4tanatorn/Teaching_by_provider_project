@@ -110,6 +110,20 @@
     </div>
 
     <script>
+      (function checkEmbed() {
+        if (window.location.search.includes('embed=1')) {
+          document.body.classList.add('is-embedded');
+          document.querySelectorAll('a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && !href.startsWith('http') && !href.startsWith('//') && !href.startsWith('../') && !href.includes('embed=1')) {
+              const url = new URL(href, window.location.href);
+              url.searchParams.set('embed', '1');
+              link.setAttribute('href', url.pathname + url.search + url.hash);
+            }
+          });
+        }
+      })();
+
       (function () {
         var toggle = document.getElementById('appNavToggle');
         var links = document.getElementById('appNavLinks');

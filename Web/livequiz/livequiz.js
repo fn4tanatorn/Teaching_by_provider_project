@@ -93,7 +93,11 @@
           body: JSON.stringify({ code, username, sessionToken: existing }),
         });
         localStorage.setItem(storageKey("participant", data.roomCode), data.sessionToken);
-        window.location.href = data.participantUrl;
+        let redirectUrl = data.participantUrl;
+        if (window.location.search.includes("embed=1")) {
+          redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + "embed=1";
+        }
+        window.location.href = redirectUrl;
       } catch (err) {
         setStatus($("joinStatus"), err.message, "error");
       }
@@ -112,7 +116,11 @@
           body: JSON.stringify({ globalTimeLimitSeconds: $("defaultTime").value }),
         });
         localStorage.setItem(storageKey("host", data.roomCode), data.hostToken);
-        window.location.href = data.hostUrl;
+        let redirectUrl = data.hostUrl;
+        if (window.location.search.includes("embed=1")) {
+          redirectUrl += (redirectUrl.includes("?") ? "&" : "?") + "embed=1";
+        }
+        window.location.href = redirectUrl;
       } catch (err) {
         setStatus($("createStatus"), err.message, "error");
       }

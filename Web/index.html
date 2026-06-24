@@ -216,6 +216,7 @@
                         </div>
                         <div class="learning-topbar-actions">
                             <button id="countdown-timer-home" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
                             <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
@@ -274,6 +275,7 @@
                                     <span class="home-tool-group-label">Practice</span>
                                     <div class="home-tool-grid">
                                         <button type="button" class="home-tool" data-nav-target="medquiz"><strong>MedQuiz</strong><span>Practice questions</span></button>
+                                        <button type="button" class="home-tool" data-nav-target="flashcards"><strong>Flashcards</strong><span>Spaced repetition cards</span></button>
                                         <button type="button" class="home-tool" data-nav-target="checkin"><strong>Check-in</strong><span>Daily response</span></button>
                                     </div>
                                 </div>
@@ -327,6 +329,7 @@
                             <div id="badge-checkin-streak" class="countdown-badge" title="Consecutive check-in days">Check-in 0d</div>
                             <div id="badge-video-streak" class="countdown-badge" title="Consecutive video days">Video 0d</div>
                             <button id="countdown-timer" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
                             <button id="btn-logout" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
@@ -400,6 +403,7 @@
                             <div id="badge-checkin-streak-bm" class="countdown-badge" title="Consecutive check-in days">Check-in 0d</div>
                             <div id="badge-video-streak-bm" class="countdown-badge" title="Consecutive video days">Video 0d</div>
                             <button id="countdown-timer-bm" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
                             <button id="btn-logout-bm" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
@@ -490,6 +494,7 @@
                         </div>
                         <div class="learning-topbar-actions">
                             <button id="countdown-timer-request" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
                             <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
@@ -503,7 +508,7 @@
                                     <input type="text" id="request-title" required placeholder=" " style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
                                     <label for="request-title">Topic Title *</label>
                                 </div>
-                                
+
                                 <div style="display:flex; flex-direction:column; gap:0.25rem;">
                                     <label for="request-subject" style="font-size:12px; font-weight:600; color:var(--teal-700);">Subject / Category</label>
                                     <select id="request-subject" style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
@@ -542,6 +547,237 @@
             </div>
         </section>
 
+        <!-- Page: Sheets (Iframe Embedded) -->
+        <section id="page-sheets" class="page page-learning" data-screen-label="Sheets">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Workspace</p>
+                            <h2>Sheets</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-sheets" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
+                        <iframe src="sheets/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Pharma Decks (Iframe Embedded) -->
+        <section id="page-decks" class="page page-learning" data-screen-label="Decks">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Workspace</p>
+                            <h2>Pharmacology Decks</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-decks" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
+                        <iframe src="decks/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: Flashcards (Iframe Embedded) -->
+        <section id="page-flashcards" class="page page-learning" data-screen-label="Flashcards">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="flashcards">Flashcards</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Workspace</p>
+                            <h2>Flashcards</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-flashcards" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
+                        <iframe src="flashcards/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: LiveQuiz (Iframe Embedded) -->
+        <section id="page-livequiz" class="page page-learning" data-screen-label="LiveQuiz">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Workspace</p>
+                            <h2>LiveQuiz</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-livequiz" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
+                        <iframe src="livequiz/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: MedQuiz (Iframe Embedded) -->
+        <section id="page-medquiz" class="page page-learning" data-screen-label="MedQuiz">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Workspace</p>
+                            <h2>MedQuiz</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-medquiz" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
+                        <iframe src="medquiz/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Page: single video link plus Finished -->
         <section id="page-video-watch" class="page" data-screen-label="Watch">
             <nav class="glass-nav">
@@ -564,7 +800,7 @@
                         <h3 id="watch-video-title" class="watch-title">Lesson</h3>
                         <p class="watch-hint">Watch the video carefully and mark as finished when done.</p>
                         <a id="watch-slide-link" class="btn outline-btn watch-slide-link" href="#" target="_blank" rel="noopener" hidden>Open slide</a>
-                        
+
                         <div style="margin: 1.5rem 0;">
                             <label for="video-feedback" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; display: block;">Lesson note</label>
                             <textarea id="video-feedback" rows="3" placeholder="Save a point to review later." style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
@@ -597,7 +833,7 @@
                     <span class="subject-tag" id="pq-badge" style="margin-bottom: 1rem;">Quiz</span>
                     <h2 id="pq-question" style="font-family: var(--font-display); font-size: 1.25rem; margin-bottom: 1.5rem; color: var(--ink); line-height: 1.5;">Question text...</h2>
                     <img id="pq-image" src="" style="width: 100%; border-radius: var(--r-card); margin-bottom: 1.5rem; display: none; border: 1px solid var(--border);" alt="Question image">
-                    
+
                     <div id="pq-choices" style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem;">
                         <!-- Choices injected here -->
                     </div>
@@ -701,225 +937,347 @@
                 </div>
             </nav>
             <div class="content">
+                <style>
+                    /* Admin Page Tab Navigation */
+                    .admin-tabs-nav {
+                        display: flex;
+                        gap: 0.5rem;
+                        margin-bottom: 2rem;
+                        padding: 0.25rem;
+                        background: var(--border-soft);
+                        border-radius: 16px;
+                        width: fit-content;
+                        overflow-x: auto;
+                        border: 1px solid var(--border);
+                    }
+                    .admin-tab-btn {
+                        background: transparent;
+                        border: none;
+                        padding: 0.65rem 1.25rem;
+                        border-radius: 12px;
+                        font-size: 14px;
+                        font-weight: 600;
+                        color: var(--muted);
+                        cursor: pointer;
+                        white-space: nowrap;
+                        transition: all 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+                    .admin-tab-btn:hover {
+                        color: var(--ink);
+                        background: rgba(255, 255, 255, 0.6);
+                    }
+                    .admin-tab-btn.is-active {
+                        color: var(--accent);
+                        background: var(--surface-solid);
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+                    }
+                    .admin-tab-pane {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2rem;
+                        animation: adminFadeIn 0.2s ease-out;
+                    }
+                    @keyframes adminFadeIn {
+                        from { opacity: 0; transform: translateY(4px); }
+                        to { opacity: 1; transform: translateY(0); }
+                    }
+                    /* Reorder Row Hover */
+                    .menu-editor-row:hover {
+                        border-color: var(--accent) !important;
+                        background: var(--surface-solid) !important;
+                        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
+                    }
+                </style>
+
                 <p id="local-admin-banner" role="status" style="display:none; margin-bottom:1rem; padding:0.75rem 1rem; background: var(--warn-soft); color: var(--ink); border-radius: var(--r-input); font-size: 14px;">Password-only admin access is active. Database writes may fail until a Supabase admin account exists in public.admin_users.</p>
-                <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>Approved names</h3>
-                            <p id="allowed-names-summary" class="admin-panel-kicker">Names are hidden.</p>
-                        </div>
-                        <div class="panel-header-actions">
-                            <button id="btn-toggle-allowed-names" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="allowed-names-editor">Show names</button>
-                        </div>
-                    </div>
-                    <div id="allowed-names-editor" class="admin-collapsible-panel" hidden>
-                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Enter names separated by commas or new lines. Only users with these names can register or stay signed in. Removing a name revokes access on the next action.</p>
-                        <textarea id="admin-allowed-names" rows="4" placeholder="e.g. John Doe, Doctor Strange, Pathologist101" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
-                        <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.75rem;">
-                            <button id="btn-clear-allowed-names" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear</button>
-                            <button id="btn-save-allowed-names" type="button" class="btn outline-btn btn-compact">Save List</button>
-                        </div>
-                    </div>
+
+                <!-- Admin Navigation Tabs -->
+                <div class="admin-tabs-nav" role="tablist">
+                    <button class="admin-tab-btn is-active" role="tab" aria-selected="true" data-tab-target="admin-tab-settings">
+                        <span>⚙️</span> Settings & Setup
+                    </button>
+                    <button class="admin-tab-btn" role="tab" aria-selected="false" data-tab-target="admin-tab-content">
+                        <span>📚</span> Content & Lessons
+                    </button>
+                    <button class="admin-tab-btn" role="tab" aria-selected="false" data-tab-target="admin-tab-students">
+                        <span>👥</span> Students & Check-in
+                    </button>
+                    <button class="admin-tab-btn" role="tab" aria-selected="false" data-tab-target="admin-tab-livequiz">
+                        <span>◉</span> LiveQuiz
+                    </button>
                 </div>
 
-                <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>Exam info (all students)</h3>
-                            <p id="exam-info-summary" class="admin-panel-kicker">Exam info is hidden.</p>
-                        </div>
-                        <div class="panel-header-actions">
-                            <button id="btn-toggle-exam-info" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="exam-info-editor">Show info</button>
-                        </div>
-                    </div>
-                    <div id="exam-info-editor" class="admin-collapsible-panel" hidden>
-                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Shown on the video feed for members who do not have a personal <code style="font-size:12px;">expiresAt</code> on their user record. Time uses this browser’s local timezone.</p>
-                        <div class="input-group" style="max-width: 360px;">
-                            <input type="datetime-local" id="admin-exam-deadline" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; outline: none; background: var(--surface); color: var(--ink);">
-                            <label for="admin-exam-deadline">Exam date &amp; time</label>
-                        </div>
-                        <div style="margin-top: 1rem;">
-                            <label for="admin-exam-note" style="display:block; font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem;">Exam details note</label>
-                            <textarea id="admin-exam-note" rows="5" placeholder="Exam topics, room, preparation notes, or instructions" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
-                        </div>
-                        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 0.75rem;">
-                            <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save date</button>
-                            <button id="btn-save-exam-note" type="button" class="btn outline-btn btn-compact">Save note</button>
-                            <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear exam info</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card admin-panel panel-block">
-                    <div class="panel-header-inline">
-                        <h3>Sheets</h3>
-                        <a href="sheets/index.html?admin=1" class="btn outline-btn btn-compact">Manage Sheets</a>
-                    </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Upload PDF sheets and remove uploaded files from the Sheets reader.</p>
-                </div>
-
-                <div class="glass-card admin-panel panel-block livequiz-admin-panel">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>LiveQuiz</h3>
-                            <p class="admin-panel-kicker">Live session control</p>
-                        </div>
-                        <div class="panel-header-actions">
-                            <a href="livequiz/host.html" class="btn primary-btn btn-compact">Create room</a>
-                            <a href="livequiz/" class="btn outline-btn btn-compact">Participant view</a>
-                        </div>
-                    </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Create host-paced classroom quiz rooms, import questions, open the lobby, and share the room code with students.</p>
-                </div>
-
-                <div class="glass-card admin-panel panel-block">
-                    <div class="panel-header-inline">
-                        <h3>Manage members</h3>
-                        <div class="panel-header-actions">
-                            <button id="btn-toggle-members" type="button" class="btn outline-btn btn-compact">View members</button>
-                            <button id="btn-clear-all-members" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear all</button>
-                        </div>
-                    </div>
-                    <div class="admin-member-list" id="admin-member-list" hidden></div>
-                </div>
-
-                <div class="glass-card admin-panel panel-block" style="margin-bottom: 2rem;">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>Content requests</h3>
-                            <p id="admin-requests-summary" class="admin-panel-kicker">Review student topic ideas and suggestions.</p>
-                        </div>
-                        <div class="panel-header-actions">
-                            <button id="btn-toggle-requests" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="admin-requests-panel">Show requests</button>
-                        </div>
-                    </div>
-                    <div id="admin-requests-panel" class="admin-collapsible-panel" hidden>
-                        <div class="video-search-field" style="width:100%; margin:0.75rem 0 1rem;">
-                            <input id="admin-requests-search" type="search" placeholder="Search requests by title, details or username..." style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
-                        </div>
-                        <div id="admin-requests-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                            <p style="color:var(--text-muted); font-size:14px; text-align:center;">No requests submitted yet.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card admin-panel panel-block">
-                    <div class="panel-header-inline">
-                        <h3>Clear Data</h3>
-                    </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Reset user analytics across all videos.</p>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <button id="btn-clear-views" type="button" class="btn outline-btn btn-delete-outline">Clear All Video Views</button>
-                        <button id="btn-clear-feedbacks" type="button" class="btn outline-btn btn-delete-outline">Clear all lesson notes</button>
-                    </div>
-                </div>
-
-                <div class="glass-card admin-panel panel-block">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>Lesson notes</h3>
-                            <p id="admin-feedback-summary" class="admin-panel-kicker">Review student notes from all lessons.</p>
-                        </div>
-                        <div class="panel-header-actions">
-                            <button id="btn-refresh-feedbacks" type="button" class="btn outline-btn btn-compact">Refresh</button>
-                        </div>
-                    </div>
-                    <label class="video-search-field" for="admin-feedback-search" style="width:100%; margin:0.75rem 0 1rem;">
-                        <span class="video-search-icon" aria-hidden="true">⌕</span>
-                        <input id="admin-feedback-search" type="search" placeholder="Search notes, student names, or lesson titles">
-                    </label>
-                    <div class="admin-feedback-list" id="admin-feedback-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
-                </div>
-
-                <div class="glass-card admin-panel panel-block">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>Check-in Question Bank</h3>
-                            <p class="admin-panel-kicker">The question bank now opens in a full-screen designer.</p>
-                        </div>
-                        <button id="btn-open-checkin-bank-page" type="button" class="btn primary-btn btn-compact">Open question designer</button>
-                    </div>
-                    <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Manage the daily random question bank, answer keys, choices, and images in a dedicated workspace.</p>
-                </div>
-
-                <div class="glass-card admin-panel panel-block">
-                    <div class="panel-header-inline">
-                        <div>
-                            <h3>Check-in Dashboard</h3>
-                            <p id="checkin-dash-summary" class="admin-panel-kicker">Dashboard details are hidden.</p>
-                        </div>
-                        <div class="panel-header-actions">
-                            <button id="btn-toggle-checkin-dashboard" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="checkin-dashboard-panel">Show dashboard</button>
-                        </div>
-                    </div>
-                    <div id="checkin-dashboard-panel" class="admin-collapsible-panel" hidden>
-                        <div style="display:flex; justify-content:flex-end; margin-bottom:0.75rem;">
-                            <button id="btn-checkin-dash-refresh" type="button" class="btn outline-btn btn-compact">Refresh</button>
-                        </div>
-                        <div id="checkin-dash-stats" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;"></div>
-                        <div id="checkin-dash-leaders" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
-                        <h4 style="font-size:13px; font-weight:600; color:var(--ink-2); margin:1rem 0 0.5rem;">Today's responses</h4>
-                        <div id="checkin-dash-today" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
-                    </div>
-                </div>
-
-                <div class="glass-card admin-panel">
-                    <h3>Add new video</h3>
-                    <div class="add-video-form">
-                        <div class="input-group">
-                            <input type="text" id="new-video-url" placeholder=" ">
-                            <label for="new-video-url">YouTube link (https://www.youtube.com/watch?v=…)</label>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" id="new-video-title" placeholder=" ">
-                            <label for="new-video-title">Video title</label>
-                        </div>
-                        <div class="video-slide-upload">
-                            <input type="hidden" id="new-video-slide-url">
-                            <input type="file" id="new-video-slide-file" accept="application/pdf,.pdf" hidden>
+                <!-- Tab Pane 1: Settings & Setup -->
+                <div id="admin-tab-settings" class="admin-tab-pane">
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
                             <div>
-                                <label class="admin-field-label">Slide PDF (optional)</label>
-                                <p id="new-video-slide-status" class="video-slide-upload-status">No PDF attached.</p>
+                                <h3>Approved names</h3>
+                                <p id="allowed-names-summary" class="admin-panel-kicker">Names are hidden.</p>
                             </div>
-                            <div class="video-slide-upload-actions">
-                                <button type="button" id="btn-upload-video-slide" class="btn outline-btn btn-compact">Upload PDF</button>
-                                <button type="button" id="btn-remove-video-slide" class="btn outline-btn btn-compact btn-delete-outline" hidden>Remove</button>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" id="new-video-slide-title" placeholder=" ">
-                            <label for="new-video-slide-title">PDF title (optional)</label>
-                        </div>
-                        <div class="admin-field-row" style="display:flex; gap: 0.5rem; align-items: flex-end;">
-                            <div style="flex: 1;">
-                                <label class="admin-field-label" for="new-video-subject">Subject</label>
-                                <select id="new-video-subject" class="admin-select">
-                                    <!-- Populated via JS -->
-                                </select>
-                            </div>
-                            <button type="button" id="btn-add-subject" class="btn outline-btn" style="height: 44px; padding: 0 1rem; flex-shrink: 0;">+ New</button>
-                        </div>
-                        
-                        <div id="video-connections-group" style="margin-top: 1rem;">
-                            <label class="admin-field-label">Connected Videos (Link to)</label>
-                            <div id="video-connections-list" style="max-height: 160px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 0.8rem; display: flex; flex-direction: column; gap: 0.4rem; background: var(--surface-soft);">
-                                <!-- Populated dynamically by script.js -->
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-allowed-names" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="allowed-names-editor">Show names</button>
                             </div>
                         </div>
-                        
-                        
-                        <h4 style="margin-top: 1.25rem; margin-bottom: 0.75rem; font-size: 14px; color: var(--teal-700);">Post-quiz Builder (Optional)</h4>
-                        <div id="quiz-questions-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
-                        <button type="button" id="btn-add-question" class="btn secondary-btn" style="width: 100%; margin-bottom: 1.25rem; border: 1px dashed var(--teal); color: var(--teal-700); background: transparent;">+ Add Question</button>
-                        
-                        <div style="display:flex; gap:0.5rem;">
-                            <button type="button" id="btn-add-video" class="btn primary-btn" style="flex:1;">Attach video</button>
-                            <button id="btn-cancel-edit-video" class="btn secondary-btn" style="display:none;">Cancel</button>
+                        <div id="allowed-names-editor" class="admin-collapsible-panel" hidden>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Enter names separated by commas or new lines. Only users with these names can register or stay signed in. Removing a name revokes access on the next action.</p>
+                            <textarea id="admin-allowed-names" rows="4" placeholder="e.g. John Doe, Doctor Strange, Pathologist101" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                            <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.75rem;">
+                                <button id="btn-clear-allowed-names" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear</button>
+                                <button id="btn-save-allowed-names" type="button" class="btn outline-btn btn-compact">Save List</button>
+                            </div>
                         </div>
                     </div>
 
-                    <h3 class="section-spacer-title">Attached videos</h3>
-                    <div class="admin-video-grid" id="admin-video-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;"></div>
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Exam info (all students)</h3>
+                                <p id="exam-info-summary" class="admin-panel-kicker">Exam info is hidden.</p>
+                            </div>
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-exam-info" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="exam-info-editor">Show info</button>
+                            </div>
+                        </div>
+                        <div id="exam-info-editor" class="admin-collapsible-panel" hidden>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Shown on the video feed for members who do not have a personal <code style="font-size:12px;">expiresAt</code> on their user record. Time uses this browser’s local timezone.</p>
+                            <div class="input-group" style="max-width: 360px;">
+                                <input type="datetime-local" id="admin-exam-deadline" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; outline: none; background: var(--surface); color: var(--ink);">
+                                <label for="admin-exam-deadline">Exam date &amp; time</label>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <label for="admin-exam-note" style="display:block; font-size: 13px; font-weight: 600; color: var(--teal-700); margin-bottom: 0.5rem;">Exam details note</label>
+                                <textarea id="admin-exam-note" rows="5" placeholder="Exam topics, room, preparation notes, or instructions" style="width: 100%; border-radius: var(--r-input); border: 1px solid var(--border); padding: 0.75rem; font-family: inherit; font-size: 14px; resize: vertical; outline: none; background: var(--surface); color: var(--ink);"></textarea>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top: 0.75rem;">
+                                <button id="btn-save-exam-deadline" type="button" class="btn outline-btn btn-compact">Save date</button>
+                                <button id="btn-save-exam-note" type="button" class="btn outline-btn btn-compact">Save note</button>
+                                <button id="btn-clear-exam-deadline" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear exam info</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu Ordering Panel (NEW) -->
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Sidebar menu ordering</h3>
+                                <p id="menu-order-summary" class="admin-panel-kicker">Reorder sidebar items by dragging or using move buttons.</p>
+                            </div>
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-menu-order" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="menu-order-editor">Show menu editor</button>
+                            </div>
+                        </div>
+                        <div id="menu-order-editor" class="admin-collapsible-panel" hidden>
+                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Arrange the order of learning workspace menu items. You can move items up/down or drag them to reorder. Changes apply immediately to all sidebars.</p>
+
+                            <!-- List of items to reorder -->
+                            <div id="admin-menu-list" style="display: flex; flex-direction: column; gap: 0.5rem; max-width: 480px; margin-bottom: 1rem;">
+                                <!-- Dynamically populated in script.js -->
+                            </div>
+
+                            <div style="display:flex; gap:0.5rem; justify-content:flex-end;">
+                                <button id="btn-reset-menu-order" type="button" class="btn outline-btn btn-compact btn-delete-outline">Reset to Default</button>
+                                <button id="btn-save-menu-order" type="button" class="btn outline-btn btn-compact">Save Menu Order</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <h3>Clear Data</h3>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 1rem;">Reset user analytics across all videos.</p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button id="btn-clear-views" type="button" class="btn outline-btn btn-delete-outline">Clear All Video Views</button>
+                            <button id="btn-clear-feedbacks" type="button" class="btn outline-btn btn-delete-outline">Clear all lesson notes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Pane 2: Content & Lessons -->
+                <div id="admin-tab-content" class="admin-tab-pane" style="display: none;">
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <h3>Sheets</h3>
+                            <a href="sheets/index.html?admin=1" class="btn outline-btn btn-compact">Manage Sheets</a>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Upload PDF sheets and remove uploaded files from the Sheets reader.</p>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Content requests</h3>
+                                <p id="admin-requests-summary" class="admin-panel-kicker">Review student topic ideas and suggestions.</p>
+                            </div>
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-requests" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="admin-requests-panel">Show requests</button>
+                            </div>
+                        </div>
+                        <div id="admin-requests-panel" class="admin-collapsible-panel" hidden>
+                            <div class="video-search-field" style="width:100%; margin:0.75rem 0 1rem;">
+                                <input id="admin-requests-search" type="search" placeholder="Search requests by title, details or username..." style="width:100%; border-radius:var(--r-input); border:1px solid var(--border); padding:0.75rem; font-family:inherit; font-size:14px; outline:none; background:var(--surface); color:var(--ink);">
+                            </div>
+                            <div id="admin-requests-list" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                <p style="color:var(--text-muted); font-size:14px; text-align:center;">No requests submitted yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card admin-panel" style="margin: 0;">
+                        <h3>Add new video</h3>
+                        <div class="add-video-form">
+                            <div class="input-group">
+                                <input type="text" id="new-video-url" placeholder=" ">
+                                <label for="new-video-url">YouTube link (https://www.youtube.com/watch?v=…)</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="new-video-title" placeholder=" ">
+                                <label for="new-video-title">Video title</label>
+                            </div>
+                            <div class="video-slide-upload">
+                                <input type="hidden" id="new-video-slide-url">
+                                <input type="file" id="new-video-slide-file" accept="application/pdf,.pdf" hidden>
+                                <div>
+                                    <label class="admin-field-label">Slide PDF (optional)</label>
+                                    <p id="new-video-slide-status" class="video-slide-upload-status">No PDF attached.</p>
+                                </div>
+                                <div class="video-slide-upload-actions">
+                                    <button type="button" id="btn-upload-video-slide" class="btn outline-btn btn-compact">Upload PDF</button>
+                                    <button type="button" id="btn-remove-video-slide" class="btn outline-btn btn-compact btn-delete-outline" hidden>Remove</button>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" id="new-video-slide-title" placeholder=" ">
+                                <label for="new-video-slide-title">PDF title (optional)</label>
+                            </div>
+                            <div class="admin-field-row" style="display:flex; gap: 0.5rem; align-items: flex-end;">
+                                <div style="flex: 1;">
+                                    <label class="admin-field-label" for="new-video-subject">Subject</label>
+                                    <select id="new-video-subject" class="admin-select">
+                                        <!-- Populated via JS -->
+                                    </select>
+                                </div>
+                                <button type="button" id="btn-add-subject" class="btn outline-btn" style="height: 44px; padding: 0 1rem; flex-shrink: 0;">+ New</button>
+                            </div>
+
+                            <div id="video-connections-group" style="margin-top: 1rem;">
+                                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem;">
+                                    <label class="admin-field-label" style="margin:0;">Connected Videos (Link to)</label>
+                                    <button type="button" id="btn-open-video-linker" class="btn outline-btn btn-compact" style="font-size:12px;">Open Link Designer ↗</button>
+                                </div>
+                                <!-- Hidden list kept for save logic -->
+                                <div id="video-connections-list" style="display:none;">
+                                    <!-- Populated dynamically by script.js -->
+                                </div>
+                                <!-- Visible summary chips -->
+                                <div id="video-connections-summary" style="display:flex; flex-wrap:wrap; gap:0.35rem; min-height:28px; padding:0.4rem 0;">
+                                    <span style="font-size:13px; color:var(--text-muted);">No links yet. Open the designer to connect videos.</span>
+                                </div>
+                            </div>
+
+                            <h4 style="margin-top: 1.25rem; margin-bottom: 0.75rem; font-size: 14px; color: var(--teal-700);">Post-quiz Builder (Optional)</h4>
+                            <div id="quiz-questions-list" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+                            <button type="button" id="btn-add-question" class="btn secondary-btn" style="width: 100%; margin-bottom: 1.25rem; border: 1px dashed var(--teal); color: var(--teal-700); background: transparent;">+ Add Question</button>
+
+                            <div style="display:flex; gap:0.5rem;">
+                                <button type="button" id="btn-add-video" class="btn primary-btn" style="flex:1;">Attach video</button>
+                                <button id="btn-cancel-edit-video" class="btn secondary-btn" style="display:none;">Cancel</button>
+                            </div>
+                        </div>
+
+                        <h3 class="section-spacer-title">Attached videos</h3>
+                        <div class="admin-video-grid" id="admin-video-list" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;"></div>
+                    </div>
+                </div>
+
+                <!-- Tab Pane 3: Students & Check-in -->
+                <div id="admin-tab-students" class="admin-tab-pane" style="display: none;">
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <h3>Manage members</h3>
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-members" type="button" class="btn outline-btn btn-compact">View members</button>
+                                <button id="btn-clear-all-members" type="button" class="btn outline-btn btn-compact btn-delete-outline">Clear all</button>
+                            </div>
+                        </div>
+                        <div class="admin-member-list" id="admin-member-list" hidden></div>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Check-in Question Bank</h3>
+                                <p class="admin-panel-kicker">The question bank now opens in a full-screen designer.</p>
+                            </div>
+                            <button id="btn-open-checkin-bank-page" type="button" class="btn primary-btn btn-compact">Open question designer</button>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Manage the daily random question bank, answer keys, choices, and images in a dedicated workspace.</p>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Check-in Dashboard</h3>
+                                <p id="checkin-dash-summary" class="admin-panel-kicker">Dashboard details are hidden.</p>
+                            </div>
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-checkin-dashboard" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="checkin-dashboard-panel">Show dashboard</button>
+                            </div>
+                        </div>
+                        <div id="checkin-dashboard-panel" class="admin-collapsible-panel" hidden>
+                            <div style="display:flex; justify-content:flex-end; margin-bottom:0.75rem;">
+                                <button id="btn-checkin-dash-refresh" type="button" class="btn outline-btn btn-compact">Refresh</button>
+                            </div>
+                            <div id="checkin-dash-stats" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;"></div>
+                            <div id="checkin-dash-leaders" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+                            <h4 style="font-size:13px; font-weight:600; color:var(--ink-2); margin:1rem 0 0.5rem;">Today's responses</h4>
+                            <div id="checkin-dash-today" style="display:flex; flex-direction:column; gap:0.5rem;"></div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Lesson notes</h3>
+                                <p id="admin-feedback-summary" class="admin-panel-kicker">Review student notes from all lessons.</p>
+                            </div>
+                            <div class="panel-header-actions">
+                                <button id="btn-toggle-feedbacks" type="button" class="btn outline-btn btn-compact" aria-expanded="false" aria-controls="admin-feedbacks-panel">Show notes</button>
+                            </div>
+                        </div>
+                        <div id="admin-feedbacks-panel" class="admin-collapsible-panel" hidden>
+                            <div style="display:flex; justify-content:flex-end; margin-bottom:0.75rem;">
+                                <button id="btn-refresh-feedbacks" type="button" class="btn outline-btn btn-compact">Refresh</button>
+                            </div>
+                            <label class="video-search-field" for="admin-feedback-search" style="width:100%; margin:0.75rem 0 1rem;">
+                                <span class="video-search-icon" aria-hidden="true">⌕</span>
+                                <input id="admin-feedback-search" type="search" placeholder="Search notes, student names, or lesson titles">
+                            </label>
+                            <div class="admin-feedback-list" id="admin-feedback-list" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Pane 4: LiveQuiz -->
+                <div id="admin-tab-livequiz" class="admin-tab-pane" style="display: none;">
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>LiveQuiz</h3>
+                                <p class="admin-panel-kicker">Live session control</p>
+                            </div>
+                            <div class="panel-header-actions">
+                                <a href="livequiz/host.html" class="btn primary-btn btn-compact">Create room</a>
+                                <a href="livequiz/" class="btn outline-btn btn-compact">Participant view</a>
+                            </div>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-muted); margin: 0;">Create host-paced classroom quiz rooms, import questions, open the lobby, and share the room code with students.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1021,6 +1379,80 @@
                 </section>
             </div>
         </section>
+        <!-- Page: Video Link Designer (Infinite Canvas) -->
+        <section id="page-video-linker" class="page" data-screen-label="Link Designer" style="display:none;">
+            <!-- Top Nav -->
+            <nav class="glass-nav canvas-nav">
+                <div class="nav-brand">
+                    <button type="button" id="btn-back-from-linker" class="btn icon-btn" title="Back">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    </button>
+                    <div>
+                        <p class="learning-kicker">Infinite canvas</p>
+                        <h2 id="linker-title">Video Link Designer</h2>
+                    </div>
+                </div>
+                <div class="canvas-nav-tools">
+                    <div class="canvas-zoom-display">
+                        <button id="btn-canvas-zoom-out" class="btn icon-btn" title="Zoom out">−</button>
+                        <span id="canvas-zoom-label">100%</span>
+                        <button id="btn-canvas-zoom-in" class="btn icon-btn" title="Zoom in">+</button>
+                        <button id="btn-canvas-zoom-fit" class="btn outline-btn btn-compact">Fit</button>
+                    </div>
+                    <span id="canvas-hint" class="canvas-hint">Drag clips onto canvas · drag port to connect</span>
+                </div>
+                <div class="nav-actions">
+                    <span id="linker-save-status" style="font-size:13px; color:var(--text-muted); display:none;"></span>
+                    <button id="btn-linker-clear" type="button" class="btn outline-btn btn-compact">Clear all</button>
+                    <button id="btn-linker-save" type="button" class="btn primary-btn btn-compact">Save links</button>
+                </div>
+            </nav>
+
+            <!-- Body: sidebar + canvas -->
+            <div class="canvas-shell">
+                <!-- Left sidebar: video list -->
+                <aside class="canvas-sidebar" id="canvas-sidebar">
+                    <div class="canvas-sidebar-head">
+                        <label class="video-search-field" for="canvas-search" style="margin:0;">
+                            <span class="video-search-icon" aria-hidden="true">⌕</span>
+                            <input id="canvas-search" type="search" placeholder="Search…">
+                        </label>
+                        <div id="canvas-subject-pills" style="display:flex; flex-wrap:wrap; gap:0.3rem; margin-top:0.5rem;"></div>
+                    </div>
+                    <div class="canvas-sidebar-list" id="canvas-sidebar-list"></div>
+                </aside>
+
+                <!-- Infinite canvas viewport -->
+                <div class="canvas-viewport" id="canvas-viewport">
+                    <!-- Dot-grid background -->
+                    <svg class="canvas-bg-svg" id="canvas-bg-svg" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <pattern id="dot-pattern" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+                                <circle cx="1" cy="1" r="1" fill="var(--canvas-dot)"/>
+                            </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#dot-pattern)"/>
+                    </svg>
+
+                    <!-- World: all nodes + edges live here, transforms applied here -->
+                    <div class="canvas-world" id="canvas-world">
+                        <!-- SVG edge layer -->
+                        <svg class="canvas-edge-svg" id="canvas-edge-svg" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+                            <!-- temp line while drawing -->
+                            <path id="canvas-temp-edge" stroke="var(--teal)" stroke-width="2.5" stroke-dasharray="6 4" fill="none" opacity="0.8" d="" style="display:none;"/>
+                        </svg>
+                        <!-- Nodes injected here by JS -->
+                    </div>
+
+                    <!-- Empty state -->
+                    <div class="canvas-empty" id="canvas-empty">
+                        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" opacity="0.3"><rect x="4" y="4" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><rect x="28" y="34" width="20" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M14 18 Q14 26 26 26 Q38 26 38 34" stroke="currentColor" stroke-width="1.8" fill="none" stroke-dasharray="4 3"/></svg>
+                        <p>Drag a video from the sidebar onto the canvas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <div id="exam-details-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="exam-details-title" aria-hidden="true">

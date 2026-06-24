@@ -679,3 +679,33 @@ body.pdf-active #pdfFrame {
     border-radius: 16px;
   }
 }
+
+/* Embedded panel styles */
+body.is-embedded {
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.is-embedded .top-nav,
+body.is-embedded .hero-panel,
+body.is-embedded .heart-bg {
+  display: none !important;
+}
+body.is-embedded .shell {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+body.is-embedded .reader-panel {
+  min-height: calc(100vh - 20px) !important;
+  height: calc(100vh - 20px) !important;
+}
+body.is-embedded #pdfFrame {
+  height: calc(100vh - 90px) !important;
+  min-height: calc(100vh - 90px) !important;
+}
+body.is-embedded .sheet-list-panel {
+  max-height: calc(100vh - 20px) !important;
+  overflow-y: auto !important;
+}

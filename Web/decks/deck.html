@@ -11,7 +11,40 @@
     <link rel="stylesheet" href="css/theme.css?v=20260525-list-spacing">
     <style>
         html { scroll-snap-type: y mandatory; }
+
+        /* Embedded mode overrides */
+        body.is-embedded header {
+            display: none !important;
+        }
+        body.is-embedded .slide-progress {
+            top: 20px !important;
+        }
+        body.is-embedded .slide-counter {
+            top: 20px !important;
+        }
+        body.is-embedded .scroll-indicator {
+            bottom: 20px !important;
+        }
     </style>
+    <script>
+        (function checkEmbed() {
+            if (window.location.search.includes('embed=1')) {
+                document.body.classList.add('is-embedded');
+                // Propagate embed=1 to local links
+                const observer = new MutationObserver(() => {
+                    document.querySelectorAll('a').forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href && !href.startsWith('http') && !href.startsWith('//') && !href.startsWith('../') && !href.includes('embed=1')) {
+                            const url = new URL(href, window.location.href);
+                            url.searchParams.set('embed', '1');
+                            link.setAttribute('href', url.pathname + url.search + url.hash);
+                        }
+                    });
+                });
+                observer.observe(document.body, { childList: true, subtree: true });
+            }
+        })();
+    </script>
 </head>
 <body class="phase-intro">
 
@@ -20,20 +53,21 @@
     <header>
         <div class="nav-container">
             <a class="logo logo-link" href="index.html">TeachingByProvider</a>
-            <nav class="nav-menu" id="nav-menu" aria-label="นำทางบทเรียน"></nav>
-            <a class="hub-back-btn" href="index.html" title="กลับหน้าเลือกบท">← Hub</a>
+            <nav class="nav-menu" id="nav-menu" aria-label="Lesson navigation"></nav>
+            <a class="hub-back-btn" href="index.html" title="Back to Hub">← Hub</a>
+            <a id="deckHomeBtn" class="hub-back-btn" href="../index.html" title="Go to Home" style="margin-left:0.5rem;">⌂ Home</a>
         </div>
     </header>
 
-    <nav class="slide-progress" id="slide-dots" aria-label="นำทางสไลด์"></nav>
+    <nav class="slide-progress" id="slide-dots" aria-label="Slide navigation"></nav>
     <div class="slide-counter" id="slide-counter" aria-live="polite">—</div>
 
     <div class="scroll-indicator" aria-live="polite">
-        <span class="hint-intro">เลื่อนเพื่อเริ่ม</span>
+        <span class="hint-intro">Scroll to start</span>
         <span class="hint-journey">Scroll to Explore</span>
     </div>
 
-    <button type="button" class="auto-scroll-btn" id="auto-scroll-btn" aria-pressed="false" aria-label="เล่นการเลื่อนหน้าอัตโนมัติ">
+    <button type="button" class="auto-scroll-btn" id="auto-scroll-btn" aria-pressed="false" aria-label="Play auto scroll">
         <span class="auto-scroll-icon label-play" aria-hidden="true">▶</span>
         <span class="auto-scroll-icon label-stop" aria-hidden="true">■</span>
         <span class="label-play">Play Auto</span>

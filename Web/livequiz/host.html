@@ -164,6 +164,25 @@
       </section>
     </main>
     <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script>
+      (function checkEmbed() {
+        if (window.location.search.includes('embed=1')) {
+          document.body.classList.add('is-embedded');
+          // Propagate embed=1 to local links
+          const observer = new MutationObserver(() => {
+            document.querySelectorAll('a').forEach(link => {
+              const href = link.getAttribute('href');
+              if (href && !href.startsWith('http') && !href.startsWith('//') && !href.startsWith('../') && !href.includes('embed=1')) {
+                const url = new URL(href, window.location.href);
+                url.searchParams.set('embed', '1');
+                link.setAttribute('href', url.pathname + url.search + url.hash);
+              }
+            });
+          });
+          observer.observe(document.body, { childList: true, subtree: true });
+        }
+      })();
+    </script>
     <script src="livequiz.js"></script>
   </body>
 </html>

@@ -154,3 +154,19 @@
     border-radius: 12px;
   }
 }
+
+/* Embedded panel styles */
+body.is-embedded {
+  background: transparent !important;
+  padding-top: 0.5rem !important;
+}
+body.is-embedded .app-nav,
+body.is-embedded .heart-bg {
+  display: none !important;
+}
+body.is-embedded .app {
+  padding-top: 1rem !important;
+  max-width: none !important;
+  width: 100% !important;
+  margin: 0 !important;
+}

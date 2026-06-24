@@ -9,12 +9,27 @@
     <link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260622">
     <link rel="alternate icon" type="image/png" href="../favicon.png?v=20260622">
     <link rel="apple-touch-icon" href="../apple-touch-icon.png?v=20260622">
-    <link rel="stylesheet" href="css/theme.css?v=20260614-hub-search-resume">
     <style>
-        /* ============================================================
-           Hub top navigation — consistent with MedQuiz nav.css
-           Self-contained so it works on the dark deck theme.
-        ============================================================ */
+        /* Redesign to match light-theme main-web app style */
+        body.hub-page {
+            background: #f7f8fb;
+            color: #111827;
+            font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .bg-layer {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 70% 50% at 15% 20%, rgba(110, 231, 183, 0.16) 0%, transparent 55%),
+                        radial-gradient(ellipse 60% 45% at 85% 75%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                        #f7f8fb;
+            transition: background 0.4s ease;
+        }
+
+        /* Light navigation bar */
         .hub-nav {
             position: sticky;
             top: 0;
@@ -25,22 +40,20 @@
             gap: 1rem;
             flex-wrap: wrap;
             padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
-            background: rgba(8, 6, 10, 0.72);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
         }
-
         .hub-nav-brand {
             display: inline-flex;
             align-items: center;
             gap: 0.6rem;
-            color: #fff;
+            color: #111827;
             text-decoration: none;
             font-weight: 700;
             letter-spacing: -0.01em;
         }
-
         .hub-nav-brand-icon {
             display: inline-flex;
             align-items: center;
@@ -48,20 +61,44 @@
             width: 34px;
             height: 34px;
             border-radius: 10px;
-            background: linear-gradient(145deg, #6ee7b7 0%, #10b981 55%, #047857 100%);
+            background: linear-gradient(145deg, #10b981 0%, #047857 100%);
             color: #fff;
             box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
         }
-
         .hub-nav-brand-icon svg {
             width: 18px;
             height: 18px;
         }
-
         .hub-nav-brand-text {
             font-size: 1rem;
         }
-
+        .hub-nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .hub-nav-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 0.9rem;
+            border-radius: 999px;
+            color: rgba(0, 0, 0, 0.72);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .hub-nav-links a:hover {
+            background: rgba(0, 0, 0, 0.06);
+            color: #000;
+        }
+        .hub-nav-links a[aria-current="page"] {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: #fff;
+        }
         .hub-nav-toggle {
             display: none;
             flex-direction: column;
@@ -71,83 +108,19 @@
             height: 44px;
             padding: 0;
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 12px;
             cursor: pointer;
         }
-
         .hub-nav-toggle span {
             display: block;
             width: 20px;
             height: 2px;
             margin: 0 auto;
-            background: #fff;
+            background: #374151;
             border-radius: 2px;
-            transition: transform 0.2s ease, opacity 0.2s ease;
         }
 
-        .hub-nav-links {
-            display: flex;
-            align-items: center;
-            gap: 0.35rem;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .hub-nav-links a {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.5rem 0.9rem;
-            border-radius: 999px;
-            color: rgba(255, 255, 255, 0.82);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 600;
-            transition: background 0.15s ease, color 0.15s ease;
-        }
-
-        .hub-nav-links a:hover,
-        .hub-nav-links a:focus-visible {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            outline: none;
-        }
-
-        .hub-nav-links a[aria-current="page"] {
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
-            color: #fff;
-        }
-
-        @media (max-width: 640px) {
-            .hub-nav-toggle {
-                display: flex;
-            }
-
-            .hub-nav-links {
-                flex-basis: 100%;
-                flex-direction: column;
-                align-items: stretch;
-                gap: 0.25rem;
-                max-height: 0;
-                overflow: hidden;
-                opacity: 0;
-                transition: max-height 0.25s ease, opacity 0.2s ease;
-            }
-
-            .hub-nav-links.open {
-                max-height: 320px;
-                opacity: 1;
-                margin-top: 0.5rem;
-            }
-
-            .hub-nav-links a {
-                width: 100%;
-                padding: 0.7rem 0.9rem;
-            }
-        }
-
-        /* Skip link for keyboard / screen-reader users */
         .hub-skip-link {
             position: absolute;
             left: -999px;
@@ -159,7 +132,347 @@
             border-radius: 0 0 10px 0;
             font-weight: 700;
         }
+        .hub-skip-link:focus {
+            left: 0;
+        }
 
+        /* Hub Header styling */
+        .hub {
+            position: relative;
+            z-index: 1;
+            width: min(1120px, calc(100% - 2rem));
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .hub-header {
+            margin-bottom: 0.5rem;
+        }
+        .hub-eyebrow {
+            margin: 0 0 0.25rem;
+            color: #059669;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .hub-title {
+            margin: 0 0 0.5rem;
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            line-height: 1.2;
+            color: #111827;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+        .hub-tagline {
+            margin: 0;
+            color: #4b5563;
+            font-size: 1rem;
+            max-width: 42rem;
+            line-height: 1.5;
+        }
+
+        /* Search and Tools */
+        .hub-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 22px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .hub-search {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+        .hub-search-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+        }
+        .hub-search input {
+            width: 100%;
+            height: 46px;
+            padding: 0 1rem;
+            background: #ffffff;
+            color: #111827;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .hub-search input:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12);
+        }
+
+        .hub-filter-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        .hub-filter-chip {
+            padding: 0.4rem 1rem;
+            background: #ffffff;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .hub-filter-chip:hover {
+            border-color: #9ca3af;
+            background: #f9fafb;
+        }
+        .hub-filter-chip.is-active {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: #ffffff;
+            border-color: transparent;
+        }
+
+        .hub-search-summary {
+            margin: 0;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* Decks grid items (white cards with emerald elements) */
+        .deck-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        .deck-card {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1.25rem;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            text-decoration: none;
+            color: #111827 !important;
+            transition: all 0.2s ease;
+        }
+        .deck-card:hover {
+            border-color: #10b981;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.1), 0 4px 6px -2px rgba(16, 185, 129, 0.05);
+        }
+        .deck-card-ch {
+            font-size: 11px;
+            font-weight: 700;
+            color: #059669;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .deck-card-title {
+            margin: 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            line-height: 1.25;
+            color: #111827;
+        }
+        .deck-card-summary {
+            margin: 0;
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.45;
+            flex-grow: 1;
+        }
+        .deck-card-meta {
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #f3f4f6;
+            font-size: 11px;
+            color: #6b7280;
+        }
+        .deck-card-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 38px;
+            margin-top: 0.75rem;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #059669;
+            background: rgba(16, 185, 129, 0.1);
+            transition: all 0.15s ease;
+        }
+        .deck-card:hover .deck-card-cta {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: #ffffff;
+        }
+
+        /* Resume spotlight */
+        .hub-resume-spotlight {
+            width: 100%;
+        }
+        .hub-resume-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 1.25rem 1.5rem;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            color: #111827;
+        }
+        .hub-resume-copy {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        .hub-resume-kicker {
+            font-size: 11px;
+            font-weight: 700;
+            color: #059669;
+            text-transform: uppercase;
+        }
+        .hub-resume-card h2 {
+            margin: 0;
+            font-size: 1.25rem;
+            color: #111827;
+        }
+        .hub-resume-card p {
+            margin: 0;
+            font-size: 13px;
+            color: #4b5563;
+        }
+        .hub-resume-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .hub-resume-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            padding: 0 1.25rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%) !important;
+            color: #ffffff !important;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: opacity 0.15s ease;
+        }
+        .hub-resume-cta:hover {
+            opacity: 0.9;
+        }
+        .hub-reset-btn {
+            height: 40px;
+            padding: 0 1.25rem;
+            border-radius: 999px;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .hub-reset-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .deck-card-progress-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            gap: 0.5rem;
+        }
+        .deck-card-progress {
+            font-size: 11px;
+            color: #059669;
+            background: rgba(16, 185, 129, 0.08);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        .deck-card-reset {
+            background: transparent;
+            border: none;
+            padding: 0.2rem 0.5rem;
+            color: #ef4444;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.15s ease;
+        }
+        .deck-card-reset:hover {
+            background: #fef2f2;
+        }
+        .hub-loading {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: #6b7280;
+            padding: 2rem;
+            font-weight: 600;
+        }
+
+        /* Embedded mode overrides */
+        body.is-embedded {
+            background: transparent !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        body.is-embedded .bg-layer {
+            display: none !important;
+        }
+        body.is-embedded .hub-nav {
+            display: none !important;
+        }
+        body.is-embedded .hub-header {
+            display: none !important;
+        }
+        body.is-embedded .hub {
+            padding: 0.5rem 0 0 0 !important;
+            max-width: none !important;
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        @media (max-width: 640px) {
+            .hub-nav-toggle {
+                display: flex;
+            }
+            .hub-nav-links {
+                flex-basis: 100%;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.25s ease, opacity 0.2s ease;
+            }
+            .hub-nav-links.open {
+                max-height: 320px;
+                opacity: 1;
+                margin-top: 0.5rem;
+            }
+            .hub-nav-links a {
+                width: 100%;
+                padding: 0.7rem 0.9rem;
+            }
+        }
         .hub-skip-link:focus {
             left: 0;
         }
@@ -167,11 +480,11 @@
 </head>
 <body class="hub-page">
 
-    <a href="#deck-grid" class="hub-skip-link">ข้ามไปยังรายการบทเรียน</a>
+    <a href="#deck-grid" class="hub-skip-link">Skip to deck list</a>
 
     <div class="bg-layer" aria-hidden="true"></div>
 
-    <nav class="hub-nav" aria-label="เมนูหลัก">
+    <nav class="hub-nav" aria-label="Main menu">
         <a href="../index.html" class="hub-nav-brand">
             <span class="hub-nav-brand-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -180,11 +493,11 @@
             </span>
             <span class="hub-nav-brand-text">Clinical Video</span>
         </a>
-        <button class="hub-nav-toggle" id="hubNavToggle" type="button" aria-expanded="false" aria-controls="hubNavLinks" aria-label="เปิดเมนู">
+        <button class="hub-nav-toggle" id="hubNavToggle" type="button" aria-expanded="false" aria-controls="hubNavLinks" aria-label="Open menu">
             <span></span><span></span><span></span>
         </button>
         <ul class="hub-nav-links" id="hubNavLinks">
-            <li><a href="../index.html">หน้าหลัก</a></li>
+            <li><a href="../index.html">Home</a></li>
             <li><a href="../medquiz/index.html">MedQuiz</a></li>
             <li><a href="index.html" aria-current="page">Pharmacology Decks</a></li>
             <li><a href="../sheets/index.html">Sheets</a></li>
@@ -195,31 +508,49 @@
         <header class="hub-header">
             <p class="hub-eyebrow">TeachingByProvider</p>
             <h1 class="hub-title">Katzung Pharmacology<br>Web Slide</h1>
-            <p class="hub-tagline">เลือกบทที่ต้องการเรียน — แต่ละบทเป็น deck แยก พร้อม keyboard navigation</p>
+            <p class="hub-tagline">Choose a chapter to study — each chapter is a slide deck with keyboard navigation</p>
         </header>
 
         <section class="hub-tools" aria-label="Deck tools">
             <div id="hub-resume-spotlight" class="hub-resume-spotlight" hidden></div>
             <label class="hub-search" for="deckSearchInput">
-                <span class="hub-search-label">ค้นหาบทเรียน</span>
-                <input id="deckSearchInput" type="search" placeholder="พิมพ์ชื่อบท, chapter หรือ keyword">
+                <span class="hub-search-label">Search chapters</span>
+                <input id="deckSearchInput" type="search" placeholder="Type chapter title, number or keyword">
             </label>
-            <div class="hub-filter-group" role="group" aria-label="ตัวกรองบทเรียน">
-                <button class="hub-filter-chip is-active" type="button" data-filter="all">ทั้งหมด</button>
-                <button class="hub-filter-chip" type="button" data-filter="resume">กำลังเรียน</button>
-                <button class="hub-filter-chip" type="button" data-filter="short">บทสั้น</button>
-                <button class="hub-filter-chip" type="button" data-filter="long">บทใหญ่</button>
+            <div class="hub-filter-group" role="group" aria-label="Filters">
+                <button class="hub-filter-chip is-active" type="button" data-filter="all">All</button>
+                <button class="hub-filter-chip" type="button" data-filter="resume">Resume</button>
+                <button class="hub-filter-chip" type="button" data-filter="short">Short decks</button>
+                <button class="hub-filter-chip" type="button" data-filter="long">Long decks</button>
             </div>
-            <p id="deckSearchSummary" class="hub-search-summary">แสดงทุกบทเรียนทั้งหมด</p>
+            <p id="deckSearchSummary" class="hub-search-summary">Showing all decks</p>
             <p id="deckActionStatus" class="hub-action-status" aria-live="polite"></p>
         </section>
 
-        <nav class="deck-grid" id="deck-grid" aria-label="เลือกบทเรียน">
-            <p class="hub-loading">กำลังโหลด...</p>
+        <nav class="deck-grid" id="deck-grid" aria-label="Choose chapter">
+            <p class="hub-loading">Loading...</p>
         </nav>
     </main>
 
     <script>
+        (function checkEmbed() {
+            if (window.location.search.includes('embed=1')) {
+                document.body.classList.add('is-embedded');
+                // Propagate embed=1 to dynamic anchors or page links
+                const observer = new MutationObserver(() => {
+                    document.querySelectorAll('a').forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href && !href.startsWith('http') && !href.startsWith('//') && !href.startsWith('../') && !href.includes('embed=1')) {
+                            const url = new URL(href, window.location.href);
+                            url.searchParams.set('embed', '1');
+                            link.setAttribute('href', url.pathname + url.search + url.hash);
+                        }
+                    });
+                });
+                observer.observe(document.body, { childList: true, subtree: true });
+            }
+        })();
+
         (function initHubNav() {
             var toggle = document.getElementById("hubNavToggle");
             var links = document.getElementById("hubNavLinks");
@@ -227,7 +558,7 @@
                 toggle.addEventListener("click", function () {
                     var open = links.classList.toggle("open");
                     toggle.setAttribute("aria-expanded", open ? "true" : "false");
-                    toggle.setAttribute("aria-label", open ? "ปิดเมนู" : "เปิดเมนู");
+                    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
                 });
             }
         })();
@@ -317,10 +648,10 @@
             }
 
             function filterLabel(filterKey) {
-                if (filterKey === "resume") return "กำลังเรียน";
-                if (filterKey === "short") return "บทสั้น";
-                if (filterKey === "long") return "บทใหญ่";
-                return "ทุกบทเรียน";
+                if (filterKey === "resume") return "Resume";
+                if (filterKey === "short") return "Short Decks";
+                if (filterKey === "long") return "Long Decks";
+                return "All Decks";
             }
 
             function getMostRecentProgressDeck(decks) {
@@ -347,11 +678,11 @@
                         <div class="hub-resume-copy">
                             <span class="hub-resume-kicker">Continue where you left off</span>
                             <h2>${escapeHtml(deck.title)}</h2>
-                            <p>Chapter ${escapeHtml(deck.chapter)} · สไลด์ ${escapeHtml(slideIndex)}/${escapeHtml(totalSlides)}</p>
+                            <p>Chapter ${escapeHtml(deck.chapter)} · Slide ${escapeHtml(slideIndex)}/${escapeHtml(totalSlides)}</p>
                         </div>
                         <div class="hub-resume-actions">
-                            <a class="hub-resume-cta" href="deck.html?deck=${encodeURIComponent(deck.id)}&resume=1">เรียนต่อ →</a>
-                            <button class="hub-reset-btn" type="button" data-reset-deck="${escapeHtml(deck.id)}" data-deck-title="${escapeHtml(deck.title)}">เริ่มใหม่</button>
+                            <a class="hub-resume-cta" href="deck.html?deck=${encodeURIComponent(deck.id)}&resume=1">Resume →</a>
+                            <button class="hub-reset-btn" type="button" data-reset-deck="${escapeHtml(deck.id)}" data-deck-title="${escapeHtml(deck.title)}">Reset</button>
                         </div>
                     </article>`;
             }
@@ -365,13 +696,13 @@
 
                 if (searchSummary) {
                     const baseSummary = query
-                        ? `พบ ${filtered.length} บทจากคำค้นและตัวกรอง`
-                        : `แสดง ${filterLabel(activeFilter)} ${filtered.length} บท`;
-                    searchSummary.textContent = `${baseSummary} จากทั้งหมด ${allDecks.length} บท`;
+                        ? `Found ${filtered.length} chapter(s) matching search/filter`
+                        : `Showing ${filterLabel(activeFilter)}: ${filtered.length} chapter(s)`;
+                    searchSummary.textContent = `${baseSummary} of ${allDecks.length} total`;
                 }
 
                 if (!filtered.length) {
-                    grid.innerHTML = '<p class="hub-loading">ไม่พบบทเรียนที่ตรงกับคำค้นหาหรือตัวกรองนี้</p>';
+                    grid.innerHTML = '<p class="hub-loading">No decks found matching the search query or filter.</p>';
                     return;
                 }
 
@@ -384,18 +715,18 @@
                             : `deck.html?deck=${deck.id}`;
                         const progressHtml = hasProgress
                             ? `<div class="deck-card-progress-row">
-                                    <span class="deck-card-progress">เรียนถึงสไลด์ ${progress.index + 1}/${progress.totalSlides}</span>
-                                    <button class="deck-card-reset" type="button" data-reset-deck="${escapeHtml(deck.id)}" data-deck-title="${escapeHtml(deck.title)}">เริ่มใหม่</button>
+                                    <span class="deck-card-progress">Slide ${progress.index + 1}/${progress.totalSlides}</span>
+                                    <button class="deck-card-reset" type="button" data-reset-deck="${escapeHtml(deck.id)}" data-deck-title="${escapeHtml(deck.title)}">Reset</button>
                                </div>`
                             : "";
-                        const cta = hasProgress ? "เรียนต่อ →" : "เปิดสไลด์ →";
+                        const cta = hasProgress ? "Resume →" : "Open Slide →";
 
                         return `
                         <a class="deck-card${hasProgress ? " deck-card--resume" : ""}" href="${href}">
                             <span class="deck-card-ch">Chapter ${deck.chapter}</span>
                             <h2 class="deck-card-title">${escapeHtml(deck.title)}</h2>
                             <p class="deck-card-summary">${escapeHtml(deck.summary)}</p>
-                            <span class="deck-card-meta">${deck.sections} หัวข้อ${deck.hasImages ? " · มีรูประกอบ" : ""}</span>
+                            <span class="deck-card-meta">${deck.sections} sections${deck.hasImages ? " · Images included" : ""}</span>
                             ${progressHtml}
                             <span class="deck-card-cta">${cta}</span>
                         </a>`;
@@ -416,8 +747,8 @@
                 .catch(() => {
                     grid.innerHTML = `
                         <div class="deck-card deck-card--error">
-                            <h2 class="deck-card-title">โหลดไม่สำเร็จ</h2>
-                            <p class="deck-card-summary">เปิดผ่าน local server (python3 -m http.server) แล้วลองใหม่</p>
+                            <h2 class="deck-card-title">Failed to load</h2>
+                            <p class="deck-card-summary">Run via local server and try again</p>
                         </div>`;
                 });
 
@@ -452,8 +783,12 @@
                 clearDeckProgress(deckId);
                 renderResumeSpotlight(getMostRecentProgressDeck(allDecks));
                 renderDecks();
-                showActionStatus(`ล้างความคืบหน้าแล้ว: ${deckTitle}`);
-                window.location.href = `deck.html?deck=${encodeURIComponent(deckId)}`;
+                showActionStatus(`Cleared progress for: ${deckTitle}`);
+                let redirectUrl = `deck.html?deck=${encodeURIComponent(deckId)}`;
+                if (window.location.search.includes('embed=1')) {
+                    redirectUrl += '&embed=1';
+                }
+                window.location.href = redirectUrl;
             });
         })();
     </script>

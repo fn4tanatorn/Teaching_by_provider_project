@@ -89,6 +89,11 @@ if (IS_ADMIN) {
   document.body.classList.add("sheets-student");
 }
 
+const IS_EMBEDDED = new URLSearchParams(window.location.search).get("embed") === "1";
+if (IS_EMBEDDED) {
+  document.body.classList.add("is-embedded");
+}
+
 function setSheetListCollapsed(collapsed, persist = true) {
   document.body.classList.toggle("sheets-sidebar-collapsed", collapsed);
   if (toggleSheetListBtn) {
