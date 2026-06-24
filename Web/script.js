@@ -3154,7 +3154,7 @@ function initClinicalVideoApp() {
         }
     });
 
-    function rotateCamera(deltaTheta, deltaPhi) {
+    function rotateCamera(deltaTheta, deltaPhi, durationMs = 200) {
         if (!brainGraph) return;
         const camera = brainGraph.camera();
         const controls = brainGraph.controls();
@@ -3181,11 +3181,11 @@ function initClinicalVideoApp() {
         brainGraph.cameraPosition(
             { x: newX, y: newY, z: newZ },
             target,
-            200
+            durationMs
         );
     }
 
-    function zoomCamera(scaleFactor) {
+    function zoomCamera(scaleFactor, durationMs = 200) {
         if (!brainGraph) return;
         const camera = brainGraph.camera();
         const controls = brainGraph.controls();
@@ -3206,9 +3206,65 @@ function initClinicalVideoApp() {
         brainGraph.cameraPosition(
             { x: newX, y: newY, z: newZ },
             target,
-            200
+            durationMs
         );
     }
+
+    // Press and hold continuous rotation/zoom handler
+    let activeHoldTimeout = null;
+    let activeHoldInterval = null;
+
+    function clearHold() {
+        if (activeHoldTimeout) clearTimeout(activeHoldTimeout);
+        if (activeHoldInterval) clearInterval(activeHoldInterval);
+        activeHoldTimeout = null;
+        activeHoldInterval = null;
+    }
+
+    function setupPressAndHold(btnSelector, actionFn) {
+        document.addEventListener('mousedown', (e) => {
+            const btn = e.target.closest(btnSelector);
+            if (!btn) return;
+            e.preventDefault();
+
+            actionFn();
+
+            clearHold();
+            activeHoldTimeout = setTimeout(() => {
+                activeHoldInterval = setInterval(() => {
+                    actionFn();
+                }, 40); // Repeat every 40ms
+            }, 250); // Delay before repeating
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            const btn = e.target.closest(btnSelector);
+            if (!btn) return;
+            e.preventDefault();
+
+            actionFn();
+
+            clearHold();
+            activeHoldTimeout = setTimeout(() => {
+                activeHoldInterval = setInterval(() => {
+                    actionFn();
+                }, 40);
+            }, 250);
+        }, { passive: false });
+    }
+
+    // Bind hold release globally
+    ['mouseup', 'mouseleave', 'touchend', 'touchcancel'].forEach(event => {
+        document.addEventListener(event, clearHold);
+    });
+
+    // Setup controls
+    setupPressAndHold('#btn-control-zoomin', () => zoomCamera(0.97, 50));
+    setupPressAndHold('#btn-control-zoomout', () => zoomCamera(1.03, 50));
+    setupPressAndHold('#btn-control-left', () => rotateCamera(-Math.PI / 90, 0, 50));
+    setupPressAndHold('#btn-control-right', () => rotateCamera(Math.PI / 90, 0, 50));
+    setupPressAndHold('#btn-control-up', () => rotateCamera(0, -Math.PI / 90, 50));
+    setupPressAndHold('#btn-control-down', () => rotateCamera(0, Math.PI / 90, 50));
 
     document.addEventListener('click', (e) => {
         const resetBtn = e.target.closest('#btn-control-reset');
@@ -3223,36 +3279,6 @@ function initClinicalVideoApp() {
                 controls.autoRotate = !controls.autoRotate;
                 rotateToggleBtn.classList.toggle('control-btn--active', controls.autoRotate);
             }
-        }
-
-        const zoomInBtn = e.target.closest('#btn-control-zoomin');
-        if (zoomInBtn) {
-            zoomCamera(0.85);
-        }
-
-        const zoomOutBtn = e.target.closest('#btn-control-zoomout');
-        if (zoomOutBtn) {
-            zoomCamera(1.15);
-        }
-
-        const rotLeftBtn = e.target.closest('#btn-control-left');
-        if (rotLeftBtn) {
-            rotateCamera(-Math.PI / 18, 0);
-        }
-
-        const rotRightBtn = e.target.closest('#btn-control-right');
-        if (rotRightBtn) {
-            rotateCamera(Math.PI / 18, 0);
-        }
-
-        const rotUpBtn = e.target.closest('#btn-control-up');
-        if (rotUpBtn) {
-            rotateCamera(0, -Math.PI / 18);
-        }
-
-        const rotDownBtn = e.target.closest('#btn-control-down');
-        if (rotDownBtn) {
-            rotateCamera(0, Math.PI / 18);
         }
     });
 
