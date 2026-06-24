@@ -1772,23 +1772,14 @@ function initClinicalVideoApp() {
             });
         }
 
-        // 1b. Determine which video IDs have incoming edges
-        const hasIncomingEdge = new Set();
-        videoEdges.forEach(edge => {
-            hasIncomingEdge.add(edge.targetId);
-        });
-
         // 1c. Determine visibility of each video
-        // Visible if: Completed, OR is a root (no incoming edges), OR directly connected from any completed video
+        // Visible if: Completed, OR is part of a learning sequence (so the entire path is shown connected by thin grey lines)
         const visibleVideoIds = new Set();
         videos.forEach(video => {
             const isCompleted = watchedList.includes(video.id);
-            const isRoot = !hasIncomingEdge.has(video.id);
-            const isLinkedFromCompleted = videoEdges.some(edge => 
-                edge.targetId === video.id && watchedList.includes(edge.sourceId)
-            );
+            const isPartOfSequence = videoEdges.some(edge => edge.sourceId === video.id || edge.targetId === video.id);
 
-            if (isCompleted || isRoot || isLinkedFromCompleted) {
+            if (isCompleted || isPartOfSequence) {
                 visibleVideoIds.add(video.id);
             }
         });
