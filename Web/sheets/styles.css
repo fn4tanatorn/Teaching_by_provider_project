@@ -282,6 +282,10 @@ h1 {
   align-items: start;
 }
 
+body.sheets-admin .reader-layout {
+  grid-template-columns: minmax(420px, 460px) minmax(0, 1fr);
+}
+
 .sheet-list-panel {
   padding: 1rem;
   display: flex;
@@ -350,6 +354,58 @@ body.sheets-sidebar-collapsed .sheet-list-panel {
   background: #ffffff;
 }
 
+.admin-organizer {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.68rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface-soft);
+}
+
+.admin-organizer label,
+.organizer-add {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.admin-organizer span {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.admin-organizer input,
+.admin-organizer select,
+.sheet-subject-select {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid var(--border-strong);
+  border-radius: 11px;
+  background: #ffffff;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.admin-organizer input,
+.admin-organizer select {
+  padding: 0 0.7rem;
+}
+
+.organizer-add {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+}
+
+.organizer-add .nav-btn {
+  min-height: 36px;
+  padding-inline: 0.8rem;
+}
+
 .sheet-list {
   display: grid;
   gap: 0.34rem;
@@ -386,7 +442,41 @@ body.sheets-sidebar-collapsed .sheet-list-panel {
 }
 
 .sheets-admin .sheet-row {
-  grid-template-columns: minmax(0, 1fr) 34px;
+  grid-template-columns: minmax(0, 1fr) 58px minmax(132px, 150px) 44px;
+  gap: 0.45rem;
+}
+
+.sheet-subject-heading {
+  margin: 0.3rem 0 0.05rem;
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sheet-subject-select {
+  min-height: 34px;
+  padding: 0 0.45rem;
+  font-size: 0.68rem;
+}
+
+.sheet-order-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem;
+}
+
+.sheet-order-controls button {
+  min-height: 34px;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  background: #ffffff;
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 900;
+  cursor: pointer;
 }
 
 .sheet-item {

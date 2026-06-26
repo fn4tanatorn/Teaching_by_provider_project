@@ -22,7 +22,10 @@ const DB_VERSION = 1;
 const STORE_NAME = "pdfs";
 const RECENT_SHEETS_KEY = "clinical_sheets_recent_v1";
 const SIDEBAR_COLLAPSED_KEY = "clinical_sheets_sidebar_collapsed_v1";
+const SHEET_SUBJECTS_KEY = "clinical_sheets_subjects_v1";
+const SHEET_META_KEY = "clinical_sheets_meta_v1";
 const MAX_RECENT_SHEETS = 3;
+const DEFAULT_SUBJECT = "Uncategorized";
 const SHEETS_BUCKET = SB.SHEETS_STORAGE_BUCKET || "sheets";
 const SHEETS_TABLE = SB.SHEETS_TABLE || "sheet_files";
 const SUPABASE_READY = Boolean(
@@ -52,11 +55,18 @@ const uploadPdfControl = document.getElementById("uploadPdfControl");
 const sheetHintTitle = document.getElementById("sheetHintTitle");
 const sheetHintText = document.getElementById("sheetHintText");
 const emptyStateText = document.getElementById("emptyStateText");
+const adminOrganizer = document.getElementById("adminOrganizer");
+const uploadSubjectSelect = document.getElementById("uploadSubjectSelect");
+const subjectFilterSelect = document.getElementById("subjectFilterSelect");
+const addSubjectForm = document.getElementById("addSubjectForm");
+const newSubjectInput = document.getElementById("newSubjectInput");
 
 let activeObjectUrl = "";
 let activeId = "";
 let uploadedSheets = [];
 let sheetsRemoteOk = false;
+let sheetSubjects = [];
+let sheetMeta = {};
 
 async function getSupabaseClient() {
   if (!SUPABASE_READY) return null;
@@ -81,9 +91,10 @@ const IS_ADMIN = new URLSearchParams(window.location.search).get("admin") === "1
 if (IS_ADMIN) {
   document.body.classList.add("sheets-admin");
   uploadPdfControl.hidden = false;
+  adminOrganizer.hidden = false;
   sheetHintTitle.textContent = "Admin upload mode";
   sheetHintText.textContent =
-    "Uploads go to Supabase Storage when the bucket and table are ready. Otherwise, PDFs are stored in this browser first.";
+    "Upload PDFs, add subjects, and assign each sheet to keep the student list organized.";
   emptyStateText.textContent = "Upload a PDF to add it to the list, then open it here for scrolling review.";
 } else {
   document.body.classList.add("sheets-student");
@@ -93,6 +104,8 @@ const IS_EMBEDDED = new URLSearchParams(window.location.search).get("embed") ===
 if (IS_EMBEDDED) {
   document.body.classList.add("is-embedded");
 }
+
+loadSheetOrganizerState();
 
 function setSheetListCollapsed(collapsed, persist = true) {
   document.body.classList.toggle("sheets-sidebar-collapsed", collapsed);
@@ -135,6 +148,93 @@ function openDb() {
   });
 }
 
+function readJsonStorage(key, fallback) {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key) || "null");
+    return parsed ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function writeJsonStorage(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Non-critical local organizer cache.
+  }
+}
+
+function normalizeSubject(value) {
+  return String(value || "").trim() || DEFAULT_SUBJECT;
+}
+
+function loadSheetOrganizerState() {
+  sheetSubjects = readJsonStorage(SHEET_SUBJECTS_KEY, []);
+  sheetMeta = readJsonStorage(SHEET_META_KEY, {});
+  if (!Array.isArray(sheetSubjects)) sheetSubjects = [];
+  if (!sheetMeta || typeof sheetMeta !== "object") sheetMeta = {};
+}
+
+function saveSubjects() {
+  writeJsonStorage(SHEET_SUBJECTS_KEY, sheetSubjects);
+}
+
+function saveSheetMeta() {
+  writeJsonStorage(SHEET_META_KEY, sheetMeta);
+}
+
+function addSubject(subject) {
+  const next = normalizeSubject(subject);
+  if (!sheetSubjects.some((item) => item.toLowerCase() === next.toLowerCase())) {
+    sheetSubjects.push(next);
+    sheetSubjects.sort((a, b) => a.localeCompare(b));
+    saveSubjects();
+  }
+  return next;
+}
+
+function sheetSubject(sheet) {
+  return normalizeSubject(sheet.subject || sheetMeta[sheet.id]?.subject || sheetMeta[sheet.storagePath]?.subject);
+}
+
+function sheetOrder(sheet) {
+  const value = sheet.sortOrder ?? sheetMeta[sheet.id]?.sortOrder ?? sheetMeta[sheet.storagePath]?.sortOrder;
+  const order = Number(value);
+  return Number.isFinite(order) ? order : sheet.createdAt || 0;
+}
+
+function getSubjectOptions() {
+  const found = uploadedSheets.map(sheetSubject);
+  return [...new Set([DEFAULT_SUBJECT, ...sheetSubjects, ...found])].sort((a, b) => {
+    if (a === DEFAULT_SUBJECT) return -1;
+    if (b === DEFAULT_SUBJECT) return 1;
+    return a.localeCompare(b);
+  });
+}
+
+function renderSubjectControls() {
+  if (!IS_ADMIN || !uploadSubjectSelect || !subjectFilterSelect) return;
+  const currentUpload = uploadSubjectSelect.value || DEFAULT_SUBJECT;
+  const currentFilter = subjectFilterSelect.value || "all";
+  const options = getSubjectOptions();
+  uploadSubjectSelect.innerHTML = "";
+  subjectFilterSelect.innerHTML = '<option value="all">All subjects</option>';
+  options.forEach((subject) => {
+    const uploadOption = document.createElement("option");
+    uploadOption.value = subject;
+    uploadOption.textContent = subject;
+    uploadSubjectSelect.append(uploadOption);
+
+    const filterOption = document.createElement("option");
+    filterOption.value = subject;
+    filterOption.textContent = subject;
+    subjectFilterSelect.append(filterOption);
+  });
+  uploadSubjectSelect.value = options.includes(currentUpload) ? currentUpload : DEFAULT_SUBJECT;
+  subjectFilterSelect.value = currentFilter === "all" || options.includes(currentFilter) ? currentFilter : "all";
+}
+
 async function withStore(mode, fn) {
   const db = await openDb();
   return new Promise((resolve, reject) => {
@@ -164,6 +264,7 @@ async function loadLocalSheets() {
 }
 
 async function saveLocalPdf(file) {
+  const subject = normalizeSubject(uploadSubjectSelect?.value);
   const record = {
     id: `local-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     source: "local",
@@ -171,6 +272,7 @@ async function saveLocalPdf(file) {
     fileName: file.name,
     size: file.size,
     type: file.type || "application/pdf",
+    subject,
     createdAt: Date.now(),
     blob: file
   };
@@ -201,7 +303,9 @@ function remoteRowToSheet(row) {
     type: row.mime_type || "application/pdf",
     createdAt: row.created_at ? new Date(row.created_at).getTime() : Date.now(),
     storagePath: row.storage_path,
-    publicUrl: row.public_url
+    publicUrl: row.public_url,
+    subject: normalizeSubject(row.subject || sheetMeta[row.id]?.subject || sheetMeta[row.storage_path]?.subject),
+    sortOrder: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : undefined
   };
 }
 
@@ -210,8 +314,17 @@ async function loadRemoteSheets() {
   if (!client) return [];
   const { data, error } = await client
     .from(SHEETS_TABLE)
-    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
+    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at,subject,sort_order")
     .order("created_at", { ascending: false });
+  if (error && /subject|sort_order/i.test(String(error.message || ""))) {
+    const fallback = await client
+      .from(SHEETS_TABLE)
+      .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
+      .order("created_at", { ascending: false });
+    if (fallback.error) throw fallback.error;
+    sheetsRemoteOk = true;
+    return (fallback.data || []).map(remoteRowToSheet);
+  }
   if (error) throw error;
   sheetsRemoteOk = true;
   return (data || []).map(remoteRowToSheet);
@@ -237,17 +350,34 @@ async function saveRemotePdf(file) {
     storage_path: path,
     public_url: publicUrl,
     size_bytes: file.size,
-    mime_type: file.type || "application/pdf"
+    mime_type: file.type || "application/pdf",
+    subject: normalizeSubject(uploadSubjectSelect?.value),
+    sort_order: Date.now()
   };
-  const { data, error: insertError } = await client
+  let { data, error: insertError } = await client
     .from(SHEETS_TABLE)
     .insert(row)
-    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
+    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at,subject,sort_order")
     .single();
+  if (insertError && /subject|sort_order/i.test(String(insertError.message || ""))) {
+    const { subject, sort_order, ...rowWithoutSubject } = row;
+    const fallback = await client
+      .from(SHEETS_TABLE)
+      .insert(rowWithoutSubject)
+      .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
+      .single();
+    data = fallback.data;
+    insertError = fallback.error;
+  }
   if (insertError) {
     await client.storage.from(SHEETS_BUCKET).remove([path]).catch(() => {});
     throw insertError;
   }
+  const subject = normalizeSubject(row.subject);
+  const sortOrder = row.sort_order;
+  if (data?.id) sheetMeta[data.id] = { ...(sheetMeta[data.id] || {}), subject, sortOrder };
+  if (data?.storage_path) sheetMeta[data.storage_path] = { ...(sheetMeta[data.storage_path] || {}), subject, sortOrder };
+  saveSheetMeta();
   sheetsRemoteOk = true;
   return remoteRowToSheet(data);
 }
@@ -307,6 +437,65 @@ async function deleteUploadedPdf(sheet) {
     document.body.classList.remove("pdf-active");
     activeId = "";
   }
+  delete sheetMeta[sheet.id];
+  if (sheet.storagePath) delete sheetMeta[sheet.storagePath];
+  saveSheetMeta();
+}
+
+async function updateSheetSubject(sheet, subject) {
+  const nextSubject = addSubject(subject);
+  sheet.subject = nextSubject;
+  sheetMeta[sheet.id] = { ...(sheetMeta[sheet.id] || {}), subject: nextSubject, sortOrder: sheetOrder(sheet) };
+  if (sheet.storagePath) sheetMeta[sheet.storagePath] = { ...(sheetMeta[sheet.storagePath] || {}), subject: nextSubject, sortOrder: sheetOrder(sheet) };
+  saveSheetMeta();
+
+  if (sheet.source === "local") {
+    await withStore("readwrite", (store) => store.put(sheet));
+    return;
+  }
+
+  const client = await getSupabaseClient();
+  if (!client) return;
+  const { error } = await client.from(SHEETS_TABLE).update({ subject: nextSubject }).eq("id", sheet.id);
+  if (error && !String(error.message || "").includes("subject")) throw error;
+}
+
+async function persistSheetOrder(sheet) {
+  const sortOrder = sheetOrder(sheet);
+  sheetMeta[sheet.id] = { ...(sheetMeta[sheet.id] || {}), subject: sheetSubject(sheet), sortOrder };
+  if (sheet.storagePath) sheetMeta[sheet.storagePath] = { ...(sheetMeta[sheet.storagePath] || {}), subject: sheetSubject(sheet), sortOrder };
+  saveSheetMeta();
+
+  if (sheet.source === "local") {
+    await withStore("readwrite", (store) => store.put(sheet));
+    return;
+  }
+
+  const client = await getSupabaseClient();
+  if (!client) return;
+  const { error } = await client.from(SHEETS_TABLE).update({ sort_order: sortOrder }).eq("id", sheet.id);
+  if (error && !/sort_order/i.test(String(error.message || ""))) throw error;
+}
+
+async function moveSheet(sheetId, direction) {
+  const sheet = uploadedSheets.find((item) => item.id === sheetId);
+  if (!sheet) return;
+  const subject = sheetSubject(sheet);
+  const group = uploadedSheets
+    .filter((item) => sheetSubject(item) === subject)
+    .sort((a, b) => sheetOrder(a) - sheetOrder(b) || String(a.title).localeCompare(String(b.title)));
+  const index = group.findIndex((item) => item.id === sheetId);
+  const swapIndex = index + direction;
+  if (index < 0 || swapIndex < 0 || swapIndex >= group.length) return;
+
+  const a = group[index];
+  const b = group[swapIndex];
+  const aOrder = sheetOrder(a);
+  const bOrder = sheetOrder(b);
+  a.sortOrder = bOrder;
+  b.sortOrder = aOrder;
+  await Promise.all([persistSheetOrder(a), persistSheetOrder(b)]);
+  renderSheetList();
 }
 
 function formatBytes(bytes) {
@@ -351,6 +540,10 @@ function rememberRecentSheet({ id, title }) {
 function matchesSheetQuery(query, ...fields) {
   if (!query) return true;
   return fields.some((field) => normalizeSearchValue(field).includes(query));
+}
+
+function selectedSubjectFilter() {
+  return subjectFilterSelect?.value || "all";
 }
 
 function revokeActiveObjectUrl() {
@@ -468,15 +661,19 @@ function getStaticSheetEntries(query = "") {
 }
 
 function getUploadedSheetEntries(query = "") {
+  const subjectFilter = selectedSubjectFilter();
   return uploadedSheets
     .slice()
-    .sort((a, b) => b.createdAt - a.createdAt)
+    .sort((a, b) => sheetSubject(a).localeCompare(sheetSubject(b)) || sheetOrder(a) - sheetOrder(b) || b.createdAt - a.createdAt)
     .flatMap((sheet) => {
-      if (!matchesSheetQuery(query, sheet.title, sheet.fileName)) return [];
+      const subject = sheetSubject(sheet);
+      if (subjectFilter !== "all" && subject !== subjectFilter) return [];
+      if (!matchesSheetQuery(query, sheet.title, sheet.fileName, subject)) return [];
       return [{
         id: sheet.id,
         title: sheet.title || sheet.fileName || "Uploaded PDF",
-        meta: `${sheet.source === "supabase" ? "Supabase" : "Local"} · ${formatBytes(sheet.size)}`,
+        meta: `${subject} · ${sheet.source === "supabase" ? "Supabase" : "Local"} · ${formatBytes(sheet.size)}`,
+        subject,
         sheet,
         onOpen: () => {
           if (sheet.source === "supabase") {
@@ -578,7 +775,16 @@ function renderSheetList() {
     return;
   }
 
+  let currentSubject = "";
   entries.forEach((entry) => {
+    if (entry.subject && entry.subject !== currentSubject) {
+      currentSubject = entry.subject;
+      const heading = document.createElement("div");
+      heading.className = "sheet-subject-heading";
+      heading.textContent = currentSubject;
+      fragment.append(heading);
+    }
+
     const row = document.createElement("div");
     row.className = "sheet-row";
     row.append(
@@ -591,6 +797,54 @@ function renderSheetList() {
     );
 
     if (IS_ADMIN && entry.sheet) {
+      const orderControls = document.createElement("div");
+      orderControls.className = "sheet-order-controls";
+      const moveUp = document.createElement("button");
+      moveUp.type = "button";
+      moveUp.textContent = "↑";
+      moveUp.title = "Move up";
+      moveUp.addEventListener("click", async () => {
+        try {
+          await moveSheet(entry.sheet.id, -1);
+        } catch (err) {
+          console.error(err);
+          alert("Could not move sheet.");
+        }
+      });
+      const moveDown = document.createElement("button");
+      moveDown.type = "button";
+      moveDown.textContent = "↓";
+      moveDown.title = "Move down";
+      moveDown.addEventListener("click", async () => {
+        try {
+          await moveSheet(entry.sheet.id, 1);
+        } catch (err) {
+          console.error(err);
+          alert("Could not move sheet.");
+        }
+      });
+      orderControls.append(moveUp, moveDown);
+
+      const subjectSelect = document.createElement("select");
+      subjectSelect.className = "sheet-subject-select";
+      getSubjectOptions().forEach((subject) => {
+        const option = document.createElement("option");
+        option.value = subject;
+        option.textContent = subject;
+        subjectSelect.append(option);
+      });
+      subjectSelect.value = entry.subject || DEFAULT_SUBJECT;
+      subjectSelect.addEventListener("change", async () => {
+        try {
+          await updateSheetSubject(entry.sheet, subjectSelect.value);
+          renderSubjectControls();
+          renderSheetList();
+        } catch (err) {
+          console.error(err);
+          alert("Could not update subject.");
+        }
+      });
+
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "sheet-delete";
@@ -600,7 +854,7 @@ function renderSheetList() {
         await deleteUploadedPdf(entry.sheet);
         await refreshUploadedSheets();
       });
-      row.append(remove);
+      row.append(orderControls, subjectSelect, remove);
     }
 
     fragment.append(row);
@@ -611,6 +865,8 @@ function renderSheetList() {
 
 async function refreshUploadedSheets() {
   uploadedSheets = await loadUploadedSheets();
+  uploadedSheets.forEach((sheet) => addSubject(sheetSubject(sheet)));
+  renderSubjectControls();
   renderSheetList();
 }
 
@@ -658,6 +914,20 @@ toggleSheetListBtn?.addEventListener("click", () => {
   setSheetListCollapsed(!document.body.classList.contains("sheets-sidebar-collapsed"));
 });
 sheetSearchInput?.addEventListener("input", renderSheetList);
+subjectFilterSelect?.addEventListener("change", renderSheetList);
+uploadSubjectSelect?.addEventListener("change", () => {
+  addSubject(uploadSubjectSelect.value);
+  renderSubjectControls();
+});
+addSubjectForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const subject = addSubject(newSubjectInput.value);
+  newSubjectInput.value = "";
+  renderSubjectControls();
+  uploadSubjectSelect.value = subject;
+  subjectFilterSelect.value = subject;
+  renderSheetList();
+});
 window.addEventListener("beforeunload", revokeActiveObjectUrl);
 
 refreshUploadedSheets().catch((err) => {

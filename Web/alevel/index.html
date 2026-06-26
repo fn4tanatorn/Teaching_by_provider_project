@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A-Level MCQ | Clinical Study Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section id="access-gate" class="gate" aria-labelledby="gate-title">
+    <form id="access-form" class="gate-card">
+      <div class="mark">A</div>
+      <p class="kicker">Restricted practice</p>
+      <h1 id="gate-title">A-Level MCQ access</h1>
+      <p>Enter the access code to open the exam bank.</p>
+      <label>
+        <span>Access code</span>
+        <input id="access-code" type="password" autocomplete="current-password" required>
+      </label>
+      <p id="access-error" class="gate-error" hidden>Wrong access code.</p>
+      <button class="primary" type="submit">Enter</button>
+    </form>
+  </section>
+
+  <main class="app">
+    <aside class="side">
+      <div class="brand">
+        <div class="mark">A</div>
+        <div>
+          <p>A-Level</p>
+          <h1>MCQ Bank</h1>
+        </div>
+      </div>
+
+      <nav class="tabs" aria-label="A-Level modes">
+        <button id="tab-practice" class="active" type="button">Practice</button>
+        <button id="tab-bank" type="button">Question bank</button>
+      </nav>
+
+      <div class="stats">
+        <div><span>Total</span><strong id="stat-total">0</strong></div>
+        <div><span>Score</span><strong id="stat-score">0/0</strong></div>
+        <div><span>Subject</span><strong id="stat-subject">All</strong></div>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="kicker">Exam practice</p>
+          <h2 id="page-title">A-Level MCQ</h2>
+        </div>
+        <div class="top-actions">
+          <select id="subject-filter" aria-label="Subject filter">
+            <option value="all">All subjects</option>
+          </select>
+          <button id="reset-progress" class="ghost danger" type="button">Reset</button>
+        </div>
+      </header>
+
+      <section id="practice-view" class="panel practice">
+        <div class="question-head">
+          <span id="question-count">Question 1</span>
+          <span id="question-subject">Subject</span>
+        </div>
+        <h3 id="question-stem">Loading question...</h3>
+        <div id="choice-list" class="choices"></div>
+        <div id="feedback" class="feedback" hidden></div>
+        <div class="actions">
+          <button id="submit-answer" class="primary" type="button" disabled>Submit answer</button>
+          <button id="next-question" class="ghost" type="button" hidden>Next</button>
+        </div>
+      </section>
+
+      <section id="bank-view" class="bank" hidden>
+        <div class="bank-layout">
+          <form id="question-form" class="panel editor">
+            <input id="editing-id" type="hidden">
+            <div class="form-head">
+              <div>
+                <p class="kicker">Staff editor</p>
+                <h3 id="editor-title">Add MCQ</h3>
+              </div>
+              <button id="clear-form" class="ghost" type="button">Clear form</button>
+            </div>
+
+            <label>
+              <span>Subject</span>
+              <input id="question-subject-input" required placeholder="Biology">
+            </label>
+            <label>
+              <span>Question stem</span>
+              <textarea id="question-stem-input" rows="4" required placeholder="Write one clear single-best-answer stem."></textarea>
+            </label>
+
+            <div class="choice-editor">
+              <label><span>A</span><input id="choice-a" required></label>
+              <label><span>B</span><input id="choice-b" required></label>
+              <label><span>C</span><input id="choice-c" required></label>
+              <label><span>D</span><input id="choice-d" required></label>
+              <label><span>E</span><input id="choice-e" required></label>
+            </div>
+
+            <label>
+              <span>Correct answer</span>
+              <select id="correct-answer">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+              </select>
+            </label>
+            <label>
+              <span>Explanation</span>
+              <textarea id="explanation-input" rows="3" required placeholder="Explain why the correct answer is best."></textarea>
+            </label>
+
+            <button class="primary" type="submit">Save question</button>
+          </form>
+
+          <div class="panel bank-list-panel">
+            <div class="form-head">
+              <div>
+                <p class="kicker">Bank</p>
+                <h3>Questions</h3>
+              </div>
+              <div class="mini-actions">
+                <button id="download-sample" class="ghost" type="button">Sample JSON</button>
+                <button id="export-json" class="ghost" type="button">Export</button>
+                <label class="ghost file-label">
+                  Import
+                  <input id="import-json" type="file" accept=".json,.csv,application/json,text/csv">
+                </label>
+              </div>
+            </div>
+            <div id="bank-list" class="bank-list"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <button id="toast" class="toast" type="button" hidden></button>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Clinical Study Hub | Medical learning workspace</title>
     <meta name="description" content="A minimal study workspace for clinical videos, practice, course PDFs, and pharmacology decks.">
     <!-- Supabase public config. Leave empty to use js/supabase-config.js. -->
@@ -243,6 +243,35 @@
                             </div>
                         </section>
 
+                        <section class="home-plan-card glass-card" aria-label="Today's study plan">
+                            <div class="home-plan-head">
+                                <div>
+                                    <p class="learning-kicker">Today</p>
+                                    <h3 id="home-plan-title">Study plan</h3>
+                                </div>
+                                <span id="home-plan-estimate" class="home-plan-estimate">25 min</span>
+                            </div>
+                            <ol id="home-plan-steps" class="home-plan-steps"></ol>
+                            <div class="home-plan-metrics" aria-label="Study workload">
+                                <div>
+                                    <span>Lessons</span>
+                                    <strong id="home-plan-video-count">0</strong>
+                                </div>
+                                <div>
+                                    <span>Subjects</span>
+                                    <strong id="home-plan-subject-count">0</strong>
+                                </div>
+                                <div>
+                                    <span>Status</span>
+                                    <strong id="home-plan-status">Ready</strong>
+                                </div>
+                            </div>
+                            <div class="home-plan-actions">
+                                <button id="home-plan-primary-action" type="button" class="btn primary-btn btn-compact">Start plan</button>
+                                <button type="button" class="btn outline-btn btn-compact" data-nav-target="decks">Open decks</button>
+                            </div>
+                        </section>
+
                         <section id="home-last-lesson-card" class="home-card home-card--wide glass-card" aria-live="polite">
                             <p class="learning-kicker">Resume</p>
                             <h3 id="home-last-lesson-title">No recent lesson yet</h3>
@@ -255,6 +284,19 @@
                             <h3 id="home-checkin-title">Daily check-in</h3>
                             <p id="home-checkin-copy">Answer today's question to keep your learning cadence visible.</p>
                             <button type="button" class="btn outline-btn btn-compact" data-nav-target="checkin">Open check-in</button>
+                        </section>
+
+                        <section class="home-card home-presence-card glass-card" aria-live="polite">
+                            <p class="learning-kicker">Live presence</p>
+                            <div class="home-presence-main">
+                                <span class="home-presence-dot" aria-hidden="true"></span>
+                                <strong id="home-online-count">0</strong>
+                            </div>
+                            <p id="home-online-copy">Online now</p>
+                            <div class="home-presence-split">
+                                <span id="home-online-students">Students 0</span>
+                                <span id="home-online-staff">Staff 0</span>
+                            </div>
                         </section>
 
                         <section class="home-tools glass-card" aria-label="Learning tools">
@@ -277,6 +319,7 @@
                                         <button type="button" class="home-tool" data-nav-target="medquiz"><strong>MedQuiz</strong><span>Practice questions</span></button>
                                         <button type="button" class="home-tool" data-nav-target="flashcards"><strong>Flashcards</strong><span>Spaced repetition cards</span></button>
                                         <button type="button" class="home-tool" data-nav-target="checkin"><strong>Check-in</strong><span>Daily response</span></button>
+                                        <button type="button" class="home-tool" data-nav-target="alevel"><strong>A-Level</strong><span>MCQ exam bank</span></button>
                                     </div>
                                 </div>
                                 <div class="home-tool-group">
@@ -681,6 +724,53 @@
                     </header>
                     <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
                         <iframe src="flashcards/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page: A-Level MCQ (Iframe Embedded) -->
+        <section id="page-alevel" class="page page-learning" data-screen-label="A-Level">
+            <div class="learning-shell">
+                <aside class="learning-sidebar" aria-label="Learning navigation">
+                    <div class="learning-sidebar-brand">
+                        <div class="brand-icon brand-icon--sm" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        </div>
+                        <div>
+                            <strong>Clinical Study Hub</strong>
+                            <span>Workspace</span>
+                        </div>
+                        <button type="button" class="learning-sidebar-toggle" aria-label="Collapse sidebar" aria-expanded="true"></button>
+                    </div>
+                    <nav class="learning-nav">
+                        <button type="button" class="shell-nav-link" data-nav-target="home">Home</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="videos">Videos</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="brainmap">Brain Map</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="checkin">Check-in</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="request">Request Topic</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="stats" hidden>Progress</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="sheets">Sheets</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="decks">Pharma Decks</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="flashcards">Flashcards</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="alevel" aria-current="page">A-Level</button>
+                        <button type="button" class="shell-nav-link" data-nav-target="livequiz">LiveQuiz</button>
+                        <button type="button" class="shell-nav-link shell-nav-link--accent" data-nav-target="medquiz">MedQuiz</button>
+                    </nav>
+                </aside>
+                <div class="learning-workspace">
+                    <header class="learning-topbar">
+                        <div>
+                            <p class="learning-kicker">Workspace</p>
+                            <h2>A-Level MCQ</h2>
+                        </div>
+                        <div class="learning-topbar-actions">
+                            <button id="countdown-timer-alevel" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
+                        </div>
+                    </header>
+                    <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
+                        <iframe src="alevel/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
                     </div>
                 </div>
             </div>
@@ -1100,6 +1190,26 @@
 
                 <!-- Tab Pane 2: Content & Lessons -->
                 <div id="admin-tab-content" class="admin-tab-pane" style="display: none;">
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>Flashcards</h3>
+                                <p class="admin-panel-kicker">Manage the shared deck bank students use for spaced repetition.</p>
+                            </div>
+                            <a href="flashcards/index.html?admin=1" class="btn outline-btn btn-compact">Manage Flashcards</a>
+                        </div>
+                    </div>
+
+                    <div class="glass-card admin-panel panel-block" style="margin: 0;">
+                        <div class="panel-header-inline">
+                            <div>
+                                <h3>A-Level MCQ</h3>
+                                <p class="admin-panel-kicker">Add, import, export, and edit single-best-answer exam questions.</p>
+                            </div>
+                            <a href="alevel/index.html?admin=1" class="btn outline-btn btn-compact">Manage A-Level</a>
+                        </div>
+                    </div>
+
                     <div class="glass-card admin-panel panel-block" style="margin: 0;">
                         <div class="panel-header-inline">
                             <h3>Sheets</h3>

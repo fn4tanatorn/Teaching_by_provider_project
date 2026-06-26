@@ -476,6 +476,122 @@
         .hub-skip-link:focus {
             left: 0;
         }
+        .study-session-builder {
+            display: grid;
+            gap: 1rem;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .study-session-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .study-session-kicker {
+            margin: 0 0 0.2rem;
+            color: #059669;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .study-session-title {
+            margin: 0;
+            color: #111827;
+            font-size: 1.1rem;
+            line-height: 1.25;
+        }
+        .study-session-summary {
+            margin: 0.3rem 0 0;
+            color: #4b5563;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+        .study-session-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .study-session-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0 0.9rem;
+            border-radius: 999px;
+            border: 1px solid #d1d5db;
+            background: #ffffff;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .study-session-btn:hover,
+        .study-session-btn:focus-visible {
+            outline: none;
+            border-color: #10b981;
+            color: #047857;
+        }
+        .study-session-btn--primary {
+            border-color: transparent;
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: #ffffff;
+        }
+        .study-session-btn--primary:hover,
+        .study-session-btn--primary:focus-visible {
+            color: #ffffff;
+            opacity: 0.92;
+        }
+        .study-session-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+        }
+        .study-session-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.7rem;
+        }
+        .study-session-item {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.7rem;
+            align-items: start;
+            min-height: 84px;
+            padding: 0.85rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            background: #f9fafb;
+            cursor: pointer;
+        }
+        .study-session-item:hover {
+            border-color: rgba(16, 185, 129, 0.48);
+            background: #ffffff;
+        }
+        .study-session-item input {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.1rem;
+            accent-color: #059669;
+        }
+        .study-session-item-title {
+            display: block;
+            color: #111827;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        .study-session-item-meta {
+            display: block;
+            margin-top: 0.25rem;
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.35;
+        }
     </style>
 </head>
 <body class="hub-page">
@@ -525,6 +641,22 @@
             </div>
             <p id="deckSearchSummary" class="hub-search-summary">Showing all decks</p>
             <p id="deckActionStatus" class="hub-action-status" aria-live="polite"></p>
+        </section>
+
+        <section class="study-session-builder" id="studySessionBuilder" aria-label="Study session builder">
+            <div class="study-session-head">
+                <div>
+                    <p class="study-session-kicker">Focused Study Queue</p>
+                    <h2 class="study-session-title">Build a chapter session</h2>
+                    <p class="study-session-summary" id="studySessionSummary">Choose chapters to create a persistent study route.</p>
+                </div>
+                <div class="study-session-actions">
+                    <button class="study-session-btn" type="button" data-session-action="select-short">Short set</button>
+                    <button class="study-session-btn" type="button" data-session-action="clear">Clear</button>
+                    <button class="study-session-btn study-session-btn--primary" type="button" data-session-action="open" disabled>Start session</button>
+                </div>
+            </div>
+            <div class="study-session-list" id="studySessionList" aria-live="polite"></div>
         </section>
 
         <nav class="deck-grid" id="deck-grid" aria-label="Choose chapter">
@@ -792,5 +924,6 @@
             });
         })();
     </script>
+    <script src="js/study-session.js?v=20260626-middle-session"></script>
 </body>
 </html>

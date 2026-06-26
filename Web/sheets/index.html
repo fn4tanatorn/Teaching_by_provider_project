@@ -60,6 +60,25 @@
               autocomplete="off"
             />
           </label>
+          <section id="adminOrganizer" class="admin-organizer" hidden>
+            <div class="organizer-row">
+              <label>
+                <span>Upload subject</span>
+                <select id="uploadSubjectSelect"></select>
+              </label>
+            </div>
+            <form id="addSubjectForm" class="organizer-add">
+              <label>
+                <span>Add subject</span>
+                <input id="newSubjectInput" type="text" placeholder="e.g. Hematology" autocomplete="off" />
+              </label>
+              <button type="submit" class="nav-btn">Add</button>
+            </form>
+            <label>
+              <span>View subject</span>
+              <select id="subjectFilterSelect"></select>
+            </label>
+          </section>
           <section id="recentSheetsSection" class="recent-sheets" hidden aria-label="Recently opened sheets">
             <div class="panel-head panel-head--subtle">
               <h3>Recently opened</h3>

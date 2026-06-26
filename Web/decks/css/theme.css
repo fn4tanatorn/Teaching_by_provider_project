@@ -1509,6 +1509,78 @@ body.auto-scroll-active .scroll-indicator {
     opacity: 0.35;
 }
 
+.study-session-rail {
+    position: fixed;
+    right: 18px;
+    bottom: 82px;
+    z-index: 900;
+    width: min(260px, calc(100vw - 36px));
+}
+
+.study-session-rail[hidden] {
+    display: none;
+}
+
+.study-rail-card {
+    display: grid;
+    gap: 0.35rem;
+    padding: 14px 16px;
+    border: 1px solid rgba(110, 231, 183, 0.22);
+    border-radius: 16px;
+    background: rgba(7, 23, 36, 0.82);
+    color: rgba(245, 245, 247, 0.72);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.34);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+.study-rail-kicker {
+    color: #6ee7b7;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.study-rail-card strong {
+    color: #f8fdff;
+    font-size: 13px;
+}
+
+.study-rail-actions {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+}
+
+.study-rail-actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30px;
+    padding: 0 0.75rem;
+    border: 1px solid rgba(110, 231, 183, 0.24);
+    border-radius: 999px;
+    color: #d8f3ff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.study-rail-actions a:hover,
+.study-rail-actions a:focus-visible {
+    outline: none;
+    border-color: rgba(110, 231, 183, 0.5);
+    color: #ffffff;
+}
+
+.study-session-next {
+    margin-top: 12px;
+}
+
 @media (max-height: 820px) {
     .slide--intro {
         padding-top: 80px;
@@ -1526,6 +1598,30 @@ body.auto-scroll-active .scroll-indicator {
 
 /* --- Responsive --- */
 @media (max-width: 900px) {
+    .study-session-rail {
+        right: 12px;
+        left: 12px;
+        bottom: 72px;
+        width: auto;
+    }
+
+    .study-rail-card {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 0.2rem 0.75rem;
+        padding: 11px 12px;
+    }
+
+    .study-rail-card span:not(.study-rail-kicker) {
+        display: none;
+    }
+
+    .study-rail-actions {
+        grid-row: 1 / span 3;
+        grid-column: 2;
+        margin-top: 0;
+    }
+
     .nav-container {
         gap: 10px;
         flex-wrap: wrap;

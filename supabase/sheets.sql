@@ -11,6 +11,8 @@ set public = excluded.public,
 create table if not exists public.sheet_files (
   id uuid primary key default gen_random_uuid(),
   title text not null,
+  subject text not null default 'Uncategorized',
+  sort_order bigint not null default (extract(epoch from now()) * 1000)::bigint,
   file_name text not null,
   storage_path text not null unique,
   public_url text not null,
@@ -18,6 +20,12 @@ create table if not exists public.sheet_files (
   mime_type text not null default 'application/pdf',
   created_at timestamptz not null default now()
 );
+
+alter table public.sheet_files
+  add column if not exists subject text not null default 'Uncategorized';
+
+alter table public.sheet_files
+  add column if not exists sort_order bigint not null default (extract(epoch from now()) * 1000)::bigint;
 
 alter table public.sheet_files enable row level security;
 
@@ -47,6 +55,26 @@ on public.sheet_files
 for delete
 to authenticated
 using (
+  exists (
+    select 1
+    from public.admin_users
+    where admin_users.user_id = auth.uid()
+  )
+);
+
+drop policy if exists "sheet_files admin update" on public.sheet_files;
+create policy "sheet_files admin update"
+on public.sheet_files
+for update
+to authenticated
+using (
+  exists (
+    select 1
+    from public.admin_users
+    where admin_users.user_id = auth.uid()
+  )
+)
+with check (
   exists (
     select 1
     from public.admin_users

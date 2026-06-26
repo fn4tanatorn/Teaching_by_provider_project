@@ -1,5 +1,89 @@
 const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 const { connectLambda, getStore } = require("@netlify/blobs");
+
+function getSupabaseConfig() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
+  if (url && key) return { url, key };
+
+  // Try different potential config file paths relative to __dirname and process.cwd()
+  const paths = [
+    path.join(__dirname, "../..", "Web", "js", "supabase-config.js"),
+    path.join(__dirname, "..", "Web", "js", "supabase-config.js"),
+    path.join(process.cwd(), "Web", "js", "supabase-config.js"),
+  ];
+  const localPaths = [
+    path.join(__dirname, "../..", "Web", "js", "supabase-config.local.js"),
+    path.join(__dirname, "..", "Web", "js", "supabase-config.local.js"),
+    path.join(process.cwd(), "Web", "js", "supabase-config.local.js"),
+  ];
+
+  let configContent = "";
+  try {
+    for (const p of paths) {
+      if (fs.existsSync(p)) {
+        configContent += fs.readFileSync(p, "utf8");
+        break;
+      }
+    }
+    for (const p of localPaths) {
+      if (fs.existsSync(p)) {
+        configContent += fs.readFileSync(p, "utf8");
+        break;
+      }
+    }
+  } catch (err) {
+    console.error("Could not read Supabase config file", err);
+  }
+
+  const urlMatch = configContent.match(/SUPABASE_URL\s*=\s*['"]([^'"]+)['"]/);
+  const keyMatch = configContent.match(/SUPABASE_ANON_KEY\s*=\s*['"]([^'"]+)['"]/);
+
+  return {
+    url: urlMatch ? urlMatch[1] : "",
+    key: keyMatch ? keyMatch[1] : ""
+  };
+}
+
+async function saveResultsToSupabase(room) {
+  const config = getSupabaseConfig();
+  if (!config.url || !config.key) {
+    console.warn("[LiveQuiz] Supabase is not configured. Skipping saving results.");
+    return;
+  }
+
+  const participants = room.participants.filter((p) => !p.kickedAt);
+  if (!participants.length) return;
+
+  const payloads = participants.map((participant) => ({
+    room_code: room.code,
+    participant_name: participant.username,
+    score: scoreFor(room, participant.id)
+  }));
+
+  try {
+    const response = await fetch(`${config.url}/rest/v1/livequiz_results`, {
+      method: "POST",
+      headers: {
+        "apikey": config.key,
+        "Authorization": `Bearer ${config.key}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(payloads)
+    });
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("[LiveQuiz] Failed to save results to Supabase:", response.status, errText);
+    } else {
+      console.log(`[LiveQuiz] Successfully saved ${payloads.length} participant results to Supabase.`);
+    }
+  } catch (err) {
+    console.error("[LiveQuiz] Error saving results to Supabase:", err);
+  }
+}
 
 const STORE_NAME = "livequiz";
 const STATE_KEY = "rooms.json";
@@ -578,7 +662,7 @@ async function handleRoute(event) {
 
   const nextMatch = path.match(/^\/rooms\/([A-Z0-9]+)\/next$/);
   if (nextMatch && method === "POST") {
-    const state = await withState((rooms, markChanged) => {
+    const state = await withState(async (rooms, markChanged) => {
       const room = getRoom(rooms, nextMatch[1]);
       requireHost(room, queryToken(event, "x-host-token", "token"));
       if (room.state !== "question_reveal") throw httpError("You can advance after the reveal", 400);
@@ -588,6 +672,7 @@ async function handleRoute(event) {
         room.startedAt = null;
         room.endsAt = null;
         room.revealedAt = null;
+        await saveResultsToSupabase(room).catch((err) => console.error("[Supabase LiveQuiz] Save error:", err));
       } else {
         startQuestion(room, nextIndex);
       }

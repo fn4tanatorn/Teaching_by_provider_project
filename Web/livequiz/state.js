@@ -10,6 +10,73 @@ const CHOICE_IDS = ["A", "B", "C", "D", "E"];
 let rooms = new Map();
 let timers = new Map();
 
+function getSupabaseConfig() {
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_ANON_KEY;
+  if (url && key) return { url, key };
+
+  const configPath = path.join(__dirname, "../js/supabase-config.js");
+  const localConfigPath = path.join(__dirname, "../js/supabase-config.local.js");
+  
+  let configContent = "";
+  try {
+    if (fs.existsSync(configPath)) {
+      configContent += fs.readFileSync(configPath, "utf8");
+    }
+    if (fs.existsSync(localConfigPath)) {
+      configContent += fs.readFileSync(localConfigPath, "utf8");
+    }
+  } catch (err) {
+    console.error("Could not read Supabase config file", err);
+  }
+
+  const urlMatch = configContent.match(/SUPABASE_URL\s*=\s*['"]([^'"]+)['"]/);
+  const keyMatch = configContent.match(/SUPABASE_ANON_KEY\s*=\s*['"]([^'"]+)['"]/);
+
+  return {
+    url: urlMatch ? urlMatch[1] : "",
+    key: keyMatch ? keyMatch[1] : ""
+  };
+}
+
+async function saveResultsToSupabase(room) {
+  const config = getSupabaseConfig();
+  if (!config.url || !config.key) {
+    console.warn("[LiveQuiz] Supabase is not configured. Skipping saving results.");
+    return;
+  }
+
+  const participants = room.participants.filter((p) => !p.kickedAt);
+  if (!participants.length) return;
+
+  const payloads = participants.map((participant) => ({
+    room_code: room.code,
+    participant_name: participant.username,
+    score: scoreFor(room, participant.id)
+  }));
+
+  try {
+    const response = await fetch(`${config.url}/rest/v1/livequiz_results`, {
+      method: "POST",
+      headers: {
+        "apikey": config.key,
+        "Authorization": `Bearer ${config.key}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(payloads)
+    });
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error("[LiveQuiz] Failed to save results to Supabase:", response.status, errText);
+    } else {
+      console.log(`[LiveQuiz] Successfully saved ${payloads.length} participant results to Supabase.`);
+    }
+  } catch (err) {
+    console.error("[LiveQuiz] Error saving results to Supabase:", err);
+  }
+}
+
 function nowIso() {
   return new Date().toISOString();
 }
@@ -487,6 +554,7 @@ function advanceQuestion(code, token) {
     room.endsAt = null;
     room.revealedAt = null;
     saveStore();
+    saveResultsToSupabase(room);
     return room;
   }
   startQuestion(room, nextIndex);

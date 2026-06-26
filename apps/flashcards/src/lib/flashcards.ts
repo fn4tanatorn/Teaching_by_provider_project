@@ -71,6 +71,11 @@ export const createSeedState = (): FlashcardState => {
   }
 }
 
+export const EMPTY_STATE: FlashcardState = {
+  decks: [],
+  cards: [],
+}
+
 export const createDeck = (name: string, description = ''): Deck => ({
   id: makeId(),
   name: name.trim(),
@@ -195,6 +200,31 @@ export const saveState = (state: FlashcardState) => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
 }
 
+export const mergeSharedBankWithLocalProgress = (
+  sharedState: FlashcardState,
+  localState: FlashcardState,
+): FlashcardState => {
+  const localCardsById = new Map(localState.cards.map((card) => [card.id, card]))
+
+  return {
+    decks: sharedState.decks,
+    cards: sharedState.cards.map((sharedCard) => {
+      const localCard = localCardsById.get(sharedCard.id)
+      if (!localCard) return sharedCard
+
+      return {
+        ...sharedCard,
+        dueAt: localCard.dueAt,
+        intervalDays: localCard.intervalDays,
+        ease: localCard.ease,
+        reps: localCard.reps,
+        lapses: localCard.lapses,
+        updatedAt: localCard.updatedAt,
+      }
+    }),
+  }
+}
+
 export const isValidImageUrl = (value: string) => {
   if (!value.trim()) return true
 
@@ -202,7 +232,10 @@ export const isValidImageUrl = (value: string) => {
 
   try {
     const url = new URL(value)
-    return url.protocol === 'http:' || url.protocol === 'https:'
+    return (
+      (url.protocol === 'http:' || url.protocol === 'https:') &&
+      /\.(png|jpe?g|gif|webp|svg)$/i.test(url.pathname)
+    )
   } catch {
     return false
   }

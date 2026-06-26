@@ -3,6 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const { URL } = require("url");
 const { routeApi, sendError, sendJson } = require("./livequiz/server");
+const { handler: flashcardsApi } = require("../netlify/functions/flashcards-api");
+const { handler: presenceApi } = require("../netlify/functions/presence-api");
 
 const PORT = process.env.PORT || 3000;
 const WEB_DIR = __dirname;
@@ -61,6 +63,50 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       console.error(err);
       sendError(res, err);
+    }
+    return;
+  }
+
+  if (url.pathname === "/.netlify/functions/flashcards-api") {
+    try {
+      const chunks = [];
+      for await (const chunk of req) chunks.push(chunk);
+      const body = Buffer.concat(chunks).toString("utf8");
+      const result = await flashcardsApi({
+        httpMethod: req.method,
+        path: url.pathname,
+        headers: req.headers,
+        queryStringParameters: Object.fromEntries(url.searchParams.entries()),
+        body,
+        isBase64Encoded: false,
+      });
+      res.writeHead(result.statusCode, result.headers);
+      res.end(result.body);
+    } catch (err) {
+      console.error(err);
+      sendJson(res, 500, { error: err.message || "Flashcard bank error" });
+    }
+    return;
+  }
+
+  if (url.pathname === "/.netlify/functions/presence-api") {
+    try {
+      const chunks = [];
+      for await (const chunk of req) chunks.push(chunk);
+      const body = Buffer.concat(chunks).toString("utf8");
+      const result = await presenceApi({
+        httpMethod: req.method,
+        path: url.pathname,
+        headers: req.headers,
+        queryStringParameters: Object.fromEntries(url.searchParams.entries()),
+        body,
+        isBase64Encoded: false,
+      });
+      res.writeHead(result.statusCode, result.headers);
+      res.end(result.body);
+    } catch (err) {
+      console.error(err);
+      sendJson(res, 500, { error: err.message || "Presence error" });
     }
     return;
   }

@@ -268,6 +268,7 @@ function initClinicalVideoApp() {
     let videoSearchQuery = '';
     let loginStuckTimer = null;
     let brainGraph = null;
+    let presenceTimer = null;
 
     const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
     if (useLocalMemberStorage) {
@@ -379,6 +380,62 @@ function initClinicalVideoApp() {
     function currentUserStorageKey() {
         if (!currentUser) return '';
         return String(currentUser.uid || currentUser.id || currentUser.username || '').trim();
+    }
+
+    function getPresenceId() {
+        let id = localStorage.getItem('clinical_presence_id');
+        if (!id) {
+            id = (window.crypto?.randomUUID?.() || `presence-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+            localStorage.setItem('clinical_presence_id', id);
+        }
+        return id;
+    }
+
+    function activePageLabel() {
+        const active = document.querySelector('.page.active');
+        return active?.dataset?.screenLabel || active?.id || 'Home';
+    }
+
+    function renderPresenceSummary(summary) {
+        const countEl = document.getElementById('home-online-count');
+        const copyEl = document.getElementById('home-online-copy');
+        const studentsEl = document.getElementById('home-online-students');
+        const staffEl = document.getElementById('home-online-staff');
+        if (!countEl || !copyEl || !studentsEl || !staffEl) return;
+
+        const total = Number(summary?.total || 0);
+        const students = Number(summary?.students || 0);
+        const staff = Number(summary?.staff || 0);
+        countEl.textContent = String(total);
+        copyEl.textContent = total === 1 ? 'Online now' : 'Online now';
+        studentsEl.textContent = `Students ${students}`;
+        staffEl.textContent = `Staff ${staff}`;
+    }
+
+    async function pingPresence() {
+        try {
+            const payload = {
+                id: getPresenceId(),
+                name: currentUser?.username || 'Guest',
+                role: currentUser?.isAdmin ? 'admin' : 'student',
+                page: activePageLabel()
+            };
+            const response = await fetch('/.netlify/functions/presence-api', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (response.ok) renderPresenceSummary(data.summary);
+        } catch (error) {
+            console.warn('[Presence]', error);
+        }
+    }
+
+    function startPresence() {
+        if (presenceTimer) return;
+        void pingPresence();
+        presenceTimer = window.setInterval(pingPresence, 30000);
     }
 
     function lastVideoStorageKey() {
@@ -811,6 +868,7 @@ function initClinicalVideoApp() {
     const pageSheets = document.getElementById('page-sheets');
     const pageDecks = document.getElementById('page-decks');
     const pageFlashcards = document.getElementById('page-flashcards');
+    const pageAlevel = document.getElementById('page-alevel');
     const pageLivequiz = document.getElementById('page-livequiz');
     const pageMedquiz = document.getElementById('page-medquiz');
     const pageVideoLinker = document.getElementById('page-video-linker');
@@ -879,6 +937,13 @@ function initClinicalVideoApp() {
     const homeResumeLesson = document.getElementById('home-resume-lesson');
     const homeCheckinTitle = document.getElementById('home-checkin-title');
     const homeCheckinCopy = document.getElementById('home-checkin-copy');
+    const homePlanTitle = document.getElementById('home-plan-title');
+    const homePlanEstimate = document.getElementById('home-plan-estimate');
+    const homePlanSteps = document.getElementById('home-plan-steps');
+    const homePlanVideoCount = document.getElementById('home-plan-video-count');
+    const homePlanSubjectCount = document.getElementById('home-plan-subject-count');
+    const homePlanStatus = document.getElementById('home-plan-status');
+    const homePlanPrimaryAction = document.getElementById('home-plan-primary-action');
 
     const userVideoGrid = document.getElementById('user-video-grid');
     const videoSearchInput = document.getElementById('video-search-input');
@@ -1506,6 +1571,70 @@ function initClinicalVideoApp() {
         return { saved, video };
     }
 
+    function renderHomeStudyPlan({ checkedInToday, video }) {
+        if (!homePlanTitle || !homePlanSteps || !homePlanPrimaryAction) return;
+
+        const totalVideos = videos.length;
+        const subjectCount = subjects.length || new Set(videos.map((item) => getVideoSubject(item))).size;
+        const videoStreak = currentUser?.videoStreak || 0;
+        const plan = [];
+        let primaryLabel = 'Start plan';
+        let primaryHandler = () => navigateTo(pageVideos);
+        let statusLabel = videoStreak > 0 ? `${videoStreak}d` : 'New';
+
+        if (!checkedInToday) {
+            plan.push({
+                label: '1',
+                title: 'Answer the daily check-in',
+                copy: 'Begin with one recall prompt before opening longer material.'
+            });
+            primaryLabel = 'Open check-in';
+            primaryHandler = () => navigateTo(pageQuiz);
+            statusLabel = 'Check-in due';
+        }
+
+        if (video) {
+            plan.push({
+                label: String(plan.length + 1),
+                title: 'Resume the current lesson',
+                copy: `${subjectLabel(getVideoSubject(video))}: ${video.title || 'last opened lesson'}`
+            });
+            if (checkedInToday) {
+                primaryLabel = 'Resume lesson';
+                primaryHandler = () => openVideoWatchPage(video);
+            }
+        } else {
+            plan.push({
+                label: String(plan.length + 1),
+                title: 'Pick one lesson block',
+                copy: totalVideos ? `${totalVideos} lessons are available across the workspace.` : 'Open the video feed when lessons are added.'
+            });
+        }
+
+        plan.push({
+            label: String(plan.length + 1),
+            title: 'Close with active recall',
+            copy: checkedInToday ? 'Use MedQuiz or flashcards to test the same topic.' : 'After the lesson, use MedQuiz or flashcards for retrieval.'
+        });
+
+        homePlanTitle.textContent = checkedInToday ? 'Study plan is ready' : 'Start with recall';
+        if (homePlanEstimate) homePlanEstimate.textContent = video ? '30 min' : '20 min';
+        if (homePlanVideoCount) homePlanVideoCount.textContent = String(totalVideos);
+        if (homePlanSubjectCount) homePlanSubjectCount.textContent = String(subjectCount);
+        if (homePlanStatus) homePlanStatus.textContent = statusLabel;
+        homePlanPrimaryAction.textContent = primaryLabel;
+        homePlanPrimaryAction.onclick = primaryHandler;
+        homePlanSteps.innerHTML = plan.map((item) => `
+            <li>
+                <span>${escapeHtml(item.label)}</span>
+                <div>
+                    <strong>${escapeHtml(item.title)}</strong>
+                    <p>${escapeHtml(item.copy)}</p>
+                </div>
+            </li>
+        `).join('');
+    }
+
     function renderLearningHome() {
         if (!homePrimaryTitle || !homePrimaryCopy || !homePrimaryAction) return;
         const { saved, video } = getSavedLastVideo();
@@ -1566,6 +1695,8 @@ function initClinicalVideoApp() {
             homePrimaryAction.textContent = 'Open videos';
             homePrimaryAction.onclick = () => navigateTo(pageVideos);
         }
+
+        renderHomeStudyPlan({ checkedInToday, video });
     }
 
     function renderResumeLessonCard() {
@@ -2633,6 +2764,7 @@ function initClinicalVideoApp() {
             [pageSheets, 'sheets'],
             [pageDecks, 'decks'],
             [pageFlashcards, 'flashcards'],
+            [pageAlevel, 'alevel'],
             [pageLivequiz, 'livequiz'],
             [pageMedquiz, 'medquiz']
         ]);
@@ -2640,6 +2772,12 @@ function initClinicalVideoApp() {
         document.querySelectorAll('.shell-nav-link').forEach((link) => {
             if (link.getAttribute('data-nav-target') === activeTarget) {
                 link.setAttribute('aria-current', 'page');
+                setTimeout(() => {
+                    const pageParent = link.closest('.page');
+                    if (pageParent && pageParent.classList.contains('active')) {
+                        link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                }, 50);
             } else {
                 link.removeAttribute('aria-current');
             }
@@ -3053,11 +3191,12 @@ function initClinicalVideoApp() {
     const countdownTimerSheets = document.getElementById('countdown-timer-sheets');
     const countdownTimerDecks = document.getElementById('countdown-timer-decks');
     const countdownTimerFlashcards = document.getElementById('countdown-timer-flashcards');
+    const countdownTimerAlevel = document.getElementById('countdown-timer-alevel');
     const countdownTimerLivequiz = document.getElementById('countdown-timer-livequiz');
     const countdownTimerMedquiz = document.getElementById('countdown-timer-medquiz');
 
     function setAllCountdownLabels(html) {
-        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest, countdownTimerSheets, countdownTimerDecks, countdownTimerFlashcards, countdownTimerLivequiz, countdownTimerMedquiz].forEach(el => { if (el) el.innerHTML = html; });
+        [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest, countdownTimerSheets, countdownTimerDecks, countdownTimerFlashcards, countdownTimerAlevel, countdownTimerLivequiz, countdownTimerMedquiz].forEach(el => { if (el) el.innerHTML = html; });
     }
 
     function formatDatetimeLocal(ms) {
@@ -3190,7 +3329,7 @@ function initClinicalVideoApp() {
         examDetailsModal.setAttribute('aria-hidden', 'true');
     }
 
-    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest, countdownTimerSheets, countdownTimerDecks, countdownTimerFlashcards, countdownTimerLivequiz, countdownTimerMedquiz].forEach((el) => {
+    [countdownTimerHome, countdownTimer, countdownTimerWatch, countdownTimerQuiz, countdownTimerBm, countdownTimerRequest, countdownTimerSheets, countdownTimerDecks, countdownTimerFlashcards, countdownTimerAlevel, countdownTimerLivequiz, countdownTimerMedquiz].forEach((el) => {
         if (el) el.addEventListener('click', openExamDetailsModal);
     });
     if (btnCloseExamDetails) btnCloseExamDetails.addEventListener('click', closeExamDetailsModal);
@@ -3981,6 +4120,13 @@ function initClinicalVideoApp() {
             }
             navigateTo(pageFlashcards);
         }
+        else if (target === 'alevel') {
+            if (!currentUser) {
+                showToast('Log in before opening A-Level MCQ.', 'error');
+                return;
+            }
+            navigateTo(pageAlevel);
+        }
         else if (target === 'livequiz') navigateTo(pageLivequiz);
         else if (target === 'medquiz') {
             if (!currentUser) {
@@ -3997,7 +4143,7 @@ function initClinicalVideoApp() {
     }
 
     // Dynamic Sidebar Menu reordering
-    const DEFAULT_MENU_ORDER = ['home', 'videos', 'brainmap', 'checkin', 'request', 'stats', 'sheets', 'decks', 'flashcards', 'livequiz', 'medquiz'];
+    const DEFAULT_MENU_ORDER = ['home', 'videos', 'brainmap', 'checkin', 'request', 'stats', 'sheets', 'decks', 'flashcards', 'livequiz', 'medquiz', 'alevel'];
 
     const MENU_METADATA = {
         home: { label: 'Home', class: 'shell-nav-link' },
@@ -4009,6 +4155,7 @@ function initClinicalVideoApp() {
         sheets: { label: 'Sheets', class: 'shell-nav-link' },
         decks: { label: 'Pharma Decks', class: 'shell-nav-link' },
         flashcards: { label: 'Flashcards', class: 'shell-nav-link' },
+        alevel: { label: 'A-Level', class: 'shell-nav-link' },
         livequiz: { label: 'LiveQuiz', class: 'shell-nav-link' },
         medquiz: { label: 'MedQuiz', class: 'shell-nav-link shell-nav-link--accent' }
     };
@@ -4021,7 +4168,7 @@ function initClinicalVideoApp() {
                 if (Array.isArray(parsed) && parsed.length > 0) {
                     const savedOrder = parsed.filter(item => DEFAULT_MENU_ORDER.includes(item));
                     const missingDefaults = DEFAULT_MENU_ORDER.filter(item => !savedOrder.includes(item));
-                    return [...savedOrder, ...missingDefaults];
+                    return [...savedOrder, ...missingDefaults].filter(item => item !== 'alevel').concat('alevel');
                 }
             }
         } catch (e) {
@@ -4091,6 +4238,7 @@ function initClinicalVideoApp() {
             sheets: '□',
             decks: '▤',
             flashcards: '◫',
+            alevel: 'A',
             livequiz: '◉',
             medquiz: '?'
         };
@@ -5533,6 +5681,8 @@ function initClinicalVideoApp() {
             });
         }
     }
+
+    startPresence();
 
     if (wantsVideoFeedRoute()) {
         navigateTo(pageVideos);

@@ -24,6 +24,7 @@ import {
   getDueCards,
   isValidImageUrl,
   loadState,
+  mergeSharedBankWithLocalProgress,
   saveState,
   scheduleReview,
 } from './lib/flashcards'
@@ -49,21 +50,22 @@ const gradeIntervals: Record<ReviewGrade, string> = {
   easy: '4d',
 }
 
-const onlineStore = (store: FlashcardStore | null) => (store?.mode === 'online' ? store : null)
+const sharedStore = (store: FlashcardStore | null) => (store?.mode === 'shared' ? store : null)
 
 function App() {
+  const isAdminMode = new URLSearchParams(window.location.search).get('admin') === '1'
   const [state, setState] = useState<FlashcardState>(() => loadState())
   const [activeDeckId, setActiveDeckId] = useState(() => state.decks[0]?.id ?? '')
-  const [view, setView] = useState<View>('study')
+  const [view, setView] = useState<View>(isAdminMode ? 'staff' : 'study')
   const [isAnswerVisible, setIsAnswerVisible] = useState(false)
 
   const [staffPassword, setStaffPassword] = useState('')
-  const [isStaffUnlocked, setIsStaffUnlocked] = useState(false)
+  const [isStaffUnlocked, setIsStaffUnlocked] = useState(isAdminMode)
   const [toast, setToast] = useState('')
   const [store, setStore] = useState<FlashcardStore | null>(null)
   const [isOnlineReady, setIsOnlineReady] = useState(false)
   const [syncLabel, setSyncLabel] = useState('Checking sync')
-  const [syncDetail, setSyncDetail] = useState('Looking for a Supabase session.')
+  const [syncDetail, setSyncDetail] = useState('Looking for the shared flashcard bank.')
 
   useEffect(() => {
     saveState(state)
@@ -89,20 +91,23 @@ function App() {
         const onlineState = await fetchOnlineState(nextStore)
         if (!isMounted) return
 
-        const nextState = onlineState.decks.length > 0 ? onlineState : state
-        if (onlineState.decks.length === 0) {
-          await saveOnlineState(nextStore, nextState)
-        }
+        const nextState = onlineState.decks.length > 0
+          ? mergeSharedBankWithLocalProgress(onlineState, state)
+          : state
 
         setState(nextState)
         setActiveDeckId(nextState.decks[0]?.id ?? '')
         setIsOnlineReady(true)
-        setSyncLabel('Synced online')
-        setSyncDetail('Flashcards are saved to Supabase for this signed-in user.')
+        setSyncLabel(onlineState.decks.length > 0 ? 'Shared bank' : 'Ready to publish')
+        setSyncDetail(
+          onlineState.decks.length > 0
+            ? 'Students load this shared card bank. Study progress stays on each browser.'
+            : 'No shared bank is published yet. Staff changes will publish it.',
+        )
       } catch (error) {
         setIsOnlineReady(false)
         setSyncLabel('Local only')
-        setSyncDetail(error instanceof Error ? error.message : 'Run supabase/flashcards.sql first.')
+        setSyncDetail(error instanceof Error ? error.message : 'Shared flashcard bank unavailable.')
       }
     }
 
@@ -114,26 +119,6 @@ function App() {
     // Initial local state is intentionally used as the first online seed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  useEffect(() => {
-    const currentStore = onlineStore(store)
-    if (!isOnlineReady || !currentStore) return
-
-    setSyncLabel('Saving')
-    const saveTimer = window.setTimeout(() => {
-      void saveOnlineState(currentStore, state)
-        .then(() => {
-          setSyncLabel('Synced online')
-          setSyncDetail('Flashcards are saved to Supabase for this signed-in user.')
-        })
-        .catch((error: unknown) => {
-          setSyncLabel('Sync failed')
-          setSyncDetail(error instanceof Error ? error.message : 'Could not save flashcards online.')
-        })
-    }, 500)
-
-    return () => window.clearTimeout(saveTimer)
-  }, [isOnlineReady, state, store])
 
   useEffect(() => {
     if (!activeDeckId && state.decks.length > 0) {
@@ -159,6 +144,27 @@ function App() {
     }))
   }
 
+  const publishStaffState = (nextState: FlashcardState) => {
+    const currentStore = sharedStore(store)
+    if (!currentStore) {
+      setSyncLabel('Local only')
+      setSyncDetail('Shared flashcard bank unavailable. Changes are saved on this browser only.')
+      return
+    }
+
+    setSyncLabel('Publishing')
+    void saveOnlineState(currentStore, nextState, STAFF_PASSWORD)
+      .then(() => {
+        setIsOnlineReady(true)
+        setSyncLabel('Shared bank')
+        setSyncDetail('Published. Students will load these decks and keep their own progress locally.')
+      })
+      .catch((error: unknown) => {
+        setSyncLabel('Publish failed')
+        setSyncDetail(error instanceof Error ? error.message : 'Could not publish the shared flashcard bank.')
+      })
+  }
+
   const handleGrade = (grade: ReviewGrade) => {
     if (!currentCard) return
     updateCard(scheduleReview(currentCard, grade))
@@ -181,7 +187,9 @@ function App() {
       imageUrl: imgUrl,
     })
 
-    setState((current) => ({ ...current, cards: [nextCard, ...current.cards] }))
+    const nextState = { ...state, cards: [nextCard, ...state.cards] }
+    setState(nextState)
+    publishStaffState(nextState)
     setToast('Card added')
   }
 
@@ -191,9 +199,9 @@ function App() {
       return
     }
 
-    setState((current) => ({
-      ...current,
-      cards: current.cards.map((card) =>
+    const nextState = {
+      ...state,
+      cards: state.cards.map((card) =>
         card.id === cardId
           ? {
               ...card,
@@ -205,29 +213,35 @@ function App() {
             }
           : card
       ),
-    }))
+    }
+    setState(nextState)
+    publishStaffState(nextState)
     setToast('Card updated')
   }
 
   const handleDeleteCard = (cardId: string) => {
     if (!window.confirm('Are you sure you want to delete this card?')) return
-    setState((current) => ({
-      ...current,
-      cards: current.cards.filter((card) => card.id !== cardId),
-    }))
+    const nextState = {
+      ...state,
+      cards: state.cards.filter((card) => card.id !== cardId),
+    }
+    setState(nextState)
+    publishStaffState(nextState)
     setToast('Card deleted')
   }
 
   const handleCreateDeckInline = (name: string, description: string) => {
     const nextDeck = createDeck(name, description)
-    setState((current) => ({ ...current, decks: [...current.decks, nextDeck] }))
+    const nextState = { ...state, decks: [...state.decks, nextDeck] }
+    setState(nextState)
+    publishStaffState(nextState)
     setToast('Deck created')
   }
 
   const handleUpdateDeck = (deckId: string, updatedName: string, updatedDescription: string) => {
-    setState((current) => ({
-      ...current,
-      decks: current.decks.map((deck) =>
+    const nextState = {
+      ...state,
+      decks: state.decks.map((deck) =>
         deck.id === deckId
           ? {
               ...deck,
@@ -236,7 +250,9 @@ function App() {
             }
           : deck
       ),
-    }))
+    }
+    setState(nextState)
+    publishStaffState(nextState)
     setToast('Deck updated')
   }
 
@@ -248,11 +264,13 @@ function App() {
 
     if (!window.confirm(confirmMessage)) return
 
-    setState((current) => ({
-      ...current,
-      decks: current.decks.filter((deck) => deck.id !== deckId),
-      cards: current.cards.filter((card) => card.deckId !== deckId),
-    }))
+    const nextState = {
+      ...state,
+      decks: state.decks.filter((deck) => deck.id !== deckId),
+      cards: state.cards.filter((card) => card.deckId !== deckId),
+    }
+    setState(nextState)
+    publishStaffState(nextState)
 
     if (activeDeckId === deckId) {
       const remainingDecks = state.decks.filter((d) => d.id !== deckId)
@@ -303,37 +321,74 @@ function App() {
   }
 
   const handleDownloadSample = () => {
-    const deckId = 'sample-deck-medicine-review'
-    const createdAt = new Date().toISOString()
+    const deckId = 'sample-lab-diagnosis-infection'
+    const createdAt = '2026-06-25T00:00:00.000Z'
+    const makeSampleCard = (
+      id: string,
+      front: string,
+      back: string,
+      imageUrl = '',
+    ): Flashcard => ({
+      id,
+      deckId,
+      front,
+      back,
+      imageUrl,
+      createdAt,
+      updatedAt: createdAt,
+      dueAt: createdAt,
+      intervalDays: 0,
+      ease: 2.5,
+      reps: 0,
+      lapses: 0,
+    })
     const sampleState: FlashcardState = {
       decks: [
         {
           id: deckId,
-          name: 'Sample medicine deck',
-          description: 'Example JSON for flashcard import.',
+          name: 'deck-flashcards',
+          description: 'Import-ready example. Use direct image URLs ending in .png, .jpg, .jpeg, .gif, .webp, or .svg.',
           createdAt,
         },
       ],
       cards: [
-        createCard({
-          deckId,
-          front: 'What is spaced repetition?',
-          back: 'A review method that shows harder cards sooner and easier cards later.',
-          imageUrl: '',
-        }),
-        createCard({
-          deckId,
-          front: 'What can image links be used for?',
-          back: 'Diagrams, pathology photos, radiology, tables, or any reference image hosted online.',
-          imageUrl: APP_ILLUSTRATION_URL,
-        }),
+        makeSampleCard(
+          'sample-labdx-001',
+          'Why is Gram stain clinically useful?',
+          'Gram stain is rapid and reports bacterial Gram reaction, morphology, arrangement, and host inflammatory response. It is fast but less sensitive when organism burden is low.',
+          'https://upload.wikimedia.org/wikipedia/commons/5/5d/Gram_positive_coccus_and_gram_negative_rod.png',
+        ),
+        makeSampleCard(
+          'sample-labdx-002',
+          'Which organisms are detected by acid-fast stains?',
+          'Acid-fast stains detect Mycobacterium and partially acid-fast organisms such as Nocardia. Modified acid-fast stains can help detect selected intestinal parasites.',
+          'https://upload.wikimedia.org/wikipedia/commons/7/71/Mycobacterium_tuberculosis_Ziehl-Neelsen_stain_02.jpg',
+        ),
+        makeSampleCard(
+          'sample-labdx-003',
+          'How many blood culture sets are usually collected when bloodstream infection is suspected?',
+          'Usually 2-3 sets are collected. Multiple sets improve sensitivity and help distinguish true bacteremia from contamination.',
+          'https://upload.wikimedia.org/wikipedia/commons/f/ff/National_Lab_Week_130410-F-TT327-090.jpg',
+        ),
+        makeSampleCard(
+          'sample-labdx-004',
+          'What does a mixed urine culture with three or more species usually suggest?',
+          'It usually suggests specimen contamination rather than a single urinary pathogen.',
+          'https://upload.wikimedia.org/wikipedia/commons/9/9b/Bacteriuria_pyuria_4.jpg',
+        ),
+        makeSampleCard(
+          'sample-labdx-005',
+          'Which antimicrobial susceptibility methods provide a quantitative MIC?',
+          'Broth dilution, agar dilution, and E-test can provide quantitative MIC values. Disk diffusion mainly interprets inhibition-zone diameters.',
+          'https://upload.wikimedia.org/wikipedia/commons/3/3a/E-test_Ngono.jpg',
+        ),
       ],
     }
     const blob = new Blob([JSON.stringify(sampleState, null, 2)], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-    link.download = 'flashcards-import-sample.json'
+    link.download = 'flashcards-import-sample-lab-diagnosis.json'
     link.click()
     URL.revokeObjectURL(url)
     setToast('Sample ready')
@@ -351,6 +406,7 @@ function App() {
       }
       setState(nextState)
       setActiveDeckId(nextState.decks[0]?.id ?? '')
+      publishStaffState(nextState)
       setToast('Import complete')
     } catch {
       setToast('Import failed')
@@ -391,15 +447,19 @@ function App() {
         </div>
 
         <nav className="nav-tabs" aria-label="Main views">
-          <button className={view === 'study' ? 'active' : ''} onClick={() => setView('study')}>
-            <BookOpen size={18} /> Study
-          </button>
-          <button
-            className={view === 'staff' || view === 'add' || view === 'decks' ? 'active' : ''}
-            onClick={() => setView('staff')}
-          >
-            <ShieldCheck size={18} /> Staff
-          </button>
+          {!isAdminMode && (
+            <button className={view === 'study' ? 'active' : ''} onClick={() => setView('study')}>
+              <BookOpen size={18} /> Study
+            </button>
+          )}
+          {isAdminMode && (
+            <button
+              className={view === 'staff' || view === 'add' || view === 'decks' ? 'active' : ''}
+              onClick={() => setView('staff')}
+            >
+              <ShieldCheck size={18} /> Manage
+            </button>
+          )}
         </nav>
 
         <div className="deck-picker">
@@ -426,7 +486,7 @@ function App() {
           <Metric label="Mature" value={activeStats?.mastered ?? 0} />
         </div>
 
-        {view === 'study' && activeStats && activeStats.total > 0 && (
+        {!isAdminMode && view === 'study' && activeStats && activeStats.total > 0 && (
           <button className="reset-progress-button" onClick={handleResetDeckProgress}>
             <RotateCcw size={14} /> Clear progress
           </button>
@@ -437,7 +497,7 @@ function App() {
           {syncLabel}
         </div>
 
-        {isStaffUnlocked && (
+        {isStaffUnlocked && !isAdminMode && (
           <button className="staff-lock-button" onClick={handleStaffLogout}>
             <LogOut size={17} /> Lock staff
           </button>
@@ -1016,7 +1076,7 @@ function StaffView({
               <div className="panel backup-card">
                 <h4>Data Operations</h4>
                 <p className="backup-desc">
-                  Backup your entire study state including cards, decks, and intervals. You can import it back at any time.
+                  Backup decks, cards, and local intervals. Staff imports publish to the shared bank when online.
                 </p>
 
                 <div className="backup-actions">
@@ -1038,7 +1098,7 @@ function StaffView({
               <div className="panel backup-card sync-status-card">
                 <h4>Cloud Sync Status</h4>
                 <p className="backup-desc">
-                  Your progress is saved locally. If you configure Supabase credentials, your cards sync to the cloud.
+                  Decks and cards come from the shared bank. Each student keeps study progress on their browser.
                 </p>
 
                 <div className="sync-info-box">

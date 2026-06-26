@@ -1,0 +1,28 @@
+{
+  "questions": [
+    {
+      "id": "alevel-sample-001",
+      "subject": "Biology",
+      "stem": "Which structure is the main site of aerobic respiration in eukaryotic cells?",
+      "choices": ["Ribosome", "Mitochondrion", "Golgi apparatus", "Nucleus", "Lysosome"],
+      "answer": "B",
+      "explanation": "Mitochondria carry out the Krebs cycle and oxidative phosphorylation, producing most ATP during aerobic respiration."
+    },
+    {
+      "id": "alevel-sample-002",
+      "subject": "Chemistry",
+      "stem": "For a weak acid HA, which expression represents Ka?",
+      "choices": ["[HA]/[H+][A-]", "[H+][A-]/[HA]", "[H+][HA]/[A-]", "[A-]/[HA]", "[H+]/[A-]"],
+      "answer": "B",
+      "explanation": "The acid dissociation constant is Ka = [H+][A-]/[HA]."
+    },
+    {
+      "id": "alevel-sample-003",
+      "subject": "Physics",
+      "stem": "A force of 10 N acts on a 2 kg object on a frictionless surface. What is the acceleration?",
+      "choices": ["2 m/s²", "5 m/s²", "10 m/s²", "12 m/s²", "20 m/s²"],
+      "answer": "B",
+      "explanation": "Newton's second law gives a = F/m = 10/2 = 5 m/s²."
+    }
+  ]
+}
