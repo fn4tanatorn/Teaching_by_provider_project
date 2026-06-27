@@ -164,6 +164,14 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
             if (error) throw error;
         },
 
+        async incrementVideoView(videoId) {
+            const { data, error } = await supabase.rpc('increment_video_view', {
+                target_video_id: videoId
+            });
+            if (error) throw error;
+            return Number.isFinite(Number(data)) ? Number(data) : null;
+        },
+
         async saveAdminSettingsPatch(parts) {
             const { error } = await supabase.from('admin_settings').update(parts).eq('id', 1);
             if (error) throw error;

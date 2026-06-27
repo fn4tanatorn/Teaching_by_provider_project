@@ -29,6 +29,54 @@ create policy "video_library admin write"
     )
   );
 
+create or replace function public.increment_video_view(target_video_id bigint)
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  next_views integer;
+begin
+  update public.video_library as vl
+     set videos = (
+       select jsonb_agg(
+         case
+           when (item.video ->> 'id')::bigint = target_video_id then
+             jsonb_set(
+               item.video,
+               '{views}',
+               to_jsonb(coalesce((item.video ->> 'views')::integer, 0) + 1),
+               true
+             )
+           else item.video
+         end
+         order by item.ordinality
+       )
+       from jsonb_array_elements(vl.videos::jsonb) with ordinality as item(video, ordinality)
+     )
+   where vl.id = 1
+     and exists (
+       select 1
+       from jsonb_array_elements(vl.videos::jsonb) as item(video)
+       where (item.video ->> 'id')::bigint = target_video_id
+     );
+
+  select (item.video ->> 'views')::integer
+    into next_views
+    from public.video_library as vl,
+         jsonb_array_elements(vl.videos::jsonb) as item(video)
+   where vl.id = 1
+     and (item.video ->> 'id')::bigint = target_video_id
+   limit 1;
+
+  return next_views;
+end;
+$$;
+
+revoke all on function public.increment_video_view(bigint) from public;
+grant execute on function public.increment_video_view(bigint) to anon, authenticated;
+
 -- ==========================================
 -- 2. Table: public.checkin_questions
 -- ==========================================

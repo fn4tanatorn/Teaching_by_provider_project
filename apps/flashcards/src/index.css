@@ -17,13 +17,17 @@
   --ink-shadow: 5px 6px 0 rgb(36 52 71 / 0.13);
   --soft-shadow: 0 20px 60px rgb(36 52 71 / 0.12);
   --radius: 26px;
-  font-family:
+  --font-sans:
+    'Graphik',
+    'Graphik Thai',
     ui-sans-serif,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
     sans-serif;
+  font-family:
+    var(--font-sans);
   background: var(--bg);
   color: var(--text);
   font-synthesis: none;
@@ -51,6 +55,22 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+kbd {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.45em;
+  min-height: 1.45em;
+  padding: 0 0.34em;
+  border: 1px solid color-mix(in srgb, var(--text-muted) 34%, transparent);
+  border-radius: 6px;
+  background: var(--surface-solid);
+  color: var(--text);
+  font-size: 0.72em;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: inset 0 -1px 0 rgb(15 23 42 / 0.08);
 }
 
 button {
@@ -406,7 +426,7 @@ textarea:focus {
 }
 
 .image-frame {
-  grid-row: 2;
+  grid-row: 3;
   margin: 0 auto;
   max-width: 480px;
   width: 100%;
@@ -826,13 +846,51 @@ textarea {
 }
 
 .study-card {
-  grid-template-rows: minmax(84px, auto) auto minmax(42px, 1fr) auto;
+  grid-template-rows: auto minmax(84px, auto) auto minmax(42px, 1fr) auto;
   align-items: stretch;
   text-align: center;
 }
 
-.card-face-front {
+.study-card-toolbar {
   grid-row: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 34px;
+}
+
+.study-card-toolbar .secondary-action,
+.random-card-action {
+  min-height: 30px;
+  padding: 0 11px;
+  font-size: 0.75rem;
+  justify-content: center;
+}
+
+.mode-pill,
+.shortcut-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 0.73rem;
+  font-weight: 700;
+}
+
+.mode-pill {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.card-face-front {
+  grid-row: 2;
   align-content: end;
   justify-items: center;
   padding-top: clamp(10px, 2.6vh, 28px);
@@ -851,7 +909,7 @@ textarea {
 }
 
 .card-face.answer {
-  grid-row: 3;
+  grid-row: 4;
   align-content: start;
   padding-top: 16px;
 }
@@ -865,13 +923,13 @@ textarea {
 }
 
 .answer-placeholder {
-  grid-row: 3;
+  grid-row: 4;
   border-top: 1px solid var(--border);
   min-height: 54px;
 }
 
 .study-controls {
-  grid-row: 4;
+  grid-row: 5;
   display: grid;
   justify-items: center;
   gap: 8px;
@@ -906,6 +964,10 @@ textarea {
 }
 
 .study-controls .grade-grid button strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   color: inherit;
   font-size: 0.82rem;
   line-height: 1.1;

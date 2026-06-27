@@ -1,4 +1,4 @@
-const { getStore } = require("@netlify/blobs");
+const { connectLambda, getStore } = require("@netlify/blobs");
 const fs = require("fs/promises");
 const path = require("path");
 
@@ -6,6 +6,7 @@ const STORE_NAME = "flashcards";
 const BANK_KEY = "shared-bank.json";
 const LOCAL_BANK_PATH = path.join(process.cwd(), ".netlify", "flashcards-bank.local.json");
 const DEFAULT_STAFF_CODE = "admin061";
+const EMPTY_BANK = { decks: [], cards: [] };
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -95,34 +96,51 @@ function normalizeState(value) {
 }
 
 function store() {
-  return getStore({ name: STORE_NAME, consistency: "strong" });
+  return getStore({
+    name: STORE_NAME,
+    consistency: "strong",
+  });
+}
+
+function canUseLocalFallback() {
+  return !process.env.NETLIFY && !process.env.AWS_LAMBDA_FUNCTION_NAME;
+}
+
+async function loadLocalBank() {
+  try {
+    return JSON.parse(await fs.readFile(LOCAL_BANK_PATH, "utf8"));
+  } catch {
+    return EMPTY_BANK;
+  }
+}
+
+async function saveLocalBank(state) {
+  await fs.mkdir(path.dirname(LOCAL_BANK_PATH), { recursive: true });
+  await fs.writeFile(LOCAL_BANK_PATH, JSON.stringify(state, null, 2));
+}
+
+function connectBlobContext(event) {
+  if (event?.blobs) connectLambda(event);
 }
 
 async function loadBank() {
-  try {
-    return (await store().get(BANK_KEY, { type: "json" })) || { decks: [], cards: [] };
-  } catch (error) {
-    if (!String(error.message || "").includes("Netlify Blobs")) throw error;
-    try {
-      return JSON.parse(await fs.readFile(LOCAL_BANK_PATH, "utf8"));
-    } catch {
-      return { decks: [], cards: [] };
-    }
-  }
+  if (canUseLocalFallback()) return loadLocalBank();
+  return (await store().get(BANK_KEY, { type: "json" })) || EMPTY_BANK;
 }
 
 async function saveBank(state) {
-  try {
-    await store().setJSON(BANK_KEY, state);
-  } catch (error) {
-    if (!String(error.message || "").includes("Netlify Blobs")) throw error;
-    await fs.mkdir(path.dirname(LOCAL_BANK_PATH), { recursive: true });
-    await fs.writeFile(LOCAL_BANK_PATH, JSON.stringify(state, null, 2));
+  if (canUseLocalFallback()) {
+    await saveLocalBank(state);
+    return;
   }
+
+  await store().setJSON(BANK_KEY, state);
 }
 
 exports.handler = async (event) => {
   try {
+    connectBlobContext(event);
+
     if (event.httpMethod === "OPTIONS") return json(204, {});
 
     if (event.httpMethod === "GET") {

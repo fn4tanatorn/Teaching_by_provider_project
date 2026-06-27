@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ChangeEvent, FormEvent, ReactNode } from 'react'
 import {
   ArrowDownToLine,
@@ -10,6 +10,7 @@ import {
   Plus,
   RotateCcw,
   ShieldCheck,
+  Shuffle,
   Upload,
   Edit3,
   Trash2,
@@ -58,6 +59,7 @@ function App() {
   const [activeDeckId, setActiveDeckId] = useState(() => state.decks[0]?.id ?? '')
   const [view, setView] = useState<View>(isAdminMode ? 'staff' : 'study')
   const [isAnswerVisible, setIsAnswerVisible] = useState(false)
+  const [randomCardId, setRandomCardId] = useState('')
 
   const [staffPassword, setStaffPassword] = useState('')
   const [isStaffUnlocked, setIsStaffUnlocked] = useState(isAdminMode)
@@ -133,16 +135,24 @@ function App() {
     return getDueCards(state.cards, activeDeckId)
   }, [activeDeckId, state.cards])
 
-  const currentCard = dueCards[0]
+  const activeDeckCards = useMemo(() => {
+    if (!activeDeckId) return []
+    return state.cards.filter((card) => card.deckId === activeDeckId)
+  }, [activeDeckId, state.cards])
+
+  const randomCard = randomCardId
+    ? activeDeckCards.find((card) => card.id === randomCardId)
+    : undefined
+  const currentCard = randomCard ?? dueCards[0]
   const activeStats = activeDeckId ? getDeckStats(state, activeDeckId) : null
   const cardCount = state.cards.filter((card) => card.deckId === activeDeckId).length
 
-  const updateCard = (card: Flashcard) => {
+  const updateCard = useCallback((card: Flashcard) => {
     setState((current) => ({
       ...current,
       cards: current.cards.map((item) => (item.id === card.id ? card : item)),
     }))
-  }
+  }, [])
 
   const publishStaffState = (nextState: FlashcardState) => {
     const currentStore = sharedStore(store)
@@ -165,12 +175,87 @@ function App() {
       })
   }
 
-  const handleGrade = (grade: ReviewGrade) => {
+  const handleGrade = useCallback((grade: ReviewGrade) => {
     if (!currentCard) return
     updateCard(scheduleReview(currentCard, grade))
+    setRandomCardId('')
     setIsAnswerVisible(false)
     setToast(`Card scheduled: ${gradeLabels[grade]}`)
-  }
+  }, [currentCard, updateCard])
+
+  const handleRandomCard = useCallback(() => {
+    if (activeDeckCards.length === 0) return
+
+    const candidates = activeDeckCards.length > 1
+      ? activeDeckCards.filter((card) => card.id !== currentCard?.id)
+      : activeDeckCards
+    const nextCard = candidates[Math.floor(Math.random() * candidates.length)]
+
+    setRandomCardId(nextCard.id)
+    setIsAnswerVisible(false)
+    setToast('Random card loaded')
+  }, [activeDeckCards, currentCard])
+
+  useEffect(() => {
+    if (!randomCardId) return
+    if (!activeDeckCards.some((card) => card.id === randomCardId)) {
+      setRandomCardId('')
+      setIsAnswerVisible(false)
+    }
+  }, [activeDeckCards, randomCardId])
+
+  useEffect(() => {
+    if (view !== 'study') return
+
+    const handleStudyShortcut = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null
+      const isTyping =
+        target?.tagName === 'INPUT' ||
+        target?.tagName === 'TEXTAREA' ||
+        target?.tagName === 'SELECT' ||
+        target?.isContentEditable
+
+      if (isTyping || event.metaKey || event.ctrlKey || event.altKey) return
+
+      const key = event.key.toLowerCase()
+
+      if (key === 'r') {
+        event.preventDefault()
+        handleRandomCard()
+        return
+      }
+
+      if (!currentCard) return
+
+      if (key === ' ' || key === 'enter') {
+        event.preventDefault()
+        setIsAnswerVisible(true)
+        return
+      }
+
+      if (key === 'escape') {
+        setIsAnswerVisible(false)
+        return
+      }
+
+      if (!isAnswerVisible) return
+
+      const gradeByKey: Record<string, ReviewGrade> = {
+        '1': 'again',
+        '2': 'hard',
+        '3': 'good',
+        '4': 'easy',
+      }
+      const grade = gradeByKey[key]
+      if (grade) {
+        event.preventDefault()
+        handleGrade(grade)
+      }
+    }
+
+    window.addEventListener('keydown', handleStudyShortcut)
+    return () => window.removeEventListener('keydown', handleStudyShortcut)
+  }, [currentCard, handleGrade, handleRandomCard, isAnswerVisible, view])
 
 
 
@@ -469,6 +554,7 @@ function App() {
             value={activeDeckId}
             onChange={(event) => {
               setActiveDeckId(event.target.value)
+              setRandomCardId('')
               setIsAnswerVisible(false)
             }}
           >
@@ -524,8 +610,11 @@ function App() {
           <StudyView
             card={currentCard}
             isAnswerVisible={isAnswerVisible}
+            hasCards={activeDeckCards.length > 0}
+            isRandomCard={Boolean(randomCard)}
             onReveal={() => setIsAnswerVisible(true)}
             onReset={() => setIsAnswerVisible(false)}
+            onRandom={handleRandomCard}
             onGrade={handleGrade}
           />
         )}
@@ -1120,14 +1209,20 @@ function StaffView({
 function StudyView({
   card,
   isAnswerVisible,
+  hasCards,
+  isRandomCard,
   onReveal,
   onReset,
+  onRandom,
   onGrade,
 }: {
   card?: Flashcard
   isAnswerVisible: boolean
+  hasCards: boolean
+  isRandomCard: boolean
   onReveal: () => void
   onReset: () => void
+  onRandom: () => void
   onGrade: (grade: ReviewGrade) => void
 }) {
   if (!card) {
@@ -1141,6 +1236,11 @@ function StudyView({
         <BookOpen size={42} strokeWidth={1.5} />
         <h3>Review queue clear</h3>
         <p>Add cards or come back when scheduled cards are due.</p>
+        {hasCards && (
+          <button className="secondary-action random-card-action" onClick={onRandom}>
+            <Shuffle size={15} /> Random card <kbd>R</kbd>
+          </button>
+        )}
       </section>
     )
   }
@@ -1148,6 +1248,15 @@ function StudyView({
   return (
     <section className="study-grid">
       <article className="study-card">
+        <div className="study-card-toolbar" aria-label="Study shortcuts">
+          {isRandomCard && <span className="mode-pill">Random</span>}
+          <button className="secondary-action random-card-action" onClick={onRandom}>
+            <Shuffle size={15} /> Random <kbd>R</kbd>
+          </button>
+          <span className="shortcut-hint"><kbd>Space</kbd> reveal</span>
+          <span className="shortcut-hint"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> grade</span>
+        </div>
+
         <div className="card-face card-face-front">
           <h3>{card.front}</h3>
         </div>
@@ -1172,7 +1281,10 @@ function StudyView({
               {(Object.keys(gradeLabels) as ReviewGrade[]).map((grade) => (
                 <button key={grade} onClick={() => onGrade(grade)}>
                   <span>{gradeIntervals[grade]}</span>
-                  <strong>{gradeLabels[grade]}</strong>
+                  <strong>
+                    <kbd>{(Object.keys(gradeLabels) as ReviewGrade[]).indexOf(grade) + 1}</kbd>
+                    {gradeLabels[grade]}
+                  </strong>
                 </button>
               ))}
             </div>

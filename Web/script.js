@@ -1751,6 +1751,28 @@ function initClinicalVideoApp() {
         navigateTo(pageVideoWatch);
     }
 
+    async function recordVideoView(video) {
+        if (!video) return;
+        const previousViews = Number(video.views) || 0;
+        video.views = previousViews + 1;
+
+        if (!supabaseConfigReady) return;
+
+        try {
+            const savedViews = await ds.incrementVideoView(video.id);
+            if (Number.isFinite(savedViews)) video.views = savedViews;
+        } catch (err) {
+            console.error('incrementVideoView', err);
+            video.views = previousViews;
+            if (currentUser && currentUser.isAdmin) {
+                video.views = previousViews + 1;
+                await saveVideosDB();
+                return;
+            }
+            showToast('View count could not be saved. Ask admin to run the latest Supabase SQL.', 'error');
+        }
+    }
+
     function renderVideos() {
         renderResumeLessonCard();
         userVideoGrid.innerHTML = '';
@@ -1798,8 +1820,7 @@ function initClinicalVideoApp() {
                 const id = parseInt(e.currentTarget.getAttribute('data-id'), 10);
                 const video = videos.find(v => v.id === id);
                 if (video) {
-                    video.views = (video.views || 0) + 1;
-                    saveVideosDB();
+                    recordVideoView(video);
                     openVideoWatchPage(video);
                 }
             });
@@ -2023,8 +2044,7 @@ function initClinicalVideoApp() {
                             cardStatus.style.color = isCompleted ? '#10b981' : '#ef4444';
 
                             btnPlay.onclick = () => {
-                                vid.views = (vid.views || 0) + 1;
-                                saveVideosDB();
+                                recordVideoView(vid);
                                 openVideoWatchPage(vid);
                             };
 
