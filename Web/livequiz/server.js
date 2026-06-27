@@ -228,7 +228,7 @@ async function routeApi(req, res, url) {
   const answerMatch = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]+)\/answer$/);
   if (answerMatch && req.method === "POST") {
     const body = await readBody(req);
-    const result = quiz.submitAnswer(answerMatch[1], tokenFrom(req, url, "x-participant-token", "session"), body.choiceId);
+    const result = quiz.submitAnswer(answerMatch[1], tokenFrom(req, url, "x-participant-token", "session"), body);
     sendJson(res, 200, quiz.participantState(result.room, result.participant));
     return;
   }

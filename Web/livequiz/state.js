@@ -146,6 +146,29 @@ function toInt(value, fallback) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+function normalizeQuestionType(value) {
+  return String(value || "mcq").trim().toLowerCase() === "short_answer" ? "short_answer" : "mcq";
+}
+
+function answerKey(value) {
+  return String(value || "")
+    .trim()
+    .toLocaleLowerCase()
+    .replace(/[()[\]{}.,;:!?'"`]/g, "")
+    .replace(/\s+/g, " ");
+}
+
+function parseAcceptedAnswers(value) {
+  const raw = Array.isArray(value) ? value : String(value || "").split(/\r?\n|,/);
+  return raw.map((item) => String(item || "").trim()).filter(Boolean);
+}
+
+function textAnswerIsCorrect(answerText, acceptedAnswers) {
+  const submitted = answerKey(answerText);
+  if (!submitted) return false;
+  return acceptedAnswers.some((answer) => answerKey(answer) === submitted);
+}
+
 function cleanupPresence(room) {
   const now = Date.now();
   for (const participant of room.participants) {
@@ -288,12 +311,14 @@ function updateSettings(code, token, body) {
 function normalizeQuestion(body, existing = {}) {
   const prompt = String(body.prompt || "").trim();
   const imageUrl = String(body.imageUrl || "").trim();
+  const questionType = normalizeQuestionType(body.questionType || existing.questionType);
   const rawChoices = Array.isArray(body.choices) ? body.choices : [];
   const choices = rawChoices
     .map((text, index) => ({ id: CHOICE_IDS[index], text: String(text || "").trim() }))
     .filter((choice) => choice.text);
 
   const correctChoiceId = String(body.correctChoiceId || "").trim().toUpperCase();
+  const acceptedAnswers = parseAcceptedAnswers(body.acceptedAnswers);
   const timeLimitSeconds = body.timeLimitSeconds
     ? Math.max(5, toInt(body.timeLimitSeconds, 0))
     : null;
@@ -303,23 +328,30 @@ function normalizeQuestion(body, existing = {}) {
     err.status = 400;
     throw err;
   }
-  if (choices.length < 4 || choices.length > 5) {
+  if (questionType === "mcq" && (choices.length < 4 || choices.length > 5)) {
     const err = new Error("Question needs 4 or 5 choices");
     err.status = 400;
     throw err;
   }
-  if (!choices.some((choice) => choice.id === correctChoiceId)) {
+  if (questionType === "mcq" && !choices.some((choice) => choice.id === correctChoiceId)) {
     const err = new Error("Correct answer must match an existing choice");
+    err.status = 400;
+    throw err;
+  }
+  if (questionType === "short_answer" && !acceptedAnswers.length) {
+    const err = new Error("Short answer question needs at least one accepted answer");
     err.status = 400;
     throw err;
   }
 
   return {
     id: existing.id || uid(8),
+    questionType,
     prompt,
     imageUrl,
-    choices,
-    correctChoiceId,
+    choices: questionType === "mcq" ? choices : [],
+    correctChoiceId: questionType === "mcq" ? correctChoiceId : "",
+    acceptedAnswers: questionType === "short_answer" ? acceptedAnswers : [],
     explanation: String(body.explanation || "").trim(),
     timeLimitSeconds,
     state: existing.state || "pending",
@@ -615,7 +647,7 @@ function voidQuestion(code, token, questionId) {
   return room;
 }
 
-function submitAnswer(code, sessionToken, choiceId) {
+function submitAnswer(code, sessionToken, body = {}) {
   const room = getRoom(code);
   const participant = participantByToken(room, sessionToken);
   if (participant.kickedAt) {
@@ -635,19 +667,32 @@ function submitAnswer(code, sessionToken, choiceId) {
   }
 
   const question = room.questions[room.currentQuestionIndex];
-  const selectedChoiceId = String(choiceId || "").trim().toUpperCase();
-  if (!question.choices.some((choice) => choice.id === selectedChoiceId)) {
-    const err = new Error("Invalid choice");
-    err.status = 400;
-    throw err;
-  }
-
   room.answers[question.id] = room.answers[question.id] || {};
-  room.answers[question.id][participant.id] = {
-    selectedChoiceId,
-    selectedAt: nowIso(),
-    isCorrect: selectedChoiceId === question.correctChoiceId,
-  };
+  if (normalizeQuestionType(question.questionType) === "short_answer") {
+    const answerText = String(body.answerText || "").trim();
+    if (!answerText) {
+      const err = new Error("Answer text is required");
+      err.status = 400;
+      throw err;
+    }
+    room.answers[question.id][participant.id] = {
+      answerText,
+      selectedAt: nowIso(),
+      isCorrect: textAnswerIsCorrect(answerText, question.acceptedAnswers || []),
+    };
+  } else {
+    const selectedChoiceId = String(body.choiceId || "").trim().toUpperCase();
+    if (!question.choices.some((choice) => choice.id === selectedChoiceId)) {
+      const err = new Error("Invalid choice");
+      err.status = 400;
+      throw err;
+    }
+    room.answers[question.id][participant.id] = {
+      selectedChoiceId,
+      selectedAt: nowIso(),
+      isCorrect: selectedChoiceId === question.correctChoiceId,
+    };
+  }
   saveStore();
   notifyRoom(code);
   return { room, participant };
@@ -657,11 +702,13 @@ function publicQuestion(question, reveal = false) {
   if (!question) return null;
   return {
     id: question.id,
+    questionType: normalizeQuestionType(question.questionType),
     prompt: question.prompt,
     imageUrl: question.imageUrl,
     choices: question.choices,
     explanation: reveal ? question.explanation : "",
     correctChoiceId: reveal ? question.correctChoiceId : null,
+    acceptedAnswers: reveal ? question.acceptedAnswers || [] : [],
     timeLimitSeconds: question.timeLimitSeconds,
     state: question.state,
     voidedAt: question.voidedAt,
@@ -681,6 +728,29 @@ function revealStats(room, question) {
   const answers = room.answers[question.id] || {};
   const participants = activeParticipants(room);
   const groups = {};
+  if (normalizeQuestionType(question.questionType) === "short_answer") {
+    groups.CORRECT = { count: 0, names: [] };
+    groups.INCORRECT = { count: 0, names: [] };
+    groups.NO_ANSWER = { count: 0, names: [] };
+    const responses = [];
+    for (const participant of participants) {
+      const answer = answers[participant.id];
+      if (!answer?.answerText) {
+        groups.NO_ANSWER.count += 1;
+        groups.NO_ANSWER.names.push(participant.username);
+      } else if (answer.isCorrect) {
+        groups.CORRECT.count += 1;
+        groups.CORRECT.names.push(participant.username);
+        responses.push({ username: participant.username, answerText: answer.answerText, isCorrect: true });
+      } else {
+        groups.INCORRECT.count += 1;
+        groups.INCORRECT.names.push(participant.username);
+        responses.push({ username: participant.username, answerText: answer.answerText, isCorrect: false });
+      }
+    }
+    return { totalParticipants: participants.length, groups, responses };
+  }
+
   for (const choice of question.choices) {
     groups[choice.id] = { count: 0, names: [] };
   }
@@ -751,6 +821,7 @@ function participantState(room, participant) {
     endsAt: room.endsAt,
     currentQuestion: publicQuestion(currentQuestion, reveal),
     selectedChoiceId: answer?.selectedChoiceId || null,
+    answerText: answer?.answerText || "",
     isCorrect: reveal && answer ? answer.isCorrect : null,
     totalScore: scoreFor(room, participant.id),
   };

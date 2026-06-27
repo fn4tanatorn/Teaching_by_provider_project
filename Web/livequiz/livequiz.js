@@ -22,14 +22,22 @@
   }
 
   async function api(path, options = {}) {
+    if (window.location.protocol === "file:") {
+      throw new Error("LiveQuiz needs the local server. Run `node Web/server.js`, then open http://localhost:3000/livequiz/host.html");
+    }
     const cleanPath = String(path || "").replace(/^\/api\/?/, "").replace(/^\/+/, "");
-    const res = await fetch(`${apiBase}/${cleanPath}`, {
-      ...options,
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-    });
+    let res;
+    try {
+      res = await fetch(`${apiBase}/${cleanPath}`, {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {}),
+        },
+      });
+    } catch (err) {
+      throw new Error("LiveQuiz API is unavailable. Start the app with `node Web/server.js` and open http://localhost:3000/livequiz/");
+    }
     const text = await res.text();
     const data = text ? JSON.parse(text) : {};
     if (!res.ok) throw new Error(data.error || "Request failed");
@@ -75,6 +83,26 @@
     if (!question || !id) return "";
     const choice = question.choices.find((item) => item.id === id);
     return choice ? `${choice.id}. ${choice.text}` : id;
+  }
+
+  function questionType(question) {
+    return question?.questionType === "short_answer" ? "short_answer" : "mcq";
+  }
+
+  function acceptedAnswerText(question) {
+    return (question?.acceptedAnswers || []).join(", ");
+  }
+
+  function renderShortAnswerForm(answerText = "") {
+    return `
+      <form id="shortAnswerForm" class="short-answer-form">
+        <label>
+          Written answer
+          <input id="shortAnswerInput" value="${escapeHtml(answerText)}" autocomplete="off" placeholder="Type the structure name" />
+        </label>
+        <button type="submit">Submit answer</button>
+      </form>
+    `;
   }
 
   function initHome() {
@@ -193,6 +221,7 @@
       $("builderPanel").classList.remove("hidden");
       $("questionForm").classList.toggle("hidden", !canEditQuestions);
       $("importDropZone")?.classList.toggle("hidden", !canEditQuestions);
+      $("sampleTemplatePanel")?.classList.toggle("hidden", !canEditQuestions);
       $("importStatus")?.classList.toggle("hidden", !canEditQuestions);
       $("settingsForm")?.querySelectorAll("input, button").forEach((el) => {
         el.disabled = !canEditQuestions;
@@ -263,6 +292,10 @@
       list.innerHTML = state.questions
         .map((q) => {
           const time = q.timeLimitSeconds ? `${q.timeLimitSeconds}s override` : `${state.globalTimeLimitSeconds}s default`;
+          const typeLabel = questionType(q) === "short_answer" ? "Written answer" : "MCQ";
+          const answerLabel = questionType(q) === "short_answer"
+            ? `Accepted: ${acceptedAnswerText(q) || "not set"}`
+            : `Correct ${q.correctChoiceId}`;
           const canEdit = ["lobby", "draft"].includes(state.state);
           const canVoid = q.state !== "voided" && state.state !== "finished";
           const canMoveUp = canEdit && q.position > 1;
@@ -273,7 +306,7 @@
                 <strong>${q.position}. ${escapeHtml(q.prompt || "Image question")}</strong>
                 <span class="pill ${q.state === "voided" ? "danger" : ""}">${escapeHtml(q.state)}</span>
               </div>
-              <div class="hint">${escapeHtml(time)} · Correct ${escapeHtml(q.correctChoiceId)}</div>
+              <div class="hint">${escapeHtml(typeLabel)} · ${escapeHtml(time)} · ${escapeHtml(answerLabel)}</div>
               <div class="item-actions" style="margin-top: 0.65rem">
                 ${
                   canEdit
@@ -350,6 +383,10 @@
         $("hostReveal").innerHTML = '<p class="hint">Waiting for the server timer to expire.</p>';
         return;
       }
+      if (questionType(question) === "short_answer") {
+        renderHostShortAnswerReveal(state, question);
+        return;
+      }
       const total = Math.max(1, state.revealStats.totalParticipants);
       const rows = question.choices
         .map((choice) => {
@@ -368,15 +405,56 @@
       `;
     }
 
+    function renderHostShortAnswerReveal(state, question) {
+      const total = Math.max(1, state.revealStats.totalParticipants);
+      const correct = state.revealStats.groups.CORRECT || { count: 0, names: [] };
+      const incorrect = state.revealStats.groups.INCORRECT || { count: 0, names: [] };
+      const noAnswer = state.revealStats.groups.NO_ANSWER || { count: 0, names: [] };
+      const responses = state.revealStats.responses || [];
+      const responseRows = responses.length
+        ? responses
+            .map(
+              (response) => `
+                <div class="list-item split">
+                  <div>
+                    <strong>${escapeHtml(response.username)}</strong>
+                    <div class="hint">${escapeHtml(response.answerText)}</div>
+                  </div>
+                  <span class="pill ${response.isCorrect ? "" : "danger"}">${response.isCorrect ? "Correct" : "Incorrect"}</span>
+                </div>
+              `
+            )
+            .join("")
+        : '<div class="list-item muted">No written answers submitted.</div>';
+      $("hostReveal").innerHTML = `
+        <h3>Written answer distribution</h3>
+        ${distributionRow("Correct", correct, Math.round((correct.count / total) * 100), true)}
+        ${distributionRow("Incorrect", incorrect, Math.round((incorrect.count / total) * 100), false)}
+        ${distributionRow("No answer", noAnswer, Math.round((noAnswer.count / total) * 100), false)}
+        <p><strong>Accepted answers:</strong> ${escapeHtml(acceptedAnswerText(question))}</p>
+        ${question.explanation ? `<p><strong>Explanation:</strong> ${escapeHtml(question.explanation)}</p>` : ""}
+        <div class="list">${responseRows}</div>
+      `;
+    }
+
     function questionFormPayload() {
+      const type = $("questionType").value;
       return {
+        questionType: type,
         prompt: $("prompt").value,
         imageUrl: $("imageUrl").value,
-        choices: letters.map((letter) => $(`choice${letter}`).value),
-        correctChoiceId: $("correctChoice").value,
+        choices: type === "mcq" ? letters.map((letter) => $(`choice${letter}`).value) : [],
+        correctChoiceId: type === "mcq" ? $("correctChoice").value : "",
+        acceptedAnswers: type === "short_answer" ? $("acceptedAnswers").value : [],
         explanation: $("explanation").value,
         timeLimitSeconds: $("timeLimit").value,
       };
+    }
+
+    function syncQuestionTypeFields() {
+      const type = $("questionType")?.value || "mcq";
+      $("mcqFields")?.classList.toggle("hidden", type !== "mcq");
+      $("shortAnswerFields")?.classList.toggle("hidden", type !== "short_answer");
     }
 
     function renderImagePreview() {
@@ -394,13 +472,16 @@
     function resetQuestionForm() {
       editQuestionId = null;
       $("questionForm").reset();
+      $("questionType").value = "mcq";
       $("questionSubmit").textContent = "Add question";
       $("cancelEditQuestion").classList.add("hidden");
+      syncQuestionTypeFields();
       renderImagePreview();
     }
 
     function startEditingQuestion(question) {
       editQuestionId = question.id;
+      $("questionType").value = questionType(question);
       $("prompt").value = question.prompt || "";
       $("imageUrl").value = question.imageUrl || "";
       for (const letter of letters) {
@@ -408,10 +489,12 @@
         $(`choice${letter}`).value = choice?.text || "";
       }
       $("correctChoice").value = question.correctChoiceId || "A";
+      $("acceptedAnswers").value = (question.acceptedAnswers || []).join("\n");
       $("explanation").value = question.explanation || "";
       $("timeLimit").value = question.timeLimitSeconds || "";
       $("questionSubmit").textContent = "Save question";
       $("cancelEditQuestion").classList.remove("hidden");
+      syncQuestionTypeFields();
       renderImagePreview();
       $("questionForm").scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -498,6 +581,12 @@
         correct: "correct_answer",
         answer: "correct_answer",
         correctanswer: "correct_answer",
+        type: "question_type",
+        questiontype: "question_type",
+        accepted: "accepted_answers",
+        acceptedanswers: "accepted_answers",
+        correcttext: "accepted_answers",
+        correct_text: "accepted_answers",
         image: "image_url",
         imageurl: "image_url",
         time_limit: "time_limit_seconds",
@@ -580,6 +669,8 @@
 
     function questionFromImportRow(row) {
       const normalized = normalizeImportRow(row);
+      const importedType = String(normalized.question_type || normalized.type || "").trim().toLowerCase();
+      const questionType = ["short", "short_answer", "written", "text"].includes(importedType) ? "short_answer" : "mcq";
       const choices = letters.map((letter) => normalized[`choice_${letter.toLowerCase()}`] || "");
       const rawCorrect = String(normalized.correct_answer || "").trim();
       let correctChoiceId = rawCorrect.toUpperCase();
@@ -592,10 +683,12 @@
       }
 
       return {
+        questionType,
         prompt: normalized.prompt || normalized.question || "",
         imageUrl: normalized.image_url || "",
-        choices,
-        correctChoiceId,
+        choices: questionType === "mcq" ? choices : [],
+        correctChoiceId: questionType === "mcq" ? correctChoiceId : "",
+        acceptedAnswers: questionType === "short_answer" ? normalized.accepted_answers || rawCorrect : [],
         explanation: normalized.explanation || "",
         timeLimitSeconds: normalized.time_limit_seconds || "",
       };
@@ -632,6 +725,109 @@
       } else {
         setStatus(status, `Imported ${imported} question${imported === 1 ? "" : "s"}.`, "ok");
       }
+    }
+
+    function sampleExamQuestions() {
+      return Array.isArray(window.LiveQuizSampleExam?.questions) ? window.LiveQuizSampleExam.questions : [];
+    }
+
+    function csvCell(value) {
+      const text = String(value == null ? "" : value);
+      return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+    }
+
+    function sampleQuestionToRow(question) {
+      const choices = Array.isArray(question.choices) ? question.choices : [];
+      return {
+        question_type: questionType(question),
+        prompt: question.prompt || "",
+        choice_a: choices[0] || "",
+        choice_b: choices[1] || "",
+        choice_c: choices[2] || "",
+        choice_d: choices[3] || "",
+        choice_e: choices[4] || "",
+        correct_answer: question.correctChoiceId || "",
+        accepted_answers: (question.acceptedAnswers || []).join("\n"),
+        explanation: question.explanation || "",
+        image_url: question.imageUrl || "",
+        time_limit_seconds: question.timeLimitSeconds || "",
+      };
+    }
+
+    function downloadSampleCsv() {
+      const rows = sampleExamQuestions().map(sampleQuestionToRow);
+      if (!rows.length) {
+        setStatus($("importStatus"), "Sample exam template is not available.", "error");
+        return;
+      }
+
+      const headers = [
+        "prompt",
+        "question_type",
+        "choice_a",
+        "choice_b",
+        "choice_c",
+        "choice_d",
+        "choice_e",
+        "correct_answer",
+        "accepted_answers",
+        "explanation",
+        "image_url",
+        "time_limit_seconds",
+      ];
+      const csvText = [headers.join(",")]
+        .concat(rows.map((row) => headers.map((header) => csvCell(row[header])).join(",")))
+        .join("\n");
+      const blob = new Blob([`\uFEFF${csvText}`], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = window.LiveQuizSampleExam?.filename || "sample-exam-livequiz-template.csv";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      setStatus($("importStatus"), "Sample exam CSV downloaded.", "ok");
+    }
+
+    async function loadSampleExam() {
+      const questions = sampleExamQuestions();
+      if (!questions.length) {
+        setStatus($("importStatus"), "Sample exam template is not available.", "error");
+        return;
+      }
+      if (lastState?.questions?.length && !window.confirm("Add the sample exam questions to the current question list?")) {
+        return;
+      }
+
+      let imported = 0;
+      const failures = [];
+      setStatus($("importStatus"), `Loading ${questions.length} sample questions...`);
+      for (let index = 0; index < questions.length; index += 1) {
+        try {
+          lastState = await api(`/api/rooms/${code}/questions`, {
+            method: "POST",
+            headers: hostHeaders(),
+            body: JSON.stringify(questions[index]),
+          });
+          imported += 1;
+          setStatus($("importStatus"), `Loaded ${imported}/${questions.length} sample questions...`);
+        } catch (err) {
+          failures.push(`question ${index + 1}: ${err.message}`);
+        }
+      }
+
+      if (lastState) renderHost(lastState);
+      if (failures.length) {
+        setStatus($("importStatus"), `Loaded ${imported}. Failed ${failures.length}: ${failures.slice(0, 3).join("; ")}`, "warn");
+      } else {
+        setStatus($("importStatus"), `Loaded ${imported} sample exam questions.`, "ok");
+      }
+    }
+
+    function setupSampleTemplateEvents() {
+      $("loadSampleExam")?.addEventListener("click", loadSampleExam);
+      $("downloadSampleCsv")?.addEventListener("click", downloadSampleCsv);
     }
 
     function setupImportEvents() {
@@ -733,6 +929,7 @@
     });
 
     $("cancelEditQuestion").addEventListener("click", resetQuestionForm);
+    $("questionType")?.addEventListener("change", syncQuestionTypeFields);
 
     $("startQuiz").addEventListener("click", async () => {
       try {
@@ -767,7 +964,9 @@
     });
 
     refresh();
+    syncQuestionTypeFields();
     setupImportEvents();
+    setupSampleTemplateEvents();
     setupImageUploadEvents();
     const sseUrl = `${apiBase}/rooms/${code}/events?role=host&token=${encodeURIComponent(hostToken)}`;
     const es = connectSSE(sseUrl, (state) => {
@@ -785,6 +984,7 @@
     const querySession = params.get("session");
     const sessionToken = querySession || localStorage.getItem(storageKey("participant", code));
     let selectedChoiceId = null;
+    let submittedAnswerText = "";
 
     if (code && querySession) localStorage.setItem(storageKey("participant", code), querySession);
 
@@ -798,6 +998,7 @@
           headers: { "X-Participant-Token": sessionToken },
         });
         selectedChoiceId = state.selectedChoiceId;
+        submittedAnswerText = state.answerText || "";
         renderParticipant(state);
       } catch (err) {
         setStatus($("participantStatus"), err.message, "error");
@@ -835,11 +1036,34 @@
       $("participantTitle").textContent = state.state === "question_active" ? "Question active" : "Reveal";
       setStatus(
         $("participantStatus"),
-        state.state === "question_active" ? "Select an answer. Your latest selection before time expires is counted." : "Answers are locked."
+        state.state === "question_active"
+          ? questionType(question) === "short_answer"
+            ? "Type your answer. Your latest submission before time expires is counted."
+            : "Select an answer. Your latest selection before time expires is counted."
+          : "Answers are locked."
       );
       $("participantQuestion").innerHTML = renderQuestionBlock(question, state.currentQuestionIndex);
 
       if (state.state === "question_active") {
+        if (questionType(question) === "short_answer") {
+          $("participantChoices").innerHTML = renderShortAnswerForm(submittedAnswerText);
+          $("shortAnswerForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            try {
+              const nextState = await api(`/api/rooms/${code}/answer`, {
+                method: "POST",
+                headers: { "X-Participant-Token": sessionToken },
+                body: JSON.stringify({ answerText: $("shortAnswerInput").value }),
+              });
+              submittedAnswerText = nextState.answerText || "";
+              renderParticipant(nextState);
+              setStatus($("participantStatus"), "Answer submitted.", "ok");
+            } catch (err) {
+              setStatus($("participantStatus"), err.message, "error");
+            }
+          });
+          return;
+        }
         $("participantChoices").innerHTML = question.choices
           .map(
             (choice) => `
@@ -859,6 +1083,7 @@
                 body: JSON.stringify({ choiceId: button.dataset.choice }),
               });
               selectedChoiceId = nextState.selectedChoiceId;
+              submittedAnswerText = nextState.answerText || "";
               renderParticipant(nextState);
             } catch (err) {
               setStatus($("participantStatus"), err.message, "error");
@@ -873,6 +1098,19 @@
 
     function renderParticipantReveal(state) {
       const question = state.currentQuestion;
+      if (questionType(question) === "short_answer") {
+        const answerText = state.answerText || "No answer submitted";
+        $("participantChoices").innerHTML = "";
+        $("participantReveal").innerHTML = `
+          <div class="list-item">
+            <p><strong>Your answer:</strong> ${escapeHtml(answerText)}</p>
+            <p><strong>Accepted answers:</strong> ${escapeHtml(acceptedAnswerText(question))}</p>
+            <p><strong>Result:</strong> ${state.answerText && state.isCorrect ? "Correct, 1 point" : "0 points"}</p>
+            ${question.explanation ? `<p><strong>Explanation:</strong> ${escapeHtml(question.explanation)}</p>` : ""}
+          </div>
+        `;
+        return;
+      }
       const selected = state.selectedChoiceId;
       const selectedText = selected ? choiceName(question, selected) : "No answer submitted";
       $("participantChoices").innerHTML = question.choices
@@ -906,6 +1144,7 @@
     const sseUrl = `${apiBase}/rooms/${code}/events?role=participant&session=${encodeURIComponent(sessionToken)}`;
     const es = connectSSE(sseUrl, (state) => {
       selectedChoiceId = state.selectedChoiceId;
+      submittedAnswerText = state.answerText || "";
       lastEndsAt = state.endsAt;
       lastRoomState = state.state;
       renderParticipant(state);

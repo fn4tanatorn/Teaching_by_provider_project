@@ -87,15 +87,32 @@
               <input id="importFile" type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden />
               <div>
                 <strong>Drop CSV/XLSX question file</strong>
-                <p>Columns: prompt, choice_a, choice_b, choice_c, choice_d, choice_e, correct_answer, explanation, image_url, time_limit_seconds</p>
+                <p>Columns: prompt, question_type, choices A-E, correct_answer, accepted_answers, explanation, image_url, time_limit_seconds</p>
               </div>
               <button id="pickImportFile" type="button" class="button-secondary">Choose file</button>
+            </div>
+            <div id="sampleTemplatePanel" class="template-strip">
+              <div>
+                <strong>Sample exam Live quiz</strong>
+                <p>Load a 6-question mixed exam with MCQ and written anatomy as a reusable template, or download the CSV starter.</p>
+              </div>
+              <div class="template-actions">
+                <button id="loadSampleExam" type="button" class="button-secondary">Load sample exam</button>
+                <button id="downloadSampleCsv" type="button" class="button-ghost">Download CSV</button>
+              </div>
             </div>
             <p id="importStatus" class="status"></p>
             <form id="questionForm" class="form">
               <label>
                 Prompt
                 <textarea id="prompt" rows="3" placeholder="Thai, English, or mixed Unicode text"></textarea>
+              </label>
+              <label>
+                Question type
+                <select id="questionType">
+                  <option value="mcq">Multiple choice</option>
+                  <option value="short_answer">Written answer</option>
+                </select>
               </label>
               <label>
                 Optional image URL
@@ -108,25 +125,33 @@
                 <span class="hint">Prototype stores uploads as room-local data URLs.</span>
               </div>
               <div id="imagePreview" class="image-preview hidden"></div>
-              <div class="form-row">
-                <label>Choice A <input id="choiceA" /></label>
-                <label>Choice B <input id="choiceB" /></label>
+              <div id="mcqFields" class="form">
+                <div class="form-row">
+                  <label>Choice A <input id="choiceA" /></label>
+                  <label>Choice B <input id="choiceB" /></label>
+                </div>
+                <div class="form-row">
+                  <label>Choice C <input id="choiceC" /></label>
+                  <label>Choice D <input id="choiceD" /></label>
+                </div>
+                <div class="form-row">
+                  <label>Choice E optional <input id="choiceE" /></label>
+                  <label>
+                    Correct answer
+                    <select id="correctChoice">
+                      <option>A</option>
+                      <option>B</option>
+                      <option>C</option>
+                      <option>D</option>
+                      <option>E</option>
+                    </select>
+                  </label>
+                </div>
               </div>
-              <div class="form-row">
-                <label>Choice C <input id="choiceC" /></label>
-                <label>Choice D <input id="choiceD" /></label>
-              </div>
-              <div class="form-row">
-                <label>Choice E optional <input id="choiceE" /></label>
+              <div id="shortAnswerFields" class="hidden">
                 <label>
-                  Correct answer
-                  <select id="correctChoice">
-                    <option>A</option>
-                    <option>B</option>
-                    <option>C</option>
-                    <option>D</option>
-                    <option>E</option>
-                  </select>
+                  Accepted answers
+                  <textarea id="acceptedAnswers" rows="3" placeholder="One accepted answer per line, e.g. left atrium&#10;LA&#10;atrium sinistrum"></textarea>
                 </label>
               </div>
               <div class="form-row">
@@ -183,6 +208,7 @@
         }
       })();
     </script>
+    <script src="sample-exam.js"></script>
     <script src="livequiz.js"></script>
   </body>
 </html>
