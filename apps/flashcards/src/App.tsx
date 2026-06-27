@@ -4,18 +4,24 @@ import {
   ArrowDownToLine,
   BookOpen,
   Check,
+  CheckSquare,
+  Copy,
   KeyRound,
   Layers3,
   LogOut,
+  MoveRight,
   Plus,
   RotateCcw,
   ShieldCheck,
   Shuffle,
+  Square,
   Upload,
   Edit3,
   Trash2,
   Search,
   X,
+  ArrowUpDown,
+  Eye,
 } from 'lucide-react'
 import {
   APP_ILLUSTRATION_URL,
@@ -313,6 +319,45 @@ function App() {
     setState(nextState)
     publishStaffState(nextState)
     setToast('Card deleted')
+  }
+
+  const handleDuplicateCard = (cardId: string) => {
+    const original = state.cards.find((c) => c.id === cardId)
+    if (!original) return
+    const nextCard = createCard({
+      deckId: original.deckId,
+      front: original.front,
+      back: original.back,
+      imageUrl: original.imageUrl,
+    })
+    const nextState = { ...state, cards: [nextCard, ...state.cards] }
+    setState(nextState)
+    publishStaffState(nextState)
+    setToast('Card duplicated')
+  }
+
+  const handleBulkDelete = (cardIds: string[]) => {
+    if (!window.confirm(`Delete ${cardIds.length} selected cards?`)) return
+    const idSet = new Set(cardIds)
+    const nextState = { ...state, cards: state.cards.filter((c) => !idSet.has(c.id)) }
+    setState(nextState)
+    publishStaffState(nextState)
+    setToast(`${cardIds.length} cards deleted`)
+  }
+
+  const handleBulkMoveDeck = (cardIds: string[], targetDeckId: string) => {
+    const idSet = new Set(cardIds)
+    const nowStr = new Date().toISOString()
+    const nextState = {
+      ...state,
+      cards: state.cards.map((c) =>
+        idSet.has(c.id) ? { ...c, deckId: targetDeckId, updatedAt: nowStr } : c
+      ),
+    }
+    setState(nextState)
+    publishStaffState(nextState)
+    const deckName = state.decks.find((d) => d.id === targetDeckId)?.name ?? 'deck'
+    setToast(`${cardIds.length} cards moved to ${deckName}`)
   }
 
   const handleCreateDeckInline = (name: string, description: string) => {
@@ -631,6 +676,9 @@ function App() {
             onAddCard={handleAddCard}
             onUpdateCard={handleUpdateCard}
             onDeleteCard={handleDeleteCard}
+            onDuplicateCard={handleDuplicateCard}
+            onBulkDelete={handleBulkDelete}
+            onBulkMoveDeck={handleBulkMoveDeck}
             onCreateDeck={handleCreateDeckInline}
             onUpdateDeck={handleUpdateDeck}
             onDeleteDeck={handleDeleteDeck}
@@ -664,6 +712,9 @@ function StaffView({
   onAddCard,
   onUpdateCard,
   onDeleteCard,
+  onDuplicateCard,
+  onBulkDelete,
+  onBulkMoveDeck,
   onCreateDeck,
   onUpdateDeck,
   onDeleteDeck,
@@ -684,6 +735,9 @@ function StaffView({
   onAddCard: (front: string, back: string, imageUrl: string, deckId: string) => void
   onUpdateCard: (cardId: string, front: string, back: string, imageUrl: string, deckId: string) => void
   onDeleteCard: (cardId: string) => void
+  onDuplicateCard: (cardId: string) => void
+  onBulkDelete: (cardIds: string[]) => void
+  onBulkMoveDeck: (cardIds: string[], targetDeckId: string) => void
   onCreateDeck: (name: string, description: string) => void
   onUpdateDeck: (deckId: string, name: string, description: string) => void
   onDeleteDeck: (deckId: string) => void
@@ -697,6 +751,8 @@ function StaffView({
   const [staffTab, setStaffTab] = useState<'cards' | 'decks' | 'backup'>('cards')
   const [searchQuery, setSearchQuery] = useState('')
   const [filterDeckId, setFilterDeckId] = useState('all')
+  type SortKey = 'newest' | 'oldest' | 'front-az' | 'front-za' | 'due-soon'
+  const [sortBy, setSortBy] = useState<SortKey>('newest')
 
   // Add Card Form State
   const [isAddingCard, setIsAddingCard] = useState(false)
@@ -705,12 +761,13 @@ function StaffView({
   const [newImageUrl, setNewImageUrl] = useState('')
   const [newDeckId, setNewDeckId] = useState(activeDeckId || state.decks[0]?.id || '')
 
-  // Edit Card Form State
+  // Modal Edit Card State
   const [editingCard, setEditingCard] = useState<Flashcard | null>(null)
   const [editFront, setEditFront] = useState('')
   const [editBack, setEditBack] = useState('')
   const [editImageUrl, setEditImageUrl] = useState('')
   const [editDeckId, setEditDeckId] = useState('')
+  const [showEditPreview, setShowEditPreview] = useState(false)
 
   // Edit Deck Form State
   const [editingDeck, setEditingDeck] = useState<Deck | null>(null)
@@ -720,6 +777,21 @@ function StaffView({
   // Create Deck Form State
   const [newDeckName, setNewDeckName] = useState('')
   const [newDeckDescription, setNewDeckDescription] = useState('')
+
+  // Bulk Selection State
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+  const [bulkMoveDeckId, setBulkMoveDeckId] = useState('')
+
+  const toggleSelect = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const clearSelection = () => setSelectedIds(new Set())
 
   if (!isUnlocked) {
     return (
@@ -751,13 +823,42 @@ function StaffView({
     )
   }
 
-  const filteredCards = state.cards.filter((card) => {
-    const matchesDeck = filterDeckId === 'all' || card.deckId === filterDeckId
-    const matchesSearch =
-      card.front.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      card.back.toLowerCase().includes(searchQuery.toLowerCase())
-    return matchesDeck && matchesSearch
-  })
+  const filteredCards = state.cards
+    .filter((card) => {
+      const matchesDeck = filterDeckId === 'all' || card.deckId === filterDeckId
+      const matchesSearch =
+        card.front.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        card.back.toLowerCase().includes(searchQuery.toLowerCase())
+      return matchesDeck && matchesSearch
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'oldest': return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        case 'front-az': return a.front.localeCompare(b.front)
+        case 'front-za': return b.front.localeCompare(a.front)
+        case 'due-soon': return new Date(a.dueAt).getTime() - new Date(b.dueAt).getTime()
+        default: return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      }
+    })
+
+  const allFilteredSelected = filteredCards.length > 0 && filteredCards.every((c) => selectedIds.has(c.id))
+
+  const toggleSelectAll = () => {
+    if (allFilteredSelected) {
+      clearSelection()
+    } else {
+      setSelectedIds(new Set(filteredCards.map((c) => c.id)))
+    }
+  }
+
+  const openEditModal = (card: Flashcard) => {
+    setEditingCard(card)
+    setEditFront(card.front)
+    setEditBack(card.back)
+    setEditImageUrl(card.imageUrl)
+    setEditDeckId(card.deckId)
+    setShowEditPreview(false)
+  }
 
   return (
     <section className="staff-dashboard">
@@ -768,6 +869,7 @@ function StaffView({
             setStaffTab('cards')
             setEditingCard(null)
             setIsAddingCard(false)
+            clearSelection()
           }}
         >
           <Layers3 size={16} /> Cards ({state.cards.length})
@@ -792,54 +894,107 @@ function StaffView({
       <div className="staff-tab-content">
         {staffTab === 'cards' && (
           <div className="cards-tab-view">
-            {!isAddingCard && !editingCard && (
-              <div className="cards-filter-header">
-                <div className="search-bar">
-                  <Search size={18} />
-                  <input
-                    type="text"
-                    placeholder="Search cards..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                  {searchQuery && (
-                    <button className="clear-search-btn" onClick={() => setSearchQuery('')} aria-label="Clear search">
-                      <X size={15} />
-                    </button>
-                  )}
-                </div>
-
-                <div className="filter-controls">
-                  <select
-                    value={filterDeckId}
-                    onChange={(e) => setFilterDeckId(e.target.value)}
-                    className="deck-select-filter"
-                  >
-                    <option value="all">All Decks</option>
-                    {state.decks.map((deck) => (
-                      <option key={deck.id} value={deck.id}>
-                        {deck.name}
-                      </option>
-                    ))}
-                  </select>
-
-                  <button
-                    className="primary-action add-card-btn"
-                    onClick={() => {
-                      setIsAddingCard(true)
-                      setEditingCard(null)
-                      setNewFront('')
-                      setNewBack('')
-                      setNewImageUrl('')
-                      setNewDeckId(activeDeckId || state.decks[0]?.id || '')
-                    }}
-                  >
-                    <Plus size={16} /> Add Card
-                  </button>
-                </div>
+            {/* -- Bulk Action Bar -- */}
+            {selectedIds.size > 0 && (
+              <div className="bulk-action-bar">
+                <span className="bulk-count">{selectedIds.size} selected</span>
+                <select
+                  className="bulk-move-select"
+                  value={bulkMoveDeckId}
+                  onChange={(e) => setBulkMoveDeckId(e.target.value)}
+                >
+                  <option value="">Move to deck...</option>
+                  {state.decks.map((d) => (
+                    <option key={d.id} value={d.id}>{d.name}</option>
+                  ))}
+                </select>
+                <button
+                  className="bulk-move-btn"
+                  disabled={!bulkMoveDeckId}
+                  onClick={() => {
+                    if (!bulkMoveDeckId) return
+                    onBulkMoveDeck(Array.from(selectedIds), bulkMoveDeckId)
+                    clearSelection()
+                    setBulkMoveDeckId('')
+                  }}
+                >
+                  <MoveRight size={14} /> Move
+                </button>
+                <button
+                  className="bulk-delete-btn"
+                  onClick={() => {
+                    onBulkDelete(Array.from(selectedIds))
+                    clearSelection()
+                  }}
+                >
+                  <Trash2 size={14} /> Delete
+                </button>
+                <button className="bulk-cancel-btn" onClick={clearSelection}>
+                  <X size={14} /> Cancel
+                </button>
               </div>
             )}
 
+            {/* -- Filter / Sort / Add Bar -- */}
+            <div className="cards-filter-header">
+              <div className="search-bar">
+                <Search size={18} />
+                <input
+                  type="text"
+                  placeholder="Search cards..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                {searchQuery && (
+                  <button className="clear-search-btn" onClick={() => setSearchQuery('')} aria-label="Clear search">
+                    <X size={15} />
+                  </button>
+                )}
+              </div>
+
+              <div className="filter-controls">
+                <select
+                  value={filterDeckId}
+                  onChange={(e) => setFilterDeckId(e.target.value)}
+                  className="deck-select-filter"
+                >
+                  <option value="all">All Decks</option>
+                  {state.decks.map((deck) => (
+                    <option key={deck.id} value={deck.id}>
+                      {deck.name}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as SortKey)}
+                  className="sort-select"
+                >
+                  <option value="newest">Newest first</option>
+                  <option value="oldest">Oldest first</option>
+                  <option value="front-az">Front A-Z</option>
+                  <option value="front-za">Front Z-A</option>
+                  <option value="due-soon">Due soonest</option>
+                </select>
+
+                <button
+                  className="primary-action add-card-btn"
+                  onClick={() => {
+                    setIsAddingCard(true)
+                    setEditingCard(null)
+                    setNewFront('')
+                    setNewBack('')
+                    setNewImageUrl('')
+                    setNewDeckId(activeDeckId || state.decks[0]?.id || '')
+                  }}
+                >
+                  <Plus size={16} /> Add Card
+                </button>
+              </div>
+            </div>
+
+            {/* -- Add Card Inline Form -- */}
             {isAddingCard && (
               <div className="panel inline-form-panel">
                 <div className="form-header">
@@ -853,7 +1008,9 @@ function StaffView({
                     e.preventDefault()
                     if (!newFront.trim() || !newBack.trim()) return
                     onAddCard(newFront, newBack, newImageUrl, newDeckId)
-                    setIsAddingCard(false)
+                    setNewFront('')
+                    setNewBack('')
+                    setNewImageUrl('')
                   }}
                 >
                   <Field label="Target Deck" helper="Select which deck this card belongs to.">
@@ -891,6 +1048,11 @@ function StaffView({
                       placeholder="https://example.com/image.png"
                     />
                   </Field>
+                  {newImageUrl && (
+                    <div className="image-preview-box">
+                      <img src={newImageUrl} alt="preview" onError={(e) => ((e.target as HTMLImageElement).style.display = 'none')} />
+                    </div>
+                  )}
                   <div className="form-actions">
                     <button type="submit" className="primary-action">
                       <Plus size={16} /> Save Card
@@ -903,81 +1065,41 @@ function StaffView({
               </div>
             )}
 
-            {editingCard && (
-              <div className="panel inline-form-panel">
-                <div className="form-header">
-                  <h4>Edit Card</h4>
-                  <button className="close-btn" onClick={() => setEditingCard(null)}>
-                    <X size={18} />
-                  </button>
+            {/* -- Cards Grid with Select All + Bulk -- */}
+            <div className="cards-manager-list">
+              {filteredCards.length === 0 ? (
+                <div className="empty-state-small">
+                  <p>No cards match the current search or filters.</p>
                 </div>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    if (!editFront.trim() || !editBack.trim()) return
-                    onUpdateCard(editingCard.id, editFront, editBack, editImageUrl, editDeckId)
-                    setEditingCard(null)
-                  }}
-                >
-                  <Field label="Deck" helper="Choose a different deck if moving this card.">
-                    <select value={editDeckId} onChange={(e) => setEditDeckId(e.target.value)}>
-                      {state.decks.map((deck) => (
-                        <option key={deck.id} value={deck.id}>
-                          {deck.name}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                  <Field label="Front Side" helper="Front content (question/cloze prompt).">
-                    <textarea
-                      value={editFront}
-                      onChange={(e) => setEditFront(e.target.value)}
-                      rows={3}
-                      required
-                    />
-                  </Field>
-                  <Field label="Back Side" helper="Back content (answer/explanation).">
-                    <textarea
-                      value={editBack}
-                      onChange={(e) => setEditBack(e.target.value)}
-                      rows={3}
-                      required
-                    />
-                  </Field>
-                  <Field label="Image URL (Optional)" helper="Optional web image URL.">
-                    <input
-                      type="text"
-                      value={editImageUrl}
-                      onChange={(e) => setEditImageUrl(e.target.value)}
-                      placeholder="https://example.com/image.png"
-                    />
-                  </Field>
-                  <div className="form-actions">
-                    <button type="submit" className="primary-action">
-                      <Check size={16} /> Save Changes
+              ) : (
+                <>
+                  <div className="cards-list-toolbar">
+                    <button className="select-all-btn" onClick={toggleSelectAll}>
+                      {allFilteredSelected ? <CheckSquare size={16} /> : <Square size={16} />}
+                      {allFilteredSelected ? 'Deselect All' : 'Select All'}
                     </button>
-                    <button type="button" className="secondary-action" onClick={() => setEditingCard(null)}>
-                      Cancel
-                    </button>
+                    <span className="cards-count-label">{filteredCards.length} cards</span>
                   </div>
-                </form>
-              </div>
-            )}
-
-            {!isAddingCard && !editingCard && (
-              <div className="cards-manager-list">
-                {filteredCards.length === 0 ? (
-                  <div className="empty-state-small">
-                    <p>No cards match the current search or filters.</p>
-                  </div>
-                ) : (
                   <div className="backend-cards-grid">
                     {filteredCards.map((card) => {
                       const deck = state.decks.find((d) => d.id === card.deckId)
+                      const isSelected = selectedIds.has(card.id)
                       return (
-                        <div key={card.id} className="backend-card-item">
-                          <div className="backend-card-info">
+                        <div
+                          key={card.id}
+                          className={`backend-card-item${isSelected ? ' selected' : ''}`}
+                        >
+                          <div className="card-select-row">
+                            <button
+                              className="card-checkbox-btn"
+                              onClick={() => toggleSelect(card.id)}
+                              aria-label={isSelected ? 'Deselect' : 'Select'}
+                            >
+                              {isSelected ? <CheckSquare size={18} /> : <Square size={18} />}
+                            </button>
                             <span className="deck-badge">{deck?.name || 'Unknown Deck'}</span>
+                          </div>
+                          <div className="backend-card-info">
                             <div className="card-text-preview">
                               <strong>Front:</strong>
                               <p>{card.front}</p>
@@ -998,18 +1120,11 @@ function StaffView({
                             </div>
                           </div>
                           <div className="backend-card-actions">
-                            <button
-                              className="edit-btn"
-                              onClick={() => {
-                                setEditingCard(card)
-                                setEditFront(card.front)
-                                setEditBack(card.back)
-                                setEditImageUrl(card.imageUrl)
-                                setEditDeckId(card.deckId)
-                                setIsAddingCard(false)
-                              }}
-                            >
+                            <button className="edit-btn" onClick={() => openEditModal(card)}>
                               <Edit3 size={14} /> Edit
+                            </button>
+                            <button className="duplicate-btn" onClick={() => onDuplicateCard(card.id)}>
+                              <Copy size={14} /> Duplicate
                             </button>
                             <button className="delete-btn" onClick={() => onDeleteCard(card.id)}>
                               <Trash2 size={14} /> Delete
@@ -1019,7 +1134,106 @@ function StaffView({
                       )
                     })}
                   </div>
-                )}
+                </>
+              )}
+            </div>
+
+            {/* -- Edit Card Modal Overlay -- */}
+            {editingCard && (
+              <div className="modal-overlay" onClick={() => setEditingCard(null)}>
+                <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                  <div className="form-header">
+                    <h4>Edit Card</h4>
+                    <div className="modal-header-actions">
+                      <button
+                        className={`preview-toggle-btn${showEditPreview ? ' active' : ''}`}
+                        onClick={() => setShowEditPreview(!showEditPreview)}
+                        type="button"
+                      >
+                        <Eye size={16} /> Preview
+                      </button>
+                      <button className="close-btn" onClick={() => setEditingCard(null)}>
+                        <X size={18} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {showEditPreview ? (
+                    <div className="edit-preview-pane">
+                      <div className="preview-card">
+                        <div className="preview-side">
+                          <strong>Front</strong>
+                          <p>{editFront || '(empty)'}</p>
+                        </div>
+                        <div className="preview-side">
+                          <strong>Back</strong>
+                          <p>{editBack || '(empty)'}</p>
+                        </div>
+                        {editImageUrl && (
+                          <div className="image-preview-box">
+                            <img src={editImageUrl} alt="preview" onError={(e) => ((e.target as HTMLImageElement).style.display = 'none')} />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault()
+                        if (!editFront.trim() || !editBack.trim()) return
+                        onUpdateCard(editingCard.id, editFront, editBack, editImageUrl, editDeckId)
+                        setEditingCard(null)
+                      }}
+                    >
+                      <Field label="Deck" helper="Choose a different deck if moving this card.">
+                        <select value={editDeckId} onChange={(e) => setEditDeckId(e.target.value)}>
+                          {state.decks.map((deck) => (
+                            <option key={deck.id} value={deck.id}>
+                              {deck.name}
+                            </option>
+                          ))}
+                        </select>
+                      </Field>
+                      <Field label="Front Side" helper="Front content (question/cloze prompt).">
+                        <textarea
+                          value={editFront}
+                          onChange={(e) => setEditFront(e.target.value)}
+                          rows={4}
+                          required
+                        />
+                      </Field>
+                      <Field label="Back Side" helper="Back content (answer/explanation).">
+                        <textarea
+                          value={editBack}
+                          onChange={(e) => setEditBack(e.target.value)}
+                          rows={4}
+                          required
+                        />
+                      </Field>
+                      <Field label="Image URL (Optional)" helper="Optional web image URL.">
+                        <input
+                          type="text"
+                          value={editImageUrl}
+                          onChange={(e) => setEditImageUrl(e.target.value)}
+                          placeholder="https://example.com/image.png"
+                        />
+                      </Field>
+                      {editImageUrl && (
+                        <div className="image-preview-box">
+                          <img src={editImageUrl} alt="preview" onError={(e) => ((e.target as HTMLImageElement).style.display = 'none')} />
+                        </div>
+                      )}
+                      <div className="form-actions">
+                        <button type="submit" className="primary-action">
+                          <Check size={16} /> Save Changes
+                        </button>
+                        <button type="button" className="secondary-action" onClick={() => setEditingCard(null)}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
               </div>
             )}
           </div>

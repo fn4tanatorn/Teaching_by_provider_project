@@ -1602,3 +1602,302 @@ textarea {
 .reset-progress-button:active {
   transform: translateY(1px);
 }
+
+/* ===== Bulk Action Bar ===== */
+.bulk-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--accent-soft);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.bulk-count {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--accent-strong);
+  margin-right: 4px;
+}
+
+.bulk-move-select {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--surface-solid);
+}
+
+.bulk-move-btn,
+.bulk-delete-btn,
+.bulk-cancel-btn {
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bulk-move-btn {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.bulk-move-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bulk-delete-btn {
+  background: var(--surface-solid);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.bulk-delete-btn:hover {
+  background: #fdf2f2;
+}
+
+.bulk-cancel-btn {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+.bulk-cancel-btn:hover {
+  color: var(--text);
+}
+
+/* ===== Sort Select ===== */
+.sort-select {
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 2px solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: var(--surface-solid);
+  color: var(--text);
+}
+
+/* ===== Cards List Toolbar (Select All / Count) ===== */
+.cards-list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding: 0 4px;
+}
+
+.select-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.select-all-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: var(--accent);
+}
+
+.cards-count-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ===== Card Selection Checkbox Row ===== */
+.card-select-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.card-checkbox-btn {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.card-checkbox-btn:hover {
+  color: var(--accent);
+}
+
+.backend-card-item.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.backend-card-item.selected .card-checkbox-btn {
+  color: var(--accent);
+}
+
+/* ===== Duplicate Button ===== */
+.backend-card-actions button.duplicate-btn {
+  color: var(--accent);
+}
+
+.backend-card-actions button.duplicate-btn:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+/* ===== Modal Overlay ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgb(36 52 71 / 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: var(--surface-solid);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--soft-shadow);
+  padding: 28px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideUp 0.25s ease;
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.preview-toggle-btn:hover,
+.preview-toggle-btn.active {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  border-color: var(--accent);
+}
+
+/* ===== Edit Preview Pane ===== */
+.edit-preview-pane {
+  padding: 16px 0;
+}
+
+.preview-card {
+  border: 2px solid var(--border);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preview-side strong {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  letter-spacing: 0.04em;
+}
+
+.preview-side p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* ===== Image Preview Box ===== */
+.image-preview-box {
+  width: 100%;
+  max-height: 200px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-top: 8px;
+  background: var(--surface-muted);
+}
+
+.image-preview-box img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .bulk-action-bar {
+    gap: 8px;
+  }
+
+  .modal-content {
+    max-width: 100%;
+    margin: 16px;
+    padding: 20px;
+  }
+
+  .backend-card-actions {
+    flex-wrap: wrap;
+  }
+}
