@@ -1038,6 +1038,7 @@ function initClinicalVideoApp() {
     const watchSlideLink = document.getElementById('watch-slide-link');
     const watchFlashcardsLink = document.getElementById('watch-flashcards-link');
     const flashcardsFrame = document.getElementById('flashcards-frame');
+    const flashcardsFullscreenButton = document.getElementById('flashcards-fullscreen-button');
     const btnBackFromWatch = document.getElementById('btn-back-from-watch');
     const btnVideoFinished = document.getElementById('btn-video-finished');
     const btnBackFromQuiz = document.getElementById('btn-back-from-quiz');
@@ -4191,11 +4192,41 @@ function initClinicalVideoApp() {
         window.location.href = getFlashcardsUrl();
     }
 
+    async function toggleFlashcardsFullscreen() {
+        if (!flashcardsFrame) return;
+        try {
+            if (document.fullscreenElement === flashcardsFrame) {
+                await document.exitFullscreen();
+            } else {
+                await flashcardsFrame.requestFullscreen();
+            }
+        } catch (error) {
+            showToast('Could not open full screen.', 'error');
+        }
+    }
+
+    function syncFlashcardsFullscreenButton() {
+        if (!flashcardsFullscreenButton || !flashcardsFrame) return;
+        const isActive = document.fullscreenElement === flashcardsFrame;
+        flashcardsFullscreenButton.textContent = isActive ? 'Exit full screen' : 'Full screen';
+        flashcardsFullscreenButton.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    }
+
+    flashcardsFullscreenButton?.addEventListener('click', toggleFlashcardsFullscreen);
+    document.addEventListener('fullscreenchange', syncFlashcardsFullscreenButton);
+    syncFlashcardsFullscreenButton();
+
     window.addEventListener('message', (event) => {
         if (event.origin !== window.location.origin) return;
         const data = event.data;
-        if (!data || data.type !== 'open-flashcards-deck') return;
-        openLinkedFlashcards(data.deckId);
+        if (!data) return;
+        if (data.type === 'open-flashcards-deck') {
+            openLinkedFlashcards(data.deckId);
+            return;
+        }
+        if (data.type === 'toggle-flashcards-fullscreen' && flashcardsFrame) {
+            toggleFlashcardsFullscreen();
+        }
     });
 
     function openLiveQuiz() {

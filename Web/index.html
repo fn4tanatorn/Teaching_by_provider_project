@@ -718,12 +718,13 @@
                         </div>
                         <div class="learning-topbar-actions">
                             <button id="countdown-timer-flashcards" type="button" class="countdown-badge countdown-badge--button">Exam date</button>
+                            <button id="flashcards-fullscreen-button" type="button" class="btn text-btn btn-compact">Full screen</button>
                             <button type="button" class="btn text-btn btn-compact" data-action="clear-progress" style="color: var(--danger); opacity: 0.85;">Clear</button>
                             <button type="button" class="btn text-btn btn-compact" data-action="logout">Log out</button>
                         </div>
                     </header>
                     <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
-                        <iframe id="flashcards-frame" src="flashcards/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                        <iframe id="flashcards-frame" src="flashcards/index.html?embed=1" allow="fullscreen" allowfullscreen style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
                     </div>
                 </div>
             </div>

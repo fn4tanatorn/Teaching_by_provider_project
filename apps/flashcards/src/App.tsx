@@ -21,6 +21,8 @@ import {
   Search,
   X,
   Eye,
+  Maximize2,
+  Minimize2,
 } from 'lucide-react'
 import {
   APP_ILLUSTRATION_URL,
@@ -96,10 +98,37 @@ function App() {
   const [isOnlineReady, setIsOnlineReady] = useState(false)
   const [syncLabel, setSyncLabel] = useState('Checking sync')
   const [syncDetail, setSyncDetail] = useState('Looking for the shared flashcard bank.')
+  const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const readFullscreenState = useCallback(() => {
+    const parentDocument = window.parent !== window ? window.parent.document : null
+    const hostFrame = window.frameElement
+
+    return Boolean(
+      document.fullscreenElement ||
+      (parentDocument && hostFrame && parentDocument.fullscreenElement === hostFrame),
+    )
+  }, [])
 
   useEffect(() => {
     saveState(state)
   }, [state])
+
+  useEffect(() => {
+    const syncFullscreenState = () => setIsFullscreen(readFullscreenState())
+
+    document.addEventListener('fullscreenchange', syncFullscreenState)
+    if (window.parent !== window) {
+      window.parent.document.addEventListener('fullscreenchange', syncFullscreenState)
+    }
+
+    return () => {
+      document.removeEventListener('fullscreenchange', syncFullscreenState)
+      if (window.parent !== window) {
+        window.parent.document.removeEventListener('fullscreenchange', syncFullscreenState)
+      }
+    }
+  }, [readFullscreenState])
 
   useEffect(() => {
     let isMounted = true
@@ -602,6 +631,29 @@ function App() {
     setToast('Staff locked')
   }
 
+  const handleToggleFullscreen = async () => {
+    try {
+      if (readFullscreenState()) {
+        if (window.parent !== window && window.parent.document.fullscreenElement) {
+          await window.parent.document.exitFullscreen()
+        } else if (document.fullscreenElement) {
+          await document.exitFullscreen()
+        }
+        setIsFullscreen(false)
+        return
+      }
+
+      if (window.parent !== window && window.frameElement instanceof HTMLElement) {
+        await window.frameElement.requestFullscreen()
+      } else {
+        await document.documentElement.requestFullscreen()
+      }
+      setIsFullscreen(true)
+    } catch {
+      window.parent.postMessage({ type: 'toggle-flashcards-fullscreen' }, window.location.origin)
+    }
+  }
+
   return (
     <main className="app-shell">
       <aside className="sidebar" aria-label="Deck navigation">
@@ -698,11 +750,13 @@ function App() {
             hasCards={activeDeckCards.length > 0}
             isRandomCard={Boolean(randomCard)}
             isRandomMode={isRandomMode}
+            isFullscreen={isFullscreen}
             onReveal={() => setIsAnswerVisible(true)}
             onReset={() => setIsAnswerVisible(false)}
             onRandom={handleRandomCard}
             onCancelRandom={handleCancelRandomMode}
             onGrade={handleGrade}
+            onToggleFullscreen={handleToggleFullscreen}
           />
         )}
 
@@ -1468,22 +1522,26 @@ function StudyView({
   hasCards,
   isRandomCard,
   isRandomMode,
+  isFullscreen,
   onReveal,
   onReset,
   onRandom,
   onCancelRandom,
   onGrade,
+  onToggleFullscreen,
 }: {
   card?: Flashcard
   isAnswerVisible: boolean
   hasCards: boolean
   isRandomCard: boolean
   isRandomMode: boolean
+  isFullscreen: boolean
   onReveal: () => void
   onReset: () => void
   onRandom: () => void
   onCancelRandom: () => void
   onGrade: (grade: ReviewGrade) => void
+  onToggleFullscreen: () => void
 }) {
   if (!card) {
     return (
@@ -1518,6 +1576,14 @@ function StudyView({
               <X size={15} /> Cancel
             </button>
           )}
+          <button
+            className="secondary-action fullscreen-action"
+            onClick={onToggleFullscreen}
+            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          >
+            {isFullscreen ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
+          </button>
           <span className="shortcut-hint"><kbd>Space</kbd> reveal</span>
           <span className="shortcut-hint"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> grade</span>
         </div>
