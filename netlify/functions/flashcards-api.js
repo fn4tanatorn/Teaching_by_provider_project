@@ -179,7 +179,7 @@ function normalizeState(value) {
 function store() {
   return getStore({
     name: STORE_NAME,
-    consistency: "strong",
+    consistency: "eventual",
   });
 }
 
@@ -311,6 +311,10 @@ exports.handler = async (event) => {
 
     return json(405, { error: "Method not allowed." });
   } catch (error) {
-    return json(error.status || 500, { error: error.message || "Flashcard bank error." });
+    const message = String(error.message || "");
+    const friendlyMessage = message.includes("uncachedEdgeURL")
+      ? "Shared flashcard bank is not fully configured on Netlify. Please redeploy or enable Supabase storage."
+      : message || "Flashcard bank error.";
+    return json(error.status || 500, { error: friendlyMessage });
   }
 };

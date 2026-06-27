@@ -487,8 +487,8 @@ function initClinicalVideoApp() {
         const students = Number(summary?.students || 0);
         const staff = Number(summary?.staff || 0);
         countEl.textContent = String(total);
-        copyEl.textContent = total === 1 ? 'Online now' : 'Online now';
-        studentsEl.textContent = `Students ${students}`;
+        copyEl.textContent = total === 1 ? 'Web user online now' : 'Web users online now';
+        studentsEl.textContent = `Visitors ${students}`;
         staffEl.textContent = `Staff ${staff}`;
     }
 

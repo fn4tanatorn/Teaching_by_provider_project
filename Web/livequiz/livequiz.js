@@ -157,7 +157,10 @@
 
   function connectSSE(url, onMessage) {
     let es;
+    let closed = false;
+    const localSseHost = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
     function open() {
+      if (closed || !window.EventSource || !localSseHost) return;
       es = new EventSource(url);
       es.onmessage = (event) => {
         try { onMessage(JSON.parse(event.data)); } catch {}
@@ -168,7 +171,46 @@
       };
     }
     open();
-    return { close() { es.close(); } };
+    return { close() { closed = true; if (es) es.close(); } };
+  }
+
+  function startPolling(callback, intervalMs) {
+    let stopped = false;
+    let inFlight = false;
+    async function tick() {
+      if (stopped || inFlight || document.visibilityState === "hidden") return;
+      inFlight = true;
+      try {
+        await callback();
+      } catch {
+        // The visible request actions show their own errors. Polling stays quiet.
+      } finally {
+        inFlight = false;
+      }
+    }
+    const timerId = setInterval(tick, intervalMs);
+    tick();
+    return {
+      close() {
+        stopped = true;
+        clearInterval(timerId);
+      },
+    };
+  }
+
+  function participantStateSignature(state) {
+    const question = state?.currentQuestion;
+    return [
+      state?.state,
+      state?.currentQuestionIndex,
+      state?.endsAt,
+      question?.id,
+      question?.state,
+      state?.selectedChoiceId,
+      state?.answerText,
+      state?.isCorrect,
+      state?.totalScore,
+    ].join("|");
   }
 
   function initHost() {
@@ -968,6 +1010,7 @@
     setupImportEvents();
     setupSampleTemplateEvents();
     setupImageUploadEvents();
+    const poller = startPolling(refresh, 2000);
     const sseUrl = `${apiBase}/rooms/${code}/events?role=host&token=${encodeURIComponent(hostToken)}`;
     const es = connectSSE(sseUrl, (state) => {
       lastState = state;
@@ -976,7 +1019,7 @@
     const timerId = setInterval(() => {
       if (lastState) renderTimer($("timer"), lastState.endsAt, lastState.state);
     }, 1000);
-    window.addEventListener("pagehide", () => { es.close(); clearInterval(timerId); });
+    window.addEventListener("pagehide", () => { es.close(); poller.close(); clearInterval(timerId); });
   }
 
   function initParticipant() {
@@ -985,6 +1028,7 @@
     const sessionToken = querySession || localStorage.getItem(storageKey("participant", code));
     let selectedChoiceId = null;
     let submittedAnswerText = "";
+    let lastRenderedSignature = "";
 
     if (code && querySession) localStorage.setItem(storageKey("participant", code), querySession);
 
@@ -997,12 +1041,21 @@
         const state = await api(`/api/rooms/${code}/participant`, {
           headers: { "X-Participant-Token": sessionToken },
         });
-        selectedChoiceId = state.selectedChoiceId;
-        submittedAnswerText = state.answerText || "";
-        renderParticipant(state);
+        updateParticipant(state, { force: true });
       } catch (err) {
         setStatus($("participantStatus"), err.message, "error");
       }
+    }
+
+    function updateParticipant(state, options = {}) {
+      const signature = participantStateSignature(state);
+      if (!options.force && signature === lastRenderedSignature) return;
+      lastRenderedSignature = signature;
+      selectedChoiceId = state.selectedChoiceId;
+      submittedAnswerText = state.answerText || "";
+      lastEndsAt = state.endsAt;
+      lastRoomState = state.state;
+      renderParticipant(state);
     }
 
     function renderParticipant(state) {
@@ -1055,8 +1108,7 @@
                 headers: { "X-Participant-Token": sessionToken },
                 body: JSON.stringify({ answerText: $("shortAnswerInput").value }),
               });
-              submittedAnswerText = nextState.answerText || "";
-              renderParticipant(nextState);
+              updateParticipant(nextState, { force: true });
               setStatus($("participantStatus"), "Answer submitted.", "ok");
             } catch (err) {
               setStatus($("participantStatus"), err.message, "error");
@@ -1082,9 +1134,7 @@
                 headers: { "X-Participant-Token": sessionToken },
                 body: JSON.stringify({ choiceId: button.dataset.choice }),
               });
-              selectedChoiceId = nextState.selectedChoiceId;
-              submittedAnswerText = nextState.answerText || "";
-              renderParticipant(nextState);
+              updateParticipant(nextState, { force: true });
             } catch (err) {
               setStatus($("participantStatus"), err.message, "error");
             }
@@ -1140,19 +1190,24 @@
 
     let lastEndsAt = null;
     let lastRoomState = null;
+    async function pollParticipant() {
+      if (!code || !sessionToken) return;
+      const state = await api(`/api/rooms/${code}/participant`, {
+        headers: { "X-Participant-Token": sessionToken },
+      });
+      updateParticipant(state);
+    }
+
     refresh();
     const sseUrl = `${apiBase}/rooms/${code}/events?role=participant&session=${encodeURIComponent(sessionToken)}`;
     const es = connectSSE(sseUrl, (state) => {
-      selectedChoiceId = state.selectedChoiceId;
-      submittedAnswerText = state.answerText || "";
-      lastEndsAt = state.endsAt;
-      lastRoomState = state.state;
-      renderParticipant(state);
+      updateParticipant(state);
     });
+    const poller = startPolling(pollParticipant, 1500);
     const timerId = setInterval(() => {
       renderTimer($("participantTimer"), lastEndsAt, lastRoomState);
     }, 1000);
-    window.addEventListener("pagehide", () => { es.close(); clearInterval(timerId); });
+    window.addEventListener("pagehide", () => { es.close(); poller.close(); clearInterval(timerId); });
   }
 
   if (page === "home") initHome();
