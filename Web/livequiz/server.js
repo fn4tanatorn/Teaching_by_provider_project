@@ -245,6 +245,57 @@ async function routeApi(req, res, url) {
     return;
   }
 
+  const eventsMatch = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]+)\/events$/);
+  if (eventsMatch && req.method === "GET") {
+    const code = eventsMatch[1];
+    const role = url.searchParams.get("role");
+    const token = role === "host"
+      ? tokenFrom(req, url, "x-host-token", "token")
+      : tokenFrom(req, url, "x-participant-token", "session");
+
+    const room = quiz.getRoom(code);
+    if (role === "host") {
+      quiz.requireHost(room, token);
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      "Connection": "keep-alive",
+      "Access-Control-Allow-Origin": "*",
+    });
+
+    const send = () => {
+      try {
+        const r = quiz.getRoom(code);
+        let data;
+        if (role === "host") {
+          data = quiz.hostState(r);
+        } else {
+          const p = r.participants.find((p) => p.sessionToken === token);
+          if (!p) return;
+          data = quiz.participantState(r, p);
+        }
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+      } catch {}
+    };
+
+    send();
+    const unsubscribe = quiz.onRoomChange(code, send);
+
+    const heartbeatTimer = setInterval(() => {
+      res.write(": heartbeat\n\n");
+    }, 15000);
+
+    const cleanup = () => {
+      unsubscribe();
+      clearInterval(heartbeatTimer);
+    };
+    req.on("close", cleanup);
+    res.on("close", cleanup);
+    return;
+  }
+
   sendJson(res, 404, { error: "Not found" });
 }
 

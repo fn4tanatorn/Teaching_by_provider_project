@@ -9,6 +9,24 @@ const CHOICE_IDS = ["A", "B", "C", "D", "E"];
 
 let rooms = new Map();
 let timers = new Map();
+const listeners = new Map();
+
+function notifyRoom(code) {
+  const cbs = listeners.get(code);
+  if (!cbs || !cbs.size) return;
+  for (const cb of cbs) {
+    try { cb(); } catch {}
+  }
+}
+
+function onRoomChange(code, cb) {
+  if (!listeners.has(code)) listeners.set(code, new Set());
+  listeners.get(code).add(cb);
+  return () => {
+    const cbs = listeners.get(code);
+    if (cbs) { cbs.delete(cb); if (!cbs.size) listeners.delete(code); }
+  };
+}
 
 function getSupabaseConfig() {
   const url = process.env.SUPABASE_URL;
@@ -187,6 +205,7 @@ function scheduleTimer(room) {
     if (!liveRoom) return;
     tickRoom(liveRoom);
     saveStore();
+    notifyRoom(liveRoom.code);
   }, delay + 25);
   timers.set(room.code, timer);
 }
@@ -248,6 +267,7 @@ function openLobby(code, token) {
   }
   room.state = "lobby";
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -261,6 +281,7 @@ function updateSettings(code, token, body) {
   }
   room.globalTimeLimitSeconds = Math.max(5, toInt(body.globalTimeLimitSeconds, room.globalTimeLimitSeconds));
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -316,6 +337,7 @@ function addQuestion(code, token, body) {
   }
   room.questions.push(normalizeQuestion(body));
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -335,6 +357,7 @@ function updateQuestion(code, token, questionId, body) {
   }
   room.questions[index] = normalizeQuestion(body, room.questions[index]);
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -355,6 +378,7 @@ function deleteQuestion(code, token, questionId) {
   }
   delete room.answers[questionId];
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -377,6 +401,7 @@ function moveQuestion(code, token, questionId, direction) {
   if (nextIndex < 0 || nextIndex >= room.questions.length) return room;
   [room.questions[index], room.questions[nextIndex]] = [room.questions[nextIndex], room.questions[index]];
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -438,6 +463,7 @@ function joinRoom({ code, username, sessionToken }) {
   };
   room.participants.push(participant);
   saveStore();
+  notifyRoom(code);
   return { room, participant, sessionToken: participant.sessionToken };
 }
 
@@ -474,6 +500,7 @@ function kickParticipant(code, token, participantId) {
   participant.kickedAt = nowIso();
   participant.active = false;
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -492,6 +519,7 @@ function releaseParticipant(code, token, participantId) {
   participant.releasedAt = nowIso();
   participant.lastHeartbeatAt = new Date(Date.now() - STALE_LOCK_MS - 1000).toISOString();
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -536,6 +564,7 @@ function startQuiz(code, token) {
   }
   startQuestion(room, nextPlayableIndex(room, 0));
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -554,11 +583,13 @@ function advanceQuestion(code, token) {
     room.endsAt = null;
     room.revealedAt = null;
     saveStore();
+    notifyRoom(code);
     saveResultsToSupabase(room);
     return room;
   }
   startQuestion(room, nextIndex);
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -580,6 +611,7 @@ function voidQuestion(code, token, questionId) {
     room.revealedAt = nowIso();
   }
   saveStore();
+  notifyRoom(code);
   return room;
 }
 
@@ -617,6 +649,7 @@ function submitAnswer(code, sessionToken, choiceId) {
     isCorrect: selectedChoiceId === question.correctChoiceId,
   };
   saveStore();
+  notifyRoom(code);
   return { room, participant };
 }
 
@@ -763,4 +796,5 @@ module.exports = {
   hostState,
   participantState,
   exportCsv,
+  onRoomChange,
 };

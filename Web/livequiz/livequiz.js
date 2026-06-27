@@ -127,12 +127,27 @@
     });
   }
 
+  function connectSSE(url, onMessage) {
+    let es;
+    function open() {
+      es = new EventSource(url);
+      es.onmessage = (event) => {
+        try { onMessage(JSON.parse(event.data)); } catch {}
+      };
+      es.onerror = () => {
+        es.close();
+        setTimeout(open, 3000);
+      };
+    }
+    open();
+    return { close() { es.close(); } };
+  }
+
   function initHost() {
     const code = (params.get("room") || "").trim().toUpperCase();
     const queryToken = params.get("token");
     const hostToken = queryToken || localStorage.getItem(storageKey("host", code));
     let lastState = null;
-    let pollId = null;
     let editQuestionId = null;
 
     if (code && queryToken) localStorage.setItem(storageKey("host", code), queryToken);
@@ -754,8 +769,15 @@
     refresh();
     setupImportEvents();
     setupImageUploadEvents();
-    pollId = setInterval(refresh, 1000);
-    window.addEventListener("pagehide", () => clearInterval(pollId));
+    const sseUrl = `${apiBase}/rooms/${code}/events?role=host&token=${encodeURIComponent(hostToken)}`;
+    const es = connectSSE(sseUrl, (state) => {
+      lastState = state;
+      renderHost(state);
+    });
+    const timerId = setInterval(() => {
+      if (lastState) renderTimer($("timer"), lastState.endsAt, lastState.state);
+    }, 1000);
+    window.addEventListener("pagehide", () => { es.close(); clearInterval(timerId); });
   }
 
   function initParticipant() {
@@ -763,7 +785,6 @@
     const querySession = params.get("session");
     const sessionToken = querySession || localStorage.getItem(storageKey("participant", code));
     let selectedChoiceId = null;
-    let pollId = null;
 
     if (code && querySession) localStorage.setItem(storageKey("participant", code), querySession);
 
@@ -879,9 +900,20 @@
       `;
     }
 
+    let lastEndsAt = null;
+    let lastRoomState = null;
     refresh();
-    pollId = setInterval(refresh, 1000);
-    window.addEventListener("pagehide", () => clearInterval(pollId));
+    const sseUrl = `${apiBase}/rooms/${code}/events?role=participant&session=${encodeURIComponent(sessionToken)}`;
+    const es = connectSSE(sseUrl, (state) => {
+      selectedChoiceId = state.selectedChoiceId;
+      lastEndsAt = state.endsAt;
+      lastRoomState = state.state;
+      renderParticipant(state);
+    });
+    const timerId = setInterval(() => {
+      renderTimer($("participantTimer"), lastEndsAt, lastRoomState);
+    }, 1000);
+    window.addEventListener("pagehide", () => { es.close(); clearInterval(timerId); });
   }
 
   if (page === "home") initHome();
