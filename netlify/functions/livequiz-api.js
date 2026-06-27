@@ -166,7 +166,7 @@ function queryToken(event, headerName, queryName) {
 }
 
 function store() {
-  return getStore({ name: STORE_NAME, consistency: "strong" });
+  return getStore({ name: STORE_NAME, consistency: "eventual" });
 }
 
 async function loadState() {
