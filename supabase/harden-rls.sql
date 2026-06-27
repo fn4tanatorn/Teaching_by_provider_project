@@ -4,6 +4,9 @@
 -- ==========================================
 -- 1. Table: public.video_library
 -- ==========================================
+alter table public.video_library
+  alter column videos type jsonb using videos::jsonb;
+
 alter table public.video_library enable row level security;
 
 drop policy if exists "video_library public read" on public.video_library;
