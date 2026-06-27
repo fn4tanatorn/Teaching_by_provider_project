@@ -13,6 +13,7 @@ create table if not exists public.sheet_files (
   title text not null,
   subject text not null default 'Uncategorized',
   sort_order bigint not null default (extract(epoch from now()) * 1000)::bigint,
+  flashcard_deck_id text not null default '',
   file_name text not null,
   storage_path text not null unique,
   public_url text not null,
@@ -26,6 +27,9 @@ alter table public.sheet_files
 
 alter table public.sheet_files
   add column if not exists sort_order bigint not null default (extract(epoch from now()) * 1000)::bigint;
+
+alter table public.sheet_files
+  add column if not exists flashcard_deck_id text not null default '';
 
 alter table public.sheet_files enable row level security;
 

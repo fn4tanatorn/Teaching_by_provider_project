@@ -1,6 +1,29 @@
 -- Flashcards online storage.
 -- Run in Supabase SQL Editor before enabling online flashcards.
 
+-- Shared flashcard bank used by the Netlify flashcards-api function.
+-- The browser can read the shared bank, but writes should go through the
+-- function with FLASHCARDS_STAFF_CODE + SUPABASE_SERVICE_ROLE_KEY.
+create table if not exists public.flashcard_shared_bank (
+  id text primary key default 'shared',
+  state jsonb not null default '{"decks":[],"cards":[]}'::jsonb,
+  updated_at timestamptz not null default now(),
+  constraint flashcard_shared_bank_singleton check (id = 'shared')
+);
+
+insert into public.flashcard_shared_bank (id, state)
+values ('shared', '{"decks":[],"cards":[]}'::jsonb)
+on conflict (id) do nothing;
+
+alter table public.flashcard_shared_bank enable row level security;
+
+drop policy if exists "flashcard_shared_bank public read" on public.flashcard_shared_bank;
+create policy "flashcard_shared_bank public read"
+on public.flashcard_shared_bank
+for select
+to anon, authenticated
+using (true);
+
 create table if not exists public.flashcard_decks (
   id uuid primary key default gen_random_uuid(),
   owner_uid uuid not null references auth.users(id) on delete cascade,

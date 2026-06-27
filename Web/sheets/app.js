@@ -24,6 +24,7 @@ const RECENT_SHEETS_KEY = "clinical_sheets_recent_v1";
 const SIDEBAR_COLLAPSED_KEY = "clinical_sheets_sidebar_collapsed_v1";
 const SHEET_SUBJECTS_KEY = "clinical_sheets_subjects_v1";
 const SHEET_META_KEY = "clinical_sheets_meta_v1";
+const FLASHCARD_STORAGE_KEY = "flashcards-web:v1";
 const MAX_RECENT_SHEETS = 3;
 const DEFAULT_SUBJECT = "Uncategorized";
 const SHEETS_BUCKET = SB.SHEETS_STORAGE_BUCKET || "sheets";
@@ -67,6 +68,65 @@ let uploadedSheets = [];
 let sheetsRemoteOk = false;
 let sheetSubjects = [];
 let sheetMeta = {};
+let flashcardDeckOptions = [];
+
+function fallbackFlashcardDecksFromStorage() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(FLASHCARD_STORAGE_KEY) || "{}");
+    return Array.isArray(parsed.decks)
+      ? parsed.decks
+          .map((deck) => ({
+            id: String(deck.id || ""),
+            name: String(deck.name || "").trim()
+          }))
+          .filter((deck) => deck.id && deck.name)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchFlashcardDeckOptions() {
+  try {
+    const response = await fetch("/.netlify/functions/flashcards-api", { headers: { Accept: "application/json" } });
+    if (!response.ok) throw new Error("Flashcards bank unavailable");
+    const payload = await response.json();
+    const decks = payload?.state?.decks;
+    if (!Array.isArray(decks)) return fallbackFlashcardDecksFromStorage();
+    return decks
+      .map((deck) => ({
+        id: String(deck.id || ""),
+        name: String(deck.name || "").trim()
+      }))
+      .filter((deck) => deck.id && deck.name);
+  } catch {
+    return fallbackFlashcardDecksFromStorage();
+  }
+}
+
+function sheetFlashcardDeckId(sheet) {
+  return String(sheet?.flashcardDeckId || sheetMeta[sheet?.id]?.flashcardDeckId || sheetMeta[sheet?.storagePath]?.flashcardDeckId || "").trim();
+}
+
+function flashcardDeckLabel(deckId) {
+  return flashcardDeckOptions.find((deck) => deck.id === deckId)?.name || "Flashcards";
+}
+
+function flashcardDeckUrl(deckId) {
+  const url = new URL("../flashcards/index.html", window.location.href);
+  if (deckId) url.searchParams.set("deck", deckId);
+  return url.href;
+}
+
+function openLinkedFlashcards(deckId) {
+  const linkedDeckId = String(deckId || "").trim();
+  if (!linkedDeckId) return;
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({ type: "open-flashcards-deck", deckId: linkedDeckId }, window.location.origin);
+    return;
+  }
+  window.location.href = flashcardDeckUrl(linkedDeckId);
+}
 
 async function getSupabaseClient() {
   if (!SUPABASE_READY) return null;
@@ -305,6 +365,7 @@ function remoteRowToSheet(row) {
     storagePath: row.storage_path,
     publicUrl: row.public_url,
     subject: normalizeSubject(row.subject || sheetMeta[row.id]?.subject || sheetMeta[row.storage_path]?.subject),
+    flashcardDeckId: String(row.flashcard_deck_id || sheetMeta[row.id]?.flashcardDeckId || sheetMeta[row.storage_path]?.flashcardDeckId || "").trim(),
     sortOrder: Number.isFinite(Number(row.sort_order)) ? Number(row.sort_order) : undefined
   };
 }
@@ -314,9 +375,9 @@ async function loadRemoteSheets() {
   if (!client) return [];
   const { data, error } = await client
     .from(SHEETS_TABLE)
-    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at,subject,sort_order")
+    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at,subject,sort_order,flashcard_deck_id")
     .order("created_at", { ascending: false });
-  if (error && /subject|sort_order/i.test(String(error.message || ""))) {
+  if (error && /subject|sort_order|flashcard_deck_id/i.test(String(error.message || ""))) {
     const fallback = await client
       .from(SHEETS_TABLE)
       .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at")
@@ -352,15 +413,16 @@ async function saveRemotePdf(file) {
     size_bytes: file.size,
     mime_type: file.type || "application/pdf",
     subject: normalizeSubject(uploadSubjectSelect?.value),
-    sort_order: Date.now()
+    sort_order: Date.now(),
+    flashcard_deck_id: ""
   };
   let { data, error: insertError } = await client
     .from(SHEETS_TABLE)
     .insert(row)
-    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at,subject,sort_order")
+    .select("id,title,file_name,storage_path,public_url,size_bytes,mime_type,created_at,subject,sort_order,flashcard_deck_id")
     .single();
-  if (insertError && /subject|sort_order/i.test(String(insertError.message || ""))) {
-    const { subject, sort_order, ...rowWithoutSubject } = row;
+  if (insertError && /subject|sort_order|flashcard_deck_id/i.test(String(insertError.message || ""))) {
+    const { subject, sort_order, flashcard_deck_id, ...rowWithoutSubject } = row;
     const fallback = await client
       .from(SHEETS_TABLE)
       .insert(rowWithoutSubject)
@@ -375,8 +437,8 @@ async function saveRemotePdf(file) {
   }
   const subject = normalizeSubject(row.subject);
   const sortOrder = row.sort_order;
-  if (data?.id) sheetMeta[data.id] = { ...(sheetMeta[data.id] || {}), subject, sortOrder };
-  if (data?.storage_path) sheetMeta[data.storage_path] = { ...(sheetMeta[data.storage_path] || {}), subject, sortOrder };
+  if (data?.id) sheetMeta[data.id] = { ...(sheetMeta[data.id] || {}), subject, sortOrder, flashcardDeckId: "" };
+  if (data?.storage_path) sheetMeta[data.storage_path] = { ...(sheetMeta[data.storage_path] || {}), subject, sortOrder, flashcardDeckId: "" };
   saveSheetMeta();
   sheetsRemoteOk = true;
   return remoteRowToSheet(data);
@@ -458,6 +520,24 @@ async function updateSheetSubject(sheet, subject) {
   if (!client) return;
   const { error } = await client.from(SHEETS_TABLE).update({ subject: nextSubject }).eq("id", sheet.id);
   if (error && !String(error.message || "").includes("subject")) throw error;
+}
+
+async function updateSheetFlashcardDeck(sheet, deckId) {
+  const nextDeckId = String(deckId || "").trim();
+  sheet.flashcardDeckId = nextDeckId;
+  sheetMeta[sheet.id] = { ...(sheetMeta[sheet.id] || {}), flashcardDeckId: nextDeckId };
+  if (sheet.storagePath) sheetMeta[sheet.storagePath] = { ...(sheetMeta[sheet.storagePath] || {}), flashcardDeckId: nextDeckId };
+  saveSheetMeta();
+
+  if (sheet.source === "local") {
+    await withStore("readwrite", (store) => store.put(sheet));
+    return;
+  }
+
+  const client = await getSupabaseClient();
+  if (!client) return;
+  const { error } = await client.from(SHEETS_TABLE).update({ flashcard_deck_id: nextDeckId }).eq("id", sheet.id);
+  if (error && !/flashcard_deck_id/i.test(String(error.message || ""))) throw error;
 }
 
 async function persistSheetOrder(sheet) {
@@ -787,6 +867,7 @@ function renderSheetList() {
 
     const row = document.createElement("div");
     row.className = "sheet-row";
+    const linkedDeckId = entry.sheet ? sheetFlashcardDeckId(entry.sheet) : "";
     row.append(
       createSheetButton({
         id: entry.id,
@@ -795,6 +876,16 @@ function renderSheetList() {
         onOpen: entry.onOpen
       })
     );
+
+    if (linkedDeckId && !IS_ADMIN) {
+      const flashcards = document.createElement("button");
+      flashcards.type = "button";
+      flashcards.className = "sheet-flashcards-link";
+      flashcards.textContent = flashcardDeckLabel(linkedDeckId);
+      flashcards.title = "Open linked Flashcards deck";
+      flashcards.addEventListener("click", () => openLinkedFlashcards(linkedDeckId));
+      row.append(flashcards);
+    }
 
     if (IS_ADMIN && entry.sheet) {
       const orderControls = document.createElement("div");
@@ -845,6 +936,30 @@ function renderSheetList() {
         }
       });
 
+      const flashcardSelect = document.createElement("select");
+      flashcardSelect.className = "sheet-flashcard-select";
+      const emptyDeckOption = document.createElement("option");
+      emptyDeckOption.value = "";
+      emptyDeckOption.textContent = "No flashcards";
+      flashcardSelect.append(emptyDeckOption);
+      flashcardDeckOptions.forEach((deck) => {
+        const option = document.createElement("option");
+        option.value = deck.id;
+        option.textContent = deck.name;
+        flashcardSelect.append(option);
+      });
+      flashcardSelect.value = linkedDeckId;
+      flashcardSelect.title = "Linked Flashcards deck";
+      flashcardSelect.addEventListener("change", async () => {
+        try {
+          await updateSheetFlashcardDeck(entry.sheet, flashcardSelect.value);
+          renderSheetList();
+        } catch (err) {
+          console.error(err);
+          alert("Could not update linked Flashcards deck.");
+        }
+      });
+
       const remove = document.createElement("button");
       remove.type = "button";
       remove.className = "sheet-delete";
@@ -854,7 +969,7 @@ function renderSheetList() {
         await deleteUploadedPdf(entry.sheet);
         await refreshUploadedSheets();
       });
-      row.append(orderControls, subjectSelect, remove);
+      row.append(orderControls, subjectSelect, flashcardSelect, remove);
     }
 
     fragment.append(row);
@@ -932,5 +1047,10 @@ window.addEventListener("beforeunload", revokeActiveObjectUrl);
 
 refreshUploadedSheets().catch((err) => {
   console.error(err);
+  renderSheetList();
+});
+
+fetchFlashcardDeckOptions().then((decks) => {
+  flashcardDeckOptions = decks;
   renderSheetList();
 });

@@ -723,7 +723,7 @@
                         </div>
                     </header>
                     <div class="content" style="position: relative; overflow: hidden; height: calc(100vh - 120px); padding: 0;">
-                        <iframe src="flashcards/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
+                        <iframe id="flashcards-frame" src="flashcards/index.html?embed=1" style="width: 100%; height: 100%; border: none; border-radius: var(--r-card); background: transparent;"></iframe>
                     </div>
                 </div>
             </div>
@@ -890,6 +890,7 @@
                         <h3 id="watch-video-title" class="watch-title">Lesson</h3>
                         <p class="watch-hint">Watch the video carefully and mark as finished when done.</p>
                         <a id="watch-slide-link" class="btn outline-btn watch-slide-link" href="#" target="_blank" rel="noopener" hidden>Open slide</a>
+                        <button id="watch-flashcards-link" type="button" class="btn outline-btn watch-flashcards-link" hidden>Flashcards</button>
 
                         <div style="margin: 1.5rem 0;">
                             <label for="video-feedback" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; display: block;">Lesson note</label>
@@ -1273,6 +1274,12 @@
                                     </select>
                                 </div>
                                 <button type="button" id="btn-add-subject" class="btn outline-btn" style="height: 44px; padding: 0 1rem; flex-shrink: 0;">+ New</button>
+                            </div>
+                            <div class="admin-field-row">
+                                <label class="admin-field-label" for="new-video-flashcard-deck">Linked Flashcards deck</label>
+                                <select id="new-video-flashcard-deck" class="admin-select">
+                                    <option value="">No linked deck</option>
+                                </select>
                             </div>
 
                             <div id="video-connections-group" style="margin-top: 1rem;">

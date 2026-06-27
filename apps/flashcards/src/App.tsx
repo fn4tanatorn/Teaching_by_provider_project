@@ -20,7 +20,6 @@ import {
   Trash2,
   Search,
   X,
-  ArrowUpDown,
   Eye,
 } from 'lucide-react'
 import {
@@ -58,14 +57,37 @@ const gradeIntervals: Record<ReviewGrade, string> = {
 }
 
 const sharedStore = (store: FlashcardStore | null) => (store?.mode === 'shared' ? store : null)
+const requestedDeckId = new URLSearchParams(window.location.search).get('deck') ?? ''
+
+const sourceLabel = (source?: string) => {
+  if (source === 'supabase') return 'Supabase bank'
+  if (source === 'blob') return 'Shared bank'
+  if (source === 'local') return 'Local fallback'
+  return 'Shared bank'
+}
+
+const pickRandomCard = (cards: Flashcard[], excludeCardId?: string) => {
+  if (cards.length === 0) return undefined
+
+  const candidates = cards.length > 1 && excludeCardId
+    ? cards.filter((card) => card.id !== excludeCardId)
+    : cards
+
+  return candidates[Math.floor(Math.random() * candidates.length)]
+}
 
 function App() {
   const isAdminMode = new URLSearchParams(window.location.search).get('admin') === '1'
   const [state, setState] = useState<FlashcardState>(() => loadState())
-  const [activeDeckId, setActiveDeckId] = useState(() => state.decks[0]?.id ?? '')
+  const [activeDeckId, setActiveDeckId] = useState(() =>
+    state.decks.some((deck) => deck.id === requestedDeckId)
+      ? requestedDeckId
+      : state.decks[0]?.id ?? '',
+  )
   const [view, setView] = useState<View>(isAdminMode ? 'staff' : 'study')
   const [isAnswerVisible, setIsAnswerVisible] = useState(false)
   const [randomCardId, setRandomCardId] = useState('')
+  const [isRandomMode, setIsRandomMode] = useState(false)
 
   const [staffPassword, setStaffPassword] = useState('')
   const [isStaffUnlocked, setIsStaffUnlocked] = useState(isAdminMode)
@@ -96,20 +118,24 @@ function App() {
       }
 
       try {
-        const onlineState = await fetchOnlineState(nextStore)
+        const onlineBank = await fetchOnlineState(nextStore)
         if (!isMounted) return
 
-        const nextState = onlineState.decks.length > 0
-          ? mergeSharedBankWithLocalProgress(onlineState, state)
+        const nextState = onlineBank.state.decks.length > 0
+          ? mergeSharedBankWithLocalProgress(onlineBank.state, state)
           : state
 
         setState(nextState)
-        setActiveDeckId(nextState.decks[0]?.id ?? '')
+        setActiveDeckId(
+          nextState.decks.some((deck) => deck.id === requestedDeckId)
+            ? requestedDeckId
+            : nextState.decks[0]?.id ?? '',
+        )
         setIsOnlineReady(true)
-        setSyncLabel(onlineState.decks.length > 0 ? 'Shared bank' : 'Ready to publish')
+        setSyncLabel(onlineBank.state.decks.length > 0 ? sourceLabel(onlineBank.source) : 'Ready to publish')
         setSyncDetail(
-          onlineState.decks.length > 0
-            ? 'Students load this shared card bank. Study progress stays on each browser.'
+          onlineBank.state.decks.length > 0
+            ? `Students load this shared card bank from ${sourceLabel(onlineBank.source)}. Study progress stays on each browser.`
             : 'No shared bank is published yet. Staff changes will publish it.',
         )
       } catch (error) {
@@ -170,10 +196,10 @@ function App() {
 
     setSyncLabel('Publishing')
     void saveOnlineState(currentStore, nextState, STAFF_PASSWORD)
-      .then(() => {
+      .then((bank) => {
         setIsOnlineReady(true)
-        setSyncLabel('Shared bank')
-        setSyncDetail('Published. Students will load these decks and keep their own progress locally.')
+        setSyncLabel(sourceLabel(bank.source))
+        setSyncDetail(`Published to ${sourceLabel(bank.source)}. Students will load these decks and keep their own progress locally.`)
       })
       .catch((error: unknown) => {
         setSyncLabel('Publish failed')
@@ -184,27 +210,40 @@ function App() {
   const handleGrade = useCallback((grade: ReviewGrade) => {
     if (!currentCard) return
     updateCard(scheduleReview(currentCard, grade))
-    setRandomCardId('')
+
+    if (isRandomMode) {
+      const nextCard = pickRandomCard(activeDeckCards, currentCard.id)
+      setRandomCardId(nextCard?.id ?? '')
+    } else {
+      setRandomCardId('')
+    }
+
     setIsAnswerVisible(false)
     setToast(`Card scheduled: ${gradeLabels[grade]}`)
-  }, [currentCard, updateCard])
+  }, [activeDeckCards, currentCard, isRandomMode, updateCard])
 
   const handleRandomCard = useCallback(() => {
     if (activeDeckCards.length === 0) return
 
-    const candidates = activeDeckCards.length > 1
-      ? activeDeckCards.filter((card) => card.id !== currentCard?.id)
-      : activeDeckCards
-    const nextCard = candidates[Math.floor(Math.random() * candidates.length)]
+    const nextCard = pickRandomCard(activeDeckCards, currentCard?.id)
 
-    setRandomCardId(nextCard.id)
+    setIsRandomMode(true)
+    setRandomCardId(nextCard?.id ?? '')
     setIsAnswerVisible(false)
     setToast('Random card loaded')
   }, [activeDeckCards, currentCard])
 
+  const handleCancelRandomMode = useCallback(() => {
+    setIsRandomMode(false)
+    setRandomCardId('')
+    setIsAnswerVisible(false)
+    setToast('Random mode off')
+  }, [])
+
   useEffect(() => {
     if (!randomCardId) return
     if (!activeDeckCards.some((card) => card.id === randomCardId)) {
+      setIsRandomMode(false)
       setRandomCardId('')
       setIsAnswerVisible(false)
     }
@@ -599,6 +638,7 @@ function App() {
             value={activeDeckId}
             onChange={(event) => {
               setActiveDeckId(event.target.value)
+              setIsRandomMode(false)
               setRandomCardId('')
               setIsAnswerVisible(false)
             }}
@@ -657,9 +697,11 @@ function App() {
             isAnswerVisible={isAnswerVisible}
             hasCards={activeDeckCards.length > 0}
             isRandomCard={Boolean(randomCard)}
+            isRandomMode={isRandomMode}
             onReveal={() => setIsAnswerVisible(true)}
             onReset={() => setIsAnswerVisible(false)}
             onRandom={handleRandomCard}
+            onCancelRandom={handleCancelRandomMode}
             onGrade={handleGrade}
           />
         )}
@@ -1425,18 +1467,22 @@ function StudyView({
   isAnswerVisible,
   hasCards,
   isRandomCard,
+  isRandomMode,
   onReveal,
   onReset,
   onRandom,
+  onCancelRandom,
   onGrade,
 }: {
   card?: Flashcard
   isAnswerVisible: boolean
   hasCards: boolean
   isRandomCard: boolean
+  isRandomMode: boolean
   onReveal: () => void
   onReset: () => void
   onRandom: () => void
+  onCancelRandom: () => void
   onGrade: (grade: ReviewGrade) => void
 }) {
   if (!card) {
@@ -1463,10 +1509,15 @@ function StudyView({
     <section className="study-grid">
       <article className="study-card">
         <div className="study-card-toolbar" aria-label="Study shortcuts">
-          {isRandomCard && <span className="mode-pill">Random</span>}
+          {isRandomMode && <span className="mode-pill">Random on</span>}
           <button className="secondary-action random-card-action" onClick={onRandom}>
-            <Shuffle size={15} /> Random <kbd>R</kbd>
+            <Shuffle size={15} /> {isRandomMode ? 'Next random' : 'Random'} <kbd>R</kbd>
           </button>
+          {(isRandomMode || isRandomCard) && (
+            <button className="secondary-action cancel-random-action" onClick={onCancelRandom}>
+              <X size={15} /> Cancel
+            </button>
+          )}
           <span className="shortcut-hint"><kbd>Space</kbd> reveal</span>
           <span className="shortcut-hint"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> grade</span>
         </div>

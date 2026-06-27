@@ -3,9 +3,16 @@ import type { Deck, Flashcard, FlashcardState } from './flashcards'
 
 export type FlashcardStore =
   | { mode: 'local'; reason: string }
-  | { mode: 'shared'; apiUrl: string }
+  | { mode: 'shared'; apiUrl: string; source?: string }
+
+export type OnlineFlashcardBank = {
+  state: FlashcardState
+  source: string
+}
 
 const API_URL = '/.netlify/functions/flashcards-api'
+const REQUEST_RETRIES = 3
+const RETRY_DELAYS_MS = [250, 800, 1600]
 
 const normalizeDate = (value: unknown) => (typeof value === 'string' && value ? value : new Date().toISOString())
 const normalizeNumber = (value: unknown, fallback: number) => {
@@ -51,26 +58,49 @@ const normalizeState = (value: unknown): FlashcardState => {
   return { decks, cards }
 }
 
-const requestJson = async (url: string, init?: RequestInit) => {
-  const response = await fetch(url, {
-    ...init,
-    headers: {
-      Accept: 'application/json',
-      ...(init?.headers ?? {}),
-    },
-  })
+const wait = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms))
 
-  const payload = await response.json().catch(() => ({}))
-  if (!response.ok) {
-    throw new Error(String(payload.error || `Flashcard bank request failed (${response.status})`))
+const requestJson = async (url: string, init?: RequestInit) => {
+  let lastError: unknown
+
+  for (let attempt = 0; attempt < REQUEST_RETRIES; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        ...init,
+        headers: {
+          Accept: 'application/json',
+          ...(init?.headers ?? {}),
+        },
+      })
+
+      const payload = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        throw new Error(String(payload.error || `Flashcard bank request failed (${response.status})`))
+      }
+      return payload
+    } catch (error) {
+      lastError = error
+      if (attempt < REQUEST_RETRIES - 1) {
+        await wait(RETRY_DELAYS_MS[attempt] ?? 1000)
+      }
+    }
   }
-  return payload
+
+  throw lastError instanceof Error ? lastError : new Error('Shared flashcard bank unavailable.')
+}
+
+const normalizeBankPayload = (payload: unknown): OnlineFlashcardBank => {
+  const bank = payload && typeof payload === 'object' ? payload as { state?: unknown; source?: unknown } : {}
+  return {
+    state: normalizeState(bank.state),
+    source: typeof bank.source === 'string' && bank.source ? bank.source : 'shared',
+  }
 }
 
 export const initFlashcardStore = async (): Promise<FlashcardStore> => {
   try {
-    await requestJson(API_URL)
-    return { mode: 'shared', apiUrl: API_URL }
+    const bank = normalizeBankPayload(await requestJson(API_URL))
+    return { mode: 'shared', apiUrl: API_URL, source: bank.source }
   } catch (error) {
     return {
       mode: 'local',
@@ -79,9 +109,11 @@ export const initFlashcardStore = async (): Promise<FlashcardStore> => {
   }
 }
 
-export const fetchOnlineState = async (store: Extract<FlashcardStore, { mode: 'shared' }>): Promise<FlashcardState> => {
+export const fetchOnlineState = async (
+  store: Extract<FlashcardStore, { mode: 'shared' }>,
+): Promise<OnlineFlashcardBank> => {
   const payload = await requestJson(store.apiUrl)
-  return normalizeState(payload.state)
+  return normalizeBankPayload(payload)
 }
 
 export const saveOnlineState = async (
@@ -89,12 +121,12 @@ export const saveOnlineState = async (
   state: FlashcardState,
   staffCode: string,
 ) => {
-  await requestJson(store.apiUrl, {
+  return normalizeBankPayload(await requestJson(store.apiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-Staff-Code': staffCode,
     },
     body: JSON.stringify({ state: normalizeState(state) }),
-  })
+  }))
 }

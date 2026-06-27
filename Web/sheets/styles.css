@@ -182,6 +182,7 @@ a {
 .nav-btn:focus-visible,
 .upload-btn:focus-visible,
 .sheet-item:focus-visible,
+.sheet-flashcards-link:focus-visible,
 .sheet-delete:focus-visible,
 .sheet-search input:focus {
   outline: none;
@@ -379,7 +380,8 @@ body.sheets-sidebar-collapsed .sheet-list-panel {
 
 .admin-organizer input,
 .admin-organizer select,
-.sheet-subject-select {
+.sheet-subject-select,
+.sheet-flashcard-select {
   width: 100%;
   min-height: 36px;
   border: 1px solid var(--border-strong);
@@ -442,7 +444,7 @@ body.sheets-sidebar-collapsed .sheet-list-panel {
 }
 
 .sheets-admin .sheet-row {
-  grid-template-columns: minmax(0, 1fr) 58px minmax(132px, 150px) 44px;
+  grid-template-columns: minmax(0, 1fr) 58px minmax(112px, 138px) minmax(128px, 150px) 44px;
   gap: 0.45rem;
 }
 
@@ -455,7 +457,8 @@ body.sheets-sidebar-collapsed .sheet-list-panel {
   text-transform: uppercase;
 }
 
-.sheet-subject-select {
+.sheet-subject-select,
+.sheet-flashcard-select {
   min-height: 34px;
   padding: 0 0.45rem;
   font-size: 0.68rem;
@@ -518,6 +521,25 @@ body.sheets-sidebar-collapsed .sheet-list-panel {
 .sheet-delete:hover {
   background: #fee2e2;
   border-color: #fca5a5;
+}
+
+.sheet-flashcards-link {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 30px;
+  padding: 0 0.7rem;
+  border: 1px solid var(--accent-line);
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sheet-flashcards-link:hover {
+  background: var(--accent-softer);
 }
 
 .sheet-delete:active {

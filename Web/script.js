@@ -269,6 +269,7 @@ function initClinicalVideoApp() {
     let loginStuckTimer = null;
     let brainGraph = null;
     let presenceTimer = null;
+    let flashcardDeckOptions = [];
 
     const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
     if (useLocalMemberStorage) {
@@ -347,6 +348,85 @@ function initClinicalVideoApp() {
         if (!url) return null;
         const title = String(video?.slideTitle || '').trim() || 'Open slide';
         return { url, title };
+    }
+
+    function flashcardDeckLabel(deckId) {
+        const deck = flashcardDeckOptions.find((item) => item.id === deckId);
+        return deck?.name || 'Linked deck';
+    }
+
+    function renderFlashcardDeckSelect(selectedId = '') {
+        if (!newVideoFlashcardDeck) return;
+        const current = selectedId || newVideoFlashcardDeck.value || '';
+        newVideoFlashcardDeck.innerHTML = '<option value="">No linked deck</option>';
+        flashcardDeckOptions.forEach((deck) => {
+            const option = document.createElement('option');
+            option.value = deck.id;
+            option.textContent = deck.name;
+            newVideoFlashcardDeck.append(option);
+        });
+        newVideoFlashcardDeck.value = flashcardDeckOptions.some((deck) => deck.id === current) ? current : '';
+    }
+
+    function openLinkedFlashcards(deckId) {
+        if (!currentUser) {
+            showToast('Log in before opening Flashcards.', 'error');
+            return;
+        }
+        const linkedDeckId = String(deckId || '').trim();
+        if (!linkedDeckId) {
+            handleLearningNavigation('flashcards');
+            return;
+        }
+        if (flashcardsFrame) {
+            flashcardsFrame.src = getFlashcardsUrlForDeck(linkedDeckId, true);
+        }
+        navigateTo(pageFlashcards);
+    }
+
+    function getLinkedFlashcardDeckId(item) {
+        return String(item?.flashcardDeckId || item?.linkedFlashcardDeckId || '').trim();
+    }
+
+    function getFlashcardsUrlForDeck(deckId, embed = false) {
+        const url = new URL('flashcards/index.html', window.location.href);
+        if (embed) url.searchParams.set('embed', '1');
+        if (deckId) url.searchParams.set('deck', deckId);
+        return url.href;
+    }
+
+    function fallbackFlashcardDecksFromStorage() {
+        try {
+            const parsed = JSON.parse(localStorage.getItem('flashcards-web:v1') || '{}');
+            return Array.isArray(parsed.decks)
+                ? parsed.decks
+                    .map((deck) => ({
+                        id: String(deck.id || ''),
+                        name: String(deck.name || '').trim()
+                    }))
+                    .filter((deck) => deck.id && deck.name)
+                : [];
+        } catch {
+            return [];
+        }
+    }
+
+    async function fetchFlashcardDeckOptions() {
+        try {
+            const response = await fetch('/.netlify/functions/flashcards-api', { headers: { Accept: 'application/json' } });
+            if (!response.ok) throw new Error('Flashcards bank unavailable');
+            const payload = await response.json();
+            const decks = payload?.state?.decks;
+            if (!Array.isArray(decks)) return fallbackFlashcardDecksFromStorage();
+            return decks
+                .map((deck) => ({
+                    id: String(deck.id || ''),
+                    name: String(deck.name || '').trim()
+                }))
+                .filter((deck) => deck.id && deck.name);
+        } catch {
+            return fallbackFlashcardDecksFromStorage();
+        }
     }
 
     function nameKey(name) {
@@ -956,6 +1036,8 @@ function initClinicalVideoApp() {
     const watchVideoTitle = document.getElementById('watch-video-title');
     const watchIframe = document.getElementById('watch-iframe');
     const watchSlideLink = document.getElementById('watch-slide-link');
+    const watchFlashcardsLink = document.getElementById('watch-flashcards-link');
+    const flashcardsFrame = document.getElementById('flashcards-frame');
     const btnBackFromWatch = document.getElementById('btn-back-from-watch');
     const btnVideoFinished = document.getElementById('btn-video-finished');
     const btnBackFromQuiz = document.getElementById('btn-back-from-quiz');
@@ -1109,7 +1191,14 @@ function initClinicalVideoApp() {
     const btnUploadVideoSlide = document.getElementById('btn-upload-video-slide');
     const btnRemoveVideoSlide = document.getElementById('btn-remove-video-slide');
     const newVideoSubject = document.getElementById('new-video-subject');
+    const newVideoFlashcardDeck = document.getElementById('new-video-flashcard-deck');
     const btnAddSubject = document.getElementById('btn-add-subject');
+
+    fetchFlashcardDeckOptions().then((decks) => {
+        flashcardDeckOptions = decks;
+        renderFlashcardDeckSelect(newVideoFlashcardDeck?.value || '');
+        renderVideos();
+    });
 
     if (persistFormsEnabled()) {
         if (usernameInput && passwordInput) {
@@ -1143,6 +1232,9 @@ function initClinicalVideoApp() {
                 if (vidDraft.title != null) newVideoTitle.value = vidDraft.title;
                 if (newVideoSlideUrl && vidDraft.slideUrl != null) newVideoSlideUrl.value = vidDraft.slideUrl;
                 if (newVideoSlideTitle && vidDraft.slideTitle != null) newVideoSlideTitle.value = vidDraft.slideTitle;
+                if (newVideoFlashcardDeck && vidDraft.flashcardDeckId != null) {
+                    newVideoFlashcardDeck.value = vidDraft.flashcardDeckId;
+                }
                 if (
                     vidDraft.subject != null &&
                     [...newVideoSubject.options].some((o) => o.value === vidDraft.subject)
@@ -1158,6 +1250,7 @@ function initClinicalVideoApp() {
                         title: newVideoTitle.value,
                         slideUrl: newVideoSlideUrl ? newVideoSlideUrl.value : '',
                         slideTitle: newVideoSlideTitle ? newVideoSlideTitle.value : '',
+                        flashcardDeckId: newVideoFlashcardDeck ? newVideoFlashcardDeck.value : '',
                         subject: newVideoSubject.value
                     })
                 );
@@ -1166,6 +1259,7 @@ function initClinicalVideoApp() {
             newVideoTitle.addEventListener('input', persistVid);
             if (newVideoSlideUrl) newVideoSlideUrl.addEventListener('input', persistVid);
             if (newVideoSlideTitle) newVideoSlideTitle.addEventListener('input', persistVid);
+            if (newVideoFlashcardDeck) newVideoFlashcardDeck.addEventListener('change', persistVid);
             newVideoSubject.addEventListener('change', persistVid);
         }
         const vfEl = document.getElementById('video-feedback');
@@ -1518,6 +1612,7 @@ function initClinicalVideoApp() {
             newVideoTitle.value = '';
             if (newVideoSlideUrl) newVideoSlideUrl.value = '';
             if (newVideoSlideTitle) newVideoSlideTitle.value = '';
+            if (newVideoFlashcardDeck) newVideoFlashcardDeck.value = '';
             if (quizQuestionsList) quizQuestionsList.innerHTML = '';
             renderVideoConnectionsCheckboxes(null, []);
             showToast('Edit cancelled.', 'info');
@@ -1742,6 +1837,17 @@ function initClinicalVideoApp() {
                 watchSlideLink.hidden = true;
             }
         }
+        if (watchFlashcardsLink) {
+            const deckId = getLinkedFlashcardDeckId(video);
+            if (deckId) {
+                watchFlashcardsLink.textContent = `Flashcards: ${flashcardDeckLabel(deckId)}`;
+                watchFlashcardsLink.hidden = false;
+                watchFlashcardsLink.onclick = () => openLinkedFlashcards(deckId);
+            } else {
+                watchFlashcardsLink.hidden = true;
+                watchFlashcardsLink.onclick = null;
+            }
+        }
         if (videoFeedback) {
             videoFeedback.value = '';
             saveDraft('video_feedback', null);
@@ -1796,6 +1902,7 @@ function initClinicalVideoApp() {
         } else {
             filtered.forEach(vid => {
                 const slide = getVideoSlide(vid);
+                const linkedDeckId = getLinkedFlashcardDeckId(vid);
                 const card = document.createElement('div');
                 card.className = 'video-card video-clickable';
                 card.setAttribute('data-id', vid.id);
@@ -1809,6 +1916,7 @@ function initClinicalVideoApp() {
                         <h3 class="video-title">${escapeHtml(vid.title)}</h3>
                         <span class="video-subtitle">${subjectLabel(getVideoSubject(vid))}</span>
                         ${slide ? '<span class="video-slide-badge">Slide attached</span>' : ''}
+                        ${linkedDeckId ? `<span class="video-slide-badge">Flashcards</span>` : ''}
                         <p class="video-views">${vid.views || 0} views</p>
                     </div>
                 `;
@@ -2145,6 +2253,7 @@ function initClinicalVideoApp() {
             item.style.position = 'relative';
             const qCount = vid.quiz && Array.isArray(vid.quiz) ? vid.quiz.length : (vid.quiz ? 1 : 0);
             const slide = getVideoSlide(vid);
+            const linkedDeckId = getLinkedFlashcardDeckId(vid);
             item.innerHTML = `
                 <button type="button" class="btn icon-btn delete-video-btn" data-id="${vid.id}" style="position: absolute; top: 1rem; right: 1rem; width: 28px; height: 28px; color: var(--danger); z-index: 10;">Remove</button>
                 <img src="https://img.youtube.com/vi/${vid.videoId}/hqdefault.jpg" style="width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-btn);">
@@ -2154,6 +2263,7 @@ function initClinicalVideoApp() {
                         <span class="subject-tag" style="font-size:10px;">${subjectLabel(getVideoSubject(vid))}</span>
                         <span style="display:inline-flex; gap:0.35rem; align-items:center;">
                             ${slide ? '<span class="video-slide-badge video-slide-badge--compact">Slide</span>' : ''}
+                            ${linkedDeckId ? '<span class="video-slide-badge video-slide-badge--compact">Flashcards</span>' : ''}
                             ${qCount > 0 ? `<span style="font-size:10px; color:var(--teal-700); font-weight:600;">${qCount} Qs</span>` : ''}
                         </span>
                     </div>
@@ -2169,6 +2279,7 @@ function initClinicalVideoApp() {
                 newVideoTitle.value = vid.title;
                 if (newVideoSlideUrl) newVideoSlideUrl.value = slide ? slide.url : '';
                 if (newVideoSlideTitle) newVideoSlideTitle.value = vid.slideTitle || '';
+                if (newVideoFlashcardDeck) newVideoFlashcardDeck.value = getLinkedFlashcardDeckId(vid);
                 newVideoSubject.value = getVideoSubject(vid);
                 btnAddVideo.textContent = 'Save changes';
                 if(btnCancelEditVideo) btnCancelEditVideo.style.display = 'block';
@@ -4080,6 +4191,13 @@ function initClinicalVideoApp() {
         window.location.href = getFlashcardsUrl();
     }
 
+    window.addEventListener('message', (event) => {
+        if (event.origin !== window.location.origin) return;
+        const data = event.data;
+        if (!data || data.type !== 'open-flashcards-deck') return;
+        openLinkedFlashcards(data.deckId);
+    });
+
     function openLiveQuiz() {
         window.location.href = getLiveQuizUrl();
     }
@@ -4137,6 +4255,9 @@ function initClinicalVideoApp() {
             if (!currentUser) {
                 showToast('Log in before opening Flashcards.', 'error');
                 return;
+            }
+            if (flashcardsFrame) {
+                flashcardsFrame.src = getFlashcardsUrlForDeck('', true);
             }
             navigateTo(pageFlashcards);
         }
@@ -5362,6 +5483,7 @@ function initClinicalVideoApp() {
         if (!vId) return alert('Invalid URL');
         const slideUrl = newVideoSlideUrl ? newVideoSlideUrl.value.trim() : '';
         const slideTitle = newVideoSlideTitle ? newVideoSlideTitle.value.trim() : '';
+        const flashcardDeckId = newVideoFlashcardDeck ? newVideoFlashcardDeck.value : '';
 
         const quiz = [];
         if (quizQuestionsList) {
@@ -5404,6 +5526,7 @@ function initClinicalVideoApp() {
                     subject: newVideoSubject.value,
                     slideUrl,
                     slideTitle,
+                    flashcardDeckId,
                     quiz: quiz.length > 0 ? quiz : null,
                     connectedIds: connectedIds.length > 0 ? connectedIds : null
                 };
@@ -5420,6 +5543,7 @@ function initClinicalVideoApp() {
                 title: newVideoTitle.value.trim(),
                 slideUrl,
                 slideTitle,
+                flashcardDeckId,
                 views: 0,
                 quiz: quiz.length > 0 ? quiz : null,
                 connectedIds: connectedIds.length > 0 ? connectedIds : null
@@ -5431,6 +5555,7 @@ function initClinicalVideoApp() {
         newVideoTitle.value = '';
         if (newVideoSlideUrl) newVideoSlideUrl.value = '';
         if (newVideoSlideTitle) newVideoSlideTitle.value = '';
+        if (newVideoFlashcardDeck) newVideoFlashcardDeck.value = '';
         if (quizQuestionsList) quizQuestionsList.innerHTML = '';
         saveVideosDB({
             successToast: wasEditing ? 'Video changes saved.' : 'Video attached.'
