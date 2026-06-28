@@ -292,6 +292,81 @@ textarea:focus {
   white-space: nowrap;
 }
 
+.grade-summary {
+  display: grid;
+  gap: 7px;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.72);
+}
+
+.grade-summary p {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.grade-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.grade-count {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px;
+  min-width: 0;
+  padding: 5px 6px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: var(--surface-solid);
+}
+
+.grade-count strong {
+  color: var(--text);
+  font-size: 0.82rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.grade-count span {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grade-count-new {
+  grid-column: 1 / -1;
+}
+
+.grade-count-again {
+  border-color: rgb(185 28 28 / 0.18);
+  background: rgb(254 242 242 / 0.78);
+}
+
+.grade-count-hard {
+  border-color: rgb(180 83 9 / 0.18);
+  background: rgb(255 247 237 / 0.78);
+}
+
+.grade-count-good {
+  border-color: rgb(37 99 235 / 0.16);
+  background: rgb(239 246 255 / 0.78);
+}
+
+.grade-count-easy {
+  border-color: rgb(4 120 87 / 0.18);
+  background: rgb(236 253 245 / 0.78);
+}
+
 .sync-pill {
   display: inline-flex;
   align-items: center;
@@ -916,6 +991,73 @@ textarea {
   text-wrap: balance;
 }
 
+.flashcard-table-wrap {
+  width: min(760px, 100%);
+  margin: clamp(14px, 2vh, 22px) auto 0;
+  color: var(--text);
+}
+
+.flashcard-table-wrap figcaption {
+  margin-bottom: 8px;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.flashcard-table-scroll {
+  overflow-x: auto;
+  border: 1px solid rgb(36 52 71 / 0.16);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 0.82);
+  box-shadow: 0 10px 24px rgb(36 52 71 / 0.08);
+}
+
+.flashcard-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-family: var(--font-flashcard-content);
+  font-size: clamp(0.86rem, 1.1vw, 1rem);
+  font-weight: 300;
+  line-height: 1.38;
+  text-align: left;
+}
+
+.flashcard-table th,
+.flashcard-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgb(36 52 71 / 0.1);
+  vertical-align: top;
+}
+
+.flashcard-table th {
+  background: rgb(239 246 255 / 0.78);
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+.flashcard-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.flashcard-table tbody tr:nth-child(even) td {
+  background: rgb(248 250 252 / 0.72);
+}
+
+.flashcard-table-note {
+  max-width: none;
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-family: var(--font-flashcard-content);
+  font-size: 0.82rem;
+  font-weight: 300;
+  line-height: 1.45;
+  text-align: left;
+}
+
 .answer {
   justify-items: center;
   min-height: 54px;
@@ -927,7 +1069,7 @@ textarea {
   padding-top: clamp(16px, 2vh, 24px);
 }
 
-.card-face.answer p:last-child {
+.card-face.answer > p {
   max-width: 42ch;
   font-family: var(--font-flashcard-content);
   font-size: clamp(1.05rem, 1.65vw, 1.55rem);
@@ -1094,6 +1236,10 @@ body:fullscreen .study-card {
   .study-card,
   .empty-state {
     min-height: 420px;
+  }
+
+  .flashcard-table {
+    min-width: 420px;
   }
 }
 
@@ -1328,6 +1474,25 @@ body:fullscreen .study-card {
 .card-text-preview p {
   margin: 2px 0 0;
   font-weight: 600;
+}
+
+.card-table-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.card-table-badges span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0 8px;
+  border: 1px solid rgb(47 130 166 / 0.28);
+  border-radius: 999px;
+  background: rgb(223 241 248 / 0.62);
+  color: var(--accent-strong);
+  font-size: 0.7rem;
+  font-weight: 800;
 }
 
 .card-image-thumbnail {

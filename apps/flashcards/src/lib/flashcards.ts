@@ -1,10 +1,19 @@
 export type ReviewGrade = 'again' | 'hard' | 'good' | 'easy'
 
+export type FlashcardTable = {
+  caption?: string
+  columns: string[]
+  rows: string[][]
+  note?: string
+}
+
 export type Flashcard = {
   id: string
   deckId: string
   front: string
   back: string
+  frontTable?: FlashcardTable
+  backTable?: FlashcardTable
   imageUrl: string
   createdAt: string
   updatedAt: string
@@ -13,6 +22,7 @@ export type Flashcard = {
   ease: number
   reps: number
   lapses: number
+  lastGrade?: ReviewGrade
 }
 
 export type Deck = {
@@ -88,11 +98,15 @@ export const createCard = ({
   front,
   back,
   imageUrl,
+  frontTable,
+  backTable,
 }: {
   deckId: string
   front: string
   back: string
   imageUrl: string
+  frontTable?: FlashcardTable
+  backTable?: FlashcardTable
 }): Flashcard => {
   const createdAt = nowIso()
 
@@ -101,6 +115,8 @@ export const createCard = ({
     deckId,
     front: front.trim(),
     back: back.trim(),
+    ...(frontTable ? { frontTable } : {}),
+    ...(backTable ? { backTable } : {}),
     imageUrl: imageUrl.trim(),
     createdAt,
     updatedAt: createdAt,
@@ -121,11 +137,23 @@ export const getDeckStats = (state: FlashcardState, deckId: string) => {
   const deckCards = state.cards.filter((card) => card.deckId === deckId)
   const due = getDueCards(state.cards, deckId).length
   const mastered = deckCards.filter((card) => card.intervalDays >= 21).length
+  const gradeCounts = deckCards.reduce(
+    (counts, card) => {
+      if (card.lastGrade) {
+        counts[card.lastGrade] += 1
+      } else {
+        counts.new += 1
+      }
+      return counts
+    },
+    { again: 0, hard: 0, good: 0, easy: 0, new: 0 },
+  )
 
   return {
     total: deckCards.length,
     due,
     mastered,
+    gradeCounts,
   }
 }
 
@@ -170,6 +198,7 @@ export const scheduleReview = (card: Flashcard, grade: ReviewGrade): Flashcard =
     ease,
     intervalDays,
     lapses,
+    lastGrade: grade,
     reps: card.reps + 1,
     updatedAt: nowIso(),
   }

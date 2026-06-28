@@ -222,6 +222,12 @@ function normalizeNumber(value, fallback) {
   return Number.isFinite(next) ? next : fallback;
 }
 
+function normalizeGrade(value) {
+  return value === "again" || value === "hard" || value === "good" || value === "easy"
+    ? value
+    : undefined;
+}
+
 function normalizeDeck(deck) {
   return {
     id: String(deck?.id || ""),
@@ -231,12 +237,38 @@ function normalizeDeck(deck) {
   };
 }
 
+function normalizeTable(value) {
+  if (!value || typeof value !== "object") return undefined;
+  const columns = Array.isArray(value.columns)
+    ? value.columns.map((item) => String(item ?? "").trim()).filter(Boolean)
+    : [];
+  const rows = Array.isArray(value.rows)
+    ? value.rows
+        .map((row) => (Array.isArray(row) ? row.map((cell) => String(cell ?? "").trim()) : []))
+        .filter((row) => row.some(Boolean))
+    : [];
+  if (!columns.length || !rows.length) return undefined;
+
+  return {
+    ...(typeof value.caption === "string" && value.caption.trim() ? { caption: value.caption.trim() } : {}),
+    columns,
+    rows,
+    ...(typeof value.note === "string" && value.note.trim() ? { note: value.note.trim() } : {}),
+  };
+}
+
 function normalizeCard(card) {
+  const frontTable = normalizeTable(card?.frontTable);
+  const backTable = normalizeTable(card?.backTable);
+  const lastGrade = normalizeGrade(card?.lastGrade);
+
   return {
     id: String(card?.id || ""),
     deckId: String(card?.deckId || ""),
     front: String(card?.front || "").trim(),
     back: String(card?.back || "").trim(),
+    ...(frontTable ? { frontTable } : {}),
+    ...(backTable ? { backTable } : {}),
     imageUrl: String(card?.imageUrl || "").trim(),
     createdAt: normalizeDate(card?.createdAt),
     updatedAt: normalizeDate(card?.updatedAt),
@@ -245,6 +277,7 @@ function normalizeCard(card) {
     ease: normalizeNumber(card?.ease, 2.5),
     reps: normalizeNumber(card?.reps, 0),
     lapses: normalizeNumber(card?.lapses, 0),
+    ...(lastGrade ? { lastGrade } : {}),
   };
 }
 

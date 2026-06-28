@@ -35,7 +35,7 @@ import {
   saveState,
   scheduleReview,
 } from './lib/flashcards'
-import type { Deck, Flashcard, FlashcardState, ReviewGrade } from './lib/flashcards'
+import type { Deck, Flashcard, FlashcardState, FlashcardTable, ReviewGrade } from './lib/flashcards'
 import { fetchOnlineState, initFlashcardStore, saveOnlineState } from './lib/onlineFlashcards'
 import type { FlashcardStore } from './lib/onlineFlashcards'
 
@@ -46,6 +46,7 @@ type AiInstructionBlock = {
   requiredOutputShape: string[]
   cardWritingRules: string[]
   medicalAccuracyRules: string[]
+  tableRules: string[]
   imageRules: string[]
   validationChecklist: string[]
 }
@@ -440,6 +441,8 @@ function App() {
       front: original.front,
       back: original.back,
       imageUrl: original.imageUrl,
+      frontTable: original.frontTable,
+      backTable: original.backTable,
     })
     const nextState = { ...state, cards: [nextCard, ...state.cards] }
     setState(nextState)
@@ -541,6 +544,7 @@ function App() {
               ease: 2.5,
               reps: 0,
               lapses: 0,
+              lastGrade: undefined,
               updatedAt: nowStr,
             }
           : card
@@ -569,11 +573,13 @@ function App() {
       front: string,
       back: string,
       imageUrl = '',
+      extra: Partial<Pick<Flashcard, 'frontTable' | 'backTable'>> = {},
     ): Flashcard => ({
       id,
       deckId,
       front,
       back,
+      ...extra,
       imageUrl,
       createdAt,
       updatedAt: createdAt,
@@ -592,6 +598,7 @@ function App() {
           'Keep the top-level keys decks and cards.',
           'Every deck must have id, name, description, and createdAt.',
           'Every card must have id, deckId, front, back, imageUrl, createdAt, updatedAt, dueAt, intervalDays, ease, reps, and lapses.',
+          'Optional fields include frontTable, backTable, and lastGrade.',
           'Each card deckId must exactly match one existing deck id.',
         ],
         cardWritingRules: [
@@ -607,6 +614,13 @@ function App() {
           'For diagnostic tests, include major limitations such as false negatives, contamination, or inability to identify species when relevant.',
           'When converting exam questions, preserve the tested concept and correct answer; do not add unsupported distractor logic.',
         ],
+        tableRules: [
+          'Use frontTable or backTable when a comparison, lab panel, diagnostic pattern, or interpretation matrix is clearer than prose.',
+          'A table must have columns as an array of headings and rows as an array of row arrays.',
+          'Keep tables compact: usually 2-4 columns and 2-6 rows.',
+          'Use table note for caveats such as window period, local laboratory policy, or need for repeat testing.',
+          'Do not put HTML or Markdown table syntax in front or back; use structured JSON table fields instead.',
+        ],
         imageRules: [
           'imageUrl may be an empty string.',
           'If an image is used, provide a direct image URL ending in .png, .jpg, .jpeg, .gif, .webp, or .svg.',
@@ -617,7 +631,7 @@ function App() {
           'No empty front or back fields.',
           'No duplicate card ids.',
           'All dueAt, createdAt, and updatedAt values are ISO date strings.',
-          'New cards start with intervalDays 0, ease 2.5, reps 0, and lapses 0.',
+          'New cards start with intervalDays 0, ease 2.5, reps 0, lapses 0, and no lastGrade.',
         ],
       },
       decks: [
@@ -659,6 +673,25 @@ function App() {
           'Which antimicrobial susceptibility methods provide a quantitative MIC?',
           'Broth dilution, agar dilution, and gradient diffusion methods such as E-test can provide quantitative MIC values. Disk diffusion mainly reports zone diameters interpreted as susceptible, intermediate, or resistant.',
           'https://upload.wikimedia.org/wikipedia/commons/3/3a/E-test_Ngono.jpg',
+        ),
+        makeSampleCard(
+          'sample-labdx-006',
+          'How should common HCV screening and confirmatory test patterns be interpreted?',
+          'HCV antibody suggests exposure, while HCV RNA or core antigen supports current infection. Discordant patterns should be interpreted with timing, immune status, and repeat testing when clinically indicated.',
+          '',
+          {
+            backTable: {
+              caption: 'HCV lab interpretation',
+              columns: ['anti-HCV', 'HCV RNA / core Ag', 'Likely interpretation'],
+              rows: [
+                ['Negative', 'Negative', 'No evidence of HCV infection; consider window period if recent exposure'],
+                ['Positive', 'Positive', 'Current HCV infection'],
+                ['Positive', 'Negative', 'Past resolved infection, treated infection, or false-positive antibody'],
+                ['Negative', 'Positive', 'Early acute infection or immunocompromised state; repeat/confirm testing'],
+              ],
+              note: 'Exact algorithms may vary by local laboratory and guideline.',
+            },
+          },
         ),
       ],
     }
@@ -792,6 +825,19 @@ function App() {
           <Metric label="Cards" value={activeStats?.total ?? 0} />
           <Metric label="Mature" value={activeStats?.mastered ?? 0} />
         </div>
+
+        {activeStats && activeStats.total > 0 && (
+          <div className="grade-summary" aria-label="Latest grade counts">
+            <p>Latest grading</p>
+            <div className="grade-summary-grid">
+              <GradeCount label="No grade" value={activeStats.gradeCounts.new} tone="new" />
+              <GradeCount label="Again" value={activeStats.gradeCounts.again} tone="again" />
+              <GradeCount label="Hard" value={activeStats.gradeCounts.hard} tone="hard" />
+              <GradeCount label="Good" value={activeStats.gradeCounts.good} tone="good" />
+              <GradeCount label="Easy" value={activeStats.gradeCounts.easy} tone="easy" />
+            </div>
+          </div>
+        )}
 
         {!isAdminMode && view === 'study' && activeStats && activeStats.total > 0 && (
           <button className="reset-progress-button" onClick={handleResetDeckProgress}>
@@ -1276,6 +1322,12 @@ function StaffView({
                               <strong>Back:</strong>
                               <p>{card.back}</p>
                             </div>
+                            {(card.frontTable || card.backTable) && (
+                              <div className="card-table-badges">
+                                {card.frontTable && <span>Front table</span>}
+                                {card.backTable && <span>Back table</span>}
+                              </div>
+                            )}
                             {card.imageUrl && (
                               <div className="card-image-thumbnail">
                                 <img src={card.imageUrl} alt="" />
@@ -1662,6 +1714,7 @@ function StudyView({
 
         <div className="card-face card-face-front">
           <h3>{card.front}</h3>
+          <FlashcardDataTable table={card.frontTable} />
         </div>
 
         {card.imageUrl && (
@@ -1673,6 +1726,7 @@ function StudyView({
         {isAnswerVisible ? (
           <div className="card-face answer">
             <p>{card.back}</p>
+            <FlashcardDataTable table={card.backTable} />
           </div>
         ) : (
           <div className="answer-placeholder" aria-hidden="true" />
@@ -1707,9 +1761,61 @@ function StudyView({
   )
 }
 
+function FlashcardDataTable({ table }: { table?: FlashcardTable }) {
+  const columns = Array.isArray(table?.columns) ? table.columns : []
+  const rows = Array.isArray(table?.rows) ? table.rows.filter((row) => Array.isArray(row)) : []
+  if (!table || columns.length === 0 || rows.length === 0) return null
+
+  return (
+    <figure className="flashcard-table-wrap">
+      {table.caption && <figcaption>{table.caption}</figcaption>}
+      <div className="flashcard-table-scroll">
+        <table className="flashcard-table">
+          <thead>
+            <tr>
+              {columns.map((column, index) => (
+                <th key={`${column}-${index}`} scope="col">
+                  {column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, rowIndex) => (
+              <tr key={rowIndex}>
+                {columns.map((_, cellIndex) => (
+                  <td key={cellIndex}>{row[cellIndex] ?? ''}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {table.note && <p className="flashcard-table-note">{table.note}</p>}
+    </figure>
+  )
+}
+
 function Metric({ label, value }: { label: string; value: number }) {
   return (
     <div className="metric">
+      <strong>{value}</strong>
+      <span>{label}</span>
+    </div>
+  )
+}
+
+function GradeCount({
+  label,
+  value,
+  tone,
+}: {
+  label: string
+  value: number
+  tone: 'new' | ReviewGrade
+}) {
+  return (
+    <div className={`grade-count grade-count-${tone}`}>
       <strong>{value}</strong>
       <span>{label}</span>
     </div>

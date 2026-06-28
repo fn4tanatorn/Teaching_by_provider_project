@@ -1,5 +1,5 @@
 import { EMPTY_STATE } from './flashcards'
-import type { Deck, Flashcard, FlashcardState } from './flashcards'
+import type { Deck, Flashcard, FlashcardState, FlashcardTable, ReviewGrade } from './flashcards'
 
 export type FlashcardStore =
   | { mode: 'local'; reason: string }
@@ -19,6 +19,10 @@ const normalizeNumber = (value: unknown, fallback: number) => {
   const next = Number(value)
   return Number.isFinite(next) ? next : fallback
 }
+const normalizeGrade = (value: unknown): ReviewGrade | undefined =>
+  value === 'again' || value === 'hard' || value === 'good' || value === 'easy'
+    ? value
+    : undefined
 
 const normalizeDeck = (row: Partial<Deck>): Deck => ({
   id: String(row.id ?? ''),
@@ -27,20 +31,50 @@ const normalizeDeck = (row: Partial<Deck>): Deck => ({
   createdAt: normalizeDate(row.createdAt),
 })
 
-const normalizeCard = (row: Partial<Flashcard>): Flashcard => ({
-  id: String(row.id ?? ''),
-  deckId: String(row.deckId ?? ''),
-  front: String(row.front ?? '').trim(),
-  back: String(row.back ?? '').trim(),
-  imageUrl: String(row.imageUrl ?? '').trim(),
-  createdAt: normalizeDate(row.createdAt),
-  updatedAt: normalizeDate(row.updatedAt),
-  dueAt: normalizeDate(row.dueAt),
-  intervalDays: normalizeNumber(row.intervalDays, 0),
-  ease: normalizeNumber(row.ease, 2.5),
-  reps: normalizeNumber(row.reps, 0),
-  lapses: normalizeNumber(row.lapses, 0),
-})
+const normalizeTable = (value: unknown): FlashcardTable | undefined => {
+  if (!value || typeof value !== 'object') return undefined
+  const table = value as Partial<FlashcardTable>
+  const columns = Array.isArray(table.columns)
+    ? table.columns.map((item) => String(item ?? '').trim()).filter(Boolean)
+    : []
+  const rows = Array.isArray(table.rows)
+    ? table.rows
+        .map((row) => (Array.isArray(row) ? row.map((cell) => String(cell ?? '').trim()) : []))
+        .filter((row) => row.some(Boolean))
+    : []
+  if (!columns.length || !rows.length) return undefined
+
+  return {
+    ...(typeof table.caption === 'string' && table.caption.trim() ? { caption: table.caption.trim() } : {}),
+    columns,
+    rows,
+    ...(typeof table.note === 'string' && table.note.trim() ? { note: table.note.trim() } : {}),
+  }
+}
+
+const normalizeCard = (row: Partial<Flashcard>): Flashcard => {
+  const frontTable = normalizeTable(row.frontTable)
+  const backTable = normalizeTable(row.backTable)
+  const lastGrade = normalizeGrade(row.lastGrade)
+
+  return {
+    id: String(row.id ?? ''),
+    deckId: String(row.deckId ?? ''),
+    front: String(row.front ?? '').trim(),
+    back: String(row.back ?? '').trim(),
+    ...(frontTable ? { frontTable } : {}),
+    ...(backTable ? { backTable } : {}),
+    imageUrl: String(row.imageUrl ?? '').trim(),
+    createdAt: normalizeDate(row.createdAt),
+    updatedAt: normalizeDate(row.updatedAt),
+    dueAt: normalizeDate(row.dueAt),
+    intervalDays: normalizeNumber(row.intervalDays, 0),
+    ease: normalizeNumber(row.ease, 2.5),
+    reps: normalizeNumber(row.reps, 0),
+    lapses: normalizeNumber(row.lapses, 0),
+    ...(lastGrade ? { lastGrade } : {}),
+  }
+}
 
 const normalizeState = (value: unknown): FlashcardState => {
   if (!value || typeof value !== 'object') return EMPTY_STATE
