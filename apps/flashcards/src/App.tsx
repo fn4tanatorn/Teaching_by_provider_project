@@ -41,6 +41,15 @@ import type { FlashcardStore } from './lib/onlineFlashcards'
 
 type View = 'study' | 'staff' | 'add' | 'decks'
 
+type AiInstructionBlock = {
+  purpose: string
+  requiredOutputShape: string[]
+  cardWritingRules: string[]
+  medicalAccuracyRules: string[]
+  imageRules: string[]
+  validationChecklist: string[]
+}
+
 const gradeLabels: Record<ReviewGrade, string> = {
   again: 'Again',
   hard: 'Hard',
@@ -574,44 +583,81 @@ function App() {
       reps: 0,
       lapses: 0,
     })
-    const sampleState: FlashcardState = {
+    const sampleState: FlashcardState & { aiInstructions: AiInstructionBlock } = {
+      aiInstructions: {
+        purpose:
+          'Use this file as an example when generating import-ready flashcards from lecture notes, recalled exam questions, or study topics.',
+        requiredOutputShape: [
+          'Return valid JSON only.',
+          'Keep the top-level keys decks and cards.',
+          'Every deck must have id, name, description, and createdAt.',
+          'Every card must have id, deckId, front, back, imageUrl, createdAt, updatedAt, dueAt, intervalDays, ease, reps, and lapses.',
+          'Each card deckId must exactly match one existing deck id.',
+        ],
+        cardWritingRules: [
+          'Write one clear testable idea per card.',
+          'Use a specific clinical question on the front side, not a broad topic label.',
+          'Keep the back side concise: direct answer first, then the key interpretation or limitation.',
+          'Prefer clinically useful wording over trivia.',
+          'Avoid ambiguous words such as usually or common unless the condition or exception is stated.',
+        ],
+        medicalAccuracyRules: [
+          'Do not invent guidelines, cutoffs, drug doses, organisms, or diagnostic criteria.',
+          'If a fact depends on local laboratory policy, state that it may vary by institution.',
+          'For diagnostic tests, include major limitations such as false negatives, contamination, or inability to identify species when relevant.',
+          'When converting exam questions, preserve the tested concept and correct answer; do not add unsupported distractor logic.',
+        ],
+        imageRules: [
+          'imageUrl may be an empty string.',
+          'If an image is used, provide a direct image URL ending in .png, .jpg, .jpeg, .gif, .webp, or .svg.',
+          'Choose images that directly support the card, such as microscopy, culture plates, algorithms, or tables.',
+        ],
+        validationChecklist: [
+          'JSON parses without comments or trailing commas.',
+          'No empty front or back fields.',
+          'No duplicate card ids.',
+          'All dueAt, createdAt, and updatedAt values are ISO date strings.',
+          'New cards start with intervalDays 0, ease 2.5, reps 0, and lapses 0.',
+        ],
+      },
       decks: [
         {
           id: deckId,
-          name: 'deck-flashcards',
-          description: 'Import-ready example. Use direct image URLs ending in .png, .jpg, .jpeg, .gif, .webp, or .svg.',
+          name: 'Lab Diagnosis of Infectious Diseases',
+          description:
+            'Import-ready example for clinical microbiology flashcards. Use direct image URLs ending in .png, .jpg, .jpeg, .gif, .webp, or .svg.',
           createdAt,
         },
       ],
       cards: [
         makeSampleCard(
           'sample-labdx-001',
-          'Why is Gram stain clinically useful?',
-          'Gram stain is rapid and reports bacterial Gram reaction, morphology, arrangement, and host inflammatory response. It is fast but less sensitive when organism burden is low.',
+          'What information can a Gram stain provide before culture results are available?',
+          'Gram stain can rapidly show bacterial Gram reaction, morphology, arrangement, and host inflammatory cells. A negative stain does not exclude infection when organism burden is low or sampling is poor.',
           'https://upload.wikimedia.org/wikipedia/commons/5/5d/Gram_positive_coccus_and_gram_negative_rod.png',
         ),
         makeSampleCard(
           'sample-labdx-002',
-          'Which organisms are detected by acid-fast stains?',
-          'Acid-fast stains detect Mycobacterium and partially acid-fast organisms such as Nocardia. Modified acid-fast stains can help detect selected intestinal parasites.',
+          'What does an acid-fast stain detect, and what is its main limitation?',
+          'Acid-fast staining detects acid-fast bacilli such as Mycobacterium and partially acid-fast organisms such as Nocardia. It does not reliably identify species and a negative smear does not fully exclude tuberculosis.',
           'https://upload.wikimedia.org/wikipedia/commons/7/71/Mycobacterium_tuberculosis_Ziehl-Neelsen_stain_02.jpg',
         ),
         makeSampleCard(
           'sample-labdx-003',
-          'How many blood culture sets are usually collected when bloodstream infection is suspected?',
-          'Usually 2-3 sets are collected. Multiple sets improve sensitivity and help distinguish true bacteremia from contamination.',
+          'How many blood culture sets should usually be collected for initial evaluation of suspected bloodstream infection?',
+          'Usually 2-3 blood culture sets are collected from separate venipuncture sites before antibiotics when feasible. Multiple sets improve detection and help distinguish true bacteremia from contamination.',
           'https://upload.wikimedia.org/wikipedia/commons/f/ff/National_Lab_Week_130410-F-TT327-090.jpg',
         ),
         makeSampleCard(
           'sample-labdx-004',
-          'What does a mixed urine culture with three or more species usually suggest?',
-          'It usually suggests specimen contamination rather than a single urinary pathogen.',
+          'What does mixed growth of several organisms in a urine culture usually suggest?',
+          'Mixed growth, especially without a predominant uropathogen, usually suggests specimen contamination. Interpretation should still consider symptoms, collection method, colony count, and patient risk factors.',
           'https://upload.wikimedia.org/wikipedia/commons/9/9b/Bacteriuria_pyuria_4.jpg',
         ),
         makeSampleCard(
           'sample-labdx-005',
           'Which antimicrobial susceptibility methods provide a quantitative MIC?',
-          'Broth dilution, agar dilution, and E-test can provide quantitative MIC values. Disk diffusion mainly interprets inhibition-zone diameters.',
+          'Broth dilution, agar dilution, and gradient diffusion methods such as E-test can provide quantitative MIC values. Disk diffusion mainly reports zone diameters interpreted as susceptible, intermediate, or resistant.',
           'https://upload.wikimedia.org/wikipedia/commons/3/3a/E-test_Ngono.jpg',
         ),
       ],
