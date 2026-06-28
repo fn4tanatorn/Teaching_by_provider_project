@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""OCR figure/table labels in data_N/ and compare to apply-chN-images.py captions."""
+"""OCR figure/table labels in data_N/ and compare to current figure captions."""
 
 import json
 import re
@@ -31,7 +31,16 @@ def chapter_from_script(path: Path) -> int | None:
     return int(m.group(1)) if m else None
 
 
-def load_mapping(script: Path) -> dict[str, str]:
+def load_mapping(script: Path, chapter: int) -> dict[str, str]:
+    index_path = ROOT / f"data_{chapter}" / "figures-index.json"
+    if index_path.exists():
+        rows = json.loads(index_path.read_text(encoding="utf-8"))
+        return {
+            row["file"]: row.get("caption", "")
+            for row in rows
+            if isinstance(row, dict) and row.get("file")
+        }
+
     text = script.read_text(encoding="utf-8")
     mapping = {}
     for m in re.finditer(
@@ -56,7 +65,7 @@ def main() -> int:
         folder = ROOT / f"data_{ch}"
         if not folder.is_dir():
             continue
-        cap_by_file = load_mapping(script)
+        cap_by_file = load_mapping(script, ch)
         for png in sorted(folder.glob("*.png")):
             if "-trim" in png.name:
                 continue

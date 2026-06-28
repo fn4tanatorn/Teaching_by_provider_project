@@ -87,6 +87,7 @@ async function saveResultsToSupabase(room) {
 
 const STORE_NAME = "livequiz";
 const STATE_KEY = "rooms.json";
+const LOCAL_STATE_PATH = path.join(process.cwd(), ".netlify", "livequiz.local.json");
 const ROOM_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const STALE_LOCK_MS = 75 * 1000;
 const HEARTBEAT_WRITE_MS = 15 * 1000;
@@ -192,13 +193,38 @@ function store() {
   return getStore({ name: STORE_NAME, consistency: "eventual" });
 }
 
+function canUseLocalFallback() {
+  return !process.env.NETLIFY && !process.env.AWS_LAMBDA_FUNCTION_NAME;
+}
+
+function readLocalState() {
+  try {
+    const state = JSON.parse(fs.readFileSync(LOCAL_STATE_PATH, "utf8"));
+    return state && Array.isArray(state.rooms) ? state : { rooms: [] };
+  } catch {
+    return { rooms: [] };
+  }
+}
+
+function writeLocalState(state) {
+  fs.mkdirSync(path.dirname(LOCAL_STATE_PATH), { recursive: true });
+  fs.writeFileSync(LOCAL_STATE_PATH, JSON.stringify(state, null, 2));
+}
+
 async function loadState() {
+  if (canUseLocalFallback()) return { state: readLocalState(), etag: null };
+
   const entry = await store().getWithMetadata(STATE_KEY, { type: "json" });
   const state = entry?.data && Array.isArray(entry.data.rooms) ? entry.data : { rooms: [] };
   return { state, etag: entry?.etag || null };
 }
 
 async function saveState(state, etag) {
+  if (canUseLocalFallback()) {
+    writeLocalState(state);
+    return true;
+  }
+
   const result = etag
     ? await store().setJSON(STATE_KEY, state, { onlyIfMatch: etag })
     : await store().setJSON(STATE_KEY, state, { onlyIfNew: true });
@@ -870,7 +896,7 @@ async function handleRoute(event) {
 exports.handler = async (event) => {
   if (event.httpMethod === "OPTIONS") return json(204, {});
   try {
-    connectLambda(event);
+    if (event?.blobs) connectLambda(event);
     return await handleRoute(event);
   } catch (err) {
     console.error(err);

@@ -5,6 +5,9 @@
 (function () {
   function useStaticApi() {
     const { hostname, port } = window.location;
+    if (window.location.pathname.startsWith("/medquiz/")) {
+      return true;
+    }
     if (hostname === "localhost" || hostname === "127.0.0.1") {
       return port !== "3000";
     }

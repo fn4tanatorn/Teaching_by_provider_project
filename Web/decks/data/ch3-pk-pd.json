@@ -250,7 +250,7 @@
     },
     {
       "id": "4-drug-accumulation",
-      "number": 6,
+      "number": 8,
       "title": "Drug Accumulation",
       "layout": "left",
       "reveal": "left",
@@ -280,7 +280,7 @@
     },
     {
       "id": "5-bioavailability-f",
-      "number": 7,
+      "number": 9,
       "title": "Bioavailability (F)",
       "layout": "right",
       "reveal": "right",
@@ -322,7 +322,7 @@
     },
     {
       "id": "6-first-pass-effect",
-      "number": 8,
+      "number": 10,
       "title": "First-Pass Effect",
       "layout": "center",
       "reveal": "up",
@@ -354,7 +354,7 @@
     },
     {
       "id": "7-routes-of-administration",
-      "number": 9,
+      "number": 11,
       "title": "Routes of Administration",
       "layout": "left",
       "reveal": "left",
@@ -394,7 +394,7 @@
     },
     {
       "id": "8-loading-dose",
-      "number": 10,
+      "number": 12,
       "title": "Loading Dose",
       "layout": "right",
       "reveal": "right",
@@ -428,7 +428,7 @@
     },
     {
       "id": "9-maintenance-dose",
-      "number": 11,
+      "number": 13,
       "title": "Maintenance Dose",
       "layout": "center",
       "reveal": "up",
@@ -458,7 +458,7 @@
     },
     {
       "id": "10-concentrationeffect-relationship",
-      "number": 12,
+      "number": 14,
       "title": "Concentration–Effect Relationship",
       "layout": "left",
       "reveal": "left",
@@ -501,7 +501,7 @@
     },
     {
       "id": "11-delayed-drug-effects",
-      "number": 13,
+      "number": 15,
       "title": "Delayed Drug Effects",
       "layout": "right",
       "reveal": "right",
@@ -540,7 +540,7 @@
     },
     {
       "id": "12-schedule-dependent-toxicity",
-      "number": 14,
+      "number": 16,
       "title": "Schedule-Dependent Toxicity",
       "layout": "center",
       "reveal": "up",
@@ -579,7 +579,7 @@
     },
     {
       "id": "13-cumulative-drug-effects",
-      "number": 15,
+      "number": 17,
       "title": "Cumulative Drug Effects",
       "layout": "left",
       "reveal": "left",
@@ -605,7 +605,7 @@
     },
     {
       "id": "14-target-concentration-strategy",
-      "number": 16,
+      "number": 18,
       "title": "Target Concentration Strategy",
       "layout": "right",
       "reveal": "right",
@@ -643,7 +643,7 @@
     },
     {
       "id": "15-factors-affecting-drug-levels",
-      "number": 17,
+      "number": 19,
       "title": "Factors Affecting Drug Levels",
       "layout": "center",
       "reveal": "up",
@@ -713,7 +713,7 @@
     },
     {
       "id": "16-plasma-protein-binding",
-      "number": 18,
+      "number": 20,
       "title": "Plasma Protein Binding",
       "layout": "left",
       "reveal": "left",
@@ -743,7 +743,7 @@
     },
     {
       "id": "17-therapeutic-drug-monitoring-tdm",
-      "number": 19,
+      "number": 21,
       "title": "Therapeutic Drug Monitoring (TDM)",
       "layout": "right",
       "reveal": "right",
@@ -793,7 +793,7 @@
     },
     {
       "id": "18-digoxin-case-summary",
-      "number": 20,
+      "number": 22,
       "title": "Digoxin Case Summary",
       "layout": "center",
       "reveal": "up",
@@ -835,7 +835,7 @@
     },
     {
       "id": "19-must-know-exam-pearls",
-      "number": 21,
+      "number": 23,
       "title": "Must-Know Exam Pearls",
       "layout": "left",
       "reveal": "left",
