@@ -146,6 +146,29 @@ async function getSupabaseClient() {
   return supabase;
 }
 
+async function checkAdminSession() {
+  const client = await getSupabaseClient();
+  if (!client) return false;
+  try {
+    const { data: userData, error: userError } = await client.auth.getUser();
+    if (userError || !userData?.user?.id) return false;
+    const uid = userData.user.id;
+    const { data: roleRow, error: roleError } = await client
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', uid)
+      .maybeSingle();
+    if (!roleError && (roleRow?.role === 'admin' || roleRow?.role === 'teacher')) return true;
+    const { data: legacyAdmin, error: legacyError } = await client
+      .from('admin_users')
+      .select('user_id')
+      .eq('user_id', uid)
+      .maybeSingle();
+    if (!legacyError && legacyAdmin) return true;
+  } catch (_) {}
+  return false;
+}
+
 const IS_ADMIN = new URLSearchParams(window.location.search).get("admin") === "1";
 
 if (IS_ADMIN) {
@@ -156,6 +179,13 @@ if (IS_ADMIN) {
   sheetHintText.textContent =
     "Upload PDFs, add subjects, and assign each sheet to keep the student list organized.";
   emptyStateText.textContent = "Upload a PDF to add it to the list, then open it here for scrolling review.";
+
+  checkAdminSession().then(hasSession => {
+    if (!hasSession) {
+      const warning = document.getElementById("adminAuthWarning");
+      if (warning) warning.hidden = false;
+    }
+  });
 } else {
   document.body.classList.add("sheets-student");
 }

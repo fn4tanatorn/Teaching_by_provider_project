@@ -213,10 +213,14 @@ function writeLocalState(state) {
 
 async function loadState() {
   if (canUseLocalFallback()) return { state: readLocalState(), etag: null };
-
-  const entry = await store().getWithMetadata(STATE_KEY, { type: "json" });
-  const state = entry?.data && Array.isArray(entry.data.rooms) ? entry.data : { rooms: [] };
-  return { state, etag: entry?.etag || null };
+  try {
+    const entry = await store().getWithMetadata(STATE_KEY, { type: "json" });
+    const state = entry?.data && Array.isArray(entry.data.rooms) ? entry.data : { rooms: [] };
+    return { state, etag: entry?.etag || null };
+  } catch (error) {
+    console.warn("[LiveQuiz] Netlify Blobs load failed, falling back to local:", error.message || error);
+    return { state: readLocalState(), etag: null };
+  }
 }
 
 async function saveState(state, etag) {
@@ -224,11 +228,18 @@ async function saveState(state, etag) {
     writeLocalState(state);
     return true;
   }
-
-  const result = etag
-    ? await store().setJSON(STATE_KEY, state, { onlyIfMatch: etag })
-    : await store().setJSON(STATE_KEY, state, { onlyIfNew: true });
-  return result.modified;
+  try {
+    const result = etag
+      ? await store().setJSON(STATE_KEY, state, { onlyIfMatch: etag })
+      : await store().setJSON(STATE_KEY, state, { onlyIfNew: true });
+    return result.modified;
+  } catch (error) {
+    console.warn("[LiveQuiz] Netlify Blobs save failed, falling back to local:", error.message || error);
+    try {
+      writeLocalState(state);
+    } catch (_) {}
+    return false;
+  }
 }
 
 function cleanupExpiredRooms(rooms) {

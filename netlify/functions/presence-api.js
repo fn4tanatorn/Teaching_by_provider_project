@@ -58,7 +58,7 @@ async function loadState() {
     memoryState = normalizeState(state);
     return memoryState;
   } catch (error) {
-    if (!isBlobsError(error)) throw error;
+    console.warn("[Presence] Netlify Blobs load failed, falling back to local file / memory:", error.message || error);
     try {
       memoryState = normalizeState(JSON.parse(await fs.readFile(LOCAL_STATE_PATH, "utf8")));
       return memoryState;
@@ -73,7 +73,7 @@ async function saveState(state) {
   try {
     await store().setJSON(STATE_KEY, memoryState);
   } catch (error) {
-    if (!isBlobsError(error)) throw error;
+    console.warn("[Presence] Netlify Blobs save failed, falling back to local file / memory:", error.message || error);
     try {
       await fs.mkdir(path.dirname(LOCAL_STATE_PATH), { recursive: true });
       await fs.writeFile(LOCAL_STATE_PATH, JSON.stringify(memoryState, null, 2));

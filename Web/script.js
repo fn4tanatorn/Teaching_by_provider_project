@@ -567,6 +567,16 @@ function initClinicalVideoApp() {
 
         let streak = 0;
         let expected = today;
+        if (uniqueDates.length > 0 && uniqueDates[0] !== today) {
+            const yesterdayDate = parseYMD(today);
+            yesterdayDate.setUTCDate(yesterdayDate.getUTCDate() - 1);
+            const yesterdayYMD = yesterdayDate.getUTCFullYear() + '-'
+                + String(yesterdayDate.getUTCMonth() + 1).padStart(2, '0') + '-'
+                + String(yesterdayDate.getUTCDate()).padStart(2, '0');
+            if (uniqueDates[0] === yesterdayYMD) {
+                expected = yesterdayYMD;
+            }
+        }
         for (const date of uniqueDates) {
             if (date === expected) {
                 streak++;
@@ -833,16 +843,31 @@ function initClinicalVideoApp() {
 
     function renderStreaks() {
         if (!currentUser) return;
+        const todayStr = getTodayYMD();
+        let displayVideo = currentUser.videoStreak || 0;
+        if (currentUser.lastVideoDate) {
+            const diff = diffDaysYMD(currentUser.lastVideoDate, todayStr);
+            if (diff > 1) displayVideo = 0;
+        } else {
+            displayVideo = 0;
+        }
+        let displayCheckin = currentUser.checkinStreak || 0;
+        if (currentUser.lastCheckinDate) {
+            const diff = diffDaysYMD(currentUser.lastCheckinDate, todayStr);
+            if (diff > 1) displayCheckin = 0;
+        } else {
+            displayCheckin = 0;
+        }
         const videoBadge = document.getElementById("badge-video-streak");
-        if (videoBadge) videoBadge.textContent = `Video ${currentUser.videoStreak || 0}d`;
+        if (videoBadge) videoBadge.textContent = `Video ${displayVideo}d`;
         const checkinBadge = document.getElementById("badge-checkin-streak");
-        if (checkinBadge) checkinBadge.textContent = `Check-in ${currentUser.checkinStreak || 0}d`;
+        if (checkinBadge) checkinBadge.textContent = `Check-in ${displayCheckin}d`;
         const bmVideoBadge = document.getElementById("badge-video-streak-bm");
-        if (bmVideoBadge) bmVideoBadge.textContent = `Video ${currentUser.videoStreak || 0}d`;
+        if (bmVideoBadge) bmVideoBadge.textContent = `Video ${displayVideo}d`;
         const bmCheckinBadge = document.getElementById("badge-checkin-streak-bm");
-        if (bmCheckinBadge) bmCheckinBadge.textContent = `Check-in ${currentUser.checkinStreak || 0}d`;
-        if (homeCheckinStreak) homeCheckinStreak.textContent = `${currentUser.checkinStreak || 0}d`;
-        if (homeVideoStreak) homeVideoStreak.textContent = `${currentUser.videoStreak || 0}d`;
+        if (bmCheckinBadge) bmCheckinBadge.textContent = `Check-in ${displayCheckin}d`;
+        if (homeCheckinStreak) homeCheckinStreak.textContent = `${displayCheckin}d`;
+        if (homeVideoStreak) homeVideoStreak.textContent = `${displayVideo}d`;
     }
 
     function extractVideoId(raw) {

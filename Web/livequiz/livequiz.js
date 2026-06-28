@@ -155,17 +155,21 @@
     });
   }
 
-  function connectSSE(url, onMessage) {
+  function connectSSE(url, onMessage, onOpen, onError) {
     let es;
     let closed = false;
     const localSseHost = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
     function open() {
       if (closed || !window.EventSource || !localSseHost) return;
       es = new EventSource(url);
+      es.onopen = () => {
+        if (onOpen) onOpen();
+      };
       es.onmessage = (event) => {
         try { onMessage(JSON.parse(event.data)); } catch {}
       };
       es.onerror = () => {
+        if (onError) onError();
         es.close();
         setTimeout(open, 3000);
       };
@@ -1010,11 +1014,19 @@
     setupImportEvents();
     setupSampleTemplateEvents();
     setupImageUploadEvents();
-    const poller = startPolling(refresh, 2000);
+    let sseActive = false;
+    const poller = startPolling(() => {
+      if (sseActive) return;
+      return refresh();
+    }, 2000);
     const sseUrl = `${apiBase}/rooms/${code}/events?role=host&token=${encodeURIComponent(hostToken)}`;
     const es = connectSSE(sseUrl, (state) => {
       lastState = state;
       renderHost(state);
+    }, () => {
+      sseActive = true;
+    }, () => {
+      sseActive = false;
     });
     const timerId = setInterval(() => {
       if (lastState) renderTimer($("timer"), lastState.endsAt, lastState.state);
@@ -1198,12 +1210,20 @@
       updateParticipant(state);
     }
 
+    let sseActive = false;
     refresh();
     const sseUrl = `${apiBase}/rooms/${code}/events?role=participant&session=${encodeURIComponent(sessionToken)}`;
     const es = connectSSE(sseUrl, (state) => {
       updateParticipant(state);
+    }, () => {
+      sseActive = true;
+    }, () => {
+      sseActive = false;
     });
-    const poller = startPolling(pollParticipant, 1500);
+    const poller = startPolling(() => {
+      if (sseActive) return;
+      return pollParticipant();
+    }, 1500);
     const timerId = setInterval(() => {
       renderTimer($("participantTimer"), lastEndsAt, lastRoomState);
     }, 1000);

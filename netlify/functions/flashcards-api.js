@@ -293,7 +293,12 @@ function connectBlobContext(event) {
 
 async function loadBlobBank() {
   if (canUseLocalFallback()) return loadLocalBank();
-  return (await store().get(BANK_KEY, { type: "json" })) || EMPTY_BANK;
+  try {
+    return (await store().get(BANK_KEY, { type: "json" })) || EMPTY_BANK;
+  } catch (error) {
+    console.warn("[Flashcards] Netlify Blobs load failed, falling back to local:", error.message || error);
+    return loadLocalBank();
+  }
 }
 
 async function saveBlobBank(state) {
@@ -301,8 +306,14 @@ async function saveBlobBank(state) {
     await saveLocalBank(state);
     return;
   }
-
-  await store().setJSON(BANK_KEY, state);
+  try {
+    await store().setJSON(BANK_KEY, state);
+  } catch (error) {
+    console.warn("[Flashcards] Netlify Blobs save failed, falling back to local:", error.message || error);
+    try {
+      await saveLocalBank(state);
+    } catch (_) {}
+  }
 }
 
 async function loadSupabaseBank(config) {
