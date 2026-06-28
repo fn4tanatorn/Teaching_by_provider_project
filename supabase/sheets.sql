@@ -46,11 +46,7 @@ on public.sheet_files
 for insert
 to authenticated
 with check (
-  exists (
-    select 1
-    from public.admin_users
-    where admin_users.user_id = auth.uid()
-  )
+  public.current_user_has_role(array['admin','teacher'])
 );
 
 drop policy if exists "sheet_files admin delete" on public.sheet_files;
@@ -59,11 +55,7 @@ on public.sheet_files
 for delete
 to authenticated
 using (
-  exists (
-    select 1
-    from public.admin_users
-    where admin_users.user_id = auth.uid()
-  )
+  public.current_user_has_role(array['admin','teacher'])
 );
 
 drop policy if exists "sheet_files admin update" on public.sheet_files;
@@ -72,18 +64,10 @@ on public.sheet_files
 for update
 to authenticated
 using (
-  exists (
-    select 1
-    from public.admin_users
-    where admin_users.user_id = auth.uid()
-  )
+  public.current_user_has_role(array['admin','teacher'])
 )
 with check (
-  exists (
-    select 1
-    from public.admin_users
-    where admin_users.user_id = auth.uid()
-  )
+  public.current_user_has_role(array['admin','teacher'])
 );
 
 drop policy if exists "sheets public read" on storage.objects;
@@ -100,11 +84,7 @@ for insert
 to authenticated
 with check (
   bucket_id = 'sheets'
-  and exists (
-    select 1
-    from public.admin_users
-    where admin_users.user_id = auth.uid()
-  )
+  and public.current_user_has_role(array['admin','teacher'])
 );
 
 drop policy if exists "sheets admin delete" on storage.objects;
@@ -114,9 +94,5 @@ for delete
 to authenticated
 using (
   bucket_id = 'sheets'
-  and exists (
-    select 1
-    from public.admin_users
-    where admin_users.user_id = auth.uid()
-  )
+  and public.current_user_has_role(array['admin','teacher'])
 );

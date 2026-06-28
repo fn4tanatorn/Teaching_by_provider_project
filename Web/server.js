@@ -4,6 +4,7 @@ const path = require("path");
 const { URL } = require("url");
 const { routeApi, sendError, sendJson } = require("./livequiz/server");
 const { handler: flashcardsApi } = require("../netlify/functions/flashcards-api");
+const { handler: imageUploadApi } = require("../netlify/functions/image-upload");
 const { handler: presenceApi } = require("../netlify/functions/presence-api");
 
 const PORT = process.env.PORT || 3000;
@@ -85,6 +86,28 @@ const server = http.createServer(async (req, res) => {
     } catch (err) {
       console.error(err);
       sendJson(res, 500, { error: err.message || "Flashcard bank error" });
+    }
+    return;
+  }
+
+  if (url.pathname === "/.netlify/functions/image-upload") {
+    try {
+      const chunks = [];
+      for await (const chunk of req) chunks.push(chunk);
+      const bodyBuffer = Buffer.concat(chunks);
+      const result = await imageUploadApi({
+        httpMethod: req.method,
+        path: url.pathname,
+        headers: req.headers,
+        queryStringParameters: Object.fromEntries(url.searchParams.entries()),
+        body: bodyBuffer.toString("base64"),
+        isBase64Encoded: true,
+      });
+      res.writeHead(result.statusCode, result.headers);
+      res.end(result.body);
+    } catch (err) {
+      console.error(err);
+      sendJson(res, 500, { error: err.message || "Image upload error" });
     }
     return;
   }

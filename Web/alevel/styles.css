@@ -340,3 +340,57 @@ label span {
   .bank-layout { grid-template-columns: 1fr; }
   .choice-editor { grid-template-columns: 1fr; }
 }
+
+/* Mobile hardening for iOS / Android */
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  overflow-x: clip;
+  touch-action: manipulation;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+button,
+a,
+.choice {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+}
+
+@media (max-width: 920px) {
+  .app {
+    min-height: 100svh;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .side,
+  .main {
+    min-width: 0;
+  }
+
+  .choice,
+  button {
+    min-height: 48px;
+  }
+
+  .toast {
+    right: max(12px, env(safe-area-inset-right, 0px));
+    bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    left: max(12px, env(safe-area-inset-left, 0px));
+    text-align: center;
+  }
+}

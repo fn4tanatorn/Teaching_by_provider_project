@@ -32,8 +32,7 @@ export const ADMIN_GATE_PASSWORD = '';
  */
 export const SYSTEM_ADMIN_GATE_PASSWORD = '';
 
-/** Optional: ImgBB API key for admin image uploads (check-in / quiz images). Leave empty to disable uploads. */
-export const IMGBB_API_KEY = '';
+/** Admin image uploads use the Netlify IMGBB_API_KEY environment variable, never browser config. */
 
 /**
  * บัญชีทดสอบบนหน้า Log in (ข้าม allow list / ไม่ต้องสมัครก่อน) — วาง username ว่าง '' เพื่อปิด

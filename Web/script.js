@@ -16,7 +16,7 @@ function metaConfig(name) {
     return t || null;
 }
 
-const EMBEDDED_TEST_UID = 'clinical-embedded-test-admin061-v1';
+const EMBEDDED_TEST_UID = 'clinical-embedded-test-user-v1';
 
 function lineNameKey(s) {
     return String(s ?? '')
@@ -37,7 +37,7 @@ function buildEmbeddedTestUser() {
     const un =
         typeof SB.EMBEDDED_TEST_LOGIN_USERNAME === 'string'
             ? SB.EMBEDDED_TEST_LOGIN_USERNAME.trim()
-            : 'admin061';
+            : 'embedded_test';
     return {
         id: EMBEDDED_TEST_UID,
         uid: EMBEDDED_TEST_UID,
@@ -97,10 +97,10 @@ function getLocalTodayYMD() {
 function embeddedTestUsername() {
     return typeof SB.EMBEDDED_TEST_LOGIN_USERNAME === 'string'
         ? SB.EMBEDDED_TEST_LOGIN_USERNAME.trim()
-        : 'admin061';
+        : '';
 }
 
-/** admin061 bypass account can open MedQuiz without the daily limit. */
+/** Optional configured test account can open MedQuiz without the daily limit. */
 function isBetaDailyExemptUser(user) {
     if (!user) return false;
     if (user.uid === EMBEDDED_TEST_UID || user.embeddedTestLogin) return true;
@@ -240,10 +240,6 @@ function initClinicalVideoApp() {
         typeof SB.ADMIN_GATE_PASSWORD === 'string' ? SB.ADMIN_GATE_PASSWORD : '';
     const SYSTEM_ADMIN_GATE_PASSWORD =
         typeof SB.SYSTEM_ADMIN_GATE_PASSWORD === 'string' ? SB.SYSTEM_ADMIN_GATE_PASSWORD : '';
-    const IMGBB_API_KEY =
-        typeof SB.IMGBB_API_KEY === 'string' && SB.IMGBB_API_KEY.trim()
-            ? SB.IMGBB_API_KEY.trim()
-            : '';
 
     // --- State ---
     let videos = [];
@@ -631,9 +627,11 @@ function initClinicalVideoApp() {
                 ]);
 
                 if (adminOk) {
+                    const role = await ds.fetchRole(user.id).catch(() => 'admin');
                     currentUser = {
                         uid: user.id,
                         username: user.email,
+                        role,
                         isAdmin: true,
                         systemAdmin:
                             Boolean(SYSTEM_ADMIN_AUTH_EMAIL && user.email === SYSTEM_ADMIN_AUTH_EMAIL)
@@ -679,7 +677,8 @@ function initClinicalVideoApp() {
                         return;
                     }
 
-                    currentUser = { ...userData, uid: user.id, isAdmin: false };
+                    const role = await ds.fetchRole(user.id).catch(() => 'student');
+                    currentUser = { ...userData, uid: user.id, role, isAdmin: false };
                     renderStreaks();
                     syncExamCountdown();
 
@@ -801,7 +800,7 @@ function initClinicalVideoApp() {
                 let msg = 'Save failed: ' + base;
                 if (currentUser && currentUser.localPasswordAdmin) {
                     msg +=
-                        '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account that exists in public.admin_users.';
+                        '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin or teacher role in public.user_roles.';
                 }
                 alert(msg);
                 throw err;
@@ -1320,21 +1319,18 @@ function initClinicalVideoApp() {
         return { publicUrl, path, fileName: file.name };
     }
 
-    async function imgbbUpload(file) {
-        if (!IMGBB_API_KEY) {
-            throw new Error('IMGBB_API_KEY is not set in js/supabase-config.js');
-        }
+    async function uploadImage(file) {
         const formData = new FormData();
         formData.append('image', file);
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        const res = await fetch('/.netlify/functions/image-upload', {
             method: 'POST',
             body: formData
         });
-        const data = await res.json();
-        if (!data.success) {
-            throw new Error((data.error && data.error.message) || 'Upload failed');
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.url) {
+            throw new Error(data.error || 'Upload failed');
         }
-        return data.data.url;
+        return data.url;
     }
 
     function setupImgDropZone(zoneEl) {
@@ -1374,7 +1370,7 @@ function initClinicalVideoApp() {
             }
             showState('loading');
             try {
-                const url = await imgbbUpload(file);
+                const url = await uploadImage(file);
                 setImageUrl(url);
                 showToast('Image uploaded.');
             } catch (err) {
@@ -2904,8 +2900,8 @@ function initClinicalVideoApp() {
                 if (currentUser.localPasswordAdmin) {
                     lb.style.display = 'block';
                     lb.textContent = currentUser.systemAdmin
-                        ? 'System admin password access is active. Database writes may fail until the Supabase account exists in admin_users.'
-                        : 'Password-only admin access is active. Database writes may fail until a Supabase admin account exists in public.admin_users.';
+                        ? 'System admin password access is active. Database writes may fail until the Supabase account has an admin role in public.user_roles.'
+                        : 'Password-only admin access is active. Database writes may fail until the Supabase account has an admin or teacher role in public.user_roles.';
                 } else {
                     lb.style.display = 'none';
                 }
@@ -4941,7 +4937,7 @@ function initClinicalVideoApp() {
             return 'Could not sign in right now. Try again.';
         }
         if (code === 'NOT_ADMIN') {
-            return 'This account can sign in, but it is not listed in public.admin_users.';
+            return 'This account can sign in, but it does not have an admin or teacher role in public.user_roles.';
         }
         if (code === 'NO_ADMIN_EMAIL') {
             return 'No admin email is configured. Set ADMIN_AUTH_EMAIL in js/supabase-config.js.';
@@ -4963,6 +4959,7 @@ function initClinicalVideoApp() {
             uid: null,
             username: kind === 'system_admin' ? 'system_admin' : 'Admin',
             isAdmin: true,
+            role: kind === 'system_admin' ? 'admin' : 'admin',
             localPasswordAdmin: true,
             systemAdmin: kind === 'system_admin'
         };
@@ -4976,6 +4973,7 @@ function initClinicalVideoApp() {
                 ds.authSignIn(email, password).then(res => {
                     if (!res.error && res.data && res.data.user) {
                         currentUser.uid = res.data.user.id;
+                        currentUser.role = kind === 'system_admin' ? 'admin' : 'admin';
                         currentUser.localPasswordAdmin = false;
                         const lb = document.getElementById('local-admin-banner');
                         if (lb) lb.style.display = 'none';
@@ -4985,7 +4983,7 @@ function initClinicalVideoApp() {
         }
     }
 
-    /** Try Supabase sign-in for each configured admin email until one has admin_users row. */
+    /** Try Supabase sign-in for each configured admin email until one has an admin/teacher role. */
     async function signInAsConfiguredAdmin(password) {
         const emails = [...new Set([ADMIN_AUTH_EMAIL, SYSTEM_ADMIN_AUTH_EMAIL].filter(Boolean))];
         let lastErr = null;
@@ -5016,7 +5014,7 @@ function initClinicalVideoApp() {
                 return;
             }
             await ds.authSignOut().catch(() => {});
-            lastErr = Object.assign(new Error('Not in admin_users'), { code: 'NOT_ADMIN' });
+            lastErr = Object.assign(new Error('Not assigned admin or teacher role'), { code: 'NOT_ADMIN' });
         }
         if (lastErr) throw lastErr;
         throw Object.assign(new Error('No admin login attempted'), { code: 'NO_ADMIN_EMAIL' });
@@ -5231,7 +5229,7 @@ function initClinicalVideoApp() {
                     let msg = 'Save failed: ' + base;
                     if (currentUser && currentUser.localPasswordAdmin) {
                         msg +=
-                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account in public.admin_users.';
+                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin or teacher role in public.user_roles.';
                     }
                     alert(msg);
                 });
@@ -5254,7 +5252,7 @@ function initClinicalVideoApp() {
                     let msg = 'Save note failed: ' + base;
                     if (currentUser && currentUser.localPasswordAdmin) {
                         msg +=
-                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account in public.admin_users.';
+                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin or teacher role in public.user_roles.';
                     }
                     alert(msg);
                 });
@@ -5284,7 +5282,7 @@ function initClinicalVideoApp() {
                     let msg = 'Clear failed: ' + base;
                     if (currentUser && currentUser.localPasswordAdmin) {
                         msg +=
-                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin account in public.admin_users.';
+                            '\n\nPassword-only admin access cannot write to Supabase tables. Sign in with an admin or teacher role in public.user_roles.';
                     }
                     alert(msg);
                 });

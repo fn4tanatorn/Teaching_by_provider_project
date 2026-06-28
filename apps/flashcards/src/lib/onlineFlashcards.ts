@@ -119,13 +119,13 @@ export const fetchOnlineState = async (
 export const saveOnlineState = async (
   store: Extract<FlashcardStore, { mode: 'shared' }>,
   state: FlashcardState,
-  staffCode: string,
+  accessToken: string,
 ) => {
   return normalizeBankPayload(await requestJson(store.apiUrl, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'X-Staff-Code': staffCode,
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({ state: normalizeState(state) }),
   }))

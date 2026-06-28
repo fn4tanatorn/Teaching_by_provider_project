@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>A-Level MCQ | Clinical Study Hub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,13 +15,13 @@
       <div class="mark">A</div>
       <p class="kicker">Restricted practice</p>
       <h1 id="gate-title">A-Level MCQ access</h1>
-      <p>Enter the access code to open the exam bank.</p>
+      <p>Use your Clinical Study Hub admin or teacher session to open the exam bank.</p>
       <label>
-        <span>Access code</span>
-        <input id="access-code" type="password" autocomplete="current-password" required>
+        <span>Access</span>
+        <input id="access-code" type="text" value="Role-based access" readonly>
       </label>
-      <p id="access-error" class="gate-error" hidden>Wrong access code.</p>
-      <button class="primary" type="submit">Enter</button>
+      <p id="access-error" class="gate-error" hidden>Admin or teacher role required.</p>
+      <button class="primary" type="submit">Check access</button>
     </form>
   </section>
 

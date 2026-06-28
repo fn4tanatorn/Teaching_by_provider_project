@@ -108,7 +108,28 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
     return {
         supabase,
 
+        async fetchRole(uid) {
+            try {
+                const { data, error } = await supabase
+                    .from('user_roles')
+                    .select('role')
+                    .eq('user_id', uid)
+                    .maybeSingle();
+                if (error) throw error;
+                return data?.role || 'student';
+            } catch (err) {
+                if (String(err?.message || '').includes('user_roles')) return 'student';
+                throw err;
+            }
+        },
+
         async isAdmin(uid) {
+            try {
+                const role = await this.fetchRole(uid);
+                if (role === 'admin' || role === 'teacher') return true;
+            } catch (err) {
+                console.warn('[roles] Falling back to legacy admin_users check:', err);
+            }
             const { data, error } = await supabase
                 .from('admin_users')
                 .select('user_id')

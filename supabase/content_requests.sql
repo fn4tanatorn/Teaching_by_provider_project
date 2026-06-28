@@ -40,18 +40,10 @@ create policy "content_requests admin update"
   for update
   to authenticated
   using (
-    exists (
-      select 1
-      from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   )
   with check (
-    exists (
-      select 1
-      from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );
 
 -- Allow admins to delete requests
@@ -60,9 +52,5 @@ create policy "content_requests admin delete"
   for delete
   to authenticated
   using (
-    exists (
-      select 1
-      from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );

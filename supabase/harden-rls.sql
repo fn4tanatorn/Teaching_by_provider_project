@@ -20,16 +20,10 @@ create policy "video_library admin write"
   on public.video_library for all
   to authenticated
   using (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   )
   with check (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );
 
 create or replace function public.increment_video_view(target_video_id bigint)
@@ -96,16 +90,10 @@ create policy "checkin_questions admin write"
   on public.checkin_questions for all
   to authenticated
   using (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   )
   with check (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );
 
 -- ==========================================
@@ -130,10 +118,7 @@ create policy "checkin_responses admin delete"
   on public.checkin_responses for delete
   to authenticated
   using (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );
 
 -- ==========================================
@@ -154,10 +139,7 @@ create policy "profiles user/admin insert"
   with check (
     auth.uid() is null
     or id = auth.uid()
-    or exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    or public.current_user_has_role(array['admin','teacher'])
   );
 
 drop policy if exists "profiles user/admin update" on public.profiles;
@@ -167,18 +149,12 @@ create policy "profiles user/admin update"
   using (
     auth.uid() is null
     or id = auth.uid()
-    or exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    or public.current_user_has_role(array['admin','teacher'])
   )
   with check (
     auth.uid() is null
     or id = auth.uid()
-    or exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    or public.current_user_has_role(array['admin','teacher'])
   );
 
 drop policy if exists "profiles admin delete" on public.profiles;
@@ -186,10 +162,7 @@ create policy "profiles admin delete"
   on public.profiles for delete
   to authenticated
   using (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );
 
 -- ==========================================
@@ -208,14 +181,8 @@ create policy "admin_settings admin write"
   on public.admin_settings for all
   to authenticated
   using (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   )
   with check (
-    exists (
-      select 1 from public.admin_users
-      where admin_users.user_id = auth.uid()
-    )
+    public.current_user_has_role(array['admin','teacher'])
   );

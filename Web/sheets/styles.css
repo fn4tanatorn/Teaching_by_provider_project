@@ -856,3 +856,55 @@ body.is-embedded .sheet-list-panel {
   max-height: calc(100vh - 20px) !important;
   overflow-y: auto !important;
 }
+
+/* Mobile hardening for iOS / Android */
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  overflow-x: clip;
+  touch-action: manipulation;
+}
+
+iframe,
+img,
+svg {
+  max-width: 100%;
+}
+
+button,
+a,
+.sheet-row,
+.download-btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+}
+
+@media (max-width: 760px) {
+  .shell {
+    width: calc(100% - max(0.75rem, env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px)));
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .top-nav {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  body.pdf-active .reader-panel {
+    min-height: calc(100svh - 92px - env(safe-area-inset-bottom, 0px));
+  }
+
+  body.pdf-active #pdfFrame {
+    height: calc(100svh - 132px - env(safe-area-inset-bottom, 0px));
+    min-height: calc(100svh - 132px - env(safe-area-inset-bottom, 0px));
+  }
+}

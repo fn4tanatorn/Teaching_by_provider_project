@@ -4173,3 +4173,198 @@ textarea:focus,
   color: var(--ink);
   outline: none;
 }
+
+/* ============================================================
+   Mobile hardening for iOS / Android
+============================================================ */
+html {
+  min-width: 0;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-width: 0;
+  min-height: 100svh;
+  overflow-x: clip;
+  overscroll-behavior-y: none;
+  touch-action: manipulation;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+button,
+.btn,
+.shell-nav-link,
+.subject-pill,
+.home-tool,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+}
+
+.learning-workspace,
+.home-grid,
+.home-tools,
+.home-tool-groups,
+.video-grid,
+.request-grid,
+.content,
+.glass-card,
+.card {
+  min-width: 0;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .video-card:hover,
+  .home-tool:hover,
+  .subject-pill:hover,
+  .btn:hover:not(:disabled) {
+    transform: none;
+  }
+}
+
+@media (max-width: 880px) {
+  .app-container {
+    width: 100%;
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .page {
+    padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+  }
+
+  .page-learning {
+    padding-bottom: calc(7.25rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .learning-sidebar {
+    left: max(0.6rem, env(safe-area-inset-left, 0px));
+    right: max(0.6rem, env(safe-area-inset-right, 0px));
+    bottom: max(0.6rem, env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - max(1.2rem, env(safe-area-inset-left, 0px) + env(safe-area-inset-right, 0px)));
+    padding: 0.5rem;
+    overflow: hidden;
+  }
+
+  .learning-nav {
+    gap: 0.35rem;
+    scroll-padding-inline: 0.5rem;
+  }
+
+  .shell-nav-link {
+    min-width: 64px;
+    min-height: 48px;
+    padding: 0 0.7rem;
+    white-space: nowrap;
+  }
+
+  .learning-topbar {
+    gap: 0.8rem;
+  }
+
+  .learning-topbar-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    width: 100%;
+  }
+
+  .learning-topbar-actions .countdown-badge {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .video-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  }
+
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 1rem max(1rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  .modal-content {
+    max-height: calc(100svh - 2rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 540px) {
+  .sticky-site-header {
+    padding-right: 4.8rem;
+  }
+
+  .brand-name {
+    overflow-wrap: anywhere;
+  }
+
+  .hero-shell,
+  body.welcome-hero-active #page-welcome .hero-shell {
+    border-radius: 18px;
+  }
+
+  .hero-headline,
+  body.welcome-hero-active #page-welcome .hero-headline {
+    max-width: 11ch;
+    font-size: clamp(2rem, 12vw, 3.05rem);
+  }
+
+  .study-preview-panel,
+  body.welcome-hero-active #page-welcome .welcome-card-inner {
+    padding: 0.75rem;
+  }
+
+  .home-plan-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .learning-topbar-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .learning-topbar-actions .countdown-badge {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .home-primary-actions,
+  .home-plan-actions,
+  .btn-row,
+  .modal-actions,
+  .admin-request-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .btn-row .btn,
+  .modal-actions .btn,
+  .home-plan-actions .btn {
+    width: 100%;
+  }
+
+  .video-feed-toolbar,
+  #page-videos .video-feed-toolbar {
+    padding: 0.85rem;
+  }
+
+  #clinical-toast,
+  .toast {
+    bottom: calc(6.25rem + env(safe-area-inset-bottom, 0px));
+    width: calc(100vw - 2rem);
+  }
+}

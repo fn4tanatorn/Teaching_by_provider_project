@@ -37,7 +37,6 @@ async function getSupabaseClient() {
 
 const STORAGE_KEY = 'clinical-alevel-mcq:v1';
 const ACCESS_KEY = 'clinical-alevel-access:v1';
-const ACCESS_CODE = 'admin061';
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 
 let questions = [];
@@ -98,13 +97,40 @@ function unlockAccess() {
   els.accessGate.hidden = true;
 }
 
+async function verifyAdminRole() {
+  const client = await getSupabaseClient();
+  if (!client) throw new Error('Supabase is not configured.');
+
+  const { data: userData, error: userError } = await client.auth.getUser();
+  if (userError || !userData?.user?.id) {
+    throw new Error('Sign in as admin or teacher from Clinical Study Hub first.');
+  }
+
+  const uid = userData.user.id;
+  const { data: roleRow, error: roleError } = await client
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', uid)
+    .maybeSingle();
+
+  if (!roleError && (roleRow?.role === 'admin' || roleRow?.role === 'teacher')) return roleRow.role;
+
+  const { data: legacyAdmin, error: legacyError } = await client
+    .from('admin_users')
+    .select('user_id')
+    .eq('user_id', uid)
+    .maybeSingle();
+  if (!legacyError && legacyAdmin) return 'admin';
+
+  throw new Error('Admin or teacher role required.');
+}
+
 function initAccessGate() {
   if (hasAccess()) {
     els.accessGate.hidden = true;
     return;
   }
   els.accessGate.hidden = false;
-  setTimeout(() => els.accessCode.focus(), 50);
 }
 
 function uid() {
@@ -463,15 +489,16 @@ function parseImportText(text, filename = '') {
 
 els.tabPractice.addEventListener('click', () => showMode('practice'));
 els.tabBank.addEventListener('click', () => showMode('bank'));
-els.accessForm.addEventListener('submit', (event) => {
+els.accessForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-  if (els.accessCode.value.trim() !== ACCESS_CODE) {
-    els.accessError.hidden = false;
-    els.accessCode.select();
-    return;
-  }
   els.accessError.hidden = true;
-  unlockAccess();
+  try {
+    await verifyAdminRole();
+    unlockAccess();
+  } catch (err) {
+    els.accessError.textContent = err.message || 'Could not verify admin access.';
+    els.accessError.hidden = false;
+  }
 });
 els.subjectFilter.addEventListener('change', renderQuestion);
 els.submitAnswer.addEventListener('click', submitAnswer);

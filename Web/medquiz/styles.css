@@ -874,3 +874,52 @@ body.is-embedded .app {
   width: 100% !important;
   margin: 0 !important;
 }
+
+/* Mobile hardening for iOS / Android */
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  overflow-x: clip;
+  touch-action: manipulation;
+}
+
+img,
+svg,
+canvas {
+  max-width: 100%;
+}
+
+button,
+a,
+.choice {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input,
+select,
+textarea {
+  font-size: max(16px, 1rem);
+}
+
+@media (max-width: 640px) {
+  .app {
+    min-height: 100svh;
+    padding: max(1rem, env(safe-area-inset-top, 0px)) max(1rem, env(safe-area-inset-right, 0px)) calc(2rem + env(safe-area-inset-bottom, 0px)) max(1rem, env(safe-area-inset-left, 0px));
+  }
+
+  .choice,
+  .btn,
+  .btn-ghost {
+    min-height: 48px;
+  }
+
+  .reset-modal-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

@@ -6,7 +6,6 @@ import {
   Check,
   CheckSquare,
   Copy,
-  KeyRound,
   Layers3,
   LogOut,
   MoveRight,
@@ -42,8 +41,6 @@ import type { FlashcardStore } from './lib/onlineFlashcards'
 
 type View = 'study' | 'staff' | 'add' | 'decks'
 
-const STAFF_PASSWORD = 'admin061'
-
 const gradeLabels: Record<ReviewGrade, string> = {
   again: 'Again',
   hard: 'Hard',
@@ -60,6 +57,21 @@ const gradeIntervals: Record<ReviewGrade, string> = {
 
 const sharedStore = (store: FlashcardStore | null) => (store?.mode === 'shared' ? store : null)
 const requestedDeckId = new URLSearchParams(window.location.search).get('deck') ?? ''
+
+const readSupabaseAccessToken = () => {
+  try {
+    for (let i = 0; i < localStorage.length; i += 1) {
+      const key = localStorage.key(i) || ''
+      if (!key.startsWith('sb-') || !key.endsWith('-auth-token')) continue
+      const parsed = JSON.parse(localStorage.getItem(key) || 'null')
+      const token = parsed?.access_token || parsed?.currentSession?.access_token
+      if (typeof token === 'string' && token) return token
+    }
+  } catch {
+    /* ignore private mode / malformed storage */
+  }
+  return ''
+}
 
 const sourceLabel = (source?: string) => {
   if (source === 'supabase') return 'Supabase bank'
@@ -91,8 +103,11 @@ function App() {
   const [randomCardId, setRandomCardId] = useState('')
   const [isRandomMode, setIsRandomMode] = useState(false)
 
-  const [staffPassword, setStaffPassword] = useState('')
-  const [isStaffUnlocked, setIsStaffUnlocked] = useState(isAdminMode)
+  const [isStaffUnlocked, setIsStaffUnlocked] = useState(false)
+  const [staffAccessToken, setStaffAccessToken] = useState('')
+  const [staffAuthMessage, setStaffAuthMessage] = useState(
+    isAdminMode ? 'Checking your Clinical Study Hub session...' : '',
+  )
   const [toast, setToast] = useState('')
   const [store, setStore] = useState<FlashcardStore | null>(null)
   const [isOnlineReady, setIsOnlineReady] = useState(false)
@@ -129,6 +144,19 @@ function App() {
       }
     }
   }, [readFullscreenState])
+
+  useEffect(() => {
+    if (!isAdminMode) return
+    const token = readSupabaseAccessToken()
+    if (!token) {
+      setIsStaffUnlocked(false)
+      setStaffAuthMessage('Sign in as an admin or teacher from Clinical Study Hub, then reopen Flashcards admin.')
+      return
+    }
+    setStaffAccessToken(token)
+    setIsStaffUnlocked(true)
+    setStaffAuthMessage('Admin session detected.')
+  }, [isAdminMode])
 
   useEffect(() => {
     let isMounted = true
@@ -224,7 +252,13 @@ function App() {
     }
 
     setSyncLabel('Publishing')
-    void saveOnlineState(currentStore, nextState, STAFF_PASSWORD)
+    if (!staffAccessToken) {
+      setSyncLabel('Publish blocked')
+      setSyncDetail('Sign in with an admin or teacher account before publishing shared flashcards.')
+      return
+    }
+
+    void saveOnlineState(currentStore, nextState, staffAccessToken)
       .then((bank) => {
         setIsOnlineReady(true)
         setSyncLabel(sourceLabel(bank.source))
@@ -615,20 +649,24 @@ function App() {
 
   const handleStaffLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (staffPassword !== STAFF_PASSWORD) {
-      setToast('Wrong staff code')
+    const token = readSupabaseAccessToken()
+    if (!token) {
+      setStaffAuthMessage('No Clinical Study Hub admin session found. Sign in from the main hub first.')
+      setToast('Admin sign-in required')
       return
     }
 
+    setStaffAccessToken(token)
     setIsStaffUnlocked(true)
-    setStaffPassword('')
-    setToast('Staff unlocked')
+    setStaffAuthMessage('Admin session detected.')
+    setToast('Admin unlocked')
   }
 
   const handleStaffLogout = () => {
     setIsStaffUnlocked(false)
+    setStaffAccessToken('')
     setView('study')
-    setToast('Staff locked')
+    setToast('Admin locked')
   }
 
   const handleToggleFullscreen = async () => {
@@ -763,8 +801,7 @@ function App() {
         {view === 'staff' && (
           <StaffView
             isUnlocked={isStaffUnlocked}
-            password={staffPassword}
-            onPasswordChange={setStaffPassword}
+            authMessage={staffAuthMessage}
             onLogin={handleStaffLogin}
             state={state}
             activeDeckId={activeDeckId}
@@ -799,8 +836,7 @@ function App() {
 
 function StaffView({
   isUnlocked,
-  password,
-  onPasswordChange,
+  authMessage,
   onLogin,
   state,
   activeDeckId,
@@ -822,8 +858,7 @@ function StaffView({
   isOnlineReady,
 }: {
   isUnlocked: boolean
-  password: string
-  onPasswordChange: (value: string) => void
+  authMessage: string
   onLogin: (event: FormEvent<HTMLFormElement>) => void
   state: FlashcardState
   activeDeckId: string
@@ -893,26 +928,17 @@ function StaffView({
     return (
       <section className="panel staff-panel">
         <div className="staff-intro">
-          <KeyRound size={28} />
+          <ShieldCheck size={28} />
           <div>
             <p className="label">Staff only</p>
-            <h3>Enter staff code</h3>
-            <p>Card creation, deck management, import, and export stay behind this screen.</p>
+            <h3>Admin or teacher role required</h3>
+            <p>Card creation, deck management, import, and export use your Clinical Study Hub session.</p>
           </div>
         </div>
         <form className="staff-login" onSubmit={onLogin}>
-          <label className="field">
-            <span>Staff code</span>
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => onPasswordChange(event.target.value)}
-              autoComplete="current-password"
-            />
-            <small>Ask staff for access.</small>
-          </label>
+          <p className="hint">{authMessage || 'Sign in as admin or teacher in the main hub, then check access here.'}</p>
           <button className="primary-action" type="submit">
-            <ShieldCheck size={18} /> Unlock
+            <ShieldCheck size={18} /> Check access
           </button>
         </form>
       </section>
