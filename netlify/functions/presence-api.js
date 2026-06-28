@@ -1,4 +1,4 @@
-const { getStore } = require("@netlify/blobs");
+const { connectLambda, getStore } = require("@netlify/blobs");
 const fs = require("fs/promises");
 const path = require("path");
 
@@ -82,6 +82,7 @@ exports.handler = async (event) => {
   try {
     if (event.httpMethod === "OPTIONS") return json(204, {});
 
+    if (event.blobs) connectLambda(event);
     const state = await loadState();
     let users = cleanUsers(Array.isArray(state.users) ? state.users : []);
 
