@@ -6,6 +6,7 @@ const STORE_NAME = "presence";
 const STATE_KEY = "active.json";
 const LOCAL_STATE_PATH = path.join(process.cwd(), ".netlify", "presence.local.json");
 const ACTIVE_TTL_MS = 90 * 1000;
+let memoryState = { users: [] };
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -36,29 +37,49 @@ function parseBody(event) {
 }
 
 function store() {
-  return getStore({ name: STORE_NAME, consistency: "strong" });
+  return getStore(STORE_NAME);
+}
+
+function isBlobsError(error) {
+  const name = String(error?.name || "");
+  const message = String(error?.message || "");
+  return name.includes("Blobs") || message.includes("Netlify Blobs") || message.includes("netlify blobs");
+}
+
+function normalizeState(state) {
+  return {
+    users: Array.isArray(state?.users) ? state.users : [],
+  };
 }
 
 async function loadState() {
   try {
-    return (await store().get(STATE_KEY, { type: "json" })) || { users: [] };
+    const state = (await store().get(STATE_KEY, { type: "json" })) || memoryState;
+    memoryState = normalizeState(state);
+    return memoryState;
   } catch (error) {
-    if (!String(error.message || "").includes("Netlify Blobs")) throw error;
+    if (!isBlobsError(error)) throw error;
     try {
-      return JSON.parse(await fs.readFile(LOCAL_STATE_PATH, "utf8"));
+      memoryState = normalizeState(JSON.parse(await fs.readFile(LOCAL_STATE_PATH, "utf8")));
+      return memoryState;
     } catch {
-      return { users: [] };
+      return memoryState;
     }
   }
 }
 
 async function saveState(state) {
+  memoryState = normalizeState(state);
   try {
-    await store().setJSON(STATE_KEY, state);
+    await store().setJSON(STATE_KEY, memoryState);
   } catch (error) {
-    if (!String(error.message || "").includes("Netlify Blobs")) throw error;
-    await fs.mkdir(path.dirname(LOCAL_STATE_PATH), { recursive: true });
-    await fs.writeFile(LOCAL_STATE_PATH, JSON.stringify(state, null, 2));
+    if (!isBlobsError(error)) throw error;
+    try {
+      await fs.mkdir(path.dirname(LOCAL_STATE_PATH), { recursive: true });
+      await fs.writeFile(LOCAL_STATE_PATH, JSON.stringify(memoryState, null, 2));
+    } catch {
+      // Presence is non-critical; keep the in-memory state for this warm function.
+    }
   }
 }
 
@@ -82,7 +103,13 @@ exports.handler = async (event) => {
   try {
     if (event.httpMethod === "OPTIONS") return json(204, {});
 
-    if (event.blobs) connectLambda(event);
+    if (event.blobs) {
+      try {
+        connectLambda(event);
+      } catch {
+        // Fall back to local/in-memory storage if the Lambda blobs payload is unavailable.
+      }
+    }
     const state = await loadState();
     let users = cleanUsers(Array.isArray(state.users) ? state.users : []);
 
