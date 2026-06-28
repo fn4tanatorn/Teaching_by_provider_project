@@ -288,18 +288,18 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
 
         /**
          * Subscribe to video_library + admin_settings + profiles changes.
-         * Callback: ({ videos, allowedNames, subjects, examDeadlineMs, examNote, profileRows }) => void
+         * Callback: ({ videos, allowedNames, subjects, examDeadlineMs, examNote, menuOrder, profileRows }) => void
          */
         subscribeDataBundle(onChange, { seedVideosIfEmpty }) {
             const push = async () => {
                 const [{ data: vrow, error: ve }, adminResult, { data: prows, error: pe }] =
                     await Promise.all([
                         supabase.from('video_library').select('videos').eq('id', 1).single(),
-                        supabase.from('admin_settings').select('allowed_names, subjects, exam_deadline_ms, exam_note').eq('id', 1).single(),
+                        supabase.from('admin_settings').select('allowed_names, subjects, exam_deadline_ms, exam_note, menu_order').eq('id', 1).single(),
                         supabase.from('profiles').select('*')
                     ]);
                 let { data: arow, error: ae } = adminResult;
-                if (ae && String(ae.message || '').includes('exam_note')) {
+                if (ae && (String(ae.message || '').includes('exam_note') || String(ae.message || '').includes('menu_order'))) {
                     const fallback = await supabase
                         .from('admin_settings')
                         .select('allowed_names, subjects, exam_deadline_ms')
@@ -323,6 +323,8 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
                 let subjects = arow?.subjects;
                 subjects = Array.isArray(subjects) ? subjects : Object.values(subjects || {});
                 if (!subjects || subjects.length === 0) subjects = ['anatomy', 'histology'];
+                let menuOrder = arow?.menu_order;
+                menuOrder = Array.isArray(menuOrder) ? menuOrder : Object.values(menuOrder || {});
 
                 onChange({
                     videos,
@@ -330,6 +332,7 @@ export function createDataService(supabaseUrl, supabaseAnonKey) {
                     subjects,
                     examDeadlineMs: arow?.exam_deadline_ms != null ? Number(arow.exam_deadline_ms) : null,
                     examNote: typeof arow?.exam_note === 'string' ? arow.exam_note : '',
+                    menuOrder,
                     profileRows: prows || []
                 });
             };

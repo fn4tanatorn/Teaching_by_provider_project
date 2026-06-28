@@ -251,6 +251,8 @@ function initClinicalVideoApp() {
     /** Epoch ms; shared exam shown when user profile has no `expiresAt`. */
     let globalExamDeadlineMs = null;
     let globalExamNote = '';
+    let sharedMenuOrder = null;
+    let currentEditorOrder = null;
     let selectedSubject = '';
     let currentWatchVideo = null;
     let videoSearchQuery = '';
@@ -1084,6 +1086,18 @@ function initClinicalVideoApp() {
                         ? payload.examDeadlineMs
                         : null;
                 globalExamNote = typeof payload.examNote === 'string' ? payload.examNote : '';
+                sharedMenuOrder = Array.isArray(payload.menuOrder) && payload.menuOrder.length
+                    ? payload.menuOrder
+                    : null;
+                if (sharedMenuOrder) {
+                    saveMenuOrderLocal(sharedMenuOrder);
+                    renderAllSidebars();
+                    const menuOrderEditor = document.getElementById('menu-order-editor');
+                    if (menuOrderEditor && !menuOrderEditor.hidden) {
+                        currentEditorOrder = getMenuOrder();
+                        renderAdminMenuEditor();
+                    }
+                }
                 users = (payload.profileRows || []).map((r) => profileRowToUser(r));
 
                 if (!selectedSubject && subjects.length > 0) selectedSubject = subjects[0];
@@ -4518,15 +4532,15 @@ function initClinicalVideoApp() {
     };
 
     function getMenuOrder() {
+        const sharedOrder = normalizeMenuOrder(sharedMenuOrder);
+        if (sharedOrder.length) return sharedOrder;
+
         try {
             const saved = localStorage.getItem('clinical_menu_order');
             if (saved) {
                 const parsed = JSON.parse(saved);
-                if (Array.isArray(parsed) && parsed.length > 0) {
-                    const savedOrder = parsed.filter(item => DEFAULT_MENU_ORDER.includes(item));
-                    const missingDefaults = DEFAULT_MENU_ORDER.filter(item => !savedOrder.includes(item));
-                    return [...savedOrder, ...missingDefaults].filter(item => item !== 'alevel').concat('alevel');
-                }
+                const localOrder = normalizeMenuOrder(parsed);
+                if (localOrder.length) return localOrder;
             }
         } catch (e) {
             console.error(e);
@@ -4534,12 +4548,46 @@ function initClinicalVideoApp() {
         return [...DEFAULT_MENU_ORDER];
     }
 
-    function saveMenuOrder(order) {
+    function normalizeMenuOrder(order) {
+        if (!Array.isArray(order) || order.length === 0) return [];
+        const seen = new Set();
+        const savedOrder = order.filter(item => {
+            if (!DEFAULT_MENU_ORDER.includes(item) || seen.has(item)) return false;
+            seen.add(item);
+            return true;
+        });
+        const missingDefaults = DEFAULT_MENU_ORDER.filter(item => !savedOrder.includes(item));
+        return [...savedOrder, ...missingDefaults];
+    }
+
+    function saveMenuOrderLocal(order) {
         try {
-            localStorage.setItem('clinical_menu_order', JSON.stringify(order));
+            localStorage.setItem('clinical_menu_order', JSON.stringify(normalizeMenuOrder(order)));
         } catch (e) {
             console.error(e);
         }
+    }
+
+    function saveMenuOrder(order) {
+        const normalized = normalizeMenuOrder(order);
+        sharedMenuOrder = normalized;
+        saveMenuOrderLocal(normalized);
+        if (!supabaseConfigReady || !ds?.saveAdminSettingsPatch) {
+            return Promise.resolve(true);
+        }
+        return ds
+            .saveAdminSettingsPatch({ menu_order: normalized })
+            .then(() => true)
+            .catch((err) => {
+                console.error('saveMenuOrder', err);
+                const base = err && err.message ? err.message : String(err);
+                let msg = 'Menu order saved locally, but shared sync failed: ' + base;
+                if (base.includes('menu_order')) {
+                    msg += '\n\nRun supabase/menu-order.sql in Supabase SQL Editor, then save again.';
+                }
+                showToast(msg, 'error');
+                return false;
+            });
     }
 
     function renderAllSidebars() {
@@ -4578,7 +4626,7 @@ function initClinicalVideoApp() {
         }
     }
 
-    let currentEditorOrder = getMenuOrder();
+    currentEditorOrder = getMenuOrder();
 
     function renderAdminMenuEditor() {
         const listContainer = document.getElementById('admin-menu-list');
@@ -4708,28 +4756,38 @@ function initClinicalVideoApp() {
         }
 
         if (btnSaveMenuOrder) {
-            btnSaveMenuOrder.addEventListener('click', () => {
-                saveMenuOrder(currentEditorOrder);
-                renderAllSidebars();
-                showToast('Menu order saved successfully.');
-                if (menuOrderEditor) {
-                    menuOrderEditor.hidden = true;
-                }
-                if (btnToggleMenuOrder) {
-                    btnToggleMenuOrder.setAttribute('aria-expanded', 'false');
-                    btnToggleMenuOrder.textContent = 'Show menu editor';
+            btnSaveMenuOrder.addEventListener('click', async () => {
+                btnSaveMenuOrder.disabled = true;
+                try {
+                    const synced = await saveMenuOrder(currentEditorOrder);
+                    renderAllSidebars();
+                    if (synced) showToast('Menu order saved successfully.');
+                    if (synced && menuOrderEditor) {
+                        menuOrderEditor.hidden = true;
+                    }
+                    if (synced && btnToggleMenuOrder) {
+                        btnToggleMenuOrder.setAttribute('aria-expanded', 'false');
+                        btnToggleMenuOrder.textContent = 'Show menu editor';
+                    }
+                } finally {
+                    btnSaveMenuOrder.disabled = false;
                 }
             });
         }
 
         if (btnResetMenuOrder) {
-            btnResetMenuOrder.addEventListener('click', () => {
+            btnResetMenuOrder.addEventListener('click', async () => {
                 if (confirm('Reset sidebar menu order to default?')) {
+                    btnResetMenuOrder.disabled = true;
                     currentEditorOrder = [...DEFAULT_MENU_ORDER];
                     renderAdminMenuEditor();
-                    saveMenuOrder(currentEditorOrder);
-                    renderAllSidebars();
-                    showToast('Menu order reset to default.');
+                    try {
+                        const synced = await saveMenuOrder(currentEditorOrder);
+                        renderAllSidebars();
+                        if (synced) showToast('Menu order reset to default.');
+                    } finally {
+                        btnResetMenuOrder.disabled = false;
+                    }
                 }
             });
         }

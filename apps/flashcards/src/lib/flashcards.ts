@@ -143,7 +143,7 @@ export const scheduleReview = (card: Flashcard, grade: ReviewGrade): Flashcard =
 
   if (grade === 'hard') {
     ease = Math.max(1.3, currentEase - 0.15)
-    intervalDays = Math.max(1, Math.ceil(intervalDays * 1.2))
+    intervalDays = card.reps === 0 ? 0 : Math.max(1, Math.ceil(intervalDays * 1.2))
   }
 
   if (grade === 'good') {
@@ -158,6 +158,8 @@ export const scheduleReview = (card: Flashcard, grade: ReviewGrade): Flashcard =
   const nextDue = new Date()
   if (grade === 'again') {
     nextDue.setMinutes(nextDue.getMinutes() + 10)
+  } else if (grade === 'hard' && card.reps === 0) {
+    nextDue.setHours(nextDue.getHours() + 6)
   } else {
     nextDue.setDate(nextDue.getDate() + intervalDays)
   }
