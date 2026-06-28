@@ -242,6 +242,14 @@
                                 <span>Video progress</span>
                                 <strong id="home-video-streak">0d</strong>
                             </div>
+                            <div class="home-progress-item">
+                                <span>Lessons done</span>
+                                <strong id="home-lessons-done">0/0</strong>
+                            </div>
+                            <div class="home-progress-item">
+                                <span>Recall links</span>
+                                <strong id="home-recall-links">0</strong>
+                            </div>
                         </section>
 
                         <section class="home-plan-card glass-card" aria-label="Today's study plan">
@@ -278,6 +286,49 @@
                             <h3 id="home-last-lesson-title">No recent lesson yet</h3>
                             <p id="home-last-lesson-meta">Open any video lesson and it will appear here.</p>
                             <button id="home-resume-lesson" type="button" class="btn outline-btn btn-compact" disabled>Resume lesson</button>
+                        </section>
+
+                        <section class="home-loop-card glass-card" aria-label="Learning loop">
+                            <div class="home-loop-head">
+                                <div>
+                                    <p class="learning-kicker">Learning loop</p>
+                                    <h3 id="home-loop-title">Build the loop</h3>
+                                </div>
+                                <span id="home-loop-score" class="home-loop-score">0%</span>
+                            </div>
+                            <div class="home-loop-grid" aria-label="Study loop metrics">
+                                <div>
+                                    <span>Watched</span>
+                                    <strong id="home-loop-watched">0</strong>
+                                </div>
+                                <div>
+                                    <span>With cards</span>
+                                    <strong id="home-loop-linked">0</strong>
+                                </div>
+                                <div>
+                                    <span>Notes</span>
+                                    <strong id="home-loop-notes">0</strong>
+                                </div>
+                            </div>
+                            <div class="home-recall-summary" aria-label="Flashcard review summary">
+                                <div>
+                                    <span>Due cards</span>
+                                    <strong id="home-recall-due">0</strong>
+                                </div>
+                                <div>
+                                    <span>Best deck</span>
+                                    <strong id="home-recall-deck">No deck yet</strong>
+                                </div>
+                                <div>
+                                    <span>Reviewed</span>
+                                    <strong id="home-recall-reviewed">0</strong>
+                                </div>
+                            </div>
+                            <p id="home-loop-copy">Watch a lesson, then close the same topic with active recall.</p>
+                            <div class="home-loop-actions">
+                                <button id="home-loop-primary-action" type="button" class="btn primary-btn btn-compact">Open videos</button>
+                                <button id="home-loop-flashcards-action" type="button" class="btn outline-btn btn-compact">Open flashcards</button>
+                            </div>
                         </section>
 
                         <section class="home-card glass-card">

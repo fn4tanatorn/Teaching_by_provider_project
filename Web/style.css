@@ -1503,6 +1503,7 @@ input:focus, select:focus, textarea:focus {
 
 .home-hero-card,
 .home-card,
+.home-loop-card,
 .home-plan-card,
 .home-tools {
   background: rgba(255, 255, 255, 0.9);
@@ -1571,6 +1572,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .home-card,
+.home-loop-card,
 .home-plan-card,
 .home-tools {
   padding: 1.15rem;
@@ -1700,6 +1702,111 @@ input:focus, select:focus, textarea:focus {
 .home-card p {
   margin-bottom: 1rem;
   font-size: 0.94rem;
+}
+
+.home-loop-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.95rem;
+  background:
+    linear-gradient(180deg, rgba(240, 253, 250, 0.72), rgba(255, 255, 255, 0.94) 56%),
+    #ffffff;
+}
+
+.home-loop-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-loop-head h3 {
+  font-size: 1.08rem;
+}
+
+.home-loop-score {
+  flex: 0 0 auto;
+  border: 1px solid var(--border);
+  border-radius: var(--r-pill);
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 800;
+  padding: 0.35rem 0.62rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.home-loop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.home-loop-grid div,
+.home-recall-summary div {
+  min-width: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  padding: 0.65rem;
+}
+
+.home-loop-grid span,
+.home-loop-grid strong,
+.home-recall-summary span,
+.home-recall-summary strong {
+  display: block;
+}
+
+.home-loop-grid span,
+.home-recall-summary span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.home-loop-grid strong,
+.home-recall-summary strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.home-recall-summary {
+  display: grid;
+  grid-template-columns: minmax(82px, 0.65fr) minmax(0, 1.35fr) minmax(86px, 0.75fr);
+  gap: 0.5rem;
+  border: 1px solid rgba(13, 148, 136, 0.18);
+  border-radius: 16px;
+  background: rgba(240, 253, 250, 0.58);
+  padding: 0.5rem;
+}
+
+.home-recall-summary div {
+  background: #ffffff;
+}
+
+.home-recall-summary strong {
+  margin-top: 0.14rem;
+}
+
+.home-loop-card p {
+  margin: 0;
+  color: var(--body);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.home-loop-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
 }
 
 .home-presence-card {
@@ -3529,6 +3636,7 @@ textarea:focus,
 
 .home-hero-card,
 .home-card,
+.home-loop-card,
 .home-plan-card,
 .home-tools {
   border-radius: 22px;
@@ -3565,6 +3673,13 @@ textarea:focus,
   border-color: var(--accent-line);
   background:
     linear-gradient(180deg, var(--accent-softer), #ffffff 52%),
+    #ffffff;
+}
+
+.home-loop-card {
+  border-color: rgba(13, 148, 136, 0.2);
+  background:
+    linear-gradient(180deg, rgba(240, 253, 250, 0.88), #ffffff 58%),
     #ffffff;
 }
 
@@ -4333,6 +4448,14 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .home-loop-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-recall-summary {
+    grid-template-columns: 1fr;
+  }
+
   .learning-topbar-actions {
     grid-template-columns: 1fr 1fr;
   }
@@ -4343,6 +4466,7 @@ textarea {
   }
 
   .home-primary-actions,
+  .home-loop-actions,
   .home-plan-actions,
   .btn-row,
   .modal-actions,
@@ -4353,6 +4477,7 @@ textarea {
 
   .btn-row .btn,
   .modal-actions .btn,
+  .home-loop-actions .btn,
   .home-plan-actions .btn {
     width: 100%;
   }

@@ -1003,11 +1003,24 @@ function initClinicalVideoApp() {
     const homePrimaryAction = document.getElementById('home-primary-action');
     const homeCheckinStreak = document.getElementById('home-checkin-streak');
     const homeVideoStreak = document.getElementById('home-video-streak');
+    const homeLessonsDone = document.getElementById('home-lessons-done');
+    const homeRecallLinks = document.getElementById('home-recall-links');
     const homeLastLessonTitle = document.getElementById('home-last-lesson-title');
     const homeLastLessonMeta = document.getElementById('home-last-lesson-meta');
     const homeResumeLesson = document.getElementById('home-resume-lesson');
     const homeCheckinTitle = document.getElementById('home-checkin-title');
     const homeCheckinCopy = document.getElementById('home-checkin-copy');
+    const homeLoopTitle = document.getElementById('home-loop-title');
+    const homeLoopScore = document.getElementById('home-loop-score');
+    const homeLoopWatched = document.getElementById('home-loop-watched');
+    const homeLoopLinked = document.getElementById('home-loop-linked');
+    const homeLoopNotes = document.getElementById('home-loop-notes');
+    const homeRecallDue = document.getElementById('home-recall-due');
+    const homeRecallDeck = document.getElementById('home-recall-deck');
+    const homeRecallReviewed = document.getElementById('home-recall-reviewed');
+    const homeLoopCopy = document.getElementById('home-loop-copy');
+    const homeLoopPrimaryAction = document.getElementById('home-loop-primary-action');
+    const homeLoopFlashcardsAction = document.getElementById('home-loop-flashcards-action');
     const homePlanTitle = document.getElementById('home-plan-title');
     const homePlanEstimate = document.getElementById('home-plan-estimate');
     const homePlanSteps = document.getElementById('home-plan-steps');
@@ -1189,6 +1202,7 @@ function initClinicalVideoApp() {
     fetchFlashcardDeckOptions().then((decks) => {
         flashcardDeckOptions = decks;
         renderFlashcardDeckSelect(newVideoFlashcardDeck?.value || '');
+        renderLearningHome();
         renderVideos();
     });
 
@@ -1655,12 +1669,219 @@ function initClinicalVideoApp() {
         return { saved, video };
     }
 
+    function getWatchedVideoIds() {
+        return new Set(
+            Array.isArray(currentUser?.watchedVideos)
+                ? currentUser.watchedVideos.map((id) => Number(id)).filter((id) => Number.isFinite(id))
+                : []
+        );
+    }
+
+    function getCurrentUserLessonNoteCount() {
+        if (!currentUser) return 0;
+        const currentUsername = String(currentUser.username || '').trim().toLowerCase();
+        if (!currentUsername) return 0;
+        return videos.reduce((total, video) => {
+            const feedbacks = Array.isArray(video.feedbacks) ? video.feedbacks : [];
+            return total + feedbacks.filter((item) =>
+                String(item?.user || '').trim().toLowerCase() === currentUsername &&
+                String(item?.text || '').trim()
+            ).length;
+        }, 0);
+    }
+
+    function getLearningLoopStats() {
+        const watchedIds = getWatchedVideoIds();
+        const linkedVideos = videos.filter((video) => getLinkedFlashcardDeckId(video));
+        const watchedLinked = linkedVideos.filter((video) => watchedIds.has(Number(video.id)));
+        const watchedCount = videos.filter((video) => watchedIds.has(Number(video.id))).length;
+        const totalVideos = videos.length;
+        const notesCount = getCurrentUserLessonNoteCount();
+        const lessonScore = totalVideos > 0 ? watchedCount / totalVideos : 0;
+        const recallScore = linkedVideos.length > 0 ? watchedLinked.length / linkedVideos.length : 0;
+        const noteScore = watchedCount > 0 ? Math.min(notesCount / Math.max(1, watchedCount), 1) : 0;
+        const loopScore = Math.round(((lessonScore * 0.45) + (recallScore * 0.4) + (noteScore * 0.15)) * 100);
+
+        return {
+            watchedIds,
+            watchedCount,
+            totalVideos,
+            linkedVideos,
+            linkedCount: linkedVideos.length,
+            watchedLinkedCount: watchedLinked.length,
+            notesCount,
+            loopScore
+        };
+    }
+
+    function findRecommendedRecallVideo(preferredVideo) {
+        const watchedIds = getWatchedVideoIds();
+        if (preferredVideo && getLinkedFlashcardDeckId(preferredVideo)) return preferredVideo;
+
+        const watchedLinked = videos
+            .filter((video) => watchedIds.has(Number(video.id)) && getLinkedFlashcardDeckId(video))
+            .sort((a, b) => Number(b.id) - Number(a.id));
+        if (watchedLinked.length) return watchedLinked[0];
+
+        const anyLinkedInSubject = videos.find((video) =>
+            selectedSubject && getVideoSubject(video) === selectedSubject && getLinkedFlashcardDeckId(video)
+        );
+        return anyLinkedInSubject || videos.find((video) => getLinkedFlashcardDeckId(video)) || null;
+    }
+
+    function loadFlashcardProgressState() {
+        try {
+            const parsed = JSON.parse(localStorage.getItem('flashcards-web:v1') || 'null');
+            if (!parsed || !Array.isArray(parsed.decks) || !Array.isArray(parsed.cards)) return null;
+            return parsed;
+        } catch {
+            return null;
+        }
+    }
+
+    function getFlashcardProgressSummary(preferredDeckId = '') {
+        const state = loadFlashcardProgressState();
+        const now = Date.now();
+        const deckMap = new Map();
+
+        flashcardDeckOptions.forEach((deck) => {
+            if (deck.id) {
+                deckMap.set(deck.id, {
+                    id: deck.id,
+                    name: deck.name || 'Flashcards',
+                    total: 0,
+                    due: 0,
+                    reviewed: 0
+                });
+            }
+        });
+
+        if (state) {
+            state.decks.forEach((deck) => {
+                const id = String(deck?.id || '');
+                if (!id) return;
+                const existing = deckMap.get(id) || { id, name: 'Flashcards', total: 0, due: 0, reviewed: 0 };
+                existing.name = String(deck?.name || existing.name || 'Flashcards').trim();
+                deckMap.set(id, existing);
+            });
+
+            state.cards.forEach((card) => {
+                const deckId = String(card?.deckId || '');
+                if (!deckId) return;
+                const deck = deckMap.get(deckId) || { id: deckId, name: 'Flashcards', total: 0, due: 0, reviewed: 0 };
+                const dueAt = Date.parse(card?.dueAt || '');
+                deck.total += 1;
+                if (Number.isFinite(dueAt) && dueAt <= now) deck.due += 1;
+                if ((Number(card?.reps) || 0) > 0) deck.reviewed += 1;
+                deckMap.set(deckId, deck);
+            });
+        }
+
+        const decks = [...deckMap.values()].filter((deck) => deck.id);
+        const totalCards = decks.reduce((sum, deck) => sum + deck.total, 0);
+        const totalDue = decks.reduce((sum, deck) => sum + deck.due, 0);
+        const totalReviewed = decks.reduce((sum, deck) => sum + deck.reviewed, 0);
+        const preferred = preferredDeckId ? deckMap.get(preferredDeckId) : null;
+        const bestDueDeck = [...decks]
+            .filter((deck) => deck.due > 0)
+            .sort((a, b) => (b.due - a.due) || (b.total - a.total) || a.name.localeCompare(b.name))[0] || null;
+        const bestDeck = bestDueDeck || preferred || decks
+            .filter((deck) => deck.total > 0)
+            .sort((a, b) => (b.total - a.total) || a.name.localeCompare(b.name))[0] || null;
+
+        return {
+            hasLocalState: Boolean(state),
+            decks,
+            bestDeck,
+            totalCards,
+            totalDue,
+            totalReviewed
+        };
+    }
+
+    function renderHomeLearningLoop(currentVideo) {
+        if (!homeLoopTitle || !homeLoopPrimaryAction || !homeLoopFlashcardsAction) return;
+
+        const stats = getLearningLoopStats();
+        const recommendedVideo = findRecommendedRecallVideo(currentVideo);
+        const recommendedDeckId = getLinkedFlashcardDeckId(recommendedVideo);
+        const flashcardSummary = getFlashcardProgressSummary(recommendedDeckId);
+        const checkedInToday = currentUser && currentUser.lastCheckinDate === getTodayYMD();
+
+        if (homeLessonsDone) homeLessonsDone.textContent = `${stats.watchedCount}/${stats.totalVideos}`;
+        if (homeRecallLinks) homeRecallLinks.textContent = String(stats.watchedLinkedCount);
+        if (homeLoopScore) homeLoopScore.textContent = `${stats.loopScore}%`;
+        if (homeLoopWatched) homeLoopWatched.textContent = String(stats.watchedCount);
+        if (homeLoopLinked) homeLoopLinked.textContent = `${stats.watchedLinkedCount}/${stats.linkedCount}`;
+        if (homeLoopNotes) homeLoopNotes.textContent = String(stats.notesCount);
+        if (homeRecallDue) homeRecallDue.textContent = String(flashcardSummary.totalDue);
+        if (homeRecallDeck) homeRecallDeck.textContent = flashcardSummary.bestDeck?.name || 'No deck yet';
+        if (homeRecallReviewed) {
+            homeRecallReviewed.textContent = flashcardSummary.totalCards
+                ? `${flashcardSummary.totalReviewed}/${flashcardSummary.totalCards}`
+                : '0';
+        }
+
+        if (!stats.totalVideos) {
+            homeLoopTitle.textContent = 'Ready for lessons';
+            if (homeLoopCopy) homeLoopCopy.textContent = flashcardSummary.totalDue > 0
+                ? `${flashcardSummary.totalDue} flashcards are due. Clear them while lessons are being prepared.`
+                : 'Add lessons from the back office, then this panel will track watch, note, and recall habits.';
+            homeLoopPrimaryAction.textContent = 'Open videos';
+            homeLoopPrimaryAction.onclick = () => navigateTo(pageVideos);
+            homeLoopFlashcardsAction.textContent = flashcardSummary.totalDue > 0 ? 'Review due cards' : 'Open flashcards';
+            homeLoopFlashcardsAction.onclick = () => openLinkedFlashcards(flashcardSummary.bestDeck?.id || '');
+            return;
+        }
+
+        if (!checkedInToday) {
+            homeLoopTitle.textContent = 'Prime recall first';
+            if (homeLoopCopy) homeLoopCopy.textContent = flashcardSummary.totalDue > 0
+                ? `A short check-in first, then ${flashcardSummary.totalDue} due cards are waiting.`
+                : 'A short check-in makes the rest of the session easier to anchor.';
+            homeLoopPrimaryAction.textContent = 'Open check-in';
+            homeLoopPrimaryAction.onclick = () => navigateTo(pageQuiz);
+        } else if (currentVideo) {
+            homeLoopTitle.textContent = 'Continue the loop';
+            if (homeLoopCopy) homeLoopCopy.textContent = flashcardSummary.totalDue > 0
+                ? `Resume ${currentVideo.title || 'the current lesson'}, then clear ${flashcardSummary.totalDue} due cards.`
+                : `Resume ${currentVideo.title || 'the current lesson'}, then review the linked cards.`;
+            homeLoopPrimaryAction.textContent = 'Resume lesson';
+            homeLoopPrimaryAction.onclick = () => openVideoWatchPage(currentVideo);
+        } else {
+            homeLoopTitle.textContent = stats.watchedCount ? 'Keep momentum' : 'Start the first loop';
+            if (homeLoopCopy) {
+                homeLoopCopy.textContent = flashcardSummary.totalDue > 0
+                    ? `${flashcardSummary.totalDue} flashcards are due. Review them after one focused lesson block.`
+                    : (stats.watchedCount
+                        ? 'Pick one unfinished lesson, save a note, then finish with active recall.'
+                        : 'Watch one lesson, save one note, then close with active recall.');
+            }
+            homeLoopPrimaryAction.textContent = 'Open videos';
+            homeLoopPrimaryAction.onclick = () => navigateTo(pageVideos);
+        }
+
+        homeLoopFlashcardsAction.disabled = false;
+        if (flashcardSummary.totalDue > 0 && flashcardSummary.bestDeck?.id) {
+            homeLoopFlashcardsAction.textContent = `Review due: ${flashcardSummary.bestDeck.name}`;
+            homeLoopFlashcardsAction.onclick = () => openLinkedFlashcards(flashcardSummary.bestDeck.id);
+        } else if (recommendedDeckId) {
+            homeLoopFlashcardsAction.textContent = `Review: ${flashcardDeckLabel(recommendedDeckId)}`;
+            homeLoopFlashcardsAction.onclick = () => openLinkedFlashcards(recommendedDeckId);
+        } else {
+            homeLoopFlashcardsAction.textContent = 'Open flashcards';
+            homeLoopFlashcardsAction.onclick = () => openLinkedFlashcards('');
+        }
+    }
+
     function renderHomeStudyPlan({ checkedInToday, video }) {
         if (!homePlanTitle || !homePlanSteps || !homePlanPrimaryAction) return;
 
         const totalVideos = videos.length;
         const subjectCount = subjects.length || new Set(videos.map((item) => getVideoSubject(item))).size;
         const videoStreak = currentUser?.videoStreak || 0;
+        const recallVideo = findRecommendedRecallVideo(video);
+        const recallDeckId = getLinkedFlashcardDeckId(recallVideo);
         const plan = [];
         let primaryLabel = 'Start plan';
         let primaryHandler = () => navigateTo(pageVideos);
@@ -1698,7 +1919,9 @@ function initClinicalVideoApp() {
         plan.push({
             label: String(plan.length + 1),
             title: 'Close with active recall',
-            copy: checkedInToday ? 'Use MedQuiz or flashcards to test the same topic.' : 'After the lesson, use MedQuiz or flashcards for retrieval.'
+            copy: recallDeckId
+                ? `Review ${flashcardDeckLabel(recallDeckId)} after the lesson.`
+                : (checkedInToday ? 'Use MedQuiz or flashcards to test the same topic.' : 'After the lesson, use MedQuiz or flashcards for retrieval.')
         });
 
         homePlanTitle.textContent = checkedInToday ? 'Study plan is ready' : 'Start with recall';
@@ -1731,6 +1954,7 @@ function initClinicalVideoApp() {
         }
         if (homeCheckinStreak) homeCheckinStreak.textContent = `${currentUser?.checkinStreak || 0}d`;
         if (homeVideoStreak) homeVideoStreak.textContent = `${currentUser?.videoStreak || 0}d`;
+        renderHomeLearningLoop(video);
 
         if (video) {
             const openedAt = saved?.openedAt ? new Date(saved.openedAt) : null;
