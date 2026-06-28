@@ -1,14 +1,6 @@
 import * as PUBLIC_SB from './js/supabase-config.js';
 import { createDataService, profileRowToUser } from './js/data-service.js';
-import {
-    localMemberRegister,
-    localMemberVerify,
-    localMemberSetSessionUid,
-    localMemberClearSession,
-    localMemberTryRestore,
-    localMemberPersistUser,
-    localMemberLoadProfile
-} from './js/local-member-auth.js';
+import { createUserStateService } from './js/user-state-service.js';
 import { initWelcomeHeartScene, disposeWelcomeHeartScene } from './js/welcome-heart-scene.js';
 
 const LOCAL_SB =
@@ -272,30 +264,7 @@ function initClinicalVideoApp() {
     let flashcardDeckOptions = [];
 
     const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
-    if (useLocalMemberStorage) {
-        const origSave = ds.saveProfileFull.bind(ds);
-        ds.saveProfileFull = async (u) => {
-            if (u && u.localMember) {
-                localMemberPersistUser(u);
-                return;
-            }
-            return origSave(u);
-        };
-        const origAppend = ds.appendQuizHistory.bind(ds);
-        ds.appendQuizHistory = async (uid, record) => {
-            const u = currentUser;
-            if (u && u.localMember && (u.uid === uid || u.id === uid)) {
-                const qh = u.quizHistory && typeof u.quizHistory === 'object' ? { ...u.quizHistory } : {};
-                let key = String(Date.now());
-                if (qh[key]) key = `${key}_${Math.random().toString(36).slice(2, 8)}`;
-                qh[key] = record;
-                u.quizHistory = qh;
-                localMemberPersistUser(u);
-                return;
-            }
-            return origAppend(uid, record);
-        };
-    }
+    const userState = createUserStateService({ dataService: ds, useLocalMemberStorage });
 
     function withTimeout(promise, ms) {
         return Promise.race([
@@ -590,7 +559,7 @@ function initClinicalVideoApp() {
 
         if (!rows.length) {
             currentUser.checkinStreak = 0;
-            await ds.saveProfileFull(currentUser);
+            await userState.saveProfile(currentUser);
             renderStreaks();
             return;
         }
@@ -617,7 +586,7 @@ function initClinicalVideoApp() {
 
         currentUser.checkinStreak = streak;
         currentUser.lastCheckinDate = today;
-        await ds.saveProfileFull(currentUser);
+        await userState.saveProfile(currentUser);
         renderStreaks();
     }
 
@@ -679,10 +648,10 @@ function initClinicalVideoApp() {
                     return;
                 }
 
-                const row = await ds.fetchProfile(user.id);
+                const userData = await userState.refreshProfile(user.id);
                 const onLoginScreen = pageLogin.classList.contains('active');
 
-                if (!row) {
+                if (!userData) {
                     if (onLoginScreen) {
                         loginError.textContent = 'No member profile for this account. Register first, or sign in with the Line name you used when joining.';
                         loginError.style.display = 'block';
@@ -691,8 +660,6 @@ function initClinicalVideoApp() {
                     }
                     return;
                 }
-
-                const userData = profileRowToUser(row);
 
                 const currentAllowed = await ds.fetchAllowedNames();
                 const userName = normalizeLineAllowName(userData.username);
@@ -737,7 +704,7 @@ function initClinicalVideoApp() {
             }
         } else {
             if (useLocalMemberAuth) {
-                const restored = localMemberTryRestore();
+                const restored = userState.restoreLocalSession();
                 if (restored) {
                     currentUser = restored;
                     setLoginLoading(false);
@@ -2198,7 +2165,7 @@ function initClinicalVideoApp() {
                 else if (diff > 1) { currentUser.videoStreak = 1; }
             } else { currentUser.videoStreak = 1; }
             currentUser.lastVideoDate = todayStr;
-            ds.saveProfileFull(currentUser).catch((e) => console.error(e));
+            userState.saveProfile(currentUser).catch((e) => console.error(e));
             renderStreaks();
         }
     }
@@ -3115,16 +3082,7 @@ function initClinicalVideoApp() {
         (async () => {
             try {
                 if (useLocalMemberAuth) {
-                    const rec = await localMemberRegister(un, pw);
-                    if (!rec.ok) {
-                        regMsg.textContent =
-                            rec.code === 'taken'
-                                ? 'This name is already used in this browser. Try Log in or use another approved name.'
-                                : 'Password is too short. Use at least 6 characters.';
-                        return;
-                    }
-                    const uid = rec.uid;
-                    const userData = {
+                    const rec = await userState.registerLocalMember(un, pw, (uid) => ({
                         id: uid,
                         uid,
                         username: un,
@@ -3137,8 +3095,14 @@ function initClinicalVideoApp() {
                         lastVideoDate: null,
                         quizHistory: {},
                         localMember: true
-                    };
-                    localMemberPersistUser(userData);
+                    }));
+                    if (!rec.ok) {
+                        regMsg.textContent =
+                            rec.code === 'taken'
+                                ? 'This name is already used in this browser. Try Log in or use another approved name.'
+                                : 'Password is too short. Use at least 6 characters.';
+                        return;
+                    }
                     registerForm.reset();
                     if (usernameInput) usernameInput.value = un;
                     if (passwordInput) passwordInput.value = '';
@@ -3165,7 +3129,7 @@ function initClinicalVideoApp() {
                     expiresAt: null,
                     createdAt: Date.now()
                 };
-                await ds.saveProfileFull(userData);
+                await userState.saveProfile(userData);
                 registerForm.reset();
                 if (usernameInput) usernameInput.value = un;
                 if (passwordInput) passwordInput.value = '';
@@ -3193,12 +3157,7 @@ function initClinicalVideoApp() {
         if (isEmbeddedTestLogin(un, pw)) {
             setLoginLoading(true);
             const base = buildEmbeddedTestUser();
-            localMemberSetSessionUid(base.uid);
-            const existing = localMemberLoadProfile(base.uid);
-            const merged = existing
-                ? { ...existing, ...base, username: base.username, status: 'approved' }
-                : base;
-            localMemberPersistUser(merged);
+            const merged = userState.hydrateEmbeddedLocalUser(base);
             currentUser = {
                 ...merged,
                 isAdmin: false,
@@ -3222,19 +3181,13 @@ function initClinicalVideoApp() {
                     setLoginLoading(false);
                     return;
                 }
-                const v = await localMemberVerify(un, pw);
+                const v = await userState.loginLocalMember(un, pw);
                 if (!v.ok) {
-                    loginError.textContent = 'The name or password is incorrect, or this browser has not registered the account.';
+                    loginError.textContent =
+                        v.code === 'missing_profile'
+                            ? 'No member profile was found. Register again.'
+                            : 'The name or password is incorrect, or this browser has not registered the account.';
                     loginError.style.display = 'block';
-                    setLoginLoading(false);
-                    return;
-                }
-                localMemberSetSessionUid(v.uid);
-                const raw = localMemberLoadProfile(v.uid);
-                if (!raw || !raw.username) {
-                    loginError.textContent = 'No member profile was found. Register again.';
-                    loginError.style.display = 'block';
-                    localMemberClearSession();
                     setLoginLoading(false);
                     return;
                 }
@@ -3246,38 +3199,32 @@ function initClinicalVideoApp() {
                         currentAllowed = [];
                     }
                 }
-                const userName = normalizeLineAllowName(raw.username);
+                const userName = normalizeLineAllowName(v.user.username);
                 const stillAllowed =
                     currentAllowed.length === 0 ||
                     currentAllowed.some((n) => normalizeLineAllowName(n) === userName);
                 if (!stillAllowed) {
                     alert('Your name has been removed from the approved list. Please contact the admin.');
-                    localMemberClearSession();
+                    await userState.signOut(v.user, { signOutRemote: false });
                     setLoginLoading(false);
                     return;
                 }
-                if (raw.status && raw.status !== 'approved') {
+                if (v.user.status && v.user.status !== 'approved') {
                     loginError.textContent =
                         'Your account is not approved yet. Please wait for an admin or contact support.';
                     loginError.style.display = 'block';
-                    localMemberClearSession();
+                    await userState.signOut(v.user, { signOutRemote: false });
                     setLoginLoading(false);
                     return;
                 }
-                const exp = Number(raw.expiresAt);
+                const exp = Number(v.user.expiresAt);
                 if (Number.isFinite(exp) && exp > 0 && Date.now() > exp) {
                     alert('Your access has expired. Please register again.');
-                    localMemberClearSession();
+                    await userState.signOut(v.user, { signOutRemote: false });
                     setLoginLoading(false);
                     return;
                 }
-                currentUser = {
-                    ...raw,
-                    id: v.uid,
-                    uid: v.uid,
-                    isAdmin: false,
-                    localMember: true
-                };
+                currentUser = v.user;
                 renderStreaks();
                 syncExamCountdown();
                 setLoginLoading(false);
@@ -3385,13 +3332,11 @@ function initClinicalVideoApp() {
     }
 
     function forceSignOutStudent() {
-        if (currentUser && currentUser.localMember) {
-            localMemberClearSession();
-            currentUser = null;
+        const user = currentUser;
+        currentUser = null;
+        userState.signOut(user, { signOutRemote: true }).finally(() => {
             navigateTo(pageWelcome);
-        } else {
-            ds.authSignOut();
-        }
+        });
     }
 
     function syncExamCountdown() {
@@ -4255,14 +4200,9 @@ function initClinicalVideoApp() {
     }
 
     function signOutCurrentUser() {
-        if (currentUser && currentUser.localMember) {
-            localMemberClearSession();
-            currentUser = null;
-            showToast('Signed out.', 'info');
-            navigateTo(pageWelcome);
-            return;
-        }
-        ds.authSignOut().then(() => {
+        const user = currentUser;
+        currentUser = null;
+        userState.signOut(user, { signOutRemote: true }).then(() => {
             showToast('Signed out.', 'info');
             navigateTo(pageWelcome);
         });
@@ -4693,7 +4633,7 @@ function initClinicalVideoApp() {
 
             try {
                 showToast('Clearing progress...', 'info');
-                await withTimeout(ds.saveProfileFull(currentUser), 15000);
+                await withTimeout(userState.saveProfile(currentUser), 15000);
                 showToast('Learning progress cleared.', 'success');
                 renderStreaks();
                 renderVideos();
@@ -4851,7 +4791,7 @@ function initClinicalVideoApp() {
                     correct,
                     date: new Date().toISOString()
                 };
-                ds.appendQuizHistory(currentUser.uid, record).catch((e) => console.error(e));
+                userState.appendQuizHistory(currentUser, record).catch((e) => console.error(e));
             }
         });
     }
@@ -4897,7 +4837,7 @@ function initClinicalVideoApp() {
                 if (!currentUser.watchedVideos.includes(currentWatchVideo.id)) {
                     currentUser.watchedVideos.push(currentWatchVideo.id);
                     try {
-                        await withTimeout(ds.saveProfileFull(currentUser), 15000);
+                        await withTimeout(userState.saveProfile(currentUser), 15000);
                     } catch (e) {
                         console.error('saveProfileFull (watchedVideos)', e);
                     }
@@ -5846,7 +5786,7 @@ function initClinicalVideoApp() {
     }
 
     if (useLocalMemberStorage) {
-        const loc = localMemberTryRestore();
+        const loc = userState.restoreLocalSession();
         if (loc) {
             currentUser = loc;
             renderStreaks();
