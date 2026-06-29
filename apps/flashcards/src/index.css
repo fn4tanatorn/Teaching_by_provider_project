@@ -1728,6 +1728,27 @@ body:fullscreen .study-card {
   color: var(--accent-strong);
 }
 
+.backup-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.58;
+  transform: none;
+}
+
+.sync-actions {
+  margin-bottom: 16px;
+}
+
+.backup-actions .push-action-btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.backup-actions .push-action-btn:hover:not(:disabled) {
+  background: var(--accent-strong);
+  color: #fff;
+}
+
 .sync-info-box {
   padding: 16px;
   border-radius: var(--radius);

@@ -205,6 +205,7 @@ function App() {
   const [syncLabel, setSyncLabel] = useState('Checking sync')
   const [syncDetail, setSyncDetail] = useState('Looking for the shared flashcard bank.')
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isManualSyncing, setIsManualSyncing] = useState(false)
 
   const readFullscreenState = useCallback(() => {
     const parentDocument = window.parent !== window ? window.parent.document : null
@@ -270,7 +271,7 @@ function App() {
         if (!isMounted) return
 
         const nextState = onlineBank.state.decks.length > 0
-          ? mergeSharedBankWithLocalProgress(onlineBank.state, state)
+          ? (isAdminMode ? onlineBank.state : mergeSharedBankWithLocalProgress(onlineBank.state, state))
           : state
 
         setState(nextState)
@@ -284,7 +285,7 @@ function App() {
         setSyncDetail(
           onlineBank.state.decks.length > 0
             ? `Students load this shared card bank from ${sourceLabel(onlineBank.source)}. Study progress stays on each browser.`
-            : 'No shared bank is published yet. Staff changes will publish it.',
+            : 'No shared bank is published yet. Use Push to Supabase after preparing decks.',
         )
       } catch (error) {
         setIsOnlineReady(false)
@@ -334,7 +335,13 @@ function App() {
     }))
   }, [])
 
-  const publishStaffState = async (nextState: FlashcardState): Promise<boolean> => {
+  const markLocalChanges = (detail = 'Local changes are saved in this browser. Push to Supabase when ready.') => {
+    setIsOnlineReady(false)
+    setSyncLabel('Local changes')
+    setSyncDetail(detail)
+  }
+
+  const pushStateToSupabase = async (nextState: FlashcardState): Promise<boolean> => {
     const currentStore = sharedStore(store)
     if (!currentStore) {
       setSyncLabel('Local only')
@@ -342,10 +349,12 @@ function App() {
       return false
     }
 
+    setIsManualSyncing(true)
     setSyncLabel('Publishing')
     if (!staffAccessToken) {
       setSyncLabel('Publish blocked')
       setSyncDetail('Sign in with an admin or teacher account before publishing shared flashcards.')
+      setIsManualSyncing(false)
       return false
     }
 
@@ -354,12 +363,57 @@ function App() {
       setState(bank.state)
       setIsOnlineReady(true)
       setSyncLabel(sourceLabel(bank.source))
-      setSyncDetail(`Published to ${sourceLabel(bank.source)}. Students will load these decks and keep their own progress locally.`)
+      setSyncDetail(`Pushed to ${sourceLabel(bank.source)}. Refreshing students will load this shared bank.`)
       return true
     } catch (error: unknown) {
       setSyncLabel('Publish failed')
       setSyncDetail(error instanceof Error ? error.message : 'Could not publish the shared flashcard bank.')
       return false
+    } finally {
+      setIsManualSyncing(false)
+    }
+  }
+
+  const handlePushToSupabase = async () => {
+    const pushed = await pushStateToSupabase(state)
+    setToast(pushed ? 'Pushed to Supabase' : 'Push failed')
+  }
+
+  const handlePullFromSupabase = async () => {
+    const currentStore = sharedStore(store)
+    if (!currentStore) {
+      setSyncLabel('Local only')
+      setSyncDetail('Shared flashcard bank unavailable.')
+      setToast('Pull failed')
+      return
+    }
+
+    const confirmPull = window.confirm(
+      'Pull from Supabase? This will replace the current browser copy with the shared bank.',
+    )
+    if (!confirmPull) return
+
+    setIsManualSyncing(true)
+    setSyncLabel('Pulling')
+    try {
+      const bank = await fetchOnlineState(currentStore)
+      setState(bank.state)
+      setActiveDeckId(
+        bank.state.decks.some((deck) => deck.id === activeDeckId)
+          ? activeDeckId
+          : bank.state.decks[0]?.id ?? '',
+      )
+      setIsOnlineReady(true)
+      setSyncLabel(sourceLabel(bank.source))
+      setSyncDetail(`Pulled ${bank.state.decks.length} decks and ${bank.state.cards.length} cards from ${sourceLabel(bank.source)}.`)
+      setToast('Pulled from Supabase')
+    } catch (error) {
+      setIsOnlineReady(false)
+      setSyncLabel('Pull failed')
+      setSyncDetail(error instanceof Error ? error.message : 'Could not pull from Supabase.')
+      setToast('Pull failed')
+    } finally {
+      setIsManualSyncing(false)
     }
   }
 
@@ -475,7 +529,7 @@ function App() {
 
     const nextState = { ...state, cards: [nextCard, ...state.cards] }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Card added locally. Push to Supabase when ready.')
     setToast('Card added')
   }
 
@@ -501,7 +555,7 @@ function App() {
       ),
     }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Card updated locally. Push to Supabase when ready.')
     setToast('Card updated')
   }
 
@@ -512,7 +566,7 @@ function App() {
       cards: state.cards.filter((card) => card.id !== cardId),
     }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Card deleted locally. Push to Supabase when ready.')
     setToast('Card deleted')
   }
 
@@ -529,7 +583,7 @@ function App() {
     })
     const nextState = { ...state, cards: [nextCard, ...state.cards] }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Card duplicated locally. Push to Supabase when ready.')
     setToast('Card duplicated')
   }
 
@@ -538,7 +592,7 @@ function App() {
     const idSet = new Set(cardIds)
     const nextState = { ...state, cards: state.cards.filter((c) => !idSet.has(c.id)) }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Selected cards deleted locally. Push to Supabase when ready.')
     setToast(`${cardIds.length} cards deleted`)
   }
 
@@ -552,7 +606,7 @@ function App() {
       ),
     }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Cards moved locally. Push to Supabase when ready.')
     const deckName = state.decks.find((d) => d.id === targetDeckId)?.name ?? 'deck'
     setToast(`${cardIds.length} cards moved to ${deckName}`)
   }
@@ -561,11 +615,11 @@ function App() {
     const nextDeck = createDeck(name, description)
     const nextState = { ...state, decks: [...state.decks, nextDeck] }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Deck created locally. Push to Supabase when ready.')
     setToast('Deck created')
   }
 
-  const handleUpdateDeck = async (deckId: string, updatedName: string, updatedDescription: string) => {
+  const handleUpdateDeck = (deckId: string, updatedName: string, updatedDescription: string) => {
     const nextState = {
       ...state,
       decks: state.decks.map((deck) =>
@@ -579,13 +633,8 @@ function App() {
       ),
     }
     setState(nextState)
-    const published = await publishStaffState(nextState)
-    if (published) {
-      setToast('Deck updated')
-    } else {
-      setToast('Deck changed locally, but publish failed')
-    }
-    return published
+    markLocalChanges('Deck updated locally. Push to Supabase when ready.')
+    setToast('Deck updated')
   }
 
   const handleDeleteDeck = (deckId: string) => {
@@ -602,7 +651,7 @@ function App() {
       cards: state.cards.filter((card) => card.deckId !== deckId),
     }
     setState(nextState)
-    void publishStaffState(nextState)
+    markLocalChanges('Deck deleted locally. Push to Supabase when ready.')
 
     if (activeDeckId === deckId) {
       const remainingDecks = state.decks.filter((d) => d.id !== deckId)
@@ -811,12 +860,8 @@ function App() {
 
       setState(mergedImport.state)
       setActiveDeckId(mergedImport.firstImportedDeckId || activeDeckId || (mergedImport.state.decks[0]?.id ?? ''))
-      const published = await publishStaffState(mergedImport.state)
-      if (published) {
-        setToast(`Imported ${mergedImport.importedDeckCount} decks, ${mergedImport.importedCardCount} cards`)
-      } else {
-        setToast('Import merged locally, but publish failed')
-      }
+      markLocalChanges('Import merged locally. Push to Supabase when ready.')
+      setToast(`Imported ${mergedImport.importedDeckCount} decks, ${mergedImport.importedCardCount} cards`)
     } catch {
       setToast('Import failed')
     } finally {
@@ -1008,9 +1053,12 @@ function App() {
             onExport={handleExport}
             onDownloadSample={handleDownloadSample}
             onImport={handleImport}
+            onPushToSupabase={handlePushToSupabase}
+            onPullFromSupabase={handlePullFromSupabase}
             syncLabel={syncLabel}
             syncDetail={syncDetail}
             isOnlineReady={isOnlineReady}
+            isManualSyncing={isManualSyncing}
           />
         )}
       </section>
@@ -1043,9 +1091,12 @@ function StaffView({
   onExport,
   onDownloadSample,
   onImport,
+  onPushToSupabase,
+  onPullFromSupabase,
   syncLabel,
   syncDetail,
   isOnlineReady,
+  isManualSyncing,
 }: {
   isUnlocked: boolean
   authMessage: string
@@ -1060,14 +1111,17 @@ function StaffView({
   onBulkDelete: (cardIds: string[]) => void
   onBulkMoveDeck: (cardIds: string[], targetDeckId: string) => void
   onCreateDeck: (name: string, description: string) => void
-  onUpdateDeck: (deckId: string, name: string, description: string) => Promise<boolean>
+  onUpdateDeck: (deckId: string, name: string, description: string) => void
   onDeleteDeck: (deckId: string) => void
   onExport: () => void
   onDownloadSample: () => void
   onImport: (event: ChangeEvent<HTMLInputElement>) => void
+  onPushToSupabase: () => void
+  onPullFromSupabase: () => void
   syncLabel: string
   syncDetail: string
   isOnlineReady: boolean
+  isManualSyncing: boolean
 }) {
   const [staffTab, setStaffTab] = useState<'cards' | 'decks' | 'backup'>('cards')
   const [searchQuery, setSearchQuery] = useState('')
@@ -1568,13 +1622,11 @@ function StaffView({
                   </button>
                 </div>
                 <form
-                  onSubmit={async (e) => {
+                  onSubmit={(e) => {
                     e.preventDefault()
                     if (!editDeckName.trim()) return
-                    const published = await onUpdateDeck(editingDeck.id, editDeckName, editDeckDescription)
-                    if (published) {
-                      setEditingDeck(null)
-                    }
+                    onUpdateDeck(editingDeck.id, editDeckName, editDeckDescription)
+                    setEditingDeck(null)
                   }}
                 >
                   <Field label="Deck Name" helper="The main title of the deck.">
@@ -1699,7 +1751,7 @@ function StaffView({
               <div className="panel backup-card">
                 <h4>Data Operations</h4>
                 <p className="backup-desc">
-                  Backup decks, cards, and local intervals. Staff imports publish to the shared bank when online.
+                  Backup, import, and edit decks in this browser first. Push or pull the shared bank when ready.
                 </p>
 
                 <div className="backup-actions">
@@ -1721,8 +1773,18 @@ function StaffView({
               <div className="panel backup-card sync-status-card">
                 <h4>Cloud Sync Status</h4>
                 <p className="backup-desc">
-                  Decks and cards come from the shared bank. Each student keeps study progress on their browser.
+                  Push writes this browser copy to Supabase. Pull replaces this browser copy with the latest Supabase bank.
                 </p>
+
+                <div className="backup-actions sync-actions">
+                  <button onClick={onPullFromSupabase} disabled={isManualSyncing} className="pull-action-btn">
+                    <ArrowDownToLine size={18} /> Pull from Supabase
+                  </button>
+
+                  <button onClick={onPushToSupabase} disabled={isManualSyncing} className="push-action-btn">
+                    <Upload size={18} /> Push to Supabase
+                  </button>
+                </div>
 
                 <div className="sync-info-box">
                   <div className="sync-indicator-row">
