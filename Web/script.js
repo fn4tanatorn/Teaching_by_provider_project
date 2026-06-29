@@ -260,6 +260,7 @@ function initClinicalVideoApp() {
     let brainGraph = null;
     let presenceTimer = null;
     let flashcardDeckOptions = [];
+    let flashcardDeckOptionsPromise = null;
 
     const useLocalMemberStorage = useLocalMemberAuth || Boolean(embeddedTestUsername());
     const userState = createUserStateService({ dataService: ds, useLocalMemberStorage });
@@ -396,6 +397,26 @@ function initClinicalVideoApp() {
         }
     }
 
+    function loadFlashcardDeckOptionsOnce() {
+        if (flashcardDeckOptions.length) return Promise.resolve(flashcardDeckOptions);
+        if (!flashcardDeckOptionsPromise) {
+            flashcardDeckOptionsPromise = fetchFlashcardDeckOptions()
+                .then((decks) => {
+                    flashcardDeckOptions = decks;
+                    renderFlashcardDeckSelect(newVideoFlashcardDeck?.value || '');
+                    if (pageHome?.classList.contains('active')) renderLearningHome();
+                    if (pageVideos?.classList.contains('active')) renderVideos();
+                    return decks;
+                })
+                .catch((error) => {
+                    flashcardDeckOptionsPromise = null;
+                    console.warn('[Flashcards]', error);
+                    return flashcardDeckOptions;
+                });
+        }
+        return flashcardDeckOptionsPromise;
+    }
+
     function nameKey(name) {
         return encodeURIComponent(String(name || '').trim())
             .replace(/%/g, '_')
@@ -460,6 +481,7 @@ function initClinicalVideoApp() {
     }
 
     async function pingPresence() {
+        if (!currentUser) return;
         try {
             const payload = {
                 id: getPresenceId(),
@@ -480,9 +502,16 @@ function initClinicalVideoApp() {
     }
 
     function startPresence() {
+        if (!currentUser) return;
         if (presenceTimer) return;
         void pingPresence();
         presenceTimer = window.setInterval(pingPresence, 30000);
+    }
+
+    function stopPresence() {
+        if (!presenceTimer) return;
+        window.clearInterval(presenceTimer);
+        presenceTimer = null;
     }
 
     function lastVideoStorageKey() {
@@ -745,6 +774,7 @@ function initClinicalVideoApp() {
                 return;
             }
             currentUser = null;
+            stopPresence();
             setLoginLoading(false);
             updateAdminButtonVisibility(document.querySelector('.page.active'));
             if (countdownInterval) clearInterval(countdownInterval);
@@ -1212,13 +1242,6 @@ function initClinicalVideoApp() {
     const newVideoSubject = document.getElementById('new-video-subject');
     const newVideoFlashcardDeck = document.getElementById('new-video-flashcard-deck');
     const btnAddSubject = document.getElementById('btn-add-subject');
-
-    fetchFlashcardDeckOptions().then((decks) => {
-        flashcardDeckOptions = decks;
-        renderFlashcardDeckSelect(newVideoFlashcardDeck?.value || '');
-        renderLearningHome();
-        renderVideos();
-    });
 
     if (persistFormsEnabled()) {
         if (usernameInput && passwordInput) {
@@ -3142,6 +3165,15 @@ function initClinicalVideoApp() {
         });
     }
 
+    function ensureEmbeddedFrameLoaded(pageElement) {
+        if (!pageElement) return;
+        pageElement.querySelectorAll('iframe[data-src]').forEach((frame) => {
+            if (frame.getAttribute('src')) return;
+            const src = frame.getAttribute('data-src');
+            if (src) frame.setAttribute('src', src);
+        });
+    }
+
     function navigateTo(pageElement) {
         if (!pageElement) return;
         if (pageElement !== pageLogin) {
@@ -3150,6 +3182,14 @@ function initClinicalVideoApp() {
         }
         if (pageElement === pageHome) renderLearningHome();
         if (pageElement === pageBrainmap) renderBrainMap();
+        ensureEmbeddedFrameLoaded(pageElement);
+        if (pageElement === pageHome && currentUser && !currentUser.isAdmin) {
+            startPresence();
+            void loadFlashcardDeckOptionsOnce();
+        }
+        if (pageElement === pageAdmin && currentUser?.isAdmin) {
+            void loadFlashcardDeckOptionsOnce();
+        }
         updateAdminButtonVisibility(pageElement);
         setActiveShellNav(pageElement);
         document.querySelectorAll('.page').forEach(p => {
@@ -3593,6 +3633,7 @@ function initClinicalVideoApp() {
     function forceSignOutStudent() {
         const user = currentUser;
         currentUser = null;
+        stopPresence();
         userState.signOut(user, { signOutRemote: true }).finally(() => {
             navigateTo(pageWelcome);
         });
@@ -4461,6 +4502,7 @@ function initClinicalVideoApp() {
     function signOutCurrentUser() {
         const user = currentUser;
         currentUser = null;
+        stopPresence();
         userState.signOut(user, { signOutRemote: true }).then(() => {
             showToast('Signed out.', 'info');
             navigateTo(pageWelcome);
@@ -5172,6 +5214,7 @@ function initClinicalVideoApp() {
             }
         } catch (_) { /* noop */ }
         currentUser = null;
+        stopPresence();
         const signOut = supabaseConfigReady ? ds.authSignOut().catch(() => {}) : Promise.resolve();
         signOut.finally(() => {
             showToast('Admin signed out.', 'info');
@@ -6102,8 +6145,6 @@ function initClinicalVideoApp() {
             });
         }
     }
-
-    startPresence();
 
     if (wantsVideoFeedRoute()) {
         navigateTo(pageVideos);
