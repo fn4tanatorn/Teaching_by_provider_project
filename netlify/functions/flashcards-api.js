@@ -89,6 +89,33 @@ async function verifySupabaseUser(config, token) {
 }
 
 async function roleForUser(config, token, uid) {
+  if (hasSupabaseWrite(config)) {
+    try {
+      const rows = await requestSupabase(
+        config,
+        `user_roles?user_id=eq.${encodeURIComponent(uid)}&select=role&limit=1`,
+        {},
+        true,
+      );
+      const role = Array.isArray(rows) ? rows[0]?.role : "";
+      if (role) return role;
+    } catch (err) {
+      console.warn("[Flashcards] service-role user_roles check failed; trying user-scoped role check.", err.message || err);
+    }
+
+    try {
+      const rows = await requestSupabase(
+        config,
+        `admin_users?user_id=eq.${encodeURIComponent(uid)}&select=user_id&limit=1`,
+        {},
+        true,
+      );
+      if (Array.isArray(rows) && rows.length) return "admin";
+    } catch (err) {
+      console.warn("[Flashcards] service-role admin_users check failed; trying user-scoped role check.", err.message || err);
+    }
+  }
+
   try {
     const rows = await requestSupabaseAsUser(
       config,
