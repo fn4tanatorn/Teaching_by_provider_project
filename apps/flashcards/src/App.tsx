@@ -68,6 +68,87 @@ const gradeIntervals: Record<ReviewGrade, string> = {
 const sharedStore = (store: FlashcardStore | null) => (store?.mode === 'shared' ? store : null)
 const requestedDeckId = new URLSearchParams(window.location.search).get('deck') ?? ''
 
+const makeImportId = (prefix: string) => {
+  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+    return `${prefix}-${crypto.randomUUID()}`
+  }
+
+  return `${prefix}-${Date.now()}-${Math.random().toString(16).slice(2)}`
+}
+
+const mergeImportedState = (currentState: FlashcardState, importedState: FlashcardState) => {
+  const existingDeckIds = new Set(currentState.decks.map((deck) => deck.id))
+  const existingCardIds = new Set(currentState.cards.map((card) => card.id))
+  const importDeckIds = new Set(importedState.decks.map((deck) => deck.id))
+  const deckIdMap = new Map<string, string>()
+  const nextDecks: Deck[] = []
+
+  for (const deck of importedState.decks) {
+    const sourceId = String(deck.id || '').trim()
+    const name = String(deck.name || '').trim()
+    if (!sourceId || !name || deckIdMap.has(sourceId)) continue
+
+    let nextId = sourceId
+    if (existingDeckIds.has(nextId)) {
+      do {
+        nextId = makeImportId('deck')
+      } while (existingDeckIds.has(nextId) || deckIdMap.has(nextId))
+    }
+
+    deckIdMap.set(sourceId, nextId)
+    existingDeckIds.add(nextId)
+    nextDecks.push({
+      ...deck,
+      id: nextId,
+      name,
+      description: String(deck.description || '').trim(),
+      createdAt: typeof deck.createdAt === 'string' && deck.createdAt ? deck.createdAt : new Date().toISOString(),
+    })
+  }
+
+  const nextCards: Flashcard[] = []
+  for (const card of importedState.cards) {
+    const sourceDeckId = String(card.deckId || '').trim()
+    const mappedDeckId = deckIdMap.get(sourceDeckId)
+    if (!mappedDeckId && !importDeckIds.has(sourceDeckId)) continue
+    if (!mappedDeckId) continue
+
+    let nextCardId = String(card.id || '').trim()
+    if (!nextCardId || existingCardIds.has(nextCardId)) {
+      do {
+        nextCardId = makeImportId('card')
+      } while (existingCardIds.has(nextCardId))
+    }
+
+    existingCardIds.add(nextCardId)
+    nextCards.push({
+      ...card,
+      id: nextCardId,
+      deckId: mappedDeckId,
+      front: String(card.front || '').trim(),
+      back: String(card.back || '').trim(),
+      imageUrl: String(card.imageUrl || '').trim(),
+      createdAt: typeof card.createdAt === 'string' && card.createdAt ? card.createdAt : new Date().toISOString(),
+      updatedAt: typeof card.updatedAt === 'string' && card.updatedAt ? card.updatedAt : new Date().toISOString(),
+      dueAt: typeof card.dueAt === 'string' && card.dueAt ? card.dueAt : new Date().toISOString(),
+      intervalDays: Number.isFinite(Number(card.intervalDays)) ? Number(card.intervalDays) : 0,
+      ease: Number.isFinite(Number(card.ease)) ? Number(card.ease) : 2.5,
+      reps: Number.isFinite(Number(card.reps)) ? Number(card.reps) : 0,
+      lapses: Number.isFinite(Number(card.lapses)) ? Number(card.lapses) : 0,
+    })
+  }
+
+  return {
+    state: {
+      decks: [...currentState.decks, ...nextDecks],
+      cards: [...nextCards, ...currentState.cards],
+    },
+    importedDeckCount: nextDecks.length,
+    importedCardCount: nextCards.length,
+    firstImportedDeckId: nextDecks[0]?.id ?? '',
+  }
+}
+
 const readSupabaseAccessToken = () => {
   try {
     for (let i = 0; i < localStorage.length; i += 1) {
@@ -722,10 +803,20 @@ function App() {
       if (!Array.isArray(nextState.decks) || !Array.isArray(nextState.cards)) {
         throw new Error('Invalid flashcard file')
       }
-      setState(nextState)
-      setActiveDeckId(nextState.decks[0]?.id ?? '')
-      void publishStaffState(nextState)
-      setToast('Import complete')
+
+      const mergedImport = mergeImportedState(state, nextState)
+      if (mergedImport.importedDeckCount === 0 || mergedImport.importedCardCount === 0) {
+        throw new Error('No importable decks or cards')
+      }
+
+      setState(mergedImport.state)
+      setActiveDeckId(mergedImport.firstImportedDeckId || activeDeckId || (mergedImport.state.decks[0]?.id ?? ''))
+      const published = await publishStaffState(mergedImport.state)
+      if (published) {
+        setToast(`Imported ${mergedImport.importedDeckCount} decks, ${mergedImport.importedCardCount} cards`)
+      } else {
+        setToast('Import merged locally, but publish failed')
+      }
     } catch {
       setToast('Import failed')
     } finally {
