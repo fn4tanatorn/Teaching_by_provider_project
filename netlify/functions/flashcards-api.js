@@ -402,6 +402,7 @@ async function loadBank() {
 
 async function saveBank(state) {
   const config = getSupabaseConfig();
+  const normalizedState = normalizeState(state);
   if (!hasSupabaseWrite(config)) {
     const err = new Error("Supabase service role key is required to publish the shared flashcard bank.");
     err.status = 503;
@@ -409,17 +410,23 @@ async function saveBank(state) {
   }
 
   try {
-    await saveSupabaseBank(config, state);
+    await saveSupabaseBank(config, normalizedState);
+    const verifiedState = await loadSupabaseBank(config);
+    if (JSON.stringify(verifiedState) !== JSON.stringify(normalizedState)) {
+      const err = new Error("Supabase accepted the publish request, but the shared bank still contains older data.");
+      err.status = 409;
+      throw err;
+    }
+
+    await saveBlobBank(verifiedState).catch((error) => {
+      console.warn("[Flashcards] Blob mirror write failed.", error.message || error);
+    });
+    return { state: verifiedState, source: "supabase" };
   } catch (error) {
     const err = new Error(`Could not publish the shared flashcard bank to Supabase: ${error.message || error}`);
-    err.status = 502;
+    err.status = error.status || 502;
     throw err;
   }
-
-  await saveBlobBank(state).catch((error) => {
-    console.warn("[Flashcards] Blob mirror write failed.", error.message || error);
-  });
-  return { source: "supabase" };
 }
 
 exports.handler = async (event) => {
@@ -439,7 +446,7 @@ exports.handler = async (event) => {
 
       const state = normalizeState(body.state);
       const bank = await saveBank(state);
-      return json(200, { state, source: bank.source });
+      return json(200, { state: bank.state, source: bank.source });
     }
 
     return json(405, { error: "Method not allowed." });

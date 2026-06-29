@@ -253,31 +253,33 @@ function App() {
     }))
   }, [])
 
-  const publishStaffState = (nextState: FlashcardState) => {
+  const publishStaffState = async (nextState: FlashcardState): Promise<boolean> => {
     const currentStore = sharedStore(store)
     if (!currentStore) {
       setSyncLabel('Local only')
       setSyncDetail('Shared flashcard bank unavailable. Changes are saved on this browser only.')
-      return
+      return false
     }
 
     setSyncLabel('Publishing')
     if (!staffAccessToken) {
       setSyncLabel('Publish blocked')
       setSyncDetail('Sign in with an admin or teacher account before publishing shared flashcards.')
-      return
+      return false
     }
 
-    void saveOnlineState(currentStore, nextState, staffAccessToken)
-      .then((bank) => {
-        setIsOnlineReady(true)
-        setSyncLabel(sourceLabel(bank.source))
-        setSyncDetail(`Published to ${sourceLabel(bank.source)}. Students will load these decks and keep their own progress locally.`)
-      })
-      .catch((error: unknown) => {
-        setSyncLabel('Publish failed')
-        setSyncDetail(error instanceof Error ? error.message : 'Could not publish the shared flashcard bank.')
-      })
+    try {
+      const bank = await saveOnlineState(currentStore, nextState, staffAccessToken)
+      setState(bank.state)
+      setIsOnlineReady(true)
+      setSyncLabel(sourceLabel(bank.source))
+      setSyncDetail(`Published to ${sourceLabel(bank.source)}. Students will load these decks and keep their own progress locally.`)
+      return true
+    } catch (error: unknown) {
+      setSyncLabel('Publish failed')
+      setSyncDetail(error instanceof Error ? error.message : 'Could not publish the shared flashcard bank.')
+      return false
+    }
   }
 
   const handleGrade = useCallback((grade: ReviewGrade) => {
@@ -392,7 +394,7 @@ function App() {
 
     const nextState = { ...state, cards: [nextCard, ...state.cards] }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     setToast('Card added')
   }
 
@@ -418,7 +420,7 @@ function App() {
       ),
     }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     setToast('Card updated')
   }
 
@@ -429,7 +431,7 @@ function App() {
       cards: state.cards.filter((card) => card.id !== cardId),
     }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     setToast('Card deleted')
   }
 
@@ -446,7 +448,7 @@ function App() {
     })
     const nextState = { ...state, cards: [nextCard, ...state.cards] }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     setToast('Card duplicated')
   }
 
@@ -455,7 +457,7 @@ function App() {
     const idSet = new Set(cardIds)
     const nextState = { ...state, cards: state.cards.filter((c) => !idSet.has(c.id)) }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     setToast(`${cardIds.length} cards deleted`)
   }
 
@@ -469,7 +471,7 @@ function App() {
       ),
     }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     const deckName = state.decks.find((d) => d.id === targetDeckId)?.name ?? 'deck'
     setToast(`${cardIds.length} cards moved to ${deckName}`)
   }
@@ -478,11 +480,11 @@ function App() {
     const nextDeck = createDeck(name, description)
     const nextState = { ...state, decks: [...state.decks, nextDeck] }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
     setToast('Deck created')
   }
 
-  const handleUpdateDeck = (deckId: string, updatedName: string, updatedDescription: string) => {
+  const handleUpdateDeck = async (deckId: string, updatedName: string, updatedDescription: string) => {
     const nextState = {
       ...state,
       decks: state.decks.map((deck) =>
@@ -496,8 +498,13 @@ function App() {
       ),
     }
     setState(nextState)
-    publishStaffState(nextState)
-    setToast('Deck updated')
+    const published = await publishStaffState(nextState)
+    if (published) {
+      setToast('Deck updated')
+    } else {
+      setToast('Deck changed locally, but publish failed')
+    }
+    return published
   }
 
   const handleDeleteDeck = (deckId: string) => {
@@ -514,7 +521,7 @@ function App() {
       cards: state.cards.filter((card) => card.deckId !== deckId),
     }
     setState(nextState)
-    publishStaffState(nextState)
+    void publishStaffState(nextState)
 
     if (activeDeckId === deckId) {
       const remainingDecks = state.decks.filter((d) => d.id !== deckId)
@@ -717,7 +724,7 @@ function App() {
       }
       setState(nextState)
       setActiveDeckId(nextState.decks[0]?.id ?? '')
-      publishStaffState(nextState)
+      void publishStaffState(nextState)
       setToast('Import complete')
     } catch {
       setToast('Import failed')
@@ -962,7 +969,7 @@ function StaffView({
   onBulkDelete: (cardIds: string[]) => void
   onBulkMoveDeck: (cardIds: string[], targetDeckId: string) => void
   onCreateDeck: (name: string, description: string) => void
-  onUpdateDeck: (deckId: string, name: string, description: string) => void
+  onUpdateDeck: (deckId: string, name: string, description: string) => Promise<boolean>
   onDeleteDeck: (deckId: string) => void
   onExport: () => void
   onDownloadSample: () => void
@@ -1470,11 +1477,13 @@ function StaffView({
                   </button>
                 </div>
                 <form
-                  onSubmit={(e) => {
+                  onSubmit={async (e) => {
                     e.preventDefault()
                     if (!editDeckName.trim()) return
-                    onUpdateDeck(editingDeck.id, editDeckName, editDeckDescription)
-                    setEditingDeck(null)
+                    const published = await onUpdateDeck(editingDeck.id, editDeckName, editDeckDescription)
+                    if (published) {
+                      setEditingDeck(null)
+                    }
                   }}
                 >
                   <Field label="Deck Name" helper="The main title of the deck.">
