@@ -402,20 +402,24 @@ async function loadBank() {
 
 async function saveBank(state) {
   const config = getSupabaseConfig();
-  if (hasSupabaseWrite(config)) {
-    try {
-      await saveSupabaseBank(config, state);
-      await saveBlobBank(state).catch((error) => {
-        console.warn("[Flashcards] Blob mirror write failed.", error.message || error);
-      });
-      return { source: "supabase" };
-    } catch (error) {
-      console.warn("[Flashcards] Supabase bank write failed; using blob/local fallback.", error.message || error);
-    }
+  if (!hasSupabaseWrite(config)) {
+    const err = new Error("Supabase service role key is required to publish the shared flashcard bank.");
+    err.status = 503;
+    throw err;
   }
 
-  await saveBlobBank(state);
-  return { source: canUseLocalFallback() ? "local" : "blob" };
+  try {
+    await saveSupabaseBank(config, state);
+  } catch (error) {
+    const err = new Error(`Could not publish the shared flashcard bank to Supabase: ${error.message || error}`);
+    err.status = 502;
+    throw err;
+  }
+
+  await saveBlobBank(state).catch((error) => {
+    console.warn("[Flashcards] Blob mirror write failed.", error.message || error);
+  });
+  return { source: "supabase" };
 }
 
 exports.handler = async (event) => {

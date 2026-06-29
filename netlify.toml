@@ -1,5 +1,6 @@
 # Combined web deploy
 [build]
+  command = "npm run netlify:build"
   publish = "Web"
   functions = "netlify/functions"
 

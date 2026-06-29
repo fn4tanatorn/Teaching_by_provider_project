@@ -1,4 +1,13 @@
 {
+  "scripts": {
+    "prepare:flashcards": "npm --prefix apps/flashcards ci",
+    "build:flashcards": "npm --prefix apps/flashcards run build",
+    "build": "npm run build:flashcards",
+    "netlify:build": "npm run prepare:flashcards && npm run build"
+  },
+  "engines": {
+    "node": "24.x"
+  },
   "dependencies": {
     "@netlify/blobs": "^10.7.9"
   }
