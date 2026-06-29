@@ -238,6 +238,7 @@
 
     $("roomCode").textContent = code || "------";
     $("exportCsv").href = `${apiBase}/rooms/${code}/export.csv?token=${encodeURIComponent(hostToken || "")}`;
+    $("exportDetailCsv").href = `${apiBase}/rooms/${code}/export-detail.csv?token=${encodeURIComponent(hostToken || "")}`;
 
     function hostHeaders() {
       return { "X-Host-Token": hostToken };
@@ -274,6 +275,7 @@
       });
       $("livePanel").classList.toggle("hidden", ["lobby", "draft"].includes(state.state));
       $("exportCsv").classList.toggle("hidden", state.state !== "finished");
+      $("exportDetailCsv").classList.toggle("hidden", state.state !== "finished");
       $("exportXlsx").classList.toggle("hidden", state.state !== "finished");
       renderTimer($("timer"), state.endsAt, state.state);
       renderParticipants(state);
@@ -581,19 +583,28 @@
       });
     }
 
-    function exportResultsXlsx() {
+    function sheetFromResultSection(section) {
+      return window.XLSX.utils.aoa_to_sheet([section.headers].concat(section.rows));
+    }
+
+    async function exportResultsXlsx() {
       if (!lastState || lastState.state !== "finished") return;
       if (!window.XLSX) {
         setStatus($("hostStatus"), "XLSX library is still loading. Try again in a moment.", "error");
         return;
       }
-      const rows = [["username", "total_score"]].concat(
-        lastState.participants.map((participant) => [participant.username, participant.totalScore])
-      );
-      const workbook = window.XLSX.utils.book_new();
-      const worksheet = window.XLSX.utils.aoa_to_sheet(rows);
-      window.XLSX.utils.book_append_sheet(workbook, worksheet, "Results");
-      window.XLSX.writeFile(workbook, `livequiz-${lastState.code}-results.xlsx`);
+      try {
+        setStatus($("hostStatus"), "Preparing XLSX export...");
+        const results = await api(`/api/rooms/${code}/results`, { headers: hostHeaders() });
+        const workbook = window.XLSX.utils.book_new();
+        window.XLSX.utils.book_append_sheet(workbook, sheetFromResultSection(results.summary), "Summary");
+        window.XLSX.utils.book_append_sheet(workbook, sheetFromResultSection(results.responses), "Responses");
+        window.XLSX.utils.book_append_sheet(workbook, sheetFromResultSection(results.questions), "Questions");
+        window.XLSX.writeFile(workbook, `livequiz-${results.room.code}-results.xlsx`);
+        setStatus($("hostStatus"), "XLSX export ready.", "ok");
+      } catch (err) {
+        setStatus($("hostStatus"), err.message, "error");
+      }
     }
 
     function distributionRow(label, group, pct, correct) {

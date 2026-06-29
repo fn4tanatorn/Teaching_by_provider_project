@@ -33,12 +33,20 @@ Open `http://localhost:3000`. LiveQuiz is available from the main learning shell
 
 On Netlify, `/livequiz/api/*` is served by a Netlify Function backed by Netlify Blobs. The local Node server keeps using its ignored local JSON data file for quick development.
 
+Run `supabase/livequiz-results.sql` in the Supabase SQL Editor before enabling LiveQuiz result persistence on Netlify. The result snapshot write uses `SUPABASE_SERVICE_ROLE_KEY`; without it, rooms still run and exports still work, but finished results are not saved to Supabase.
+
 LiveQuiz host flow:
 
 1. Create a room.
 2. Add, import, edit, delete, or reorder questions while the room is in draft.
 3. Click `Open lobby` when participants should be allowed to join.
 4. Click `Start quiz` to begin the host-paced quiz.
+
+After a quiz is finished, the host console offers:
+
+- `Export CSV` for username and total score.
+- `Export details CSV` for one row per participant per question.
+- `Export XLSX` with Summary, Responses, and Questions sheets.
 
 ## Supabase Sheets Setup
 

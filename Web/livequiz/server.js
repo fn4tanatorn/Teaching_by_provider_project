@@ -245,6 +245,25 @@ async function routeApi(req, res, url) {
     return;
   }
 
+  const detailExportMatch = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]+)\/export-detail\.csv$/);
+  if (detailExportMatch && req.method === "GET") {
+    const csv = quiz.exportDetailCsv(detailExportMatch[1], tokenFrom(req, url, "x-host-token", "token"));
+    res.writeHead(200, {
+      "Content-Type": "text/csv; charset=utf-8",
+      "Content-Disposition": `attachment; filename="livequiz-${detailExportMatch[1]}-responses.csv"`,
+      "Access-Control-Allow-Origin": "*",
+    });
+    res.end(csv);
+    return;
+  }
+
+  const resultsMatch = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]+)\/results$/);
+  if (resultsMatch && req.method === "GET") {
+    const results = quiz.resultExport(resultsMatch[1], tokenFrom(req, url, "x-host-token", "token"));
+    sendJson(res, 200, results);
+    return;
+  }
+
   const eventsMatch = url.pathname.match(/^\/api\/rooms\/([A-Z0-9]+)\/events$/);
   if (eventsMatch && req.method === "GET") {
     const code = eventsMatch[1];

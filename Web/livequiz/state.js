@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const crypto = require("crypto");
+const { buildResultExport, csvFromSection } = require("./results");
 
 const DATA_PATH = path.join(__dirname, "livequiz-data.json");
 const ROOM_TTL_MS = 7 * 24 * 60 * 60 * 1000;
@@ -31,7 +32,8 @@ function onRoomChange(code, cb) {
 function getSupabaseConfig() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
-  if (url && key) return { url, key };
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (url && (key || serviceKey)) return { url, key, serviceKey };
 
   const configPath = path.join(__dirname, "../js/supabase-config.js");
   const localConfigPath = path.join(__dirname, "../js/supabase-config.local.js");
@@ -50,45 +52,53 @@ function getSupabaseConfig() {
 
   const urlMatch = configContent.match(/SUPABASE_URL\s*=\s*['"]([^'"]+)['"]/);
   const keyMatch = configContent.match(/SUPABASE_ANON_KEY\s*=\s*['"]([^'"]+)['"]/);
+  const serviceKeyMatch = configContent.match(/SUPABASE_SERVICE_ROLE_KEY\s*=\s*['"]([^'"]+)['"]/);
 
   return {
     url: urlMatch ? urlMatch[1] : "",
-    key: keyMatch ? keyMatch[1] : ""
+    key: keyMatch ? keyMatch[1] : "",
+    serviceKey: serviceKeyMatch ? serviceKeyMatch[1] : ""
   };
 }
 
 async function saveResultsToSupabase(room) {
   const config = getSupabaseConfig();
-  if (!config.url || !config.key) {
-    console.warn("[LiveQuiz] Supabase is not configured. Skipping saving results.");
+  const serviceKey = config.serviceKey;
+  if (!config.url || !serviceKey) {
+    console.warn("[LiveQuiz] Supabase service role is not configured. Skipping result snapshot.");
     return;
   }
 
-  const participants = room.participants.filter((p) => !p.kickedAt);
-  if (!participants.length) return;
-
-  const payloads = participants.map((participant) => ({
+  const results = buildResultExport(room);
+  const payload = {
     room_code: room.code,
-    participant_name: participant.username,
-    score: scoreFor(room, participant.id)
-  }));
+    room_state: room.state,
+    participant_count: results.room.participantCount,
+    question_count: results.room.questionCount,
+    possible_score: results.room.possibleScore,
+    summary: results.summary.objects,
+    responses: results.responses.objects,
+    questions: results.questions.objects,
+    finished_at: results.room.finishedAt || nowIso(),
+    updated_at: nowIso()
+  };
 
   try {
-    const response = await fetch(`${config.url}/rest/v1/livequiz_results`, {
+    const response = await fetch(`${config.url}/rest/v1/livequiz_results?on_conflict=room_code`, {
       method: "POST",
       headers: {
-        "apikey": config.key,
-        "Authorization": `Bearer ${config.key}`,
+        "apikey": serviceKey,
+        "Authorization": `Bearer ${serviceKey}`,
         "Content-Type": "application/json",
-        "Prefer": "return=minimal"
+        "Prefer": "resolution=merge-duplicates,return=minimal"
       },
-      body: JSON.stringify(payloads)
+      body: JSON.stringify([payload])
     });
     if (!response.ok) {
       const errText = await response.text();
-      console.error("[LiveQuiz] Failed to save results to Supabase:", response.status, errText);
+      console.error("[LiveQuiz] Failed to save result snapshot to Supabase:", response.status, errText);
     } else {
-      console.log(`[LiveQuiz] Successfully saved ${payloads.length} participant results to Supabase.`);
+      console.log(`[LiveQuiz] Saved result snapshot for room ${room.code} to Supabase.`);
     }
   } catch (err) {
     console.error("[LiveQuiz] Error saving results to Supabase:", err);
@@ -843,6 +853,16 @@ function exportCsv(code, token) {
     .join("\n");
 }
 
+function resultExport(code, token) {
+  const room = getRoom(code);
+  requireHost(room, token);
+  return buildResultExport(room);
+}
+
+function exportDetailCsv(code, token) {
+  return `\uFEFF${csvFromSection(resultExport(code, token).responses)}`;
+}
+
 loadStore();
 setInterval(() => cleanupExpiredRooms(), 60 * 60 * 1000).unref?.();
 
@@ -867,5 +887,7 @@ module.exports = {
   hostState,
   participantState,
   exportCsv,
+  exportDetailCsv,
+  resultExport,
   onRoomChange,
 };

@@ -2,11 +2,13 @@ const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
 const { connectLambda, getStore } = require("@netlify/blobs");
+const { buildResultExport, csvFromSection } = require("../../Web/livequiz/results");
 
 function getSupabaseConfig() {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_ANON_KEY;
-  if (url && key) return { url, key };
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (url && (key || serviceKey)) return { url, key, serviceKey };
 
   // Try different potential config file paths relative to __dirname and process.cwd()
   const paths = [
@@ -40,45 +42,53 @@ function getSupabaseConfig() {
 
   const urlMatch = configContent.match(/SUPABASE_URL\s*=\s*['"]([^'"]+)['"]/);
   const keyMatch = configContent.match(/SUPABASE_ANON_KEY\s*=\s*['"]([^'"]+)['"]/);
+  const serviceKeyMatch = configContent.match(/SUPABASE_SERVICE_ROLE_KEY\s*=\s*['"]([^'"]+)['"]/);
 
   return {
     url: urlMatch ? urlMatch[1] : "",
-    key: keyMatch ? keyMatch[1] : ""
+    key: keyMatch ? keyMatch[1] : "",
+    serviceKey: serviceKeyMatch ? serviceKeyMatch[1] : ""
   };
 }
 
 async function saveResultsToSupabase(room) {
   const config = getSupabaseConfig();
-  if (!config.url || !config.key) {
-    console.warn("[LiveQuiz] Supabase is not configured. Skipping saving results.");
+  const serviceKey = config.serviceKey;
+  if (!config.url || !serviceKey) {
+    console.warn("[LiveQuiz] Supabase service role is not configured. Skipping result snapshot.");
     return;
   }
 
-  const participants = room.participants.filter((p) => !p.kickedAt);
-  if (!participants.length) return;
-
-  const payloads = participants.map((participant) => ({
+  const results = buildResultExport(room);
+  const payload = {
     room_code: room.code,
-    participant_name: participant.username,
-    score: scoreFor(room, participant.id)
-  }));
+    room_state: room.state,
+    participant_count: results.room.participantCount,
+    question_count: results.room.questionCount,
+    possible_score: results.room.possibleScore,
+    summary: results.summary.objects,
+    responses: results.responses.objects,
+    questions: results.questions.objects,
+    finished_at: results.room.finishedAt || nowIso(),
+    updated_at: nowIso()
+  };
 
   try {
-    const response = await fetch(`${config.url}/rest/v1/livequiz_results`, {
+    const response = await fetch(`${config.url}/rest/v1/livequiz_results?on_conflict=room_code`, {
       method: "POST",
       headers: {
-        "apikey": config.key,
-        "Authorization": `Bearer ${config.key}`,
+        "apikey": serviceKey,
+        "Authorization": `Bearer ${serviceKey}`,
         "Content-Type": "application/json",
-        "Prefer": "return=minimal"
+        "Prefer": "resolution=merge-duplicates,return=minimal"
       },
-      body: JSON.stringify(payloads)
+      body: JSON.stringify([payload])
     });
     if (!response.ok) {
       const errText = await response.text();
-      console.error("[LiveQuiz] Failed to save results to Supabase:", response.status, errText);
+      console.error("[LiveQuiz] Failed to save result snapshot to Supabase:", response.status, errText);
     } else {
-      console.log(`[LiveQuiz] Successfully saved ${payloads.length} participant results to Supabase.`);
+      console.log(`[LiveQuiz] Saved result snapshot for room ${room.code} to Supabase.`);
     }
   } catch (err) {
     console.error("[LiveQuiz] Error saving results to Supabase:", err);
@@ -544,6 +554,10 @@ function exportCsv(room) {
     .join("\n");
 }
 
+function resultExport(room) {
+  return buildResultExport(room);
+}
+
 async function handleRoute(event) {
   const method = event.httpMethod;
   const path = routePath(event);
@@ -899,6 +913,26 @@ async function handleRoute(event) {
       return exportCsv(room);
     });
     return csv(200, body, `livequiz-${exportMatch[1]}-results.csv`);
+  }
+
+  const detailExportMatch = path.match(/^\/rooms\/([A-Z0-9]+)\/export-detail\.csv$/);
+  if (detailExportMatch && method === "GET") {
+    const body = await withState((rooms) => {
+      const room = getRoom(rooms, detailExportMatch[1]);
+      requireHost(room, queryToken(event, "x-host-token", "token"));
+      return `\uFEFF${csvFromSection(resultExport(room).responses)}`;
+    });
+    return csv(200, body, `livequiz-${detailExportMatch[1]}-responses.csv`);
+  }
+
+  const resultsMatch = path.match(/^\/rooms\/([A-Z0-9]+)\/results$/);
+  if (resultsMatch && method === "GET") {
+    const body = await withState((rooms) => {
+      const room = getRoom(rooms, resultsMatch[1]);
+      requireHost(room, queryToken(event, "x-host-token", "token"));
+      return resultExport(room);
+    });
+    return json(200, body);
   }
 
   return json(404, { error: "Not found" });
