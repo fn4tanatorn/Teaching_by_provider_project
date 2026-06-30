@@ -4816,3 +4816,74 @@ textarea {
     bottom: calc(var(--mobile-rail-h) + env(safe-area-inset-bottom, 0px) + 0.85rem);
   }
 }
+
+/* Last-mile phone viewport guard. Keeps welcome/auth cards inside narrow screens. */
+@media (max-width: 540px) {
+  html,
+  body,
+  .app-container,
+  .page,
+  .hero-section,
+  .hero-shell,
+  .hero-layout,
+  .hero-copy,
+  .study-preview-panel,
+  .study-preview-main,
+  .glass-card,
+  .card {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .app-container {
+    overflow-x: clip;
+  }
+
+  .hero-section {
+    width: 100%;
+  }
+
+  .hero-shell,
+  body.welcome-hero-active #page-welcome .hero-shell {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .hero-layout {
+    gap: 1rem;
+  }
+
+  .hero-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100%, 20rem) !important;
+    max-width: calc(100vw - 4rem) !important;
+  }
+
+  .hero-actions .btn,
+  body.welcome-hero-active #page-welcome .primary-btn,
+  body.welcome-hero-active #page-welcome .outline-btn {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    justify-self: start;
+  }
+
+  .study-preview-main {
+    width: calc(100% - 1rem) !important;
+    max-width: calc(100% - 1rem) !important;
+    margin-right: auto;
+    overflow: hidden;
+  }
+
+  .study-preview-main img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 100%;
+    object-fit: contain;
+  }
+}

@@ -2175,6 +2175,39 @@ a,
 }
 
 @media (max-width: 640px) {
+    header {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .nav-container {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        padding: 10px max(12px, env(safe-area-inset-right, 0px)) 10px max(12px, env(safe-area-inset-left, 0px));
+    }
+
+    .logo-link {
+        display: none;
+    }
+
+    .hub-back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        width: calc(50vw - 20px) !important;
+        max-width: calc(50vw - 20px);
+        min-height: 40px;
+        padding: 0 0.55rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
     html {
         scroll-snap-type: none;
     }
@@ -2190,20 +2223,65 @@ a,
 
     .nav-menu {
         order: 3;
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
         max-width: 100%;
         justify-content: flex-start;
+        overflow-x: auto;
         overscroll-behavior-inline: contain;
     }
 
     .hub-back-btn {
         order: initial;
-        width: auto;
+        width: calc(50vw - 20px) !important;
+        max-width: calc(50vw - 20px);
         min-height: 40px;
         padding: 0 0.8rem;
     }
 
     #deckHomeBtn {
         margin-left: 0 !important;
+    }
+
+    .intro-scene,
+    .outro-scene {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .intro-scene--with-figure,
+    .intro-figure-wrap,
+    .intro-figure-wrap .slide-figure,
+    .intro-figure-wrap .slide-figure-frame {
+        max-width: 100%;
+    }
+
+    .intro-figure-wrap .slide-figure-frame img {
+        width: 100%;
+    }
+
+    .intro-title,
+    body[class^="deck-ch"] .intro-title,
+    .intro-scene--with-figure .intro-title {
+        width: min(100%, 13ch);
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: clamp(26px, 7.2vw, 31px);
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+        white-space: normal;
+        text-wrap: balance;
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }
+
+    .intro-eyebrow,
+    body[class^="deck-ch"] .intro-eyebrow {
+        font-size: 12px;
+        line-height: 1.3;
     }
 
     .content-box {
