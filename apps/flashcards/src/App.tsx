@@ -171,6 +171,8 @@ const sourceLabel = (source?: string) => {
   return 'Shared bank'
 }
 
+const isUnseenCard = (card: Flashcard) => card.reps === 0
+
 const pickRandomCard = (cards: Flashcard[], excludeCardId?: string) => {
   if (cards.length === 0) return undefined
 
@@ -179,6 +181,19 @@ const pickRandomCard = (cards: Flashcard[], excludeCardId?: string) => {
     : cards
 
   return candidates[Math.floor(Math.random() * candidates.length)]
+}
+
+const pickNextRandomStudyCard = (
+  cards: Flashcard[],
+  dueCards: Flashcard[],
+  excludeCardId?: string,
+) => {
+  const unseenCards = cards.filter(isUnseenCard)
+  const randomUnseenCard = pickRandomCard(unseenCards, excludeCardId)
+  if (randomUnseenCard) return randomUnseenCard
+
+  const nextDueCard = dueCards.find((card) => card.id !== excludeCardId)
+  return nextDueCard ?? dueCards[0]
 }
 
 function App() {
@@ -422,7 +437,7 @@ function App() {
     updateCard(scheduleReview(currentCard, grade))
 
     if (isRandomMode) {
-      const nextCard = pickRandomCard(activeDeckCards, currentCard.id)
+      const nextCard = pickNextRandomStudyCard(activeDeckCards, dueCards, currentCard.id)
       setRandomCardId(nextCard?.id ?? '')
     } else {
       setRandomCardId('')
@@ -430,18 +445,18 @@ function App() {
 
     setIsAnswerVisible(false)
     setToast(`Card scheduled: ${gradeLabels[grade]}`)
-  }, [activeDeckCards, currentCard, isRandomMode, updateCard])
+  }, [activeDeckCards, currentCard, dueCards, isRandomMode, updateCard])
 
   const handleRandomCard = useCallback(() => {
     if (activeDeckCards.length === 0) return
 
-    const nextCard = pickRandomCard(activeDeckCards, currentCard?.id)
+    const nextCard = pickNextRandomStudyCard(activeDeckCards, dueCards, currentCard?.id)
 
     setIsRandomMode(true)
     setRandomCardId(nextCard?.id ?? '')
     setIsAnswerVisible(false)
     setToast('Random card loaded')
-  }, [activeDeckCards, currentCard])
+  }, [activeDeckCards, currentCard, dueCards])
 
   const handleCancelRandomMode = useCallback(() => {
     setIsRandomMode(false)
