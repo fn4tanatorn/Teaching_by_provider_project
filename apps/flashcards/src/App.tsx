@@ -1864,6 +1864,8 @@ function StudyView({
     )
   }
 
+  const answerHasTable = hasFlashcardTable(card.backTable)
+
   return (
     <section className="study-grid">
       <article className="study-card">
@@ -1902,8 +1904,7 @@ function StudyView({
 
         {isAnswerVisible ? (
           <div className="card-face answer">
-            <p>{card.back}</p>
-            <FlashcardDataTable table={card.backTable} />
+            {answerHasTable ? <FlashcardDataTable table={card.backTable} /> : <p>{card.back}</p>}
           </div>
         ) : (
           <div className="answer-placeholder" aria-hidden="true" />
@@ -1938,10 +1939,21 @@ function StudyView({
   )
 }
 
+function hasFlashcardTable(table?: FlashcardTable) {
+  return Boolean(
+    table &&
+      Array.isArray(table.columns) &&
+      table.columns.length > 0 &&
+      Array.isArray(table.rows) &&
+      table.rows.some((row) => Array.isArray(row)),
+  )
+}
+
 function FlashcardDataTable({ table }: { table?: FlashcardTable }) {
+  if (!table || !hasFlashcardTable(table)) return null
+
   const columns = Array.isArray(table?.columns) ? table.columns : []
   const rows = Array.isArray(table?.rows) ? table.rows.filter((row) => Array.isArray(row)) : []
-  if (!table || columns.length === 0 || rows.length === 0) return null
 
   return (
     <figure className="flashcard-table-wrap">
